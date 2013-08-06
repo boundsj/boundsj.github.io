@@ -1,5 +1,11 @@
-.test {
-  background-color: blueviolet; }
+.header {
+  height: 1em;
+  background-color: #6fbffe; }
 
-.test2 {
-  font-family: Helvetica; }
+.header:before {
+  height: 1em;
+  background-color: #4c2f31;
+  width: 20%;
+  display: block;
+  float: left;
+  content: ""; }

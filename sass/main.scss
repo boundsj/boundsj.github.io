@@ -1,7 +1,19 @@
-.test {
-  background-color: blueviolet;
+$darker-blue: #1892DB;
+$lighter-blue: #6FBFFE;
+$darker-chocolate: #17111D;
+$lighter-chocolate: #4C2F31;
+
+.header {
+  height: 1em;
+  background-color: $lighter-blue;
 }
 
-.test2 {
-  font-family: Helvetica;
+.header:before {
+  height: 1em;
+  background-color: $lighter-chocolate;
+  width: 20%;
+  display: block;
+  float: left;
+  content: "";
 }
+
