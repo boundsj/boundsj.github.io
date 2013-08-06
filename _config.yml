@@ -1,3 +1,4 @@
-name: Your New Jekyll Site
+name: blog.rebounds.net
 markdown: redcarpet
 pygments: true
+exclude: ['sass', 'node_modules']
