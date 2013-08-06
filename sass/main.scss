@@ -3,17 +3,35 @@ $lighter-blue: #6FBFFE;
 $darker-chocolate: #17111D;
 $lighter-chocolate: #4C2F31;
 
-.header {
-  height: 1em;
-  background-color: $lighter-blue;
-}
-
-.header:before {
-  height: 1em;
-  background-color: $lighter-chocolate;
-  width: 20%;
+.block-bar {
+  width: 30%;
   display: block;
-  float: left;
   content: "";
 }
 
+.header {
+  margin-top: 1em;
+  margin-left: 2em;
+  margin-right: 2em;
+  height: 0.2em;
+  background-color: $lighter-blue;
+}
+.header:before {
+  @extend .block-bar;
+  float: left;
+  height: 0.2em;
+  background-color: $lighter-chocolate;
+}
+.header:after {
+  @extend .block-bar;
+  float: right;
+  height: 0.2em;
+  background-color: $darker-chocolate;
+}
+
+.footer {
+  width: 100%;
+  position: absolute;
+  bottom: 1em;
+  text-align: center;
+}
