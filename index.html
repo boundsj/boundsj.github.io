@@ -4,6 +4,13 @@ title: blog.rebounds.net
 ---
 
 <div id="home">
+  {% assign showPost = true %}
+  {% for post in site.posts %}
+    {% if showPost %}
+      {{ post.title }} | {{ post.date | date_to_string }}
+      {% assign showPost = false %}
+    {% endif %}
+  {% endfor %}
   <ul class="posts">
     {% assign showPost = true %}
     {% for post in paginator.posts %}
