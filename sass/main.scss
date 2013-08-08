@@ -50,17 +50,22 @@ $lighter-chocolate: #4C2F31;
   }
 }
 
-#home {
+.home {
   text-align: center;
-}
 
-.posts {
-  display: inline-block;
-  vertical-align: top;
+  .latestPost {
+    margin-top: 3em;
+    font-size: 2em;
+  }
 
-  li {
-    text-align: left;
+  .posts {
+    display: inline-block;
+    vertical-align: top;
+    li {
+      text-align: left;
+    }
   }
 }
+
 
 

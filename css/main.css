@@ -37,11 +37,13 @@
     border-radius: 0.5em;
     padding: 0.2em; }
 
-#home {
+.home {
   text-align: center; }
-
-.posts {
-  display: inline-block;
-  vertical-align: top; }
-  .posts li {
-    text-align: left; }
+  .home .latestPost {
+    margin-top: 3em;
+    font-size: 2em; }
+  .home .posts {
+    display: inline-block;
+    vertical-align: top; }
+    .home .posts li {
+      text-align: left; }
