@@ -1,3 +1,7 @@
+.container {
+  margin-left: 8em;
+  margin-right: 8em; }
+
 .block-bar, .header:before, .header:after {
   width: 30%;
   display: block;
@@ -21,7 +25,23 @@
   background-color: #17111d; }
 
 .footer {
-  width: 100%;
-  position: absolute;
-  bottom: 1em;
+  position: relative; }
+  .footer .attrib {
+    left: 50%;
+    margin-left: -150px;
+    position: fixed;
+    bottom: 0;
+    width: 300px;
+    text-align: center;
+    background-color: white;
+    border-radius: 0.5em;
+    padding: 0.2em; }
+
+#home {
   text-align: center; }
+
+.posts {
+  display: inline-block;
+  vertical-align: top; }
+  .posts li {
+    text-align: left; }

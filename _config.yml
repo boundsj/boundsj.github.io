@@ -1,4 +1,6 @@
 name: blog.rebounds.net
+paginate: 5
+paginate_path: 'page:num'
 markdown: redcarpet
 pygments: true
 exclude: ['sass', 'node_modules']

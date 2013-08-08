@@ -1,4 +1,4 @@
 $(function() {
   var date = new Date();
-  $('.attribution').append(', ' + date.toDateString());
+  $('.attrib').append(', ' + date.toDateString());
 });

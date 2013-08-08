@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Welcome to Jekyll!"
-date:   2013-08-05 22:52:16
+date:   2013-08-15 22:52:16
 excerpt: "This is a test post, where you go from here depends on many things..."
 categories: jekyll update
 ---
