@@ -3,7 +3,6 @@ layout: default
 title: blog.rebounds.net
 ---
 
-
 <div class="home">
   <div class="latestPost">
     Latest Post:
@@ -11,6 +10,7 @@ title: blog.rebounds.net
     {% for post in site.posts %}
       {% if showPost %}
         {{ post.title }} | {{ post.date | date_to_string }}
+        <img class="circular" src="{{ post.imageUrl }}" />
         {% assign showPost = false %}
       {% endif %}
     {% endfor %}
@@ -27,6 +27,7 @@ title: blog.rebounds.net
       {% endif %}
     {% endfor %}
   </ul>
+
   <ul class="posts">
     {% assign showPost = false %}
     {% for post in paginator.posts %}
@@ -38,6 +39,7 @@ title: blog.rebounds.net
       {% endif %}
     {% endfor %}
   </ul>
+
   <div class="post-nav">
     {% if paginator.previous_page_path: %}
       <a href={{ paginator.previous_page_path }}>previous</a>

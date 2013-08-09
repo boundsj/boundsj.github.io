@@ -3,6 +3,7 @@ layout: post
 title:  "Welcome to Jekyll!"
 date:   2013-08-15 22:52:16
 mainPost: true
+imageUrl: http://farm9.staticflickr.com/8381/8588523690_5e8b682bfa_m.jpg
 excerpt: "This is a test post, where you go from here depends on many things..."
 categories: jekyll update
 ---

@@ -3,9 +3,21 @@ $lighter-blue: #6FBFFE;
 $darker-chocolate: #17111D;
 $lighter-chocolate: #4C2F31;
 
+body {
+  font: 300 20px/1.46 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 128%;
+}
+
 .container {
-  margin-left: 8em;
-  margin-right: 8em;
+  margin-left: 2em;
+  margin-right: 2em;
+  min-width: 950px;
+}
+
+.circular {
+  width: 300px;
+  height: 300px;
+  border-radius: 150px;
 }
 
 .block-bar {
@@ -18,19 +30,19 @@ $lighter-chocolate: #4C2F31;
   margin-top: 1em;
   margin-left: 2em;
   margin-right: 2em;
-  height: 0.2em;
+  height: 0.1em;
   background-color: $lighter-blue;
 }
 .header:before {
   @extend .block-bar;
   float: left;
-  height: 0.2em;
+  height: 0.1em;
   background-color: $lighter-chocolate;
 }
 .header:after {
   @extend .block-bar;
   float: right;
-  height: 0.2em;
+  height: 0.1em;
   background-color: $darker-chocolate;
 }
 
@@ -69,6 +81,4 @@ $lighter-chocolate: #4C2F31;
     }
   }
 }
-
-
 
