@@ -19,7 +19,7 @@ title: blog.rebounds.net
   <ul class="posts">
     {% assign showPost = true %}
     {% for post in paginator.posts %}
-      {% if showPost %}
+      {% if showPost and post.mainPost != true %}
         <li>{{ post.title }} {{ post.date | date_to_string }}</li>
         {% assign showPost = false %}
       {% else %}

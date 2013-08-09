@@ -2,6 +2,7 @@
 layout: post
 title:  "Welcome to Jekyll!"
 date:   2013-08-15 22:52:16
+mainPost: true
 excerpt: "This is a test post, where you go from here depends on many things..."
 categories: jekyll update
 ---

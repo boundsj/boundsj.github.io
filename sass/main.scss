@@ -55,12 +55,15 @@ $lighter-chocolate: #4C2F31;
 
   .latestPost {
     margin-top: 3em;
+    margin-bottom: 2em;
     font-size: 2em;
   }
 
   .posts {
     display: inline-block;
     vertical-align: top;
+    padding-right: 4em;
+    padding-left: 4em;
     li {
       text-align: left;
     }

@@ -41,9 +41,12 @@
   text-align: center; }
   .home .latestPost {
     margin-top: 3em;
+    margin-bottom: 2em;
     font-size: 2em; }
   .home .posts {
     display: inline-block;
-    vertical-align: top; }
+    vertical-align: top;
+    padding-right: 4em;
+    padding-left: 4em; }
     .home .posts li {
       text-align: left; }
