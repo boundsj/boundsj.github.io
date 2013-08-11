@@ -14,10 +14,32 @@ body {
   min-width: 950px;
 }
 
-.circular {
-  width: 300px;
-  height: 300px;
-  border-radius: 150px;
+.latestPost {
+  margin-left: 4em;
+  width: 60%;
+}
+
+.media-box {
+  img.circular {
+    float: left;
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+    margin-right: 1em;
+  }
+
+  .media-box-content {
+    position: relative;
+    top: 25px;
+
+    .title {
+      text-align: left;
+    }
+    .description {
+      text-align: left;
+      font-size: 60%;
+    }
+  }
 }
 
 .block-bar {

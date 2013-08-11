@@ -4,13 +4,15 @@ title: blog.rebounds.net
 ---
 
 <div class="home">
-  <div class="latestPost">
-    Latest Post:
+  <div class="latestPost media-box">
     {% assign showPost = true %}
     {% for post in site.posts %}
       {% if showPost %}
-        {{ post.title }} | {{ post.date | date_to_string }}
         <img class="circular" src="{{ post.imageUrl }}" />
+        <div class="media-box-content">
+          <div class="title">{{ post.title }}</div>
+          <div class="description">{{ post.excerpt }}</div>
+        </div>
         {% assign showPost = false %}
       {% endif %}
     {% endfor %}
