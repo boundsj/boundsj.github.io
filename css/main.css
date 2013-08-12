@@ -8,7 +8,8 @@ body {
   min-width: 950px; }
 
 .latestPost {
-  margin-left: 4em;
+  position: relative;
+  left: 18%;
   width: 60%; }
 
 .media-box img.circular {
