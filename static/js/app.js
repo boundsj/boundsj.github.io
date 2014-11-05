@@ -1,4 +1,7 @@
 $(function() {
-  var date = new Date();
-  $('.attrib').append(', ' + date.toDateString());
+  ///
+  // do javascript things
+  ///
+  //var date = new Date();
+  //$('.attrib').append(', ' + date.toDateString());
 });
