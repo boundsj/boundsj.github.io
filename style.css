@@ -1,5 +1,55 @@
-body {
-  background-color: black;
+.menu {
   font-size: 3em;
+  background: rgba(100, 100, 100, .6);
+  position: absolute;
+  bottom: 30px;
   color: white;
+  width: 30%;
+}
+
+.menu p {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+
+.menu .info {
+    margin-top: 0.5em;
+    font-size: 0.5em;
+}
+
+.indent {
+  margin-left: 0.5em;
+}
+
+body {
+  font-family: '.SFNSDisplay-Regular', sans-serif;
+}
+
+html {
+  background: url(https://photos-2.dropbox.com/t/2/AADQ70uCVQ8wiz_FPQqxdOnSxffjj6F0pUNGG0wVrq_gkg/12/33407860/jpeg/32x32/3/1452754800/0/2/sad_me.jpg/ENbPqhkYtaIVIAcoBw/_yqgzMeISQqZAjQYhUkl_Q8z-voF1PAtrI8yw5smG-0?size_mode=3&amp;size=1280x960) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* unvisited link */
+a:link {
+    color: white;
+    text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+    color: white;
+}
+
+/* mouse over link */
+a:hover {
+    color: hotpink;
+}
+
+/* selected link */
+a:active {
+    color: white;
 }
