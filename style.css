@@ -33,7 +33,7 @@ html {
   background-size: cover;
   font-size:140%;
 }
-@media(min-width:60em){
+@media(min-width:1024px){
   html{font-size: 90%}
 }
 
