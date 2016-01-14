@@ -4,7 +4,7 @@
   position: absolute;
   bottom: 30px;
   color: white;
-  width: 30%;
+  min-width: 300px;
 }
 
 .menu p {
@@ -31,6 +31,10 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  font-size:140%;
+}
+@media(min-width:60em){
+  html{font-size: 90%}
 }
 
 /* unvisited link */
