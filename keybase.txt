@@ -1,0 +1,54 @@
+==================================================================
+https://keybase.io/boundsj
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://rebounds.net
+  * I am boundsj (https://keybase.io/boundsj) on keybase.
+  * I have a public key ASAEDxKAsRrIHVYrIZ5-0llhFiP6HdYpiMZX3QaTH6cIngo
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "010150c63ea5680f16afd81d10f72b314147d4f339cb7447363878c99522eac3db570a",
+            "host": "keybase.io",
+            "kid": "0120040f1280b11ac81d562b219e7ed259611623fa1dd62988c657dd06931fa7089e0a",
+            "uid": "127b967ca4bf6425715d5cfa9442f700",
+            "username": "boundsj"
+        },
+        "service": {
+            "hostname": "rebounds.net",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "client": {
+        "name": "keybase.io go client",
+        "version": "1.0.7"
+    },
+    "ctime": 1458512618,
+    "expire_in": 504576000,
+    "merkle_root": {
+        "ctime": 1458512580,
+        "hash": "6ec56a1c26416213efc2077174b3e42be0c04f4debf60b9eb9d6da37f6e94d1c633f511c0ebb7bdf9e262907a5442ee71f970330ee786bebac0597df151ba893",
+        "seqno": 416019
+    },
+    "prev": "93dd4b234a555932d331d6b32334a73dbdf2282aaccb8b42a4b9a8700d1cfb8e",
+    "seqno": 22,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+g6Rib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgBA8SgLEayB1WKyGeftJZYRYj+h3WKYjGV90Gkx+nCJ4Kp3BheWxvYWTFAvJ7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTAxNTBjNjNlYTU2ODBmMTZhZmQ4MWQxMGY3MmIzMTQxNDdkNGYzMzljYjc0NDczNjM4NzhjOTk1MjJlYWMzZGI1NzBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwMDQwZjEyODBiMTFhYzgxZDU2MmIyMTllN2VkMjU5NjExNjIzZmExZGQ2Mjk4OGM2NTdkZDA2OTMxZmE3MDg5ZTBhIiwidWlkIjoiMTI3Yjk2N2NhNGJmNjQyNTcxNWQ1Y2ZhOTQ0MmY3MDAiLCJ1c2VybmFtZSI6ImJvdW5kc2oifSwic2VydmljZSI6eyJob3N0bmFtZSI6InJlYm91bmRzLm5ldCIsInByb3RvY29sIjoiaHR0cDoifSwidHlwZSI6IndlYl9zZXJ2aWNlX2JpbmRpbmciLCJ2ZXJzaW9uIjoxfSwiY2xpZW50Ijp7Im5hbWUiOiJrZXliYXNlLmlvIGdvIGNsaWVudCIsInZlcnNpb24iOiIxLjAuNyJ9LCJjdGltZSI6MTQ1ODUxMjYxOCwiZXhwaXJlX2luIjo1MDQ1NzYwMDAsIm1lcmtsZV9yb290Ijp7ImN0aW1lIjoxNDU4NTEyNTgwLCJoYXNoIjoiNmVjNTZhMWMyNjQxNjIxM2VmYzIwNzcxNzRiM2U0MmJlMGMwNGY0ZGViZjYwYjllYjlkNmRhMzdmNmU5NGQxYzYzM2Y1MTFjMGViYjdiZGY5ZTI2MjkwN2E1NDQyZWU3MWY5NzAzMzBlZTc4NmJlYmFjMDU5N2RmMTUxYmE4OTMiLCJzZXFubyI6NDE2MDE5fSwicHJldiI6IjkzZGQ0YjIzNGE1NTU5MzJkMzMxZDZiMzIzMzRhNzNkYmRmMjI4MmFhY2NiOGI0MmE0YjlhODcwMGQxY2ZiOGUiLCJzZXFubyI6MjIsInRhZyI6InNpZ25hdHVyZSJ9o3NpZ8RAapilXShSiM+kTEDgt9X9XOVi+Ri/AnEAaWazRb5xlv7abxgwiba/lfhgMYcHZgyL1Ju6Ci6dWJXLRX5658ZQB6hzaWdfdHlwZSCjdGFnzQICp3ZlcnNpb24B
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/boundsj
+
+==================================================================
