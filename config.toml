@@ -1,0 +1,4 @@
+baseURL = 'http://bounds.dev/'
+languageCode = 'en-us'
+title = 'bounds.dev'
+theme = 'ananke'
