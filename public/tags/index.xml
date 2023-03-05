@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Tags - Tag - bounds.dev</title>
-        <link>http://bounds.dev/tags/</link>
+        <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><atom:link href="http://bounds.dev/tags/" rel="self" type="application/rss+xml" /></channel>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /></channel>
 </rss>

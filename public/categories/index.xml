@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Categories - Category - bounds.dev</title>
-        <link>http://bounds.dev/categories/</link>
+        <link>https://boundsj.github.io/categories/</link>
         <description>Categories - Category - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><atom:link href="http://bounds.dev/categories/" rel="self" type="application/rss+xml" /></channel>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><atom:link href="https://boundsj.github.io/categories/" rel="self" type="application/rss+xml" /></channel>
 </rss>

@@ -2,7 +2,7 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://bounds.dev/about/</loc></url><url>
-            <loc>http://bounds.dev/</loc></url><url>
-            <loc>http://bounds.dev/categories/</loc></url><url>
-            <loc>http://bounds.dev/tags/</loc></url></urlset>
+            <loc>https://boundsj.github.io/about/</loc></url><url>
+            <loc>https://boundsj.github.io/</loc></url><url>
+            <loc>https://boundsj.github.io/categories/</loc></url><url>
+            <loc>https://boundsj.github.io/tags/</loc></url></urlset>
