@@ -265,9 +265,9 @@ enableEmoji = true
     # LoveIt NEW | 0.2.0 Table of the contents config
     [params.page.toc]
       # whether to enable the table of the contents
-      enable = true
+      enable = false
       # LoveIt NEW | 0.2.9 whether to keep the static table of the contents in front of the post
-      keepStatic = true
+      keepStatic = false
       # whether to make the table of the contents in the sidebar automatically collapsed
       auto = true
     # LoveIt CHANGED | 0.2.0 KaTeX mathematical formulas
@@ -292,7 +292,7 @@ enableEmoji = true
     # LoveIt NEW | 0.2.0 Mapbox GL JS config
     [params.page.mapbox]
       # access token of Mapbox GL JS
-      accessToken = ""
+      accessToken = "pk.eyJ1IjoiYm91bmRzaiIsImEiOiJjbGV2cGc3ZWcwMGZwM3lwbzVjNm1xdm9zIn0.rkEbKnCxdu87aJCXIxNmUw"
       # style for the light theme
       lightStyle = "mapbox://styles/mapbox/light-v10?optimize=true"
       # style for the dark theme
@@ -300,11 +300,11 @@ enableEmoji = true
       # whether to add NavigationControl
       navigation = true
       # whether to add GeolocateControl
-      geolocate = true
+      geolocate = false
       # whether to add ScaleControl
       scale = true
       # whether to add FullscreenControl
-      fullscreen = true
+      fullscreen = false
     # LoveIt CHANGED | 0.2.0 social share links in post page
     [params.page.share]
       enable = false 
