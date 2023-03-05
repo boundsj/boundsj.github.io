@@ -177,10 +177,10 @@ enableEmoji = true
 
  # Social config about the author
   [params.social]
-    GitHub = "xxxx"
-    Linkedin = "xxxx"
-    Mastodon = "xxxx"
-    Keybase = "xxxx"
+    GitHub = "boundsj"
+    Linkedin = "jessebounds"
+    Mastodon = "https://mstdn.social/@bounds"
+    Keybase = ""
     Pinterest = ""
     Reddit = ""
     Codepen = ""
@@ -207,7 +207,7 @@ enableEmoji = true
     Patreon = ""
     Steam = ""
     Twitch = ""
-    Strava = "xxxx"
+    Strava = ""
     Skype = ""
     Whatsapp = ""
     Zhihu = ""
