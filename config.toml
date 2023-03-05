@@ -1,4 +1,4 @@
-baseURL = 'http://bounds.dev/'
+baseURL = 'https://boundsj.github.io'
 
 # Change the default theme to be use when building the site with Hugo
 theme = 'LoveIt'
