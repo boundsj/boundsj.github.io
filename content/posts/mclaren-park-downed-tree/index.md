@@ -12,8 +12,6 @@ tags: ["tree"]
 categories: ["photos"]
 lightgallery: true
 ---
-###### McLaren Park, San Francisco, California, United States (-122.417997, 37.722225)
-
 We've seen a lot of intense winter storms in San Francisco this year. The rain has kept the ground soft and the heavy wind has taken down a lot of trees. In McLaren Park, several of the trees have fallen over the [Philosopher's Way trail](https://en.wikipedia.org/wiki/Philosopher%27s_Way,_San_Francisco).
 
 | Attribute    | Value |
