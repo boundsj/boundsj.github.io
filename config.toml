@@ -26,7 +26,7 @@ languageName = "English"
 # default amount of posts in each pages
 paginate = 12
 # google analytics code [UA-XXXXXXXX-X]
-#googleAnalytics = "G-LT0HKHY2J5"
+googleAnalytics = "G-LT0HKHY2J5"
 # copyright description used only for seo schema
 #copyright = ""
 
@@ -466,4 +466,4 @@ enableEmoji = true
 
   # LoveIt NEW | 0.2.0 Analytics config
   [params.analytics]
-    enable = false
+    enable = true
