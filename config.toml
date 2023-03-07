@@ -89,8 +89,6 @@ enableEmoji = true
   description = "Portfolio, blog, photos, and assorted works of Jesse Bounds"
   # website images for Open Graph and Twitter Cards
   images = ["/logo.png"]
-  # google analytics code [UA-XXXXXXXX-X]
-  googleAnalytics = "G-LT0HKHY2J5"
 
   # Header config
   [params.header]
