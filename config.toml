@@ -467,3 +467,8 @@ enableEmoji = true
   # LoveIt NEW | 0.2.0 Analytics config
   [params.analytics]
     enable = true
+    # Google Analytics
+    [params.analytics.google]
+      id = "G-LT0HKHY2J5"
+      # whether to anonymize IP
+      anonymizeIP = true
