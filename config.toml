@@ -25,8 +25,6 @@ languageName = "English"
 
 # default amount of posts in each pages
 paginate = 12
-# google analytics code [UA-XXXXXXXX-X]
-googleAnalytics = "G-LT0HKHY2J5"
 # copyright description used only for seo schema
 #copyright = ""
 
@@ -86,9 +84,9 @@ enableEmoji = true
   # LoveIt NEW | 0.2.0 date format
   dateFormat = "2006-01-02"
   # website title for Open Graph and Twitter Cards
-  title = "My cool site"
+  title = "bounds.dev"
   # website description for RSS, SEO, Open Graph and Twitter Cards
-  description = "This is my cool site"
+  description = "Portfolio, blog, photos, and assorted works of Jesse Bounds"
   # website images for Open Graph and Twitter Cards
   images = ["/logo.png"]
 

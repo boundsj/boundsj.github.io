@@ -2,7 +2,7 @@
 title: "McLaren park downed tree"
 date: 2023-03-04T09:36:36-08:00
 draft: false
-images: [featured-image]
+images: [featured-image.jpeg]
 resources:
 - name: featured-image
   src: featured-image.jpeg
