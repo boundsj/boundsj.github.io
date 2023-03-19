@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 # Get current date and time in format YYYY-MM-DD HH:MM:SS
 timestamp=$(date '+%F %T')
