@@ -2,13 +2,12 @@
 title: Sodini's Green Valley Restaurant
 date: 2023-03-26T14:49:26-07:00
 draft: false
-images: [featured-image.jpeg]
 resources:
 - name: featured-image
   src: featured-image.jpeg
 - name: featured-image-preview
   src: featured-image-preview.jpeg
-tags: []
+tags: ["restaurants", "sf"]
 categories: ["photos"]
 lightgallery: true
 ---
