@@ -4,20 +4,20 @@
         <link>https://boundsj.github.io/categories/</link>
         <description>Categories - Category - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Sun, 16 Apr 2023 09:35:47 -0700</lastBuildDate><atom:link href="https://boundsj.github.io/categories/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Mon, 17 Apr 2023 09:00:05 -0400</lastBuildDate><atom:link href="https://boundsj.github.io/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>generated</title>
+    <link>https://boundsj.github.io/categories/generated/</link>
+    <pubDate>Mon, 17 Apr 2023 09:00:05 -0400</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/categories/generated/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>photos</title>
     <link>https://boundsj.github.io/categories/photos/</link>
     <pubDate>Sun, 16 Apr 2023 09:35:47 -0700</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/categories/photos/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>generated</title>
-    <link>https://boundsj.github.io/categories/generated/</link>
-    <pubDate>Sun, 16 Apr 2023 09:00:03 -0400</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/categories/generated/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
