@@ -4,10 +4,10 @@
         <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Sun, 12 Nov 2023 08:00:53 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Sun, 12 Nov 2023 22:25:50 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>https://boundsj.github.io/tags/chatgpt/</link>
-    <pubDate>Sun, 12 Nov 2023 08:00:53 -0500</pubDate>
+    <pubDate>Sun, 12 Nov 2023 22:25:50 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/chatgpt/</guid>
     <description><![CDATA[]]></description>
@@ -15,7 +15,7 @@
 <item>
     <title>Limerick</title>
     <link>https://boundsj.github.io/tags/limerick/</link>
-    <pubDate>Sun, 12 Nov 2023 08:00:53 -0500</pubDate>
+    <pubDate>Sun, 12 Nov 2023 22:25:50 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/limerick/</guid>
     <description><![CDATA[]]></description>
@@ -23,9 +23,17 @@
 <item>
     <title>NYTimes</title>
     <link>https://boundsj.github.io/tags/nytimes/</link>
-    <pubDate>Sun, 12 Nov 2023 08:00:53 -0500</pubDate>
+    <pubDate>Sun, 12 Nov 2023 22:25:50 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/nytimes/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>U.S. News</title>
+    <link>https://boundsj.github.io/tags/u.s.-news/</link>
+    <pubDate>Sun, 12 Nov 2023 22:25:50 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/u.s.-news/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
