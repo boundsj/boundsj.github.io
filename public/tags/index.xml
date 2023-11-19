@@ -4,10 +4,10 @@
         <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Sat, 18 Nov 2023 08:01:20 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Sun, 19 Nov 2023 08:01:13 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>https://boundsj.github.io/tags/chatgpt/</link>
-    <pubDate>Sat, 18 Nov 2023 08:01:20 -0500</pubDate>
+    <pubDate>Sun, 19 Nov 2023 08:01:13 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/chatgpt/</guid>
     <description><![CDATA[]]></description>
@@ -15,15 +15,23 @@
 <item>
     <title>Limerick</title>
     <link>https://boundsj.github.io/tags/limerick/</link>
-    <pubDate>Sat, 18 Nov 2023 08:01:20 -0500</pubDate>
+    <pubDate>Sun, 19 Nov 2023 08:01:13 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/limerick/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
+    <title>Miscellaneous</title>
+    <link>https://boundsj.github.io/tags/miscellaneous/</link>
+    <pubDate>Sun, 19 Nov 2023 08:01:13 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/miscellaneous/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>NYTimes</title>
     <link>https://boundsj.github.io/tags/nytimes/</link>
-    <pubDate>Sat, 18 Nov 2023 08:01:20 -0500</pubDate>
+    <pubDate>Sun, 19 Nov 2023 08:01:13 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
@@ -74,14 +82,6 @@
     <pubDate>Mon, 13 Nov 2023 08:01:03 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/opinions/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Opinions and Culture</title>
-    <link>https://boundsj.github.io/tags/opinions-and-culture/</link>
-    <pubDate>Sun, 12 Nov 2023 22:44:06 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/opinions-and-culture/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
