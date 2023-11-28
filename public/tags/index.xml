@@ -4,12 +4,36 @@
         <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Mon, 27 Nov 2023 08:02:01 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Tue, 28 Nov 2023 08:02:19 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>https://boundsj.github.io/tags/chatgpt/</link>
-    <pubDate>Mon, 27 Nov 2023 08:02:01 -0500</pubDate>
+    <pubDate>Tue, 28 Nov 2023 08:02:19 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/chatgpt/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>International Crime and Justice</title>
+    <link>https://boundsj.github.io/tags/international-crime-and-justice/</link>
+    <pubDate>Tue, 28 Nov 2023 08:02:19 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/international-crime-and-justice/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Limerick</title>
+    <link>https://boundsj.github.io/tags/limerick/</link>
+    <pubDate>Tue, 28 Nov 2023 08:02:19 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/limerick/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>NYTimes</title>
+    <link>https://boundsj.github.io/tags/nytimes/</link>
+    <pubDate>Tue, 28 Nov 2023 08:02:19 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -18,22 +42,6 @@
     <pubDate>Mon, 27 Nov 2023 08:02:01 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/lifestyle/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Limerick</title>
-    <link>https://boundsj.github.io/tags/limerick/</link>
-    <pubDate>Mon, 27 Nov 2023 08:02:01 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/limerick/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>NYTimes</title>
-    <link>https://boundsj.github.io/tags/nytimes/</link>
-    <pubDate>Mon, 27 Nov 2023 08:02:01 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -74,14 +82,6 @@
     <pubDate>Thu, 23 Nov 2023 14:11:15 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/culture-and-society/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Middle East Conflict</title>
-    <link>https://boundsj.github.io/tags/middle-east-conflict/</link>
-    <pubDate>Wed, 22 Nov 2023 16:55:18 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/middle-east-conflict/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
