@@ -4,10 +4,10 @@
         <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Wed, 29 Nov 2023 08:01:58 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Thu, 30 Nov 2023 08:03:51 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>https://boundsj.github.io/tags/chatgpt/</link>
-    <pubDate>Wed, 29 Nov 2023 08:01:58 -0500</pubDate>
+    <pubDate>Thu, 30 Nov 2023 08:03:51 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/chatgpt/</guid>
     <description><![CDATA[]]></description>
@@ -15,7 +15,7 @@
 <item>
     <title>Limerick</title>
     <link>https://boundsj.github.io/tags/limerick/</link>
-    <pubDate>Wed, 29 Nov 2023 08:01:58 -0500</pubDate>
+    <pubDate>Thu, 30 Nov 2023 08:03:51 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/limerick/</guid>
     <description><![CDATA[]]></description>
@@ -23,9 +23,17 @@
 <item>
     <title>NYTimes</title>
     <link>https://boundsj.github.io/tags/nytimes/</link>
-    <pubDate>Wed, 29 Nov 2023 08:01:58 -0500</pubDate>
+    <pubDate>Thu, 30 Nov 2023 08:03:51 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/nytimes/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Podcasts</title>
+    <link>https://boundsj.github.io/tags/podcasts/</link>
+    <pubDate>Thu, 30 Nov 2023 08:03:51 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/podcasts/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -74,14 +82,6 @@
     <pubDate>Sat, 25 Nov 2023 12:50:56 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/us-politics-and-society/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Consumerism and Holidays</title>
-    <link>https://boundsj.github.io/tags/consumerism-and-holidays/</link>
-    <pubDate>Fri, 24 Nov 2023 12:37:45 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/consumerism-and-holidays/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
