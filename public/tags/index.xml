@@ -4,18 +4,26 @@
         <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Thu, 30 Nov 2023 08:03:51 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Fri, 01 Dec 2023 08:02:25 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>https://boundsj.github.io/tags/chatgpt/</link>
-    <pubDate>Thu, 30 Nov 2023 08:03:51 -0500</pubDate>
+    <pubDate>Fri, 01 Dec 2023 08:02:25 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/chatgpt/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
+    <title>Climate Change</title>
+    <link>https://boundsj.github.io/tags/climate-change/</link>
+    <pubDate>Fri, 01 Dec 2023 08:02:25 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/climate-change/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>Limerick</title>
     <link>https://boundsj.github.io/tags/limerick/</link>
-    <pubDate>Thu, 30 Nov 2023 08:03:51 -0500</pubDate>
+    <pubDate>Fri, 01 Dec 2023 08:02:25 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/limerick/</guid>
     <description><![CDATA[]]></description>
@@ -23,7 +31,7 @@
 <item>
     <title>NYTimes</title>
     <link>https://boundsj.github.io/tags/nytimes/</link>
-    <pubDate>Thu, 30 Nov 2023 08:03:51 -0500</pubDate>
+    <pubDate>Fri, 01 Dec 2023 08:02:25 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
@@ -74,14 +82,6 @@
     <pubDate>Sat, 25 Nov 2023 12:57:39 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/us-news/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>US Politics and Society</title>
-    <link>https://boundsj.github.io/tags/us-politics-and-society/</link>
-    <pubDate>Sat, 25 Nov 2023 12:50:56 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/us-politics-and-society/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
