@@ -4,12 +4,36 @@
         <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Sun, 03 Dec 2023 08:01:59 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Mon, 04 Dec 2023 08:02:50 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>https://boundsj.github.io/tags/chatgpt/</link>
-    <pubDate>Sun, 03 Dec 2023 08:01:59 -0500</pubDate>
+    <pubDate>Mon, 04 Dec 2023 08:02:50 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/chatgpt/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Limerick</title>
+    <link>https://boundsj.github.io/tags/limerick/</link>
+    <pubDate>Mon, 04 Dec 2023 08:02:50 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/limerick/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>NYTimes</title>
+    <link>https://boundsj.github.io/tags/nytimes/</link>
+    <pubDate>Mon, 04 Dec 2023 08:02:50 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/nytimes/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Technology and Economy</title>
+    <link>https://boundsj.github.io/tags/technology-and-economy/</link>
+    <pubDate>Mon, 04 Dec 2023 08:02:50 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/technology-and-economy/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -18,22 +42,6 @@
     <pubDate>Sun, 03 Dec 2023 08:01:59 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/entertainment/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Limerick</title>
-    <link>https://boundsj.github.io/tags/limerick/</link>
-    <pubDate>Sun, 03 Dec 2023 08:01:59 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/limerick/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>NYTimes</title>
-    <link>https://boundsj.github.io/tags/nytimes/</link>
-    <pubDate>Sun, 03 Dec 2023 08:01:59 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -74,14 +82,6 @@
     <pubDate>Tue, 28 Nov 2023 08:02:19 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/international-crime-and-justice/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Lifestyle</title>
-    <link>https://boundsj.github.io/tags/lifestyle/</link>
-    <pubDate>Mon, 27 Nov 2023 08:02:01 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/lifestyle/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
