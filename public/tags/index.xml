@@ -4,20 +4,44 @@
         <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Mon, 11 Dec 2023 08:03:31 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Tue, 12 Dec 2023 08:03:03 -0500</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>https://boundsj.github.io/tags/chatgpt/</link>
-    <pubDate>Mon, 11 Dec 2023 08:03:31 -0500</pubDate>
+    <pubDate>Tue, 12 Dec 2023 08:03:03 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/chatgpt/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
+    <title>Entertainment</title>
+    <link>https://boundsj.github.io/tags/entertainment/</link>
+    <pubDate>Tue, 12 Dec 2023 08:03:03 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/entertainment/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Entertainment and Lifestyle</title>
+    <link>https://boundsj.github.io/tags/entertainment-and-lifestyle/</link>
+    <pubDate>Tue, 12 Dec 2023 08:03:03 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/entertainment-and-lifestyle/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>Limerick</title>
     <link>https://boundsj.github.io/tags/limerick/</link>
-    <pubDate>Mon, 11 Dec 2023 08:03:31 -0500</pubDate>
+    <pubDate>Tue, 12 Dec 2023 08:03:03 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/limerick/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>NYTimes</title>
+    <link>https://boundsj.github.io/tags/nytimes/</link>
+    <pubDate>Tue, 12 Dec 2023 08:03:03 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -26,14 +50,6 @@
     <pubDate>Mon, 11 Dec 2023 08:03:31 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/middle-east-conflict/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>NYTimes</title>
-    <link>https://boundsj.github.io/tags/nytimes/</link>
-    <pubDate>Mon, 11 Dec 2023 08:03:31 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -66,22 +82,6 @@
     <pubDate>Thu, 07 Dec 2023 08:03:19 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/tech-industry/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>U.S. Politics</title>
-    <link>https://boundsj.github.io/tags/u.s.-politics/</link>
-    <pubDate>Wed, 06 Dec 2023 08:05:33 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/u.s.-politics/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Games</title>
-    <link>https://boundsj.github.io/tags/games/</link>
-    <pubDate>Tue, 05 Dec 2023 08:03:24 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/games/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
