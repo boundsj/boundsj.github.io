@@ -2,14 +2,16 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>https://boundsj.github.io/categories/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
+            <loc>https://boundsj.github.io/tags/chatgpt/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
+            <loc>https://boundsj.github.io/categories/generated/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
+            <loc>https://boundsj.github.io/tags/limerick/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
+            <loc>https://boundsj.github.io/tags/nytimes/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
+            <loc>https://boundsj.github.io/posts/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
+            <loc>https://boundsj.github.io/posts/puzzled-new-york-times-2024-01-01/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
+            <loc>https://boundsj.github.io/tags/puzzles-and-games/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
+            <loc>https://boundsj.github.io/tags/</loc><lastmod>2024-01-01T08:01:25-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/posts/at-years-end-2023-12-31/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
-            <loc>https://boundsj.github.io/categories/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
-            <loc>https://boundsj.github.io/tags/chatgpt/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
-            <loc>https://boundsj.github.io/categories/generated/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
-            <loc>https://boundsj.github.io/tags/limerick/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
-            <loc>https://boundsj.github.io/tags/nytimes/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
-            <loc>https://boundsj.github.io/posts/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
-            <loc>https://boundsj.github.io/tags/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/tags/world-news/</loc><lastmod>2023-12-31T08:01:29-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/posts/metropolitan-tussle-2023-12-30/</loc><lastmod>2023-12-30T08:02:36-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/tags/us-urban-development-security/</loc><lastmod>2023-12-30T08:02:36-05:00</lastmod></url><url>
@@ -49,7 +51,6 @@
             <loc>https://boundsj.github.io/tags/news-and-events/</loc><lastmod>2023-12-10T08:02:52-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/posts/twists-of-fate-unforeseen-2023-12-10/</loc><lastmod>2023-12-10T08:02:52-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/posts/puzzle-mania-verse-2023-12-09/</loc><lastmod>2023-12-09T08:02:41-05:00</lastmod></url><url>
-            <loc>https://boundsj.github.io/tags/puzzles-and-games/</loc><lastmod>2023-12-09T08:02:41-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/posts/economic-growth-and-change-2023-12-08/</loc><lastmod>2023-12-08T08:02:49-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/tags/economy-jobs/</loc><lastmod>2023-12-08T08:02:49-05:00</lastmod></url><url>
             <loc>https://boundsj.github.io/posts/tech-dreams-unravel-2023-12-07/</loc><lastmod>2023-12-07T08:03:19-05:00</lastmod></url><url>
