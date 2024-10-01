@@ -4,12 +4,36 @@
         <link>https://boundsj.github.io/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Thu, 26 Sep 2024 09:00:08 -0400</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Tue, 01 Oct 2024 09:00:07 -0400</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>https://boundsj.github.io/tags/chatgpt/</link>
-    <pubDate>Thu, 26 Sep 2024 09:00:08 -0400</pubDate>
+    <pubDate>Tue, 01 Oct 2024 09:00:07 -0400</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/chatgpt/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>error</title>
+    <link>https://boundsj.github.io/tags/error/</link>
+    <pubDate>Tue, 01 Oct 2024 09:00:07 -0400</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/error/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Limerick</title>
+    <link>https://boundsj.github.io/tags/limerick/</link>
+    <pubDate>Tue, 01 Oct 2024 09:00:07 -0400</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/limerick/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>NYTimes</title>
+    <link>https://boundsj.github.io/tags/nytimes/</link>
+    <pubDate>Tue, 01 Oct 2024 09:00:07 -0400</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>https://boundsj.github.io/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -18,30 +42,6 @@
     <pubDate>Thu, 26 Sep 2024 09:00:08 -0400</pubDate>
     <author>Jesse Bounds</author>
     <guid>https://boundsj.github.io/tags/correct/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Limerick</title>
-    <link>https://boundsj.github.io/tags/limerick/</link>
-    <pubDate>Thu, 26 Sep 2024 09:00:08 -0400</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/limerick/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>NYTimes</title>
-    <link>https://boundsj.github.io/tags/nytimes/</link>
-    <pubDate>Thu, 26 Sep 2024 09:00:08 -0400</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/nytimes/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>error</title>
-    <link>https://boundsj.github.io/tags/error/</link>
-    <pubDate>Wed, 25 Sep 2024 09:00:11 -0400</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/error/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
