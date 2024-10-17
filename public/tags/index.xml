@@ -4,10 +4,10 @@
         <link>http://localhost:1313/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Wed, 02 Oct 2024 09:00:10 -0400</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Mon, 08 Jan 2024 08:01:56 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>http://localhost:1313/tags/chatgpt/</link>
-    <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
+    <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>http://localhost:1313/tags/chatgpt/</guid>
     <description><![CDATA[]]></description>
@@ -15,49 +15,17 @@
 <item>
     <title>Limerick</title>
     <link>http://localhost:1313/tags/limerick/</link>
-    <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
+    <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>http://localhost:1313/tags/limerick/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Message</title>
-    <link>http://localhost:1313/tags/message/</link>
-    <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/message/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
     <title>NYTimes</title>
     <link>http://localhost:1313/tags/nytimes/</link>
-    <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
+    <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>http://localhost:1313/tags/nytimes/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Error</title>
-    <link>http://localhost:1313/tags/error/</link>
-    <pubDate>Tue, 01 Oct 2024 09:00:07 -0400</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/error/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Correct</title>
-    <link>http://localhost:1313/tags/correct/</link>
-    <pubDate>Thu, 26 Sep 2024 09:00:08 -0400</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/correct/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Response</title>
-    <link>http://localhost:1313/tags/response/</link>
-    <pubDate>Sun, 01 Sep 2024 09:00:06 -0400</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/response/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
@@ -82,6 +50,38 @@
     <pubDate>Fri, 05 Jan 2024 08:01:29 -0500</pubDate>
     <author>Jesse Bounds</author>
     <guid>http://localhost:1313/tags/middle-east/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Literature and Books</title>
+    <link>http://localhost:1313/tags/literature-and-books/</link>
+    <pubDate>Thu, 04 Jan 2024 08:02:24 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>http://localhost:1313/tags/literature-and-books/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>International Affairs</title>
+    <link>http://localhost:1313/tags/international-affairs/</link>
+    <pubDate>Wed, 03 Jan 2024 08:03:05 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>http://localhost:1313/tags/international-affairs/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Arts &amp; Culture</title>
+    <link>http://localhost:1313/tags/arts--culture/</link>
+    <pubDate>Tue, 02 Jan 2024 08:02:29 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>http://localhost:1313/tags/arts--culture/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Puzzles and Games</title>
+    <link>http://localhost:1313/tags/puzzles-and-games/</link>
+    <pubDate>Mon, 01 Jan 2024 08:01:25 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>http://localhost:1313/tags/puzzles-and-games/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
