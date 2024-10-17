@@ -13,7 +13,7 @@ categories: ["photos"]
 lightgallery: true
 ---
 Somewhere near [Chaminade Resort & Spa](https://www.chaminade.com/santa-cruz-resort-deals) off of the Red Trail in Santa Cruz, CA.
-
+<!--more-->
 | Attribute    | Value |
 | ------------ | ----------- |
 | Camera       | Apple iPhone 14 Pro Max Ultra Wide |

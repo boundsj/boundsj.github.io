@@ -12,7 +12,7 @@ categories: ["photos"]
 lightgallery: true
 ---
 Early evening at Sodini's in North Beach, SF.
-
+<!--more-->
 | Attribute    | Value |
 |--------------|-------|
 | Camera       | iPhone 14 Pro Max |

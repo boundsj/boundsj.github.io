@@ -1,87 +1,87 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Tags - Tag - bounds.dev</title>
-        <link>https://boundsj.github.io/tags/</link>
+        <link>http://localhost:1313/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Wed, 02 Oct 2024 09:00:10 -0400</lastBuildDate><atom:link href="https://boundsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Wed, 02 Oct 2024 09:00:10 -0400</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
-    <link>https://boundsj.github.io/tags/chatgpt/</link>
+    <link>http://localhost:1313/tags/chatgpt/</link>
     <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/chatgpt/</guid>
+    <guid>http://localhost:1313/tags/chatgpt/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>Limerick</title>
-    <link>https://boundsj.github.io/tags/limerick/</link>
+    <link>http://localhost:1313/tags/limerick/</link>
     <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/limerick/</guid>
+    <guid>http://localhost:1313/tags/limerick/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>message</title>
-    <link>https://boundsj.github.io/tags/message/</link>
+    <title>Message</title>
+    <link>http://localhost:1313/tags/message/</link>
     <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/message/</guid>
+    <guid>http://localhost:1313/tags/message/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>NYTimes</title>
-    <link>https://boundsj.github.io/tags/nytimes/</link>
+    <link>http://localhost:1313/tags/nytimes/</link>
     <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/nytimes/</guid>
+    <guid>http://localhost:1313/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>error</title>
-    <link>https://boundsj.github.io/tags/error/</link>
+    <title>Error</title>
+    <link>http://localhost:1313/tags/error/</link>
     <pubDate>Tue, 01 Oct 2024 09:00:07 -0400</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/error/</guid>
+    <guid>http://localhost:1313/tags/error/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>Correct</title>
-    <link>https://boundsj.github.io/tags/correct/</link>
+    <link>http://localhost:1313/tags/correct/</link>
     <pubDate>Thu, 26 Sep 2024 09:00:08 -0400</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/correct/</guid>
+    <guid>http://localhost:1313/tags/correct/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>response</title>
-    <link>https://boundsj.github.io/tags/response/</link>
+    <title>Response</title>
+    <link>http://localhost:1313/tags/response/</link>
     <pubDate>Sun, 01 Sep 2024 09:00:06 -0400</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/response/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>US Politics</title>
-    <link>https://boundsj.github.io/tags/us-politics/</link>
-    <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/us-politics/</guid>
+    <guid>http://localhost:1313/tags/response/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>US Politics and Policy</title>
-    <link>https://boundsj.github.io/tags/us-politics-and-policy/</link>
+    <link>http://localhost:1313/tags/us-politics-and-policy/</link>
     <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/us-politics-and-policy/</guid>
+    <guid>http://localhost:1313/tags/us-politics-and-policy/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>Travel and Transport</title>
-    <link>https://boundsj.github.io/tags/travel-and-transport/</link>
+    <link>http://localhost:1313/tags/travel-and-transport/</link>
     <pubDate>Sun, 07 Jan 2024 08:01:33 -0500</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/tags/travel-and-transport/</guid>
+    <guid>http://localhost:1313/tags/travel-and-transport/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Middle East</title>
+    <link>http://localhost:1313/tags/middle-east/</link>
+    <pubDate>Fri, 05 Jan 2024 08:01:29 -0500</pubDate>
+    <author>Jesse Bounds</author>
+    <guid>http://localhost:1313/tags/middle-east/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>

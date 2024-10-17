@@ -12,7 +12,7 @@ categories: ["photos"]
 lightgallery: true
 ---
 A pallet on the street somewhere in San Rafael, California.
-
+<!--more-->
 | Attribute    | Value |
 |--------------|-------|
 | Camera       | LEICA Q2 |

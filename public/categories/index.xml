@@ -1,23 +1,23 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Categories - Category - bounds.dev</title>
-        <link>https://boundsj.github.io/categories/</link>
+        <link>http://localhost:1313/categories/</link>
         <description>Categories - Category - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Wed, 02 Oct 2024 09:00:10 -0400</lastBuildDate><atom:link href="https://boundsj.github.io/categories/" rel="self" type="application/rss+xml" /><item>
-    <title>generated</title>
-    <link>https://boundsj.github.io/categories/generated/</link>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Wed, 02 Oct 2024 09:00:10 -0400</lastBuildDate><atom:link href="http://localhost:1313/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>Generated</title>
+    <link>http://localhost:1313/categories/generated/</link>
     <pubDate>Wed, 02 Oct 2024 09:00:10 -0400</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/categories/generated/</guid>
+    <guid>http://localhost:1313/categories/generated/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>photos</title>
-    <link>https://boundsj.github.io/categories/photos/</link>
+    <title>Photos</title>
+    <link>http://localhost:1313/categories/photos/</link>
     <pubDate>Fri, 24 Nov 2023 18:55:03 -0800</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/categories/photos/</guid>
+    <guid>http://localhost:1313/categories/photos/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>

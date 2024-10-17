@@ -12,7 +12,7 @@ categories: ["photos"]
 lightgallery: true
 ---
 Comstock Express chairlift at Northstar California Resort
-
+<!--more-->
 | Attribute    | Value |
 |--------------|-------|
 | Camera       | iPhone 14 Pro Max |

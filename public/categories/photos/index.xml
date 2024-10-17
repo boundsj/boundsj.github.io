@@ -1,80 +1,72 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>photos - Category - bounds.dev</title>
-        <link>https://boundsj.github.io/categories/photos/</link>
-        <description>photos - Category - bounds.dev</description>
+        <title>Photos - Category - bounds.dev</title>
+        <link>http://localhost:1313/categories/photos/</link>
+        <description>Photos - Category - bounds.dev</description>
         <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Fri, 24 Nov 2023 18:55:03 -0800</lastBuildDate><atom:link href="https://boundsj.github.io/categories/photos/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Fri, 24 Nov 2023 18:55:03 -0800</lastBuildDate><atom:link href="http://localhost:1313/categories/photos/" rel="self" type="application/rss+xml" /><item>
     <title>Hermit Crab</title>
-    <link>https://boundsj.github.io/posts/hermit-crab/</link>
+    <link>http://localhost:1313/posts/hermit-crab/</link>
     <pubDate>Fri, 24 Nov 2023 18:55:03 -0800</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/posts/hermit-crab/</guid>
-    <description><![CDATA[Exploring tide pools in La Jolla, CA
-   Attribute Value     Camera LEICA Q2   Aperture 2.8   ISO 100   Location     ]]></description>
+    <guid>http://localhost:1313/posts/hermit-crab/</guid>
+    <description><![CDATA[<p>Exploring tide pools in La Jolla, CA</p>]]></description>
 </item>
 <item>
     <title>What&#39;s under the hood?</title>
-    <link>https://boundsj.github.io/posts/whats-under-the-hood/</link>
+    <link>http://localhost:1313/posts/whats-under-the-hood/</link>
     <pubDate>Sun, 16 Apr 2023 09:35:47 -0700</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/posts/whats-under-the-hood/</guid>
-    <description><![CDATA[Parked car near Balboa Park in San Francisco, CA
-   Attribute Value     Camera LEICA Q2   Aperture 2.8   ISO 400   Location     ]]></description>
+    <guid>http://localhost:1313/posts/whats-under-the-hood/</guid>
+    <description><![CDATA[<p>Parked car near Balboa Park in San Francisco, CA</p>]]></description>
 </item>
 <item>
     <title>Pallet</title>
-    <link>https://boundsj.github.io/posts/pallet/</link>
+    <link>http://localhost:1313/posts/pallet/</link>
     <pubDate>Sun, 09 Apr 2023 21:22:48 -0700</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/posts/pallet/</guid>
-    <description><![CDATA[A pallet on the street somewhere in San Rafael, California.
-   Attribute Value     Camera LEICA Q2   Aperture 4.5   ISO 100   Location     ]]></description>
+    <guid>http://localhost:1313/posts/pallet/</guid>
+    <description><![CDATA[<p>A pallet on the street somewhere in San Rafael, California.</p>]]></description>
 </item>
 <item>
     <title>Comstock Express</title>
-    <link>https://boundsj.github.io/posts/comstock-express/</link>
+    <link>http://localhost:1313/posts/comstock-express/</link>
     <pubDate>Wed, 05 Apr 2023 09:20:00 -0700</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/posts/comstock-express/</guid>
-    <description><![CDATA[Comstock Express chairlift at Northstar California Resort
-   Attribute Value     Camera iPhone 14 Pro Max   Aperture 2.2   ISO 50   Location     ]]></description>
+    <guid>http://localhost:1313/posts/comstock-express/</guid>
+    <description><![CDATA[<p>Comstock Express chairlift at Northstar California Resort</p>]]></description>
 </item>
 <item>
     <title>Munich Street</title>
-    <link>https://boundsj.github.io/posts/munich-street/</link>
+    <link>http://localhost:1313/posts/munich-street/</link>
     <pubDate>Wed, 29 Mar 2023 14:59:48 -0700</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/posts/munich-street/</guid>
-    <description><![CDATA[Munich Street in the Excelsior District in San Francisco.
-   Attribute Value     Camera LEICA Q2   Aperture 5.0   ISO 100   Location     ]]></description>
+    <guid>http://localhost:1313/posts/munich-street/</guid>
+    <description><![CDATA[<p>Munich Street in the Excelsior District in San Francisco.</p>]]></description>
 </item>
 <item>
     <title>Sodini&#39;s Green Valley Restaurant</title>
-    <link>https://boundsj.github.io/posts/sodinis-green-valley-restaurant/</link>
+    <link>http://localhost:1313/posts/sodinis-green-valley-restaurant/</link>
     <pubDate>Sun, 26 Mar 2023 14:49:26 -0700</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/posts/sodinis-green-valley-restaurant/</guid>
-    <description><![CDATA[Early evening at Sodini&rsquo;s in North Beach, SF.
-   Attribute Value     Camera iPhone 14 Pro Max   Aperture 2.2   ISO 800   Location     ]]></description>
+    <guid>http://localhost:1313/posts/sodinis-green-valley-restaurant/</guid>
+    <description><![CDATA[<p>Early evening at Sodini&rsquo;s in North Beach, SF.</p>]]></description>
 </item>
 <item>
     <title>Meadow in Santa Cruz</title>
-    <link>https://boundsj.github.io/posts/meadow-in-santa-cruz/</link>
+    <link>http://localhost:1313/posts/meadow-in-santa-cruz/</link>
     <pubDate>Thu, 16 Mar 2023 07:17:01 -0800</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/posts/meadow-in-santa-cruz/</guid>
-    <description><![CDATA[Somewhere near Chaminade Resort &amp; Spa off of the Red Trail in Santa Cruz, CA.
-   Attribute Value     Camera Apple iPhone 14 Pro Max Ultra Wide   Focal Length 24 mm   Aperture ƒ1.75   Location     ]]></description>
+    <guid>http://localhost:1313/posts/meadow-in-santa-cruz/</guid>
+    <description><![CDATA[<p>Somewhere near <a href="https://www.chaminade.com/santa-cruz-resort-deals" target="_blank" rel="noopener noreffer ">Chaminade Resort &amp; Spa</a> off of the Red Trail in Santa Cruz, CA.</p>]]></description>
 </item>
 <item>
     <title>McLaren park downed tree</title>
-    <link>https://boundsj.github.io/posts/mclaren-park-downed-tree/</link>
+    <link>http://localhost:1313/posts/mclaren-park-downed-tree/</link>
     <pubDate>Sat, 04 Mar 2023 09:36:36 -0800</pubDate>
     <author>Jesse Bounds</author>
-    <guid>https://boundsj.github.io/posts/mclaren-park-downed-tree/</guid>
-    <description><![CDATA[We&rsquo;ve seen a lot of intense winter storms in San Francisco this year. The rain has kept the ground soft and the heavy wind has taken down a lot of trees. In McLaren Park, several of the trees have fallen over the Philosopher&rsquo;s Way trail.
-   Attribute Value     Camera Apple iPhone 14 Pro Max Ultra Wide   Focal Length 13 mm   Aperture ƒ2.]]></description>
+    <guid>http://localhost:1313/posts/mclaren-park-downed-tree/</guid>
+    <description><![CDATA[<p>We&rsquo;ve seen a lot of intense winter storms in San Francisco this year. The rain has kept the ground soft and the heavy wind has taken down a lot of trees. In McLaren Park, several of the trees have fallen over the <a href="https://en.wikipedia.org/wiki/Philosopher%27s_Way,_San_Francisco" target="_blank" rel="noopener noreffer ">Philosopher&rsquo;s Way trail</a>.</p>]]></description>
 </item>
 </channel>
 </rss>

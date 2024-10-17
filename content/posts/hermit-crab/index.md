@@ -12,7 +12,7 @@ categories: ["photos"]
 lightgallery: true
 ---
 Exploring tide pools in La Jolla, CA
-
+<!--more-->
 | Attribute    | Value |
 |--------------|-------|
 | Camera       | LEICA Q2 |
