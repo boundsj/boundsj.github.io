@@ -182,7 +182,7 @@ enableEmoji = true
   [params.social]
     GitHub = "boundsj"
     Linkedin = "jessebounds"
-    Mastodon = "https://mstdn.social/@bounds"
+    Mastodon = ""
     Keybase = ""
     Pinterest = ""
     Reddit = ""
