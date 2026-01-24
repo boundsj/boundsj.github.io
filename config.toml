@@ -76,6 +76,11 @@ enableEmoji = true
 [params]
   # site default theme ["auto", "light", "dark"]
   defaultTheme = "auto"
+  # Author config used by LoveIt templates
+  [params.author]
+    name = "Jesse Bounds"
+    email = "jesse@rebounds.net"
+    link = "/"
   # public git repo url only then enableGitInfo is true
   gitRepo = ""
   # LoveIt NEW | 0.1.1 which hash function used for SRI, when empty, no SRI is used
