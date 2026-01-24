@@ -3,85 +3,84 @@
         <title>Tags - Tag - bounds.dev</title>
         <link>http://localhost:1313/tags/</link>
         <description>Tags - Tag - bounds.dev</description>
-        <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>jesse@rebounds.net (Jesse Bounds)</managingEditor>
-            <webMaster>jesse@rebounds.net (Jesse Bounds)</webMaster><lastBuildDate>Mon, 08 Jan 2024 08:01:56 -0500</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 01 Sep 2025 16:12:00 -0700</lastBuildDate><atom:link href="http://localhost:1313/tags/" rel="self" type="application/rss+xml" /><item>
     <title>ChatGPT</title>
     <link>http://localhost:1313/tags/chatgpt/</link>
-    <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
-    <author>Jesse Bounds</author>
+    <pubDate>Mon, 01 Sep 2025 16:12:00 -0700</pubDate>
+    <author>xxxx</author>
     <guid>http://localhost:1313/tags/chatgpt/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Crime and Criminals</title>
+    <link>http://localhost:1313/tags/crime-and-criminals/</link>
+    <pubDate>Mon, 01 Sep 2025 16:12:00 -0700</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/tags/crime-and-criminals/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>Limerick</title>
     <link>http://localhost:1313/tags/limerick/</link>
-    <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
-    <author>Jesse Bounds</author>
+    <pubDate>Mon, 01 Sep 2025 16:12:00 -0700</pubDate>
+    <author>xxxx</author>
     <guid>http://localhost:1313/tags/limerick/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>NYTimes</title>
     <link>http://localhost:1313/tags/nytimes/</link>
-    <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
-    <author>Jesse Bounds</author>
+    <pubDate>Mon, 01 Sep 2025 16:12:00 -0700</pubDate>
+    <author>xxxx</author>
     <guid>http://localhost:1313/tags/nytimes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>US Politics and Policy</title>
-    <link>http://localhost:1313/tags/us-politics-and-policy/</link>
-    <pubDate>Mon, 08 Jan 2024 08:01:56 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/us-politics-and-policy/</guid>
+    <title>Republican Party</title>
+    <link>http://localhost:1313/tags/republican-party/</link>
+    <pubDate>Mon, 01 Sep 2025 16:12:00 -0700</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/tags/republican-party/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Travel and Transport</title>
-    <link>http://localhost:1313/tags/travel-and-transport/</link>
-    <pubDate>Sun, 07 Jan 2024 08:01:33 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/travel-and-transport/</guid>
+    <title>United States Politics and Government</title>
+    <link>http://localhost:1313/tags/united-states-politics-and-government/</link>
+    <pubDate>Mon, 01 Sep 2025 16:12:00 -0700</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/tags/united-states-politics-and-government/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Middle East</title>
-    <link>http://localhost:1313/tags/middle-east/</link>
-    <pubDate>Fri, 05 Jan 2024 08:01:29 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/middle-east/</guid>
+    <title>Virtual Currency</title>
+    <link>http://localhost:1313/tags/virtual-currency/</link>
+    <pubDate>Mon, 01 Sep 2025 16:12:00 -0700</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/tags/virtual-currency/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Literature and Books</title>
-    <link>http://localhost:1313/tags/literature-and-books/</link>
-    <pubDate>Thu, 04 Jan 2024 08:02:24 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/literature-and-books/</guid>
+    <title>Appointments and Executive Changes</title>
+    <link>http://localhost:1313/tags/appointments-and-executive-changes/</link>
+    <pubDate>Thu, 28 Aug 2025 06:09:34 -0700</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/tags/appointments-and-executive-changes/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>International Affairs</title>
-    <link>http://localhost:1313/tags/international-affairs/</link>
-    <pubDate>Wed, 03 Jan 2024 08:03:05 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/international-affairs/</guid>
+    <title>Hazardous and Toxic Substances</title>
+    <link>http://localhost:1313/tags/hazardous-and-toxic-substances/</link>
+    <pubDate>Thu, 28 Aug 2025 06:09:34 -0700</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/tags/hazardous-and-toxic-substances/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Arts &amp; Culture</title>
-    <link>http://localhost:1313/tags/arts--culture/</link>
-    <pubDate>Tue, 02 Jan 2024 08:02:29 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/arts--culture/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Puzzles and Games</title>
-    <link>http://localhost:1313/tags/puzzles-and-games/</link>
-    <pubDate>Mon, 01 Jan 2024 08:01:25 -0500</pubDate>
-    <author>Jesse Bounds</author>
-    <guid>http://localhost:1313/tags/puzzles-and-games/</guid>
+    <title>Health and Human Services Department</title>
+    <link>http://localhost:1313/tags/health-and-human-services-department/</link>
+    <pubDate>Thu, 28 Aug 2025 06:09:34 -0700</pubDate>
+    <author>xxxx</author>
+    <guid>http://localhost:1313/tags/health-and-human-services-department/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>
