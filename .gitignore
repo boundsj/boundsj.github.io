@@ -1,4 +1,9 @@
 .DS_Store
 .vscode
 public/
+tools/photo-poster/.tmp/
+tools/photo-poster/.venv/
+tools/photo-poster/.venf/
+__pycache__/
+*.pyc
 
