@@ -642,7 +642,30 @@ class Theme {
       mapboxgl.accessToken = this.config.mapbox.accessToken;
       mapboxgl.setRTLTextPlugin(this.config.mapbox.RTLTextPlugin);
       this._mapboxArr = this._mapboxArr || [];
+      this._mapboxDataMap = this._mapboxDataMap || {};
       this.util.forEach(document.getElementsByClassName('mapbox'), $mapbox => {
+        // Read mapbox options from data attribute (new approach) or from this.data (legacy fallback)
+        let options;
+        const dataAttr = $mapbox.getAttribute('data-mapbox');
+        if (dataAttr) {
+          try {
+            // Decode HTML entities (Hugo escapes quotes in attributes)
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = dataAttr;
+            const decodedAttr = textarea.value;
+            options = JSON.parse(decodedAttr);
+          } catch (e) {
+            console.error('Failed to parse mapbox data attribute:', e);
+            return;
+          }
+        } else if (this.data && this.data[$mapbox.id]) {
+          // Legacy fallback for old scratch-based approach
+          options = this.data[$mapbox.id];
+        } else {
+          console.error('No mapbox data found for element:', $mapbox.id);
+          return;
+        }
+
         const {
           lng,
           lat,
@@ -654,7 +677,11 @@ class Theme {
           geolocate,
           scale,
           fullscreen
-        } = this.data[$mapbox.id];
+        } = options;
+
+        // Store options for theme switching
+        this._mapboxDataMap[$mapbox.id] = options;
+
         const mapbox = new mapboxgl.Map({
           container: $mapbox,
           center: [lng, lat],
@@ -698,12 +725,11 @@ class Theme {
       this._mapboxOnSwitchTheme = this._mapboxOnSwitchTheme || (() => {
         this.util.forEach(this._mapboxArr, mapbox => {
           const $mapbox = mapbox.getContainer();
-          const {
-            lightStyle,
-            darkStyle
-          } = this.data[$mapbox.id];
-          mapbox.setStyle(this.isDark ? darkStyle : lightStyle);
-          mapbox.addControl(new MapboxLanguage());
+          const options = this._mapboxDataMap[$mapbox.id];
+          if (options) {
+            mapbox.setStyle(this.isDark ? options.darkStyle : options.lightStyle);
+            mapbox.addControl(new MapboxLanguage());
+          }
         });
       });
 
