@@ -1,4 +1,5 @@
-{{- $mapbox := (.Page.Scratch.Get "params").mapbox | default dict -}}
+{{- /* Read mapbox config from site params directly (scratch may not be available in static builds) */ -}}
+{{- $mapbox := .Page.Site.Params.page.mapbox | default dict -}}
 
 {{- $lng := cond .IsNamedParams (.Get "lng") (.Get 0) -}}
 {{- $lat := cond .IsNamedParams (.Get "lat") (.Get 1) -}}
@@ -28,6 +29,12 @@
 {{- end -}}
 {{- $darkStyle = $darkStyle | default $lightStyle -}}
 {{- $options := dict "lng" $lng "lat" $lat "zoom" $zoom "marked" $marked "lightStyle" $lightStyle "darkStyle" $darkStyle "geolocate" $geolocate "navigation" $navigation "scale" $scale "fullscreen" $fullscreen -}}
-{{- $id := dict "Content" $options "Scratch" .Page.Scratch | partial "function/id.html" -}}
-<div class="mapbox" id="{{ $id }}" style="width: {{ $width }}; height: {{ $height }};"></div>
+{{- /* Generate unique ID for this mapbox instance */ -}}
+{{- $count := (.Page.Scratch.Get "mapbox-count") | default 0 -}}
+{{- $count = add $count 1 -}}
+{{- .Page.Scratch.Set "mapbox-count" $count -}}
+{{- $id := printf "mapbox-%d" $count -}}
+{{- /* Output div with data attribute containing all options */ -}}
+{{- $jsonOptions := $options | jsonify -}}
+<div class="mapbox" id="{{ $id }}" data-mapbox="{{ $jsonOptions | safeHTMLAttr }}" style="width: {{ $width }}; height: {{ $height }};"></div>
 {{- .Page.Scratch.SetInMap "this" "mapbox" true -}}
