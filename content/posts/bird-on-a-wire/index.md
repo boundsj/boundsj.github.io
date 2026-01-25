@@ -21,4 +21,5 @@ A yellow-bellied bird (looks like a Western Kingbird) perched on a wire slicing 
 | Focal Length | 16.9 mm |
 | Aperture     | f/2.8 |
 | ISO          | 25 |
-| Location     | {{< mapbox lng=-117.265839 lat=33.000606 zoom=15 height=15rem width=100% >}} |
+
+{{< mapbox lng=-117.265839 lat=33.000606 zoom=15 height=20rem width=100% >}}

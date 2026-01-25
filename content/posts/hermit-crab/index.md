@@ -18,4 +18,5 @@ Exploring tide pools in La Jolla, CA
 | Camera       | LEICA Q2 |
 | Aperture     | 2.8 |
 | ISO          | 100 |
-| Location     | {{< mapbox lng=-117.28119166666667 lat=32.84318888888889 zoom=15 height=15rem width=100% >}} |
+
+{{< mapbox lng=-117.28119166666667 lat=32.84318888888889 zoom=15 height=20rem width=100% >}}

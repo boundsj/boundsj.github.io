@@ -66,7 +66,12 @@ def _format_frontmatter(
     return lines
 
 
-def _format_exif_table(exif: Dict[str, Any]) -> List[str]:
+def _format_exif_table(exif: Dict[str, Any]) -> tuple[List[str], Optional[str]]:
+    """Format EXIF data into a table and return GPS shortcode separately.
+    
+    Returns:
+        tuple: (table_lines, gps_shortcode) where gps_shortcode is None if no GPS data
+    """
     rows: List[tuple[str, str]] = []
 
     camera = exif.get("camera") or "Unknown"
@@ -84,22 +89,21 @@ def _format_exif_table(exif: Dict[str, Any]) -> List[str]:
     if iso:
         rows.append(("ISO", iso))
 
+    # Extract GPS data separately
+    gps_shortcode = None
     gps = exif.get("gps")
     if gps and isinstance(gps, dict):
         lat = gps.get("lat")
         lon = gps.get("lon")
         if lat is not None and lon is not None:
-            rows.append(
-                (
-                    "Location",
-                    "{{< mapbox "
-                    f"lng={lon:.6f} lat={lat:.6f} "
-                    "zoom=15 height=15rem width=100% >}}",
-                )
+            gps_shortcode = (
+                "{{< mapbox "
+                f"lng={lon:.6f} lat={lat:.6f} "
+                "zoom=15 height=20rem width=100% >}}"
             )
 
     if not rows:
-        return []
+        return [], gps_shortcode
 
     lines = [
         "| Attribute    | Value |",
@@ -107,7 +111,7 @@ def _format_exif_table(exif: Dict[str, Any]) -> List[str]:
     ]
     for label, value in rows:
         lines.append(f"| {label:<12} | {value} |")
-    return lines
+    return lines, gps_shortcode
 
 
 def build_markdown(
@@ -129,11 +133,16 @@ def build_markdown(
         lines.append(description.strip())
         lines.append("<!--more-->")
 
-    exif_table = _format_exif_table(exif)
+    exif_table, gps_shortcode = _format_exif_table(exif)
     if exif_table:
         if description.strip():
             lines.append("")
         lines.extend(exif_table)
+    
+    # Add GPS map below the table if available
+    if gps_shortcode:
+        lines.append("")
+        lines.append(gps_shortcode)
 
     if gallery_images:
         lines.append("")

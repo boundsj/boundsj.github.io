@@ -18,4 +18,5 @@ Comstock Express chairlift at Northstar California Resort
 | Camera       | iPhone 14 Pro Max |
 | Aperture     | 2.2 |
 | ISO          | 50 |
-| Location     | {{< mapbox lng=-120.13832777777779 lat=39.24351111111111 zoom=15 height=15rem width=100% >}} |
+
+{{< mapbox lng=-120.13832777777779 lat=39.24351111111111 zoom=15 height=20rem width=100% >}}

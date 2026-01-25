@@ -18,4 +18,5 @@ A pallet on the street somewhere in San Rafael, California.
 | Camera       | LEICA Q2 |
 | Aperture     | 4.5 |
 | ISO          | 100 |
-| Location     | {{< mapbox lng=-122.540406 lat=37.974331 zoom=15 height=15rem width=100% >}} |
+
+{{< mapbox lng=-122.540406 lat=37.974331 zoom=15 height=20rem width=100% >}}

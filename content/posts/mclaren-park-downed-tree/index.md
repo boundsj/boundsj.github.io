@@ -19,4 +19,5 @@ We've seen a lot of intense winter storms in San Francisco this year. The rain h
 | Camera       | Apple iPhone 14 Pro Max Ultra Wide |
 | Focal Length | 13 mm |
 | Aperture     | ƒ2.2 |
-| Location     | {{< mapbox lng=-122.417997 lat=37.722225 zoom=15 height=15rem width=100% >}} |
+
+{{< mapbox lng=-122.417997 lat=37.722225 zoom=15 height=20rem width=100% >}}

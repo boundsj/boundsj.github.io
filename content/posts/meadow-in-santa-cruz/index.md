@@ -19,4 +19,5 @@ Somewhere near [Chaminade Resort & Spa](https://www.chaminade.com/santa-cruz-res
 | Camera       | Apple iPhone 14 Pro Max Ultra Wide |
 | Focal Length | 24 mm |
 | Aperture     | ƒ1.75 |
-| Location     | {{< mapbox lng=-121.979156 lat=37.005591 zoom=15 height=15rem width=100% >}} |
+
+{{< mapbox lng=-121.979156 lat=37.005591 zoom=15 height=20rem width=100% >}}

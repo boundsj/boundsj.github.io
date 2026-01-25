@@ -18,4 +18,5 @@ Munich Street in the Excelsior District in San Francisco.
 | Camera       | LEICA Q2 |
 | Aperture     | 5.0 |
 | ISO          | 100 |
-| Location     | {{< mapbox lng=-122.42603611111112 lat=37.722005555555555 zoom=15 height=15rem width=100% >}} |
+
+{{< mapbox lng=-122.42603611111112 lat=37.722005555555555 zoom=15 height=20rem width=100% >}}
