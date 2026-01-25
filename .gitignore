@@ -6,4 +6,6 @@ tools/photo-poster/.venv/
 tools/photo-poster/.venf/
 __pycache__/
 *.pyc
+.playwright-mcp/
+resources/_gen/
 
