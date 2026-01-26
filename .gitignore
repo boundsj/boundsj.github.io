@@ -1,10 +1,9 @@
 .DS_Store
 .vscode
-.claude/
+.claude/settings.local.json
 public/
 tools/photo-poster/.tmp/
 tools/photo-poster/.venv/
-tools/photo-poster/.venf/
 __pycache__/
 *.pyc
 .playwright-mcp/
