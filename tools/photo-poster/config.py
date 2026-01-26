@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_BLOG_CONTENT_DIR = (BASE_DIR / ".." / ".." / "content" / "posts").resolve()
@@ -23,3 +27,8 @@ DEFAULT_TAGS = [
 ]
 
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN", "")
+
+# OpenAI Configuration
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
+DESCRIPTION_MAX_TOKENS = int(os.getenv("DESCRIPTION_MAX_TOKENS", "150"))

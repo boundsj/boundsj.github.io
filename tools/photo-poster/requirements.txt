@@ -5,3 +5,5 @@ pillow
 pillow-heif
 exifread
 jinja2
+openai
+python-dotenv

@@ -10,3 +10,7 @@ __pycache__/
 .playwright-mcp/
 resources/_gen/
 
+# Environment files
+tools/photo-poster/.env
+.env
+

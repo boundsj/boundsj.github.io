@@ -25,6 +25,12 @@ const exifAperture = document.getElementById("exif-aperture");
 const exifIso = document.getElementById("exif-iso");
 const exifGps = document.getElementById("exif-gps");
 
+const generateDescButton = document.getElementById("generate-desc");
+const generateBtnText = document.getElementById("generate-btn-text");
+const generateIcon = document.getElementById("generate-icon");
+const generateSpinner = document.getElementById("generate-spinner");
+const descriptionError = document.getElementById("description-error");
+
 const defaultTags = JSON.parse(document.body.dataset.defaultTags || "[]");
 const defaultCategory = document.body.dataset.defaultCategory || "photos";
 
@@ -55,6 +61,69 @@ function schedulePreview() {
     clearTimeout(state.previewTimer);
   }
   state.previewTimer = setTimeout(requestPreview, 300);
+}
+
+function showDescriptionError(message) {
+  descriptionError.textContent = message;
+  descriptionError.classList.remove("hidden");
+}
+
+function hideDescriptionError() {
+  descriptionError.textContent = "";
+  descriptionError.classList.add("hidden");
+}
+
+async function generateDescription() {
+  if (!state.sessionId) {
+    showDescriptionError("Please upload images first.");
+    return;
+  }
+  
+  hideDescriptionError();
+  
+  // Show loading state
+  generateDescButton.disabled = true;
+  generateBtnText.textContent = "Generating...";
+  generateIcon.classList.add("hidden");
+  generateSpinner.classList.remove("hidden");
+  
+  try {
+    const response = await fetch("/api/generate-description", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        session_id: state.sessionId,
+        image_index: 0
+      }),
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      if (response.status === 503) {
+        throw new Error("OpenAI API key not configured. Please set OPENAI_API_KEY in your .env file.");
+      } else if (response.status === 502) {
+        throw new Error("Failed to generate description. Please try again.");
+      } else {
+        throw new Error(data.detail || "Failed to generate description");
+      }
+    }
+    
+    // Populate the description textarea
+    descriptionInput.value = data.description;
+    
+    // Trigger preview update
+    schedulePreview();
+    
+  } catch (error) {
+    showDescriptionError(error.message);
+  } finally {
+    // Restore button state
+    generateDescButton.disabled = false;
+    generateBtnText.textContent = "Generate";
+    generateIcon.classList.remove("hidden");
+    generateSpinner.classList.add("hidden");
+  }
 }
 
 function updateExif() {
@@ -177,6 +246,9 @@ async function uploadFiles(files) {
     updateExif();
     schedulePreview();
     setStatus("Images uploaded.", "success");
+    
+    // Enable generate button
+    generateDescButton.disabled = false;
   } catch (error) {
     setStatus(error.message, "error");
   }
@@ -267,6 +339,10 @@ async function clearSession() {
   updateExif();
   previewEl.textContent = "";
   setStatus("Session cleared.", "success");
+  
+  // Disable generate button and hide errors
+  generateDescButton.disabled = true;
+  hideDescriptionError();
 }
 
 dropzone.addEventListener("click", () => fileInput.click());
@@ -289,6 +365,7 @@ fileInput.addEventListener("change", (event) => {
 
 createButton.addEventListener("click", createPost);
 clearButton.addEventListener("click", clearSession);
+generateDescButton.addEventListener("click", generateDescription);
 
 [titleInput, descriptionInput, tagsInput, categoryInput, draftInput].forEach(
   (input) => {

@@ -22,6 +22,7 @@ from config import (
     PREVIEW_MAX_DIM,
     UPLOAD_DIR,
 )
+from ai_service import generate_image_description
 from exif_utils import extract_exif
 from image_processor import create_preview, resize_image
 from post_generator import build_markdown, ensure_unique_slug, slugify
@@ -41,6 +42,11 @@ class PostPayload(BaseModel):
     category: str = DEFAULT_CATEGORY
     draft: bool = False
     image_order: List[int] = []
+
+
+class GenerateDescriptionPayload(BaseModel):
+    session_id: str
+    image_index: int = 0
 
 
 def _session_dir(session_id: str) -> Path:
@@ -196,6 +202,65 @@ async def media(session_id: str, filename: str) -> FileResponse:
 async def delete_session(session_id: str) -> Dict[str, str]:
     _remove_session(session_id)
     return {"status": "deleted"}
+
+
+@app.post("/api/generate-description")
+async def generate_description(payload: GenerateDescriptionPayload = Body(...)) -> Dict[str, Any]:
+    """
+    Generate an AI-powered description for an uploaded image using OpenAI's Vision API.
+    
+    Args:
+        payload: Contains session_id and optional image_index (defaults to 0 for featured image)
+        
+    Returns:
+        JSON with description and success status
+        
+    Raises:
+        400: Missing session_id or no images in session
+        404: Session or specified image not found
+        503: OpenAI API key not configured
+        502: OpenAI API error
+    """
+    # Load session
+    try:
+        session = _load_session(payload.session_id)
+    except HTTPException:
+        raise HTTPException(status_code=404, detail="Upload session not found")
+    
+    # Validate images exist
+    images = session.get("images", [])
+    if not images:
+        raise HTTPException(status_code=400, detail="No images found in session")
+    
+    # Validate image_index
+    if payload.image_index < 0 or payload.image_index >= len(images):
+        raise HTTPException(
+            status_code=404, 
+            detail=f"Image index {payload.image_index} not found. Session has {len(images)} image(s)"
+        )
+    
+    # Use preview image (JPEG) instead of original to ensure OpenAI compatibility
+    # OpenAI only supports PNG, JPEG, GIF, WebP (not HEIC/HEIF)
+    image = images[payload.image_index]
+    previews_dir = _session_dir(payload.session_id) / "previews"
+    image_path = previews_dir / image["preview_name"]
+
+    if not image_path.exists():
+        raise HTTPException(status_code=404, detail="Preview image file not found")
+    
+    # Generate description using OpenAI
+    try:
+        description = generate_image_description(image_path)
+        return {"description": description, "success": True}
+    except ValueError as e:
+        # API key not configured
+        raise HTTPException(status_code=503, detail=str(e))
+    except FileNotFoundError as e:
+        # Image file not found (shouldn't happen after validation above)
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        # OpenAI API error or other issues
+        raise HTTPException(status_code=502, detail=f"Failed to generate description: {str(e)}")
 
 
 @app.post("/api/preview")
