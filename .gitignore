@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
 .claude/settings.local.json
+.claude/settings.json
 public/
 tools/photo-poster/.tmp/
 tools/photo-poster/.venv/
