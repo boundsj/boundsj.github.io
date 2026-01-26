@@ -1,5 +1,6 @@
 .DS_Store
 .vscode
+.claude/
 public/
 tools/photo-poster/.tmp/
 tools/photo-poster/.venv/
