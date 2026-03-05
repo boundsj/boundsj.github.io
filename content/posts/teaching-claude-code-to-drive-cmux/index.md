@@ -8,18 +8,18 @@ categories: ["dev"]
 
 <video src="demo.mp4" controls autoplay loop muted playsinline style="max-width:100%; border-radius:6px;"></video>
 
-Recently I've been exploring using [cmux](https://cmux.dev), a Ghostty-based macOS terminal multiplexer. [Ghostty](https://ghostty.org) is a fast, native terminal emulator built by Mitchell Hashimoto. cmux wraps Ghostty's rendering engine and adds workspaces, split panes, a built-in browser, and a control socket that lets you script the whole thing from the command line.
+Recently I've been exploring using [cmux](https://cmux.dev), a Ghostty-based native macOS terminal built for AI coding agents. [Ghostty](https://ghostty.org) is a fast, native terminal emulator built by Mitchell Hashimoto. cmux wraps Ghostty's rendering engine and adds workspaces, split panes, a built-in browser, and a control socket that lets you script the whole thing from the command line.
 
 I run coding agents like Claude Code and Codex inside cmux constantly. But out of the box, they don't know cmux exists. They don't know they can split panes, fan out parallel builds, or report progress in the sidebar. They just run commands in their own shell like they would in any terminal. The `cmux` CLI is on PATH and `cmux --help` works, but no agent has a reason to reach for it.
 
-That's where [skills](https://docs.anthropic.com/en/docs/claude-code/skills) come in. I wrote a markdown file that teaches agents how to think about cmux and what patterns to proactively use. Without it, an agent could discover the CLI through `--help`, but it would never think to split a pane for a test runner, report progress through the sidebar, or avoid sending keystrokes to a terminal the user is typing in.
+That's where [skills](https://code.claude.com/docs/en/skills) come in. I wrote a markdown file that teaches agents how to think about cmux and what patterns to proactively use. Without it, an agent could discover the CLI through `--help`, but it would never think to split a pane for a test runner, report progress through the sidebar, or avoid sending keystrokes to a terminal the user is typing in.
 
 <!--more-->
 
 ```yaml
 ---
 name: cmux
-description: cmux Terminal Multiplexer — Agent Integration. Use when
+description: cmux Terminal — Agent Integration. Use when
   orchestrating terminal sessions, running parallel commands, monitoring
   output, or reporting progress inside cmux.
 ---
@@ -98,7 +98,7 @@ cmux browser surface:2 fill "#search" "query"
 cmux browser surface:2 screenshot --out /tmp/result.png
 ```
 
-This means an agent can build something, open it in the browser, verify it looks right, and fix issues without leaving the terminal multiplexer.
+This means an agent can build something, open it in the browser, verify it looks right, and fix issues without leaving cmux.
 
 ## Safety rules
 
