@@ -7,7 +7,9 @@ categories: ["dev"]
 resources:
 - name: featured-image-preview
   src: preview.png
+description: "I wrote a skill that teaches coding agents like Claude Code how to use cmux's CLI to split panes, report progress, and orchestrate terminal sessions."
 ---
+<!--more-->
 
 <video src="demo.mp4" controls autoplay loop muted playsinline style="max-width:100%; border-radius:6px;"></video>
 
@@ -16,8 +18,6 @@ Recently I've been exploring using [cmux](https://cmux.dev), a Ghostty-based nat
 I run coding agents like Claude Code and Codex inside cmux constantly. But out of the box, they don't know cmux exists. They don't know they can split panes, fan out parallel builds, or report progress in the sidebar. They just run commands in their own shell like they would in any terminal. The `cmux` CLI is on PATH and `cmux --help` works, but no agent has a reason to reach for it.
 
 That's where [skills](https://code.claude.com/docs/en/skills) come in. I wrote a markdown file that teaches agents how to think about cmux and what patterns to proactively use. Without it, an agent could discover the CLI through `--help`, but it would never think to split a pane for a test runner, report progress through the sidebar, or avoid sending keystrokes to a terminal the user is typing in.
-
-<!--more-->
 
 ```yaml
 ---
