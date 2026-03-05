@@ -4,6 +4,9 @@ date: 2026-03-04T12:00:00-08:00
 draft: false
 tags: ["dev", "ai", "tools", "terminal"]
 categories: ["dev"]
+resources:
+- name: featured-image-preview
+  src: preview.png
 ---
 
 <video src="demo.mp4" controls autoplay loop muted playsinline style="max-width:100%; border-radius:6px;"></video>
