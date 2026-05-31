@@ -1,0 +1,11 @@
+{{- /* Sticky site header: brand + nav + CRT toggle */ -}}
+<header class="kc-header">
+  <a class="kc-brand" href="{{ "/" | relURL }}">bounds.dev</a>
+  <nav class="kc-nav">
+    {{- range .Site.Menus.main }}
+    {{- $u := .URL | relLangURL -}}
+    <a class="kc-nav__a{{ if or (eq $.RelPermalink $u) (and (ne $u "/") (hasPrefix $.RelPermalink $u)) }} is-on{{ end }}" href="{{ $u }}">{{ .Name }}</a>
+    {{- end }}
+    <button id="crt-toggle" class="kc-crt-toggle" type="button">[ crt ]</button>
+  </nav>
+</header>

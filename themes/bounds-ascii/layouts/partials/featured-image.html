@@ -1,0 +1,5 @@
+{{- /* context is a Page. Emits a normal <img> unless front matter sets dither: true. */ -}}
+{{- $img := .Resources.GetMatch "featured-image" -}}
+{{- with $img -}}
+<figure class="kc-hero">{{ if $.Params.dither }}<img class="kc-hero__media" src="{{ .RelPermalink }}" alt="{{ $.Title }}" data-dither data-dither-res="{{ $.Params.ditherRes | default 200 }}" data-dither-contrast="{{ $.Params.ditherContrast | default 1 }}" data-dither-brightness="{{ $.Params.ditherBrightness | default 0 }}">{{ else }}<img class="kc-hero__media" src="{{ .RelPermalink }}" alt="{{ $.Title }}">{{ end }}</figure>
+{{- end -}}

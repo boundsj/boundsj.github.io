@@ -1,0 +1,9 @@
+{{- $since := .Site.Params.footer.since | default 2019 -}}
+<footer class="kc-footer">
+  <hr class="kc-rule-dotted">
+  <div class="kc-footer__row">
+    <span>© {{ $since }} – {{ now.Year }} {{ .Site.Params.author.name }}</span>
+    {{ with .Site.Params.footer.license }}<span>{{ . | safeHTML }}</span>{{ end }}
+  </div>
+  <div class="kc-footer__hugo">Powered by <a href="https://gohugo.io/">Hugo</a> · theme: bounds-ascii</div>
+</footer>

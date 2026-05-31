@@ -1,0 +1,8 @@
+{{ define "main" }}
+<article class="kc-post post--about">
+  <div class="kc-pagetitle"><span class="kc-prompt">$</span> about</div>
+  {{ partial "featured-image.html" . }}
+  <div class="post-content">{{ .Content }}</div>
+  {{ partial "social-links.html" . }}
+</article>
+{{ end }}

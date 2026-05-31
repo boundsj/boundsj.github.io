@@ -1,7 +1,7 @@
 baseURL = 'https://boundsj.github.io'
 
 # Change the default theme to be use when building the site with Hugo
-theme = 'LoveIt'
+theme = 'bounds-ascii'
 
 # website title
 title = 'bounds.dev'
@@ -25,8 +25,6 @@ languageName = "English"
   [markup.goldmark.renderer]
     unsafe = true
 
-# default amount of posts in each pages
-paginate = 12
 # copyright description used only for seo schema
 #copyright = ""
 
@@ -36,6 +34,10 @@ enableRobotsTXT = true
 enableGitInfo = true
 # whether to use emoji code
 enableEmoji = true
+
+# default amount of posts in each pages
+[pagination]
+  pagerSize = 12
 
 # Menu config
 [menu]

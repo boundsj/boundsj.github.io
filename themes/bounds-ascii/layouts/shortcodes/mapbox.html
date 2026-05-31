@@ -1,0 +1,40 @@
+{{- /* Mapbox shortcode for bounds-ascii. Emits a .mapbox div + options JSON.
+       The map is initialized client-side by theme.js initMapbox() using
+       window.boundsMapbox.accessToken. Supports named + positional params. */ -}}
+{{- $mapbox := .Page.Site.Params.page.mapbox | default dict -}}
+
+{{- $lng := cond .IsNamedParams (.Get "lng") (.Get 0) -}}
+{{- $lat := cond .IsNamedParams (.Get "lat") (.Get 1) -}}
+{{- $zoom := cond .IsNamedParams (.Get "zoom") (.Get 2) | default 10 -}}
+{{- $marked := cond .IsNamedParams (.Get "marked") (.Get 3) | ne false -}}
+{{- $lightStyle := $mapbox.lightStyle -}}
+{{- $darkStyle := $mapbox.darkStyle -}}
+{{- $navigation := $mapbox.navigation -}}
+{{- $geolocate := $mapbox.geolocate -}}
+{{- $scale := $mapbox.scale -}}
+{{- $fullscreen := $mapbox.fullscreen -}}
+{{- $width := "100%" -}}
+{{- $height := "20rem" -}}
+
+{{- if .IsNamedParams -}}
+    {{- $lightStyle = .Get "light-style" | default $lightStyle -}}
+    {{- $darkStyle = .Get "dark-style" | default $darkStyle -}}
+    {{- $navigation = .Get "navigation" | ne false | and $navigation -}}
+    {{- $geolocate = .Get "geolocate" | ne false | and $geolocate -}}
+    {{- $scale = .Get "scale" | ne false | and $scale -}}
+    {{- $fullscreen = .Get "fullscreen" | ne false | and $fullscreen -}}
+    {{- $width = .Get "width" | default $width -}}
+    {{- $height = .Get "height" | default $height -}}
+{{- else -}}
+    {{- $lightStyle = .Get 4 | default $lightStyle -}}
+    {{- $darkStyle = .Get 5 | default $darkStyle -}}
+{{- end -}}
+{{- $darkStyle = $darkStyle | default $lightStyle -}}
+{{- $options := dict "lng" $lng "lat" $lat "zoom" $zoom "marked" $marked "lightStyle" $lightStyle "darkStyle" $darkStyle "geolocate" $geolocate "navigation" $navigation "scale" $scale "fullscreen" $fullscreen -}}
+{{- /* Generate a unique ID for this mapbox instance on the page */ -}}
+{{- $count := (.Page.Scratch.Get "mapbox-count") | default 0 -}}
+{{- $count = add $count 1 -}}
+{{- .Page.Scratch.Set "mapbox-count" $count -}}
+{{- $id := printf "mapbox-%d" $count -}}
+{{- $jsonOptions := $options | jsonify -}}
+<div class="mapbox" id="{{ $id }}" data-mapbox="{{ $jsonOptions | safeHTMLAttr }}" style="width: {{ $width }}; height: {{ $height }};"></div>

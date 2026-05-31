@@ -1,0 +1,7 @@
+{{ define "main" }}
+<div class="kc-archive">
+  <div class="kc-pagetitle"><span class="kc-prompt">$</span> {{ .Title | lower }}</div>
+  <div class="kc-archive__count">{{ len .Data.Terms }} {{ .Data.Singular }}</div>
+  <div class="kc-post__tags">{{ range .Data.Terms.ByCount }}<a class="kc-tag" href="{{ .Page.RelPermalink }}">{{ .Page.Title }} ({{ .Count }})</a>{{ end }}</div>
+</div>
+{{ end }}

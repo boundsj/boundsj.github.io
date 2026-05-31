@@ -1,0 +1,468 @@
+/* ============================================================================
+   bounds.dev — Design System
+   "One person and some bots are typing."
+   A mostly black & white, low-res, 80s ASCII / terminal aesthetic.
+   ----------------------------------------------------------------------------
+   Fonts are self-hosted (OFL) from ./fonts/ — no CDN required. Just link this
+   file and the @font-face rules below resolve relative to it.
+   ============================================================================ */
+
+/* --- SELF-HOSTED FONTS (OFL) — files live in ./fonts/ ---------------------- */
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('/fonts/IBMPlexMono-Regular.woff2') format('woff2'), url('/fonts/IBMPlexMono-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('/fonts/IBMPlexMono-Medium.woff2') format('woff2'), url('/fonts/IBMPlexMono-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('/fonts/IBMPlexMono-SemiBold.woff2') format('woff2'), url('/fonts/IBMPlexMono-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('/fonts/IBMPlexMono-Bold.woff2') format('woff2'), url('/fonts/IBMPlexMono-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'IBM Plex Mono'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('/fonts/IBMPlexMono-Italic.woff2') format('woff2'), url('/fonts/IBMPlexMono-Italic.ttf') format('truetype'); }
+@font-face { font-family: 'IBM Plex Mono'; font-style: italic; font-weight: 600; font-display: swap;
+  src: url('/fonts/IBMPlexMono-SemiBoldItalic.woff2') format('woff2'), url('/fonts/IBMPlexMono-SemiBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'VT323'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('/fonts/VT323-Regular.woff2') format('woff2'), url('/fonts/VT323-Regular.ttf') format('truetype'); }
+
+:root {
+  /* --- CORE INK & PAPER ---------------------------------------------------
+     Strictly monochrome. Paper is a faintly warm off-white (printout / CRT
+     glow), ink is a soft near-black (never pure #000 in light mode — softer
+     on the eye and reads like toner). */
+  --ink:        #14130F;   /* primary text / borders */
+  --ink-soft:   #3A382F;   /* secondary text */
+  --ink-faint:  #6E6B5E;   /* tertiary / meta text */
+  --paper:      #F4F1E8;   /* page background (newsprint white) */
+  --paper-pure: #FBF9F2;   /* raised surface / card fill */
+  --paper-sink: #E7E3D6;   /* inset / pressed wells, table stripes */
+  --rule:       #14130F;   /* hairline rules are full-ink */
+
+  /* --- GRAY STEPS (for dither stand-ins, disabled states) ----------------- */
+  --gray-1: #C9C5B6;
+  --gray-2: #A8A493;
+  --gray-3: #87836F;
+
+  /* --- PHOSPHOR ACCENTS (optional, off by default) ------------------------
+     The system is monochrome. These are reserved "signal" colors for a single
+     interactive highlight (cursor, live link hover, terminal mode). Use ONE,
+     sparingly — never decoratively. Default accent resolves to ink. */
+  --phosphor-green: #1FB14B;  /* P1 monitor green */
+  --phosphor-amber: #C77B14;  /* P3 amber */
+  --accent: var(--ink);       /* default: stay monochrome */
+
+  /* --- SEMANTIC FG / BG (light is the default; see .crt for inverted) ------ */
+  --fg-1: var(--ink);
+  --fg-2: var(--ink-soft);
+  --fg-3: var(--ink-faint);
+  --bg-1: var(--paper);
+  --bg-2: var(--paper-pure);
+  --bg-3: var(--paper-sink);
+  --border: var(--ink);
+  --selection-bg: var(--ink);
+  --selection-fg: var(--paper);
+
+  /* --- TYPE FAMILIES ------------------------------------------------------- */
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-crt:  'VT323', 'IBM Plex Mono', monospace;  /* low-rez display / banners */
+  --font-body: var(--font-mono);   /* everything is monospace in this system */
+
+  /* --- TYPE SCALE (monospace, tuned to the character cell) -----------------
+     The whole site rides a 4px baseline grid and a fixed character measure. */
+  --fs-banner: 13px;   /* pre-formatted ASCII art line-height anchor */
+  --fs-display: 56px;  /* VT323 hero numerals / page titles */
+  --fs-h1: 30px;
+  --fs-h2: 23px;
+  --fs-h3: 18px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-micro: 12px;    /* meta, timestamps, EXIF labels */
+
+  --lh-tight: 1.15;
+  --lh-snug: 1.35;
+  --lh-body: 1.6;
+  --lh-loose: 1.85;
+
+  /* monospace looks best with a touch of tracking on uppercase labels */
+  --tracking-label: 0.14em;
+  --tracking-tight: -0.01em;
+  --tracking-banner: 0.02em;
+
+  /* --- SPACING (4px baseline; 8/16/24 are the workhorses) ------------------ */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+
+  /* measure — content never exceeds a comfortable monospace column */
+  --measure: 66ch;
+  --shell-max: 720px;
+
+  /* --- BORDERS & RADII ----------------------------------------------------
+     Corners are SQUARE. Radius is 0 everywhere — terminals have no curves. */
+  --radius: 0px;
+  --bw-hair: 1px;     /* hairline rule */
+  --bw-line: 2px;     /* standard component border */
+  --bw-heavy: 3px;    /* emphasis / active */
+  --border-hair: 1px solid var(--border);
+  --border-line: 2px solid var(--border);
+  --border-heavy: 3px solid var(--border);
+  /* double-line "box drawing" border for panels */
+  --border-double: 3px double var(--border);
+
+  /* --- ELEVATION ----------------------------------------------------------
+     No soft shadows. Elevation is a HARD offset block (8-bit drop). */
+  --shadow-hard: 4px 4px 0 0 var(--ink);
+  --shadow-hard-sm: 2px 2px 0 0 var(--ink);
+  --shadow-hard-lg: 8px 8px 0 0 var(--ink);
+  --shadow-inset: inset 2px 2px 0 0 var(--paper-sink);
+
+  /* --- MOTION -------------------------------------------------------------
+     Snappy, stepped, no easing curves. Things blink and cut, they don't glide. */
+  --ms-instant: 0ms;
+  --ms-fast: 80ms;
+  --ms-blink: 1060ms;        /* cursor blink interval */
+  --ease-step: steps(1, end);
+  --ease-snap: cubic-bezier(.2,.8,.2,1);
+}
+
+/* ----------------------------------------------------------------------------
+   INVERTED / CRT MODE  — apply .crt to <html> or any container.
+   Classic monochrome monitor: light text on near-black. This is the site's
+   "dark mode". Add .crt--green or .crt--amber to tint the phosphor.
+   ---------------------------------------------------------------------------- */
+.crt {
+  --fg-1: #ECE7D6;
+  --fg-2: #B7B2A1;
+  --fg-3: #7E7A6B;
+  --bg-1: #0C0C0A;
+  --bg-2: #16150F;
+  --bg-3: #211F17;
+  --border: #ECE7D6;
+  --rule: #ECE7D6;
+  --selection-bg: #ECE7D6;
+  --selection-fg: #0C0C0A;
+  --accent: #ECE7D6;
+  --shadow-hard: 4px 4px 0 0 #000;
+  --shadow-hard-sm: 2px 2px 0 0 #000;
+  --shadow-hard-lg: 8px 8px 0 0 #000;
+}
+.crt--green { --fg-1: #38E25B; --fg-2: #1FB14B; --border: #1FB14B; --accent: #38E25B; --rule:#1FB14B; --selection-bg:#38E25B; }
+.crt--amber { --fg-1: #FFB23E; --fg-2: #C77B14; --border: #C77B14; --accent: #FFB23E; --rule:#C77B14; --selection-bg:#FFB23E; }
+
+/* ============================================================================
+   BASE ELEMENT STYLES (semantic). Import this file and these apply globally.
+   ============================================================================ */
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+/* Headings — uppercase, tracked, mono. Prefixed with a box glyph in use. */
+h1, h2, h3, h4 {
+  font-family: var(--font-mono);
+  color: var(--fg-1);
+  line-height: var(--lh-tight);
+  font-weight: 700;
+  margin: 0 0 var(--sp-4);
+}
+h1 { font-size: var(--fs-h1); letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--fs-h2); letter-spacing: var(--tracking-tight); }
+h3 { font-size: var(--fs-h3); text-transform: uppercase; letter-spacing: var(--tracking-label); }
+h4 { font-size: var(--fs-small); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--fg-2); }
+
+/* Display — VT323 for low-rez hero numerals & section markers */
+.display {
+  font-family: var(--font-crt);
+  font-size: var(--fs-display);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+/* ASCII art banner block */
+.ascii {
+  font-family: var(--font-mono);
+  font-size: var(--fs-banner);
+  line-height: 1.0;
+  letter-spacing: var(--tracking-banner);
+  white-space: pre;
+  font-weight: 700;
+  overflow-x: auto;
+}
+
+p { margin: 0 0 var(--sp-4); max-width: var(--measure); }
+
+a {
+  color: var(--fg-1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+a:hover { background: var(--fg-1); color: var(--bg-1); text-decoration: none; }
+
+small, .meta {
+  font-size: var(--fs-micro);
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+}
+
+/* Inline + block code (already mono — distinguished by a sunken well) */
+code, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--bg-3);
+  padding: 1px 5px;
+  border: var(--border-hair);
+}
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  line-height: var(--lh-snug);
+  background: var(--bg-2);
+  color: var(--fg-1);
+  border: var(--border-line);
+  padding: var(--sp-4);
+  overflow-x: auto;
+}
+pre code { background: none; border: none; padding: 0; }
+
+/* Blockquote — bordered well with a ">" gutter feel */
+blockquote {
+  margin: var(--sp-5) 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-left: var(--bw-heavy) solid var(--border);
+  background: var(--bg-2);
+  color: var(--fg-2);
+  font-style: italic;
+}
+
+hr {
+  border: none;
+  border-top: var(--border-line);
+  margin: var(--sp-6) 0;
+}
+/* dotted ASCII rule variant: <hr class="rule-dotted"> */
+.rule-dotted { border-top: 2px dotted var(--border); }
+
+ul, ol { padding-left: var(--sp-5); max-width: var(--measure); }
+li { margin: var(--sp-1) 0; }
+/* ASCII bullets */
+ul.ascii-list { list-style: none; padding-left: 0; }
+ul.ascii-list > li::before { content: "› "; color: var(--fg-2); }
+
+table { border-collapse: collapse; font-size: var(--fs-small); width: 100%; }
+th, td { border: var(--border-hair); padding: var(--sp-2) var(--sp-3); text-align: left; }
+th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size: var(--fs-micro); background: var(--bg-3); }
+
+/* Scanline overlay utility — drop over any container for CRT texture */
+.scanlines { position: relative; }
+.scanlines::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 3px);
+}
+
+/* Blinking block cursor */
+.cursor { display: inline-block; width: 0.6em; height: 1.05em; background: var(--accent);
+  vertical-align: text-bottom; animation: blink var(--ms-blink) var(--ease-step) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ============================================================================
+   COMPONENT CSS (kc-*) — lifted from DesignSystem/ui_kits/site/index.html.
+   Adapted for a real document-flow Hugo site (NOT the React SPA shell):
+   no .kc-app, .kc-main is a normal block, .kc-header sticks to the viewport.
+   ============================================================================ */
+* { box-sizing: border-box; }
+
+/* ---------- LAYOUT (document flow, not SPA) ---------- */
+.kc-main { display: block; }
+.kc-shell { max-width: var(--shell-max); margin: 0 auto; padding: clamp(24px, 5vw, 56px) clamp(16px, 5vw, 40px) 40px; }
+
+/* ---------- HEADER ---------- */
+.kc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px clamp(16px, 5vw, 40px);
+  border-top: var(--bw-heavy) solid var(--border);
+  border-bottom: var(--bw-heavy) solid var(--border);
+  background: var(--bg-1); position: sticky; top: 0; z-index: 50;
+}
+.kc-brand { font-weight: 700; font-size: 17px; letter-spacing: .01em; text-decoration: none; color: var(--fg-1); }
+.kc-brand:hover { background: none; color: var(--fg-1); }
+.kc-nav { display: flex; align-items: center; gap: clamp(10px, 2vw, 20px); }
+.kc-nav__a { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; text-decoration: none; color: var(--fg-1); padding: 2px 2px; }
+.kc-nav__a:hover { background: var(--fg-1); color: var(--bg-1); }
+.kc-nav__a.is-on { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.kc-crt-toggle { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .1em;
+  border: var(--bw-line) solid var(--border); background: var(--bg-2); color: var(--fg-1); padding: 3px 8px; cursor: pointer; }
+.kc-crt-toggle:hover { background: var(--fg-1); color: var(--bg-1); }
+
+/* ---------- CURSOR / BANNER ---------- */
+.kc-cursor { display: inline-block; width: .55em; height: 1.05em; background: var(--accent);
+  vertical-align: -2px; margin-left: 1px; animation: kc-blink 1.06s steps(1, end) infinite; }
+@keyframes kc-blink { 50% { opacity: 0; } }
+.kc-banner-wrap { overflow-x: auto; display: flex; justify-content: center; }
+.kc-banner { font-family: var(--font-mono); font-weight: 700; font-size: 9px; line-height: 1.12;
+  letter-spacing: .02em; white-space: pre; margin: 0; color: var(--fg-1); }
+
+/* ---------- HOME / PROFILE ---------- */
+.kc-profile { text-align: center; margin: 28px 0 8px; }
+.kc-avatar { width: 84px; height: 84px; margin: 0 auto 14px; border: var(--bw-line) solid var(--border); image-rendering: pixelated; }
+.kc-avatar img { width: 100%; height: 100%; display: block; }
+.kc-profile__name { font-size: 26px; margin: 0 0 8px; letter-spacing: -.01em; }
+.kc-profile__sub { font-size: 15px; color: var(--fg-2); min-height: 1.4em; margin-bottom: 16px; }
+.kc-social { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.kc-social__a { font-size: 11px; letter-spacing: .12em; text-decoration: none; color: var(--fg-1); }
+.kc-social__a:hover { background: var(--fg-1); color: var(--bg-1); }
+
+.kc-rule { border: none; border-top: var(--bw-line) solid var(--border); margin: 28px 0; }
+.kc-rule-dotted { border: none; border-top: 2px dotted var(--border); margin: 0 0 14px; }
+
+.kc-sectionhead, .kc-pagetitle { font-size: 13px; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 16px; }
+.kc-pagetitle { font-size: 22px; text-transform: none; letter-spacing: -.01em; font-weight: 700; margin-bottom: 6px; }
+.kc-prompt { color: var(--accent); font-weight: 700; margin-right: 4px; }
+.kc-dim { color: var(--fg-3); text-transform: none; letter-spacing: 0; }
+
+/* ---------- POST CARD ---------- */
+.kc-card { display: flex; text-decoration: none; color: var(--fg-1); border: var(--bw-line) solid var(--border);
+  background: var(--bg-2); box-shadow: var(--shadow-hard); margin-bottom: 24px; transition: none; }
+.kc-card:hover { background: var(--bg-2); transform: translate(2px, 2px); box-shadow: var(--shadow-hard-sm); }
+.kc-card__thumb { width: 150px; flex: none; border-right: var(--bw-line) solid var(--border); background: var(--bg-3); }
+.kc-card__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; image-rendering: pixelated; }
+.kc-card__body { padding: 14px 16px; }
+.kc-card__cat { font-size: 10px; text-transform: uppercase; letter-spacing: .14em; color: var(--fg-3); }
+.kc-card__title { font-size: 19px; margin: 4px 0 6px; letter-spacing: -.01em; }
+.kc-card__excerpt { font-size: 13px; line-height: 1.5; margin: 0 0 8px; color: var(--fg-2); }
+.kc-card__meta { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--fg-3); }
+
+/* ---------- ARCHIVE ROWS ---------- */
+.kc-rows { display: flex; flex-direction: column; }
+.kc-rows--bordered { border-top: var(--bw-line) solid var(--border); margin-top: 14px; }
+.kc-row { display: flex; align-items: baseline; gap: 14px; text-decoration: none; color: var(--fg-1);
+  padding: 11px 6px; border-bottom: 1px solid var(--gray-1); }
+.kc-row:hover { background: var(--fg-1); color: var(--bg-1); }
+.kc-row:hover .kc-row__date, .kc-row:hover .kc-row__cat, .kc-row:hover .kc-row__arrow { color: var(--bg-1); }
+.kc-row__date { font-size: 12px; color: var(--fg-3); width: 92px; flex: none; font-variant-numeric: tabular-nums; }
+.kc-row__title { flex: 1; font-size: 15px; }
+.kc-row__cat { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--fg-3); }
+.kc-row__arrow { color: var(--fg-3); }
+.kc-archive__count { font-size: 12px; color: var(--fg-3); text-transform: uppercase; letter-spacing: .1em; }
+.kc-more { margin-top: 24px; }
+
+/* ---------- BUTTONS ---------- */
+.kc-btn { font-family: var(--font-mono); font-size: 13px; font-weight: 600; letter-spacing: .04em;
+  text-transform: uppercase; padding: 9px 16px; border: var(--bw-line) solid var(--border);
+  background: var(--bg-2); color: var(--fg-1); cursor: pointer; transition: none; text-decoration: none; display: inline-block; }
+.kc-btn:hover { background: var(--fg-1); color: var(--bg-1); }
+.kc-btn--solid { background: var(--fg-1); color: var(--bg-1); box-shadow: var(--shadow-hard-sm); }
+.kc-btn--solid:hover { transform: translate(2px, 2px); box-shadow: none; }
+.kc-btn:disabled { color: var(--gray-2); border-color: var(--gray-1); background: var(--bg-3); cursor: not-allowed; }
+
+/* ---------- TAGS / CATEGORY ---------- */
+.kc-tag { font-size: 11px; border: 1px solid var(--border); padding: 3px 8px; color: var(--fg-1); text-decoration: none; }
+.kc-tag::before { content: "# "; color: var(--fg-3); }
+.kc-tag:hover { background: var(--fg-1); color: var(--bg-1); }
+.kc-cat { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; border: var(--bw-line) solid var(--border); padding: 3px 9px; font-weight: 700; text-decoration: none; color: var(--fg-1); }
+.kc-cat.is-on { background: var(--fg-1); color: var(--bg-1); }
+.kc-cat:hover { background: var(--fg-1); color: var(--bg-1); }
+
+/* ---------- POST ---------- */
+.kc-post { padding-top: 4px; }
+.kc-back { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; text-decoration: none; color: var(--fg-2); display: inline-block; margin-bottom: 18px; }
+.kc-back:hover { background: var(--fg-1); color: var(--bg-1); }
+.kc-post__cat { margin-bottom: 12px; }
+.kc-post__title { font-size: 30px; margin: 0 0 8px; letter-spacing: -.01em; line-height: 1.15; }
+.kc-post__byline { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--fg-3); margin-bottom: 20px; }
+.kc-post__hero { border: var(--bw-line) solid var(--border); margin-bottom: 20px; image-rendering: pixelated; }
+.kc-post__hero img { width: 100%; display: block; image-rendering: pixelated; }
+
+/* ---------- HERO IMAGE + DITHER TOGGLE ---------- */
+.kc-hero { position: relative; margin: 0 0 20px; border: var(--bw-line) solid var(--border); line-height: 0; }
+.kc-hero__media { width: 100%; display: block; }
+canvas.kc-hero__media, img.is-dithered, canvas.is-dithered { image-rendering: pixelated; }
+.kc-hero__toggle { position: absolute; top: 8px; right: 8px; line-height: 1;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 5px 9px; border: var(--bw-line) solid var(--border); background: var(--bg-1); color: var(--fg-1);
+  cursor: pointer; box-shadow: var(--shadow-hard-sm); }
+.kc-hero__toggle:hover { background: var(--fg-1); color: var(--bg-1); }
+.kc-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.kc-provenance { font-size: 12px; font-style: italic; color: var(--fg-2); border-left: var(--bw-heavy) solid var(--border); padding: 8px 14px; background: var(--bg-2); margin: 0 0 24px; }
+.kc-verse { font-size: 18px; line-height: 1.9; text-align: center; margin: 8px 0 4px; }
+.kc-verse__line { white-space: pre-wrap; }
+.kc-headlines h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .14em; color: var(--fg-2); margin: 0 0 10px; }
+.kc-headlines__list { list-style: none; padding: 0; margin: 0 0 24px; }
+.kc-headlines__list li { font-size: 13px; line-height: 1.5; color: var(--fg-2); padding: 4px 0 4px 18px; position: relative; }
+.kc-headlines__list li::before { content: "›"; position: absolute; left: 0; color: var(--fg-3); }
+.kc-post__tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 28px; }
+.kc-caption { font-size: 15px; line-height: 1.6; margin: 0 0 20px; }
+
+/* ---------- EXIF ---------- */
+.kc-exif { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 22px; }
+.kc-exif th { background: var(--fg-1); color: var(--bg-1); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; width: 140px; text-align: left; border: 1px solid var(--border); padding: 6px 10px; }
+.kc-exif td { border: 1px solid var(--border); padding: 6px 10px; }
+.kc-exif tr:nth-child(even) td { background: var(--bg-3); }
+
+/* ---------- MAP PLACEHOLDER ---------- */
+.kc-map { border: var(--bw-line) solid var(--border); margin-bottom: 24px; background: var(--bg-2); }
+.kc-map__grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); height: 150px; }
+.kc-map__cell { display: flex; align-items: center; justify-content: center; color: var(--fg-3); font-size: 18px; border: 1px dotted var(--gray-1); }
+.kc-map__cap { border-top: var(--bw-line) solid var(--border); padding: 7px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-2); background: var(--bg-1); }
+
+/* ---------- ABOUT ---------- */
+.kc-about .kc-lead { font-size: 20px; font-weight: 700; margin: 0 0 12px; }
+
+/* ---------- PAGER ---------- */
+.kc-pager { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; border-top: var(--bw-line) solid var(--border); padding-top: 14px; }
+.kc-pager__a { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
+.kc-pager__a.is-off { color: var(--gray-2); }
+.kc-pager__n { font-size: 11px; color: var(--fg-3); text-transform: uppercase; letter-spacing: .12em; }
+
+/* ---------- FOOTER ---------- */
+.kc-footer { max-width: var(--shell-max); margin: 40px auto 0; padding: 0 clamp(16px, 5vw, 40px) 36px; }
+.kc-footer__row { display: flex; justify-content: space-between; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-3); }
+.kc-footer__row a { color: var(--fg-2); }
+.kc-footer__hugo { font-size: 11px; color: var(--fg-3); margin-top: 6px; }
+.kc-post .kc-footer { padding-left: 0; padding-right: 0; }
+
+/* ============================================================================
+   POST BODY (markdown rendered via {{ .Content }} inside .post-content)
+   ============================================================================ */
+/* generic post body */
+.post-content { margin-bottom: 24px; }
+.post-content > *:first-child { margin-top: 0; }
+
+/* generated posts: leading italic provenance line + headlines list */
+.post--generated .post-content > p:first-child { font-style: italic; color: var(--fg-2); border-left: var(--bw-heavy) solid var(--border); background: var(--bg-2); padding: 8px 14px; font-size: 13px; line-height: 1.5; }
+.post--generated .post-content ul { list-style: none; padding-left: 0; max-width: var(--measure); }
+.post--generated .post-content ul > li { position: relative; padding-left: 18px; color: var(--fg-2); font-size: 13px; line-height: 1.5; }
+.post--generated .post-content ul > li::before { content: "\203A"; position: absolute; left: 0; color: var(--fg-3); }
+/* the limerick is the paragraph right after the provenance — centered, per the prototype .kc-verse */
+.post--generated .post-content > p:first-child + p { text-align: center; font-size: 18px; line-height: 1.9; color: var(--fg-1); margin: 24px 0; }
+
+/* photo posts: caption + EXIF-style table */
+.post--photos .post-content > p:first-child { font-size: 15px; line-height: 1.6; color: var(--fg-1); }
+.post-content table { box-shadow: var(--shadow-hard-sm); margin: 0 0 22px; width: 100%; }
+.post-content table tr:nth-child(even) td { background: var(--bg-3); }
+
+/* about: lead line + hide the duplicate inline portrait (we render it as a hero) */
+.post--about .post-content > p:first-child { font-size: 20px; font-weight: 700; margin: 0 0 12px; }
+.post--about .post-content img { display: none; }
+
+/* mapbox container in the aesthetic */
+.mapbox { border: var(--bw-line) solid var(--border); margin: 0 0 24px; background: var(--bg-2); }
+
+/* hero figure (no React toggle button in production) */
+figure.kc-hero { margin: 0 0 20px; }

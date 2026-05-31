@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="kc-archive">
+  <div class="kc-pagetitle"><span class="kc-prompt">$</span> {{ .Title | lower }}</div>
+  <div class="kc-archive__count">{{ len .Pages }} entries · sorted newest first</div>
+  {{- $p := .Paginate .Pages -}}
+  <div class="kc-rows kc-rows--bordered">{{ range $p.Pages }}{{ partial "post-row.html" . }}{{ end }}</div>
+  <div class="kc-pager">
+    {{ if $p.HasPrev }}<a class="kc-pager__a" href="{{ $p.Prev.URL }}">← prev</a>{{ else }}<span class="kc-pager__a is-off">← prev</span>{{ end }}
+    <span class="kc-pager__n">page {{ $p.PageNumber }} / {{ $p.TotalPages }}</span>
+    {{ if $p.HasNext }}<a class="kc-pager__a" href="{{ $p.Next.URL }}">next →</a>{{ else }}<span class="kc-pager__a is-off">next →</span>{{ end }}
+  </div>
+</div>
+{{ end }}

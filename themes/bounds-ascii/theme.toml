@@ -1,0 +1,12 @@
+name = "bounds-ascii"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A monochrome, low-res, 80s ASCII / terminal aesthetic theme for bounds.dev. Black & white, monospace, square corners, hard offset shadows, 1-bit dithered photos, and a CRT dark mode."
+homepage = "https://bounds.dev/"
+min_version = "0.135.0"
+tags = ["ascii", "terminal", "monochrome", "minimal", "blog", "dark mode"]
+features = ["dark mode", "dithering", "mapbox"]
+
+[author]
+  name = "Jesse Bounds"
+  homepage = "https://bounds.dev/"

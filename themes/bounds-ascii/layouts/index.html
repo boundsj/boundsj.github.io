@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="kc-banner-wrap">{{ partial "banner.html" . }}</div>
+<div class="kc-profile">
+  <h1 class="kc-profile__name">{{ .Site.Params.home.profile.title | default .Site.Params.author.name }}</h1>
+  <div class="kc-profile__sub"><span class="kc-typeline" data-type-text="{{ .Site.Params.home.profile.subtitle }}">{{ .Site.Params.home.profile.subtitle }}</span></div>
+  {{ partial "social-links.html" . }}
+</div>
+<hr class="kc-rule">
+<div class="kc-sectionhead"><span class="kc-prompt">$</span> recent posts <span class="kc-dim">// ls -t</span></div>
+{{- $posts := where (where .Site.RegularPages "Section" "posts") "Params.hiddenFromHomePage" "!=" true -}}
+{{- $recent := first 7 $posts -}}
+{{- if gt (len $recent) 0 -}}
+  {{ with (index $recent 0) }}{{ partial "post-card.html" . }}{{ end }}
+  <div class="kc-rows">{{ range (after 1 $recent) }}{{ partial "post-row.html" . }}{{ end }}</div>
+  <div class="kc-more"><a class="kc-btn" href="{{ "/posts/" | relURL }}">[ all posts → ]</a></div>
+{{- else -}}
+  <div class="kc-archive__count">no posts yet</div>
+{{- end -}}
+{{ end }}

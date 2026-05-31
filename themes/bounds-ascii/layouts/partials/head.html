@@ -1,0 +1,46 @@
+{{- /* <head> contents for bounds-ascii theme */ -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{{- $title := .Site.Title -}}
+{{- if not .IsHome -}}
+  {{- $title = printf "%s · %s" .Title .Site.Title -}}
+{{- end -}}
+<title>{{ $title }}</title>
+
+{{- $desc := .Description | default .Site.Params.description -}}
+<meta name="description" content="{{ $desc }}">
+
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+{{- if .IsHome -}}
+  {{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ $.Site.Title }}">
+  {{- end -}}
+{{- end -}}
+
+{{- /* CSS via Hugo pipeline: minify + fingerprint (SRI) */ -}}
+{{- $css := resources.Get "css/main.css" -}}
+{{- with $css -}}
+  {{- $css = . | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- end -}}
+
+{{- /* Pre-paint CRT theme script: apply .crt before first paint, no flash */ -}}
+<script>
+(function(){try{var s=localStorage.getItem("bounds-crt");var dark=s==="crt"||(s===null&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(dark){document.documentElement.classList.add("crt");}}catch(e){}})();
+</script>
+
+{{- /* Open Graph */ -}}
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:description" content="{{ $desc }}">
+
+{{- /* Mapbox: only load when the page actually uses the shortcode */ -}}
+{{- if .HasShortcode "mapbox" -}}
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script>window.boundsMapbox={accessToken: {{ .Site.Params.page.mapbox.accessToken }} };</script>
+{{- end -}}

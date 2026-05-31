@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+{{ partial "head.html" . }}
+</head>
+<body class="scanlines">
+  {{ partial "header.html" . }}
+  <main class="kc-main">
+    <div class="kc-shell">
+      {{ block "main" . }}{{ end }}
+      {{ partial "footer.html" . }}
+    </div>
+  </main>
+  {{- $d := resources.Get "js/dither.js" -}}
+  {{- $t := resources.Get "js/theme.js" -}}
+  {{- with $d }}{{ $d = . | minify | fingerprint }}<script src="{{ $d.RelPermalink }}"></script>{{ end -}}
+  {{- with $t }}{{ $t = . | minify | fingerprint }}<script src="{{ $t.RelPermalink }}"></script>{{ end -}}
+</body>
+</html>
