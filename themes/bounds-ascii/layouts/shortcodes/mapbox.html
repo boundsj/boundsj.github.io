@@ -37,4 +37,4 @@
 {{- .Page.Scratch.Set "mapbox-count" $count -}}
 {{- $id := printf "mapbox-%d" $count -}}
 {{- $jsonOptions := $options | jsonify -}}
-<div class="mapbox" id="{{ $id }}" data-mapbox="{{ $jsonOptions | safeHTMLAttr }}" style="width: {{ $width }}; height: {{ $height }};"></div>
+<div class="mapbox" id="{{ $id }}" role="img" aria-label="Map of the photo location" data-mapbox="{{ $jsonOptions | safeHTMLAttr }}" style="width: {{ $width }}; height: {{ $height }};"></div>

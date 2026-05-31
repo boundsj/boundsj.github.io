@@ -6,7 +6,7 @@
   {{ partial "social-links.html" . }}
 </div>
 <hr class="kc-rule">
-<div class="kc-sectionhead"><span class="kc-prompt">$</span> recent posts <span class="kc-dim">// ls -t</span></div>
+<h2 class="kc-sectionhead"><span class="kc-prompt">$</span> recent posts <span class="kc-dim">// ls -t</span></h2>
 {{- $posts := where (where .Site.RegularPages "Section" "posts") "Params.hiddenFromHomePage" "!=" true -}}
 {{- $recent := first 7 $posts -}}
 {{- if gt (len $recent) 0 -}}

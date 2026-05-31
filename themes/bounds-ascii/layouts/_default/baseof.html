@@ -4,8 +4,9 @@
 {{ partial "head.html" . }}
 </head>
 <body class="scanlines">
+  <a class="kc-skip" href="#main">[ skip to content ]</a>
   {{ partial "header.html" . }}
-  <main class="kc-main">
+  <main id="main" class="kc-main" tabindex="-1">
     <div class="kc-shell">
       {{ block "main" . }}{{ end }}
       {{ partial "footer.html" . }}

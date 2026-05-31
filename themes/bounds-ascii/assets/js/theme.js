@@ -39,6 +39,7 @@
     var btn = document.getElementById("crt-toggle");
     updateToggleLabel(btn);
     if (!btn) return;
+    btn.setAttribute("aria-pressed", String(isCrt()));
     btn.addEventListener("click", function () {
       var nowCrt = !isCrt();
       document.documentElement.classList.toggle("crt", nowCrt);
@@ -46,6 +47,7 @@
         localStorage.setItem(STORAGE_KEY, nowCrt ? "crt" : "paper");
       } catch (e) { /* ignore */ }
       updateToggleLabel(btn);
+      btn.setAttribute("aria-pressed", String(nowCrt));
       applyMapStyles();
     });
   }

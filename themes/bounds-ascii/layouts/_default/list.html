@@ -1,6 +1,6 @@
 {{ define "main" }}
 <div class="kc-archive">
-  <div class="kc-pagetitle"><span class="kc-prompt">$</span> {{ .Title | lower }}</div>
+  <h1 class="kc-pagetitle"><span class="kc-prompt">$</span> {{ .Title | lower }}</h1>
   <div class="kc-archive__count">{{ len .Pages }} entries · sorted newest first</div>
   {{- $p := .Paginate .Pages -}}
   <div class="kc-rows kc-rows--bordered">{{ range $p.Pages }}{{ partial "post-row.html" . }}{{ end }}</div>

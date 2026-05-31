@@ -30,7 +30,7 @@
      on the eye and reads like toner). */
   --ink:        #14130F;   /* primary text / borders */
   --ink-soft:   #3A382F;   /* secondary text */
-  --ink-faint:  #6E6B5E;   /* tertiary / meta text */
+  --ink-faint:  #65625A;   /* tertiary / meta text (>=4.5:1 on paper/paper-sink) */
   --paper:      #F4F1E8;   /* page background (newsprint white) */
   --paper-pure: #FBF9F2;   /* raised surface / card fill */
   --paper-sink: #E7E3D6;   /* inset / pressed wells, table stripes */
@@ -137,7 +137,7 @@
 .crt {
   --fg-1: #ECE7D6;
   --fg-2: #B7B2A1;
-  --fg-3: #7E7A6B;
+  --fg-3: #908C7B;
   --bg-1: #0C0C0A;
   --bg-2: #16150F;
   --bg-3: #211F17;
@@ -183,26 +183,6 @@ h1 { font-size: var(--fs-h1); letter-spacing: var(--tracking-tight); }
 h2 { font-size: var(--fs-h2); letter-spacing: var(--tracking-tight); }
 h3 { font-size: var(--fs-h3); text-transform: uppercase; letter-spacing: var(--tracking-label); }
 h4 { font-size: var(--fs-small); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--fg-2); }
-
-/* Display — VT323 for low-rez hero numerals & section markers */
-.display {
-  font-family: var(--font-crt);
-  font-size: var(--fs-display);
-  line-height: 0.95;
-  letter-spacing: 0.01em;
-  font-weight: 400;
-}
-
-/* ASCII art banner block */
-.ascii {
-  font-family: var(--font-mono);
-  font-size: var(--fs-banner);
-  line-height: 1.0;
-  letter-spacing: var(--tracking-banner);
-  white-space: pre;
-  font-weight: 700;
-  overflow-x: auto;
-}
 
 p { margin: 0 0 var(--sp-4); max-width: var(--measure); }
 
@@ -256,14 +236,8 @@ hr {
   border-top: var(--border-line);
   margin: var(--sp-6) 0;
 }
-/* dotted ASCII rule variant: <hr class="rule-dotted"> */
-.rule-dotted { border-top: 2px dotted var(--border); }
-
 ul, ol { padding-left: var(--sp-5); max-width: var(--measure); }
 li { margin: var(--sp-1) 0; }
-/* ASCII bullets */
-ul.ascii-list { list-style: none; padding-left: 0; }
-ul.ascii-list > li::before { content: "› "; color: var(--fg-2); }
 
 table { border-collapse: collapse; font-size: var(--fs-small); width: 100%; }
 th, td { border: var(--border-hair); padding: var(--sp-2) var(--sp-3); text-align: left; }
@@ -276,15 +250,9 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
   background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 3px);
 }
 
-/* Blinking block cursor */
-.cursor { display: inline-block; width: 0.6em; height: 1.05em; background: var(--accent);
-  vertical-align: text-bottom; animation: blink var(--ms-blink) var(--ease-step) infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-
 /* ============================================================================
-   COMPONENT CSS (kc-*) — lifted from DesignSystem/ui_kits/site/index.html.
-   Adapted for a real document-flow Hugo site (NOT the React SPA shell):
-   no .kc-app, .kc-main is a normal block, .kc-header sticks to the viewport.
+   COMPONENT CSS (kc-*). Document-flow Hugo site: .kc-main is a normal block;
+   .kc-header sticks to the viewport.
    ============================================================================ */
 * { box-sizing: border-box; }
 
@@ -314,14 +282,12 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-cursor { display: inline-block; width: .55em; height: 1.05em; background: var(--accent);
   vertical-align: -2px; margin-left: 1px; animation: kc-blink 1.06s steps(1, end) infinite; }
 @keyframes kc-blink { 50% { opacity: 0; } }
-.kc-banner-wrap { overflow-x: auto; display: flex; justify-content: center; }
+.kc-banner-wrap { overflow-x: auto; max-width: 100%; display: flex; justify-content: center; }
 .kc-banner { font-family: var(--font-mono); font-weight: 700; font-size: 9px; line-height: 1.12;
   letter-spacing: .02em; white-space: pre; margin: 0; color: var(--fg-1); }
 
 /* ---------- HOME / PROFILE ---------- */
 .kc-profile { text-align: center; margin: 28px 0 8px; }
-.kc-avatar { width: 84px; height: 84px; margin: 0 auto 14px; border: var(--bw-line) solid var(--border); image-rendering: pixelated; }
-.kc-avatar img { width: 100%; height: 100%; display: block; }
 .kc-profile__name { font-size: 26px; margin: 0 0 8px; letter-spacing: -.01em; }
 .kc-profile__sub { font-size: 15px; color: var(--fg-2); min-height: 1.4em; margin-bottom: 16px; }
 .kc-social { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
@@ -341,7 +307,8 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
   background: var(--bg-2); box-shadow: var(--shadow-hard); margin-bottom: 24px; transition: none; }
 .kc-card:hover { background: var(--bg-2); transform: translate(2px, 2px); box-shadow: var(--shadow-hard-sm); }
 .kc-card__thumb { width: 150px; flex: none; border-right: var(--bw-line) solid var(--border); background: var(--bg-3); }
-.kc-card__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; image-rendering: pixelated; }
+/* class-based (not "thumb img") so a dithered <canvas> — which inherits this class from dither.js — is sized too, mirroring .kc-hero__media */
+.kc-card__img { width: 100%; height: 100%; object-fit: cover; display: block; image-rendering: pixelated; }
 .kc-card__body { padding: 14px 16px; }
 .kc-card__cat { font-size: 10px; text-transform: uppercase; letter-spacing: .14em; color: var(--fg-3); }
 .kc-card__title { font-size: 19px; margin: 4px 0 6px; letter-spacing: -.01em; }
@@ -386,43 +353,12 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-post__cat { margin-bottom: 12px; }
 .kc-post__title { font-size: 30px; margin: 0 0 8px; letter-spacing: -.01em; line-height: 1.15; }
 .kc-post__byline { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--fg-3); margin-bottom: 20px; }
-.kc-post__hero { border: var(--bw-line) solid var(--border); margin-bottom: 20px; image-rendering: pixelated; }
-.kc-post__hero img { width: 100%; display: block; image-rendering: pixelated; }
 
-/* ---------- HERO IMAGE + DITHER TOGGLE ---------- */
+/* ---------- HERO IMAGE + DITHER ---------- */
 .kc-hero { position: relative; margin: 0 0 20px; border: var(--bw-line) solid var(--border); line-height: 0; }
 .kc-hero__media { width: 100%; display: block; }
 canvas.kc-hero__media, img.is-dithered, canvas.is-dithered { image-rendering: pixelated; }
-.kc-hero__toggle { position: absolute; top: 8px; right: 8px; line-height: 1;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
-  padding: 5px 9px; border: var(--bw-line) solid var(--border); background: var(--bg-1); color: var(--fg-1);
-  cursor: pointer; box-shadow: var(--shadow-hard-sm); }
-.kc-hero__toggle:hover { background: var(--fg-1); color: var(--bg-1); }
-.kc-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.kc-provenance { font-size: 12px; font-style: italic; color: var(--fg-2); border-left: var(--bw-heavy) solid var(--border); padding: 8px 14px; background: var(--bg-2); margin: 0 0 24px; }
-.kc-verse { font-size: 18px; line-height: 1.9; text-align: center; margin: 8px 0 4px; }
-.kc-verse__line { white-space: pre-wrap; }
-.kc-headlines h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .14em; color: var(--fg-2); margin: 0 0 10px; }
-.kc-headlines__list { list-style: none; padding: 0; margin: 0 0 24px; }
-.kc-headlines__list li { font-size: 13px; line-height: 1.5; color: var(--fg-2); padding: 4px 0 4px 18px; position: relative; }
-.kc-headlines__list li::before { content: "›"; position: absolute; left: 0; color: var(--fg-3); }
 .kc-post__tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 28px; }
-.kc-caption { font-size: 15px; line-height: 1.6; margin: 0 0 20px; }
-
-/* ---------- EXIF ---------- */
-.kc-exif { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 22px; }
-.kc-exif th { background: var(--fg-1); color: var(--bg-1); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; width: 140px; text-align: left; border: 1px solid var(--border); padding: 6px 10px; }
-.kc-exif td { border: 1px solid var(--border); padding: 6px 10px; }
-.kc-exif tr:nth-child(even) td { background: var(--bg-3); }
-
-/* ---------- MAP PLACEHOLDER ---------- */
-.kc-map { border: var(--bw-line) solid var(--border); margin-bottom: 24px; background: var(--bg-2); }
-.kc-map__grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); height: 150px; }
-.kc-map__cell { display: flex; align-items: center; justify-content: center; color: var(--fg-3); font-size: 18px; border: 1px dotted var(--gray-1); }
-.kc-map__cap { border-top: var(--bw-line) solid var(--border); padding: 7px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-2); background: var(--bg-1); }
-
-/* ---------- ABOUT ---------- */
-.kc-about .kc-lead { font-size: 20px; font-weight: 700; margin: 0 0 12px; }
 
 /* ---------- PAGER ---------- */
 .kc-pager { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; border-top: var(--bw-line) solid var(--border); padding-top: 14px; }
@@ -441,15 +377,16 @@ canvas.kc-hero__media, img.is-dithered, canvas.is-dithered { image-rendering: pi
    POST BODY (markdown rendered via {{ .Content }} inside .post-content)
    ============================================================================ */
 /* generic post body */
-.post-content { margin-bottom: 24px; }
+.post-content { margin-bottom: 24px; overflow-wrap: anywhere; }
 .post-content > *:first-child { margin-top: 0; }
+.post-content a { word-break: break-word; }
 
 /* generated posts: leading italic provenance line + headlines list */
 .post--generated .post-content > p:first-child { font-style: italic; color: var(--fg-2); border-left: var(--bw-heavy) solid var(--border); background: var(--bg-2); padding: 8px 14px; font-size: 13px; line-height: 1.5; }
 .post--generated .post-content ul { list-style: none; padding-left: 0; max-width: var(--measure); }
 .post--generated .post-content ul > li { position: relative; padding-left: 18px; color: var(--fg-2); font-size: 13px; line-height: 1.5; }
 .post--generated .post-content ul > li::before { content: "\203A"; position: absolute; left: 0; color: var(--fg-3); }
-/* the limerick is the paragraph right after the provenance — centered, per the prototype .kc-verse */
+/* the limerick is the paragraph right after the provenance — centered verse */
 .post--generated .post-content > p:first-child + p { text-align: center; font-size: 18px; line-height: 1.9; color: var(--fg-1); margin: 24px 0; }
 
 /* photo posts: caption + EXIF-style table */
@@ -466,3 +403,99 @@ canvas.kc-hero__media, img.is-dithered, canvas.is-dithered { image-rendering: pi
 
 /* hero figure (no React toggle button in production) */
 figure.kc-hero { margin: 0 0 20px; }
+
+/* ============================================================================
+   ACCESSIBILITY — on-brand, square, monochrome. No blue glows, no radius.
+   ============================================================================ */
+/* Screen-reader-only utility (visually hidden, still in the a11y tree) */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* Skip-to-content link: hidden until focused, then a bracketed ink block top-left */
+.kc-skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--fg-1); color: var(--bg-1);
+  padding: 8px 12px; font-family: var(--font-mono); font-size: 12px;
+  text-transform: uppercase; letter-spacing: .12em; text-decoration: none;
+}
+.kc-skip:focus { left: 0; }
+
+/* Keyboard focus: square ink/paper outline (inverts correctly in .crt via tokens).
+   Suppress the legacy mouse outline; show only the keyboard ring. */
+:focus { outline: none; }
+a:focus-visible,
+button:focus-visible,
+.kc-card:focus-visible,
+.kc-row:focus-visible,
+.kc-btn:focus-visible,
+.kc-tag:focus-visible,
+.kc-cat:focus-visible,
+.kc-nav__a:focus-visible,
+.kc-crt-toggle:focus-visible,
+.kc-pager__a:focus-visible,
+.kc-social__a:focus-visible,
+.kc-back:focus-visible,
+.kc-brand:focus-visible,
+.kc-skip:focus-visible,
+.mapbox:focus-visible {
+  outline: 3px solid var(--border);
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion: stop the blinking block cursor (stays a solid block)
+   and any stepped transitions. */
+@media (prefers-reduced-motion: reduce) {
+  .kc-cursor { animation: none; }
+  * { transition-duration: 0ms !important; }
+}
+
+/* ============================================================================
+   RESPONSIVE — keep the fixed monospace column feel; just fit small screens.
+   Square corners, hard shadows, and invert hovers stay untouched.
+   ============================================================================ */
+@media (max-width: 640px) {
+  :root { --fs-h1: 24px; --fs-h2: 20px; --fs-display: 40px; }
+  .kc-post__title { font-size: 24px; }
+
+  /* Stack the terminal header band so brand sits on row 1 and nav/toggle wrap. */
+  .kc-header { flex-wrap: wrap; gap: 8px; }
+  .kc-nav { flex-wrap: wrap; gap: clamp(8px, 3vw, 16px); width: 100%; justify-content: flex-start; }
+
+  /* Larger tap targets (padding-only — invert hover + square edges unchanged). */
+  .kc-nav__a { padding: 10px 6px; }
+  .kc-social__a { padding: 8px 4px; display: inline-block; }
+  .kc-tag { padding: 8px 10px; }
+  .kc-row { padding: 14px 6px; }
+}
+
+/* Keep the bracketed CRT label on one line at every width. */
+.kc-crt-toggle { white-space: nowrap; }
+
+@media (max-width: 600px) {
+  /* Banner: shrink to fit rather than scroll/clip; harden the wrap. */
+  .kc-banner { font-size: 6px; }
+  .kc-banner-wrap { overflow-x: auto; max-width: 100%; display: block; }
+
+  /* Tables (markdown + EXIF) scroll inside their own bordered well, not <body>. */
+  .post-content table { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 560px) {
+  /* Featured card stacks: thumb becomes a full-width banner above the body. */
+  .kc-card { flex-direction: column; }
+  .kc-card__thumb { width: 100%; height: 160px; border-right: none; border-bottom: var(--bw-line) solid var(--border); }
+}
+
+@media (max-width: 480px) {
+  /* Archive rows: drop the inline category, tighten the date column for title room. */
+  .kc-row { gap: 10px; }
+  .kc-row__cat { display: none; }
+  .kc-row__date { width: 78px; }
+}
+
+@media (max-width: 380px) {
+  :root { --fs-body: 15px; }
+  .kc-banner { font-size: 5px; }
+}
