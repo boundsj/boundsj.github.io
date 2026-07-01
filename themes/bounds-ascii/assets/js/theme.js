@@ -20,8 +20,9 @@
 
   function updateToggleLabel(btn) {
     if (!btn) return;
-    // Label offers the OTHER mode: "[ crt ]" while light, "[ paper ]" while dark.
-    btn.textContent = isCrt() ? "[ paper ]" : "[ crt ]";
+    var crt = isCrt();
+    btn.setAttribute("aria-label", crt ? "Switch to paper mode" : "Switch to CRT mode");
+    btn.setAttribute("title", crt ? "Paper mode" : "CRT mode");
   }
 
   function applyMapStyles() {
