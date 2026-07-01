@@ -274,9 +274,19 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-nav__a { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; text-decoration: none; color: var(--fg-1); padding: 2px 2px; }
 .kc-nav__a:hover { background: var(--fg-1); color: var(--bg-1); }
 .kc-nav__a.is-on { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
-.kc-crt-toggle { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .1em;
-  border: var(--bw-line) solid var(--border); background: var(--bg-2); color: var(--fg-1); padding: 3px 8px; cursor: pointer; }
-.kc-crt-toggle:hover { background: var(--fg-1); color: var(--bg-1); }
+.kc-nav__sep { color: var(--fg-3); font-size: 12px; user-select: none; }
+.kc-theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--fg-3); background: transparent; border: none; padding: 2px; cursor: pointer;
+  line-height: 0; appearance: none; -webkit-appearance: none;
+}
+.kc-theme-toggle__icon { display: block; }
+.kc-theme-toggle[aria-pressed="false"] .kc-theme-toggle__icon--paper { display: none; }
+.kc-theme-toggle[aria-pressed="true"] .kc-theme-toggle__icon--crt { display: none; }
+.kc-theme-toggle[aria-pressed="true"] .kc-theme-toggle__icon--paper { display: block; }
+.kc-theme-toggle[aria-pressed="true"] { color: var(--fg-2); }
+.kc-theme-toggle:hover,
+.kc-theme-toggle:focus-visible { background: transparent; color: var(--fg-1); }
 
 /* ---------- CURSOR / BANNER ---------- */
 .kc-cursor { display: inline-block; width: .55em; height: 1.05em; background: var(--accent);
@@ -433,7 +443,7 @@ button:focus-visible,
 .kc-tag:focus-visible,
 .kc-cat:focus-visible,
 .kc-nav__a:focus-visible,
-.kc-crt-toggle:focus-visible,
+.kc-theme-toggle:focus-visible,
 .kc-pager__a:focus-visible,
 .kc-social__a:focus-visible,
 .kc-back:focus-visible,
@@ -465,13 +475,11 @@ button:focus-visible,
 
   /* Larger tap targets (padding-only — invert hover + square edges unchanged). */
   .kc-nav__a { padding: 10px 6px; }
+  .kc-theme-toggle { padding: 10px 6px; }
   .kc-social__a { padding: 8px 4px; display: inline-block; }
   .kc-tag { padding: 8px 10px; }
   .kc-row { padding: 14px 6px; }
 }
-
-/* Keep the bracketed CRT label on one line at every width. */
-.kc-crt-toggle { white-space: nowrap; }
 
 @media (max-width: 600px) {
   /* Banner: shrink to fit rather than scroll/clip; harden the wrap. */

@@ -6,6 +6,22 @@
     {{- $u := .URL | relURL -}}
     <a class="kc-nav__a{{ if or (eq $.RelPermalink $u) (and (ne $u "/") (hasPrefix $.RelPermalink $u)) }} is-on{{ end }}" href="{{ $u }}">{{ .Name }}</a>
     {{- end }}
-    <button id="crt-toggle" class="kc-crt-toggle" type="button" aria-pressed="false" aria-label="CRT dark mode">[ crt ]</button>
+    <span class="kc-nav__sep" aria-hidden="true">·</span>
+    <button id="crt-toggle" class="kc-theme-toggle" type="button" aria-pressed="false" aria-label="Switch to CRT mode">
+      {{- /* Monitor icon — shown in paper mode (click to switch to CRT) */ -}}
+      <svg class="kc-theme-toggle__icon kc-theme-toggle__icon--crt" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true">
+        <rect x="1" y="1.5" width="12" height="8" fill="none" stroke="currentColor" stroke-width="1.25"/>
+        <path d="M4.5 12h5" stroke="currentColor" stroke-width="1.25" stroke-linecap="square"/>
+        <line x1="3" y1="4" x2="11" y2="4" stroke="currentColor" stroke-width="0.75" opacity=".45"/>
+        <line x1="3" y1="6.5" x2="11" y2="6.5" stroke="currentColor" stroke-width="0.75" opacity=".45"/>
+      </svg>
+      {{- /* Page icon — shown in CRT mode (click to switch to paper) */ -}}
+      <svg class="kc-theme-toggle__icon kc-theme-toggle__icon--paper" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true">
+        <rect x="2.5" y="1" width="9" height="12" fill="none" stroke="currentColor" stroke-width="1.25"/>
+        <line x1="4.5" y1="4.5" x2="9.5" y2="4.5" stroke="currentColor" stroke-width="0.75"/>
+        <line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="0.75"/>
+        <line x1="4.5" y1="9.5" x2="7.5" y2="9.5" stroke="currentColor" stroke-width="0.75"/>
+      </svg>
+    </button>
   </nav>
 </header>
