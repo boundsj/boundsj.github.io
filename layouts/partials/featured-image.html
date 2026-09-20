@@ -1,0 +1,9 @@
+{{- with .Resources.GetMatch "featured-image" -}}
+<figure class="kc-hero">
+  {{- if $.Params.dither -}}
+    <img class="kc-hero__media" src="{{ .RelPermalink }}" alt="{{ $.Title }}" data-dither data-dither-res="{{ $.Params.ditherRes | default 200 }}" data-dither-contrast="{{ $.Params.ditherContrast | default 1 }}" data-dither-brightness="{{ $.Params.ditherBrightness | default 0 }}">
+  {{- else -}}
+    {{- partial "responsive-image.html" (dict "image" . "class" "kc-hero__media" "alt" $.Title "sizes" "(max-width: 720px) 90vw, 640px" "loading" "eager") -}}
+  {{- end -}}
+</figure>
+{{- end -}}

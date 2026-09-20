@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 550" role="img" aria-labelledby="title desc">
+  <title id="title">A mobile mock of a Notion-style Heads Up Inbox</title>
+  <desc id="desc">Four fictional emails shown as compact dark cards with subject, sender, status, and extracted body text.</desc>
+  <style>
+    .ui { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .muted { fill: #9b9b98; }
+    .body { fill: #d8d8d4; }
+    .subject { fill: #f1f1ef; font-size: 14px; font-weight: 650; }
+    .meta { font-size: 11px; }
+    .excerpt { font-size: 11px; }
+    .status { font-size: 10px; }
+  </style>
+  <rect width="360" height="550" rx="16" fill="#191919"/>
+  <rect x="1" y="1" width="358" height="548" rx="15" fill="none" stroke="#3a3a38"/>
+
+  <g class="ui">
+    <text x="18" y="34" fill="#f1f1ef" font-size="19" font-weight="700">📬 Heads Up Inbox</text>
+    <rect x="18" y="47" width="68" height="26" rx="13" fill="#2c2c2a"/>
+    <text x="33" y="64" class="body status">▦ Active</text>
+
+    <g transform="translate(14 88)">
+      <rect width="332" height="102" rx="10" fill="#232321" stroke="#3a3a38"/>
+      <text x="14" y="24" class="subject">Hot dog or not hot dog?</text>
+      <text x="14" y="44" class="muted meta">Oscar Mayer Research</text>
+      <rect x="259" y="13" width="57" height="22" rx="5" fill="#864c47"/>
+      <text x="271" y="28" fill="#ffd8d3" class="status">unread</text>
+      <text x="14" y="70" class="body excerpt">Attached: one suspicious frankfurter.</text>
+      <text x="14" y="87" class="muted excerpt">Please classify before lunch.</text>
+    </g>
+
+    <g transform="translate(14 200)">
+      <rect width="332" height="102" rx="10" fill="#232321" stroke="#3a3a38"/>
+      <text x="14" y="24" class="subject">Re: Crossing the room</text>
+      <text x="14" y="44" class="muted meta">Zeno of Elea</text>
+      <rect x="240" y="13" width="76" height="22" rx="5" fill="#315e83"/>
+      <text x="249" y="28" fill="#d9ecff" class="status">in progress</text>
+      <text x="14" y="70" class="body excerpt">Made it halfway again.</text>
+      <text x="14" y="87" class="muted excerpt">Progress remains mathematically grim.</text>
+    </g>
+
+    <g transform="translate(14 312)">
+      <rect width="332" height="102" rx="10" fill="#232321" stroke="#3a3a38"/>
+      <text x="14" y="24" class="subject">Your utility bill is self-aware</text>
+      <text x="14" y="44" class="muted meta">City Power &amp; Light</text>
+      <rect x="259" y="13" width="57" height="22" rx="5" fill="#864c47"/>
+      <text x="271" y="28" fill="#ffd8d3" class="status">unread</text>
+      <text x="14" y="70" class="body excerpt">Payment due Friday.</text>
+      <text x="14" y="87" class="muted excerpt">The meter would also like a name.</text>
+    </g>
+
+    <g transform="translate(14 424)">
+      <rect width="332" height="102" rx="10" fill="#232321" stroke="#3a3a38"/>
+      <text x="14" y="24" class="subject">Inbox Zero sync-up (recurring)</text>
+      <text x="14" y="44" class="muted meta">Sisyphus, PM</text>
+      <rect x="261" y="13" width="55" height="22" rx="5" fill="#655638"/>
+      <text x="271" y="28" fill="#ffe7ad" class="status">waiting</text>
+      <text x="14" y="70" class="body excerpt">Push every message uphill.</text>
+      <text x="14" y="87" class="muted excerpt">We start over Monday.</text>
+    </g>
+  </g>
+</svg>

@@ -57,10 +57,36 @@ Frontmatter template:
 title: "Post Title"
 date: 2026-01-25T12:00:00-07:00
 draft: false
+description: "A concise description for search results and social previews."
+# images: ["social-card.png"]
 tags: ["tag1", "tag2"]
 categories: ["category"]
 ---
 ```
+
+### SEO and Social Previews
+
+All posts should:
+
+- Include a concise, page-specific `description` in frontmatter
+- Use `images: ["social-card.png"]` when the post has a dedicated social card
+- Keep the social card separate from the visible `featured-image` resource when their ideal aspect ratios differ
+
+Create a dedicated social card for:
+
+- Posts intended for Hacker News, LinkedIn, or another coordinated launch
+- Major technical articles or evergreen reference content
+- Posts whose featured image is unsuitable for social previews
+
+Social-card requirements:
+
+- PNG or JPEG
+- Exactly 1200×627 pixels (1.91:1)
+- Under 5 MB
+- Relevant to the article and legible at feed-card size
+- Preserve exact spelling and punctuation in any rendered text
+
+Do not create a dedicated card for routine posts unless requested. Pages without one use the site-wide `static/social-default.png` fallback. The first entry in frontmatter `images` is used for Open Graph, Twitter/X cards, and article structured data.
 
 ## Code Patterns & Conventions
 

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="350" viewBox="0 0 320 350" role="img" aria-labelledby="title desc">
+  <title id="title">Classification cost per 1,000 emails</title>
+  <desc id="desc">Haiku: $7.20, Luna: $0.81, Jev: $0.13. Shared linear scale. Different sample for Haiku.</desc>
+  <style>text{font-family:system-ui,sans-serif;fill:#eaf0f7}.name{font-size:16px;font-weight:550}.value{font-size:18px;font-weight:650}.muted{font-size:14px;fill:#b6c6d8}</style>
+  <rect width="320" height="350" rx="10" fill="#101b28"/>
+  <text x="18" y="34" font-size="20" font-weight="650">Less spent sorting email</text>
+  <text x="18" y="60" class="muted">USD per 1,000 messages</text>
+  <text x="18" y="104" class="name">Claude Haiku 4.5</text>
+  <text x="302" y="104" text-anchor="end" class="value">$7.20</text>
+  <rect x="18" y="118" width="284" height="20" rx="3" fill="#70a5d8"/>
+  <text x="18" y="176" class="name">GPT-5.6 Luna</text>
+  <text x="302" y="176" text-anchor="end" class="value">$0.81</text>
+  <rect x="18" y="190" width="31.95" height="20" rx="3" fill="#d99a66"/>
+  <text x="18" y="248" class="name">TypeSafe Jev 1.13</text>
+  <text x="302" y="248" text-anchor="end" class="value">$0.13</text>
+  <rect x="18" y="262" width="5.12778" height="20" rx="2" fill="#63d6b4"/>
+  <path d="M18 300H302" stroke="#35485c"/>
+  <text x="18" y="324" class="muted">$0</text>
+  <text x="96.889" y="324" text-anchor="middle" class="muted">$2</text>
+  <text x="175.778" y="324" text-anchor="middle" class="muted">$4</text>
+  <text x="254.667" y="324" text-anchor="middle" class="muted">$6</text>
+</svg>

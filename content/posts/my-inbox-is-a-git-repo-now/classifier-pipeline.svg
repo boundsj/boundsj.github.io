@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1040" viewBox="0 0 960 1040" role="img" aria-labelledby="title desc">
+  <title id="title">The original classifier: email in, labels out, lessons back into Markdown</title>
+  <desc id="desc">On a Mac mini, launchd schedules separate scan and archive jobs. Gmail messages are fetched through gog and cleaned. The classifier receives the cleaned email plus a cached prompt containing thirteen Markdown rules and learned examples. It returns JSON labels, applied through gog. Markdown frontmatter controls archiving, keeping messages in the inbox, and marking them read. SQLite stores classifications, applied labels, and examples. A correction monitor compares current Gmail labels with stored labels over fourteen days, including archived mail. The rule auditor rewrites rule prose from corrections and commits accepted changes to git for subsequent scans.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#8da4bc"/></marker>
+    <marker id="green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#5de4bd"/></marker>
+    <style>
+      text { font-family: system-ui, sans-serif; fill: #eaf0f7; }
+      .title { font-size: 27px; font-weight: 650; }
+      .head { font-size: 22px; font-weight: 650; }
+      .body { font-size: 18px; }
+      .small { font-size: 16px; fill: #b5c6d8; }
+      .mono { font-family: monospace; font-size: 15px; }
+      .box { fill: #172432; stroke: #40576c; stroke-width: 1.5; rx: 12; }
+      .flow { fill: none; stroke: #8da4bc; stroke-width: 2; marker-end: url(#arrow); }
+      .learn { fill: none; stroke: #5de4bd; stroke-width: 2; marker-end: url(#green); }
+    </style>
+  </defs>
+  <rect width="960" height="1040" rx="16" fill="#0c1520"/>
+  <text x="36" y="48" class="title">Email → labels → lessons</text>
+  <text x="36" y="78" class="body" fill="#b5c6d8">Original prose-rule design · before Jev</text>
+
+  <rect x="36" y="108" width="888" height="58" class="box"/>
+  <text x="58" y="144" class="body">Mac mini / launchd</text>
+  <text x="306" y="144" class="small">Scheduled CLI runs · scan and archive are separate jobs</text>
+
+  <rect x="36" y="201" width="240" height="103" class="box"/>
+  <text x="56" y="235" class="head">1. Fetch from Gmail</text>
+  <text x="56" y="267" class="body">gog → IDs + message body</text>
+  <path d="M276 253H325" class="flow"/>
+  <rect x="328" y="201" width="270" height="103" class="box"/>
+  <text x="348" y="235" class="head">2. Clean the email</text>
+  <text x="348" y="267" class="body">Strip HTML + hidden noise</text>
+  <path d="M463 304V363" class="flow"/>
+  <text x="478" y="339" class="small">User message</text>
+
+  <rect x="36" y="368" width="275" height="243" class="box" style="stroke:#5de4bd"/>
+  <text x="56" y="401" class="head">rules/*.md in git</text>
+  <text x="56" y="436" class="small">FRONTMATTER · actions</text>
+  <text x="56" y="465" class="mono">label / archive</text>
+  <text x="56" y="493" class="mono">keep_in_inbox / mark_read</text>
+  <path d="M56 511H291" stroke="#40576c"/>
+  <text x="56" y="541" class="small">BODY · classification policy</text>
+  <text x="56" y="570" class="body">Which emails match?</text>
+  <text x="56" y="596" class="small">13 rules + learned examples</text>
+
+  <rect x="368" y="368" width="230" height="142" class="box" style="stroke:#66cdf5"/>
+  <text x="388" y="403" class="head">3. Classify</text>
+  <text x="388" y="438" class="body">Haiku · one call / email</text>
+  <text x="388" y="470" class="small">Cached rules + examples</text>
+  <text x="388" y="494" class="small">~26k tokens by September</text>
+  <path d="M311 562H340V450H365" class="learn"/>
+  <path d="M598 438H651" class="flow"/>
+  <text x="613" y="420" class="small">JSON</text>
+  <rect x="654" y="368" width="270" height="142" class="box"/>
+  <text x="674" y="403" class="head">4. Apply labels</text>
+  <text x="674" y="438" class="body">gog writes back to Gmail</text>
+  <text x="674" y="473" class="small">Example: Bills + Heads Up</text>
+
+  <path d="M789 510V555" class="flow"/>
+  <rect x="654" y="560" width="270" height="164" class="box" style="stroke:#e7b969"/>
+  <text x="674" y="595" class="head">5. Archive job</text>
+  <text x="674" y="629" class="body">File away via gog</text>
+  <text x="674" y="660" class="small">Uses rule frontmatter.</text>
+  <text x="674" y="688" class="small">keep_in_inbox wins:</text>
+  <text x="674" y="711" class="small">Bills + Heads Up stays put.</text>
+  <path d="M311 479H324V646H651" class="flow"/>
+  <text x="369" y="634" class="small">Action settings</text>
+
+  <rect x="368" y="751" width="230" height="122" class="box"/>
+  <text x="388" y="785" class="head">SQLite memory</text>
+  <text x="388" y="812" class="small">Classifications</text>
+  <text x="388" y="836" class="small">Applied labels + examples</text>
+  <path d="M483 510V592H620V814H601" class="flow"/>
+  <text x="637" y="763" class="small">Record decisions + label state</text>
+
+  <rect x="36" y="751" width="275" height="122" class="box" style="stroke:#5de4bd"/>
+  <text x="56" y="785" class="head">Correction monitor</text>
+  <text x="56" y="816" class="small">Current Gmail vs. stored labels</text>
+  <text x="56" y="847" class="small">14 days · archived mail included</text>
+  <path d="M368 812H314" class="flow"/>
+  <path d="M36 253H18V812H33" class="flow"/>
+  <path d="M173 873V915" class="learn"/>
+  <rect x="36" y="920" width="888" height="84" class="box" style="stroke:#5de4bd"/>
+  <text x="56" y="954" class="head">Rule auditor / Sonnet</text>
+  <text x="56" y="983" class="body">Correction → rewrite prose → accepted change committed to git → next scan</text>
+  <path d="M924 959H943V340H173V365" class="learn"/>
+  <text x="666" y="333" class="small" style="fill:#5de4bd">Updated Markdown rules</text>
+</svg>

@@ -1,0 +1,4 @@
+<figure class="post-illustration" style="max-width: {{ .Get "width" | default "420" }}px;">
+  {{- $image := .Page.Resources.GetMatch (.Get "src") -}}
+  {{- partial "responsive-image.html" (dict "image" $image "class" "" "alt" (.Get "alt") "sizes" "(max-width: 480px) 90vw, 420px") -}}
+</figure>

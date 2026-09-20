@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" role="img" aria-labelledby="title desc">
+  <title id="title">A simplified Notion-style Heads Up Inbox database</title>
+  <desc id="desc">Four fictional emails displayed in a dark table with subject, sender, status, and extracted body columns.</desc>
+  <style>
+    .ui { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .muted { fill: #9b9b98; }
+    .body { fill: #d8d8d4; }
+    .line { stroke: #343432; stroke-width: 1; }
+    .head { font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+    .cell { font-size: 12px; }
+    .small { font-size: 10px; }
+  </style>
+  <rect width="760" height="330" rx="16" fill="#191919"/>
+  <rect x="1" y="1" width="758" height="328" rx="15" fill="none" stroke="#3a3a38"/>
+
+  <g class="ui">
+    <text x="24" y="38" fill="#f1f1ef" font-size="20" font-weight="700">📬 Heads Up Inbox</text>
+    <rect x="24" y="52" width="70" height="28" rx="14" fill="#2c2c2a"/>
+    <text x="40" y="70" class="body small">▦ Active</text>
+    <text x="108" y="70" class="muted small">▦ All Mail</text>
+
+    <g class="muted head">
+      <text x="24" y="106">Aa  SUBJECT</text>
+      <text x="278" y="106">☰  SENDER</text>
+      <text x="454" y="106">≡  STATUS</text>
+      <text x="556" y="106">☰  EXTRACTED BODY</text>
+    </g>
+
+    <path class="line" d="M16 118H744M16 166H744M16 214H744M16 262H744M16 310H744"/>
+    <path class="line" d="M266 92V310M442 92V310M544 92V310"/>
+
+    <g class="body cell">
+      <text x="24" y="147">▧  Hot dog or not hot dog?</text>
+      <text x="278" y="147">Oscar Mayer Research</text>
+      <rect x="454" y="130" width="57" height="23" rx="5" fill="#864c47"/>
+      <text x="466" y="146" fill="#ffd8d3" class="small">unread</text>
+      <text x="556" y="141">Attached: one suspicious</text>
+      <text x="556" y="155" class="muted small">frankfurter. Please classify.</text>
+
+      <text x="24" y="195">▧  Re: Crossing the room</text>
+      <text x="278" y="195">Zeno of Elea</text>
+      <rect x="454" y="178" width="76" height="23" rx="5" fill="#315e83"/>
+      <text x="463" y="194" fill="#d9ecff" class="small">in progress</text>
+      <text x="556" y="189">Made it halfway again.</text>
+      <text x="556" y="203" class="muted small">Progress remains mathematically grim.</text>
+
+      <text x="24" y="243">▧  Your utility bill is self-aware</text>
+      <text x="278" y="243">City Power &amp; Light</text>
+      <rect x="454" y="226" width="57" height="23" rx="5" fill="#864c47"/>
+      <text x="466" y="242" fill="#ffd8d3" class="small">unread</text>
+      <text x="556" y="237">Payment due Friday.</text>
+      <text x="556" y="251" class="muted small">The meter would also like a name.</text>
+
+      <text x="24" y="291">▧  Inbox Zero sync-up (recurring)</text>
+      <text x="278" y="291">Sisyphus, PM</text>
+      <rect x="454" y="274" width="55" height="23" rx="5" fill="#655638"/>
+      <text x="464" y="290" fill="#ffe7ad" class="small">waiting</text>
+      <text x="556" y="285">Push every message uphill.</text>
+      <text x="556" y="299" class="muted small">We start over Monday.</text>
+    </g>
+  </g>
+</svg>

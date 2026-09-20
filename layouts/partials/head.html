@@ -1,0 +1,110 @@
+{{- /* Site override: metadata, social cards, and structured data. */ -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{{- $documentTitle := .Site.Title -}}
+{{- $socialTitle := .Site.Title -}}
+{{- if not .IsHome -}}
+  {{- $documentTitle = printf "%s · %s" .Title .Site.Title -}}
+  {{- $socialTitle = .Title -}}
+{{- end -}}
+<title>{{ $documentTitle }}</title>
+
+{{- $description := .Params.description | default .Site.Params.description | plainify | htmlUnescape | strings.TrimSpace -}}
+<meta name="description" content="{{ $description }}">
+<link rel="canonical" href="{{ .Permalink }}">
+
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+{{- if .IsHome -}}
+  {{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ $.Site.Title }}">
+  {{- end -}}
+{{- end -}}
+
+{{- /* CSS via Hugo pipeline: minify + fingerprint (SRI). */ -}}
+{{- $css := resources.Get "css/main.css" -}}
+{{- with $css -}}
+  {{- $css = . | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- end -}}
+
+{{- /* Pre-paint CRT theme script: apply .crt before first paint, no flash. */ -}}
+<script>
+(function(){try{var s=localStorage.getItem("bounds-crt");var dark=s==="crt"||(s===null&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(dark){document.documentElement.classList.add("crt");}}catch(e){}})();
+</script>
+
+{{- /* Prefer the first page image, then fall back to the site image. */ -}}
+{{- $imageURL := "" -}}
+{{- $imageWidth := 0 -}}
+{{- $imageHeight := 0 -}}
+{{- $imageAlt := $socialTitle -}}
+{{- with .Params.images -}}
+  {{- $imagePath := index . 0 -}}
+  {{- with $.Resources.GetMatch $imagePath -}}
+    {{- $imageURL = .Permalink -}}
+    {{- $imageWidth = .Width -}}
+    {{- $imageHeight = .Height -}}
+  {{- else -}}
+    {{- $imageURL = $imagePath | absURL -}}
+  {{- end -}}
+{{- else -}}
+  {{- with .Site.Params.images -}}
+    {{- $imageURL = (index . 0) | absURL -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Open Graph. */ -}}
+<meta property="og:title" content="{{ $socialTitle }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+{{- with $imageURL }}
+<meta property="og:image" content="{{ . }}">
+<meta property="og:image:alt" content="{{ $imageAlt }}">
+  {{- if and $imageWidth $imageHeight }}
+<meta property="og:image:width" content="{{ $imageWidth }}">
+<meta property="og:image:height" content="{{ $imageHeight }}">
+  {{- end }}
+{{- end }}
+{{- if and .IsPage (not .Date.IsZero) }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+<meta property="article:author" content="{{ .Params.author | default .Site.Params.author.name }}">
+{{- end }}
+
+{{- /* Twitter/X cards use the same page-specific metadata. */ -}}
+<meta name="twitter:card" content="{{ if $imageURL }}summary_large_image{{ else }}summary{{ end }}">
+<meta name="twitter:title" content="{{ $socialTitle }}">
+<meta name="twitter:description" content="{{ $description }}">
+{{- with $imageURL }}
+<meta name="twitter:image" content="{{ . }}">
+<meta name="twitter:image:alt" content="{{ $imageAlt }}">
+{{- end }}
+
+{{- /* BlogPosting structured data for posts. */ -}}
+{{- if and .IsPage (eq .Section "posts") -}}
+  {{- $schema := dict
+    "@context" "https://schema.org"
+    "@type" "BlogPosting"
+    "headline" .Title
+    "description" $description
+    "url" .Permalink
+    "mainEntityOfPage" .Permalink
+    "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+    "author" (dict "@type" "Person" "name" (.Params.author | default .Site.Params.author.name))
+    "publisher" (dict "@type" "Person" "name" .Site.Params.author.name)
+  -}}
+  {{- with $imageURL -}}
+    {{- $schema = merge $schema (dict "image" .) -}}
+  {{- end }}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{- end }}
+
+{{- /* Mapbox: only load when the page actually uses the shortcode. */ -}}
+{{- if .HasShortcode "mapbox" -}}
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script>window.boundsMapbox={accessToken: {{ .Site.Params.page.mapbox.accessToken }} };</script>
+{{- end -}}

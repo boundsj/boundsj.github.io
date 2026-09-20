@@ -1,0 +1,22 @@
+{{ define "main" }}
+<style>
+  .kc-post .post-content > :is(h2, h3, h4):not(:first-child) { padding-top: 0.5rem; }
+  .post-content img, .post-content svg, .post-content video { max-width: 100%; height: auto; }
+  .post-content figure { margin-inline: 0; }
+  .post-content picture { display: block; }
+  .post-content picture img { display: block; width: 100%; }
+  .post-content figcaption { font-size: 0.875rem; line-height: 1.5; margin-top: 0.5rem; }
+  .post-content .post-illustration { width: 100%; margin: 1.5rem auto; }
+</style>
+{{- $cat := "" -}}
+{{- with .Params.categories }}{{ $cat = index . 0 }}{{ end -}}
+<article class="kc-post post--{{ $cat | default "post" }}">
+  <a class="kc-back" href="{{ "/posts/" | relURL }}">← back to posts</a>
+  {{ with $cat }}<div class="kc-post__cat"><span class="kc-cat is-on">{{ . }}</span></div>{{ end }}
+  <h1 class="kc-post__title">{{ .Title }}</h1>
+  <div class="kc-post__byline">{{ with .Params.author }}{{ . }}{{ else }}{{ $.Site.Params.author.name }}{{ end }} · {{ .Date.Format "2006-01-02" }}</div>
+  {{ partial "featured-image.html" . }}
+  <div class="post-content">{{ .Content }}</div>
+  {{ with .Params.tags }}<div class="kc-post__tags">{{ range . }}<a class="kc-tag" href="{{ "/tags/" | relURL }}{{ . | urlize }}/">{{ . }}</a>{{ end }}</div>{{ end }}
+</article>
+{{ end }}

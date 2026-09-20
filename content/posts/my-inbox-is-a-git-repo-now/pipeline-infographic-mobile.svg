@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="536" viewBox="0 0 320 536" role="img" aria-labelledby="title desc">
+  <title id="title">The email pipeline</title>
+  <desc id="desc">Five steps: fetch, clean, classify with Markdown rules, label, and archive. SQLite remembers decisions, labels, and examples.</desc>
+  <style>text{font-family:system-ui,sans-serif;fill:#e8edf4}.h{font-size:19px;font-weight:600}.d{font-size:15px;fill:#c1cedd}.n{font-size:15px;fill:#76dfcf}</style>
+  <rect width="320" height="536" rx="10" fill="#0f1b29"/>
+  <g fill="#192737">
+    <rect x="14" y="14" width="292" height="66" rx="6"/>
+    <rect x="14" y="90" width="292" height="66" rx="6"/>
+    <rect x="14" y="288" width="292" height="66" rx="6"/>
+    <rect x="14" y="364" width="292" height="92" rx="6"/>
+  </g>
+  <text x="28" y="42" class="n">01</text><text x="62" y="42" class="h">Fetch</text>
+  <text x="62" y="66" class="d">gog reads Gmail IDs + body</text>
+  <text x="28" y="118" class="n">02</text><text x="62" y="118" class="h">Clean</text>
+  <text x="62" y="142" class="d">Strip HTML + hidden noise</text>
+  <rect x="14" y="166" width="292" height="112" rx="6" fill="#214238"/>
+  <text x="28" y="194" class="n">03</text><text x="62" y="194" class="h">Classify</text>
+  <text x="62" y="220" class="d">Markdown rules (.md) in</text>
+  <text x="62" y="243" class="d">One call per email</text>
+  <text x="62" y="266" class="d">JSON labels out</text>
+  <text x="28" y="316" class="n">04</text><text x="62" y="316" class="h">Label</text>
+  <text x="62" y="340" class="d">gog applies labels in Gmail</text>
+  <text x="28" y="392" class="n">05</text><text x="62" y="392" class="h">Archive</text>
+  <text x="62" y="416" class="d">Separate job files eligible mail</text>
+  <text x="28" y="442" class="d" style="fill:#efc580">keep_in_inbox overrides archive</text>
+  <text x="22" y="487" class="h">SQLite memory</text>
+  <text x="22" y="512" class="d">Classifications · Labels · Examples</text>
+</svg>
