@@ -1,0 +1,22 @@
+/* Match the existing pre-paint theme class and manual theme toggle. */
+.field-signal {
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 2060 / 763;
+}
+.field-signal picture,
+.field-signal img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.field-signal img {
+  object-fit: cover;
+  object-position: center;
+}
+.field-signal .field-signal__dark { display: none; }
+.crt .field-signal .field-signal__light { display: none; }
+.crt .field-signal .field-signal__dark { display: block; }
+@media (max-width: 540px) {
+  .field-signal { aspect-ratio: 6 / 5; }
+}
