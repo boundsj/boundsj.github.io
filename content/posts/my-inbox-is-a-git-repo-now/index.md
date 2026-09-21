@@ -2,7 +2,7 @@
 title: "Inbox Zeno: Automated email with Notion, agents, and Jev"
 date: 2026-09-19T21:47:14-07:00
 draft: false
-description: "How I automated inbox zero with Notion, agents, and TypeSafe’s Jev—improving label accuracy while cutting costs from $7.20 to $0.13 per 1,000 emails."
+description: "How I automated inbox zero with Notion and agents, using TypeSafe’s Jev to cut email label classification costs from $7.20 to $0.13 per 1,000 emails."
 images: ["social-card.png"]
 featuredImagePreviewCrop: "700x700 Center webp q82"
 resources:
@@ -47,9 +47,9 @@ The classifier runs on a regular schedule via launchd on a Mac mini. To interact
 The pipeline works like this:
 
 - Use gog to fetch email message IDs and body content, then strip scripts, styles, invisible characters, and other noise
-- Run the classifier once per email — one inference call in, one JSON blob of labels out
+- Run the classifier once per email: one inference call in, one JSON blob of labels out
 - Use gog to apply those labels to the message
-- Let the archive job file away anything whose rule says archive, unless it also says keep_in_inbox — that exception is how important messages, such as utility bills, survive the purge
+- Let the archive job file away anything whose rule says archive, unless it also says keep_in_inbox. That exception is how important messages, such as utility bills, survive the purge
 - Store the system's memory in SQLite: which emails have already been classified (so none is classified or billed twice), which labels it applied (so it can detect when I move a message), and the example emails the learner has collected
 
 <picture>
@@ -61,7 +61,7 @@ Each rule was a Markdown file. Its frontmatter specified the Gmail label and whe
 
 The classifier used one giant prompt containing all 13 rules and up to ten example emails per rule. By September, that prompt had grown to about 26,000 tokens. The user message contained only the cleaned email, and the model returned the applicable labels as JSON. Guided by the rule prose, the model made every classification decision.
 
-The final piece was learning. Rather than watching for events, the correction monitor reconciled state: over a rolling 14-day window that included archived mail, it compared Gmail's current labels with the labels recorded in SQLite. When I changed a label, the system detected the correction, and the rule auditor rewrote the relevant prose and committed the change with its reasoning in the commit message.
+The correction monitor handled learning. Over a rolling 14-day window that included archived mail, it compared Gmail’s current labels with those recorded in SQLite. When I changed a label, it treated the change as a correction. The rule auditor then rewrote the relevant rule and committed the update, including its reasoning in the commit message.
 
 The design mostly worked, but two problems kept growing. First was cost: every accepted lesson added another example to the cached prompt, and every email paid to read all 26,000 tokens (although prompt caching helped). Second was drift: prose rules were imprecise, so the system sometimes relearned the same lesson in slightly different words. Jev helped address both problems, as we'll see shortly.
 
@@ -117,9 +117,9 @@ labels = compose_labels(response.json()["answers"])
 # Example: {"bills", "heads-up"}
 ```
 
-Jev might classify a utility notice as a bill with 97% probability and give “this contains a personal deadline” a Noul value of 0.94. It does not choose the Gmail labels itself. Mailman’s Python code interprets those typed judgments: the bill kind produces `Bills`, while the deadline fact adds `Heads Up`.
+Jev might classify a utility notice as a bill with 97% probability and give “this contains a personal deadline” a Noul value of 0.94. It does not choose the Gmail labels itself. The system’s Python code interprets those typed judgments: the bill kind produces `Bills`, while the deadline fact adds `Heads Up`.
 
-To illustrate why probabilities are useful, consider a borderline case:
+The probability shows how confident Jev is, which lets the system use different levels of certainty for different actions. A personal deadline scored at `0.94` can confidently add `Heads Up`. A borderline result might look like this:
 
 ```json
 "personal_deadline": {
@@ -128,11 +128,11 @@ To illustrate why probabilities are useful, consider a borderline case:
 }
 ```
 
-That means Jev thinks “yes” is only slightly more likely than “no”—not that the email contains “52% of a deadline.” Mailman currently uses `0.5` as its decision threshold.
+Here, Jev thinks “yes” is only slightly more likely than “no.” It does not mean that the email contains “52% of a deadline.” The system currently uses `0.5` as its threshold, so this result would add `Heads Up`, but retaining the probability gives me room to make the system more cautious later. For example, I could require `0.8` before adding an urgent label or send borderline cases for review.
 
 This also gave me more control over mistakes the old classifier kept making. A sale ending tomorrow could look like something that needed my attention. Now, once Jev identifies it as a promotion, the code keeps it out of Heads Up. I can test that behavior directly.
 
-On a fixed 40-message sample, Jev hit the exact label set 37 times to Luna's 28, at about \$0.13 per 1,000 messages versus Luna's \$0.81 and Haiku's \$7.20 production measurement — roughly 76 cents a month at 200 emails a day. Learning now means paired proposals (new rule prose plus new question wording) regression-tested against the correction and all stored examples.
+On a fixed 40-message sample, Jev produced the exact label set 37 times, compared with Luna's 28. Jev costs about \$0.13 per 1,000 messages, versus \$0.81 for Luna and \$7.20 in the Haiku production measurement. At 200 emails a day, Jev classifies my email for roughly 78 cents a month. Learning now means paired proposals (new rule prose plus new question wording) regression-tested against the correction and all stored examples.
 
 <figure style="max-width: 560px; margin: 1.5rem auto;">
   <picture>
@@ -154,8 +154,8 @@ I said I had [stopped using email clients](https://www.notion.com/help/notion-ma
   <figcaption>A simplified mock of the Notion database that serves as my email client.</figcaption>
 </figure>
 
-The labeling run uses the Notion CLI to create and update database rows. That script also uses the [`ntn` CLI](https://developers.notion.com/cli/get-started/overview) to start a session with a Custom Agent connected to Notion Mail and my Gmail account. The agent finds the Gmail thread and adds or refreshes the rendered email block in the row’s page body. Lastly, archiving a row in Notion also archives the corresponding Gmail thread during the next sync (towards that fool’s errand to try and reach inbox zero or crossing Zeno’s room).
+The labeling run uses the Notion CLI to create and update database rows. That script also uses the [`ntn` CLI](https://developers.notion.com/cli/get-started/overview) to start a session with a Custom Agent connected to Notion Mail and my Gmail account. The agent finds the Gmail thread and adds or refreshes the rendered email block in the row’s page body. Lastly, archiving a row in Notion also archives the corresponding Gmail thread during the next sync, another step toward that fool’s errand of reaching inbox zero or crossing Zeno’s room.
 
-Now my inbox is simply another data source connected to my agents—at a price even I can afford. I get mostly signal, not noise, while retaining the important “taste” decisions that only humans can make.
+Now my inbox is simply another data source connected to my agents at a price even I can afford. I get mostly signal, not noise, while retaining the important “taste” decisions that only humans can make.
 
 {{< illustration src="hotdog-email-blob.png" alt="A puzzled blob character considers a hotdog email, choosing between buttons labeled hotdog email and not hotdog email." >}}
