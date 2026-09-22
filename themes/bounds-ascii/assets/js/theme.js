@@ -38,18 +38,35 @@
 
   function initCrtToggle() {
     var btn = document.getElementById("crt-toggle");
-    updateToggleLabel(btn);
+    var preference;
+    try {
+      preference = localStorage.getItem(STORAGE_KEY);
+    } catch (e) { /* use the system theme when storage is unavailable */ }
+    var manual = preference === "crt" || preference === "paper";
+    var systemTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+
+    function applyTheme(dark) {
+      document.documentElement.classList.toggle("crt", dark);
+      updateToggleLabel(btn);
+      if (btn) btn.setAttribute("aria-pressed", String(dark));
+      applyMapStyles();
+    }
+
+    applyTheme(manual ? preference === "crt" : !!(systemTheme && systemTheme.matches));
+    if (systemTheme) {
+      systemTheme.addEventListener("change", function (event) {
+        if (!manual) applyTheme(event.matches);
+      });
+    }
+
     if (!btn) return;
-    btn.setAttribute("aria-pressed", String(isCrt()));
     btn.addEventListener("click", function () {
       var nowCrt = !isCrt();
-      document.documentElement.classList.toggle("crt", nowCrt);
+      manual = true;
+      applyTheme(nowCrt);
       try {
         localStorage.setItem(STORAGE_KEY, nowCrt ? "crt" : "paper");
       } catch (e) { /* ignore */ }
-      updateToggleLabel(btn);
-      btn.setAttribute("aria-pressed", String(nowCrt));
-      applyMapStyles();
     });
   }
 

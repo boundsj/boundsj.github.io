@@ -32,7 +32,7 @@
 
 {{- /* Pre-paint CRT theme script: apply .crt before first paint, no flash. */ -}}
 <script>
-(function(){try{var s=localStorage.getItem("bounds-crt");var dark=s==="crt"||(s===null&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(dark){document.documentElement.classList.add("crt");}}catch(e){}})();
+(function(){var s;try{s=localStorage.getItem("bounds-crt");}catch(e){}var dark=s==="crt"||(s!=="paper"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("crt",!!dark);})();
 </script>
 
 {{- /* Prefer the first page image, then fall back to the site image. */ -}}
