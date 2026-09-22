@@ -1,5 +1,7 @@
 ---
-title: "Inbox Zeno: Automated email with Notion, agents, and Jev"
+title: "Automated inbox zero with Notion, agents, and Jev"
+slug: "automated-inbox-zero-with-notion-agents-and-jev"
+aliases: ["/posts/my-inbox-is-a-git-repo-now/"]
 date: 2026-09-19T21:47:14-07:00
 draft: false
 description: "How I automated inbox zero with Notion and agents, using TypeSafe’s Jev to cut email label classification costs from $7.20 to $0.13 per 1,000 emails."
