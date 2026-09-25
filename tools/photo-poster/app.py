@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import uuid
 from datetime import datetime
@@ -33,6 +34,10 @@ app.mount(
     "/static", StaticFiles(directory=str(Path(__file__).parent / "static")), name="static"
 )
 
+SESSION_ID_RE = re.compile(r"[0-9a-f]{32}")
+PREVIEW_NAME_RE = re.compile(r"preview-[1-9][0-9]*\.jpeg")
+ORIGINAL_NAME_RE = re.compile(r"upload-[1-9][0-9]*\.(?:jpg|jpeg|png|heic|heif)")
+
 
 class PostPayload(BaseModel):
     session_id: str
@@ -49,12 +54,46 @@ class GenerateDescriptionPayload(BaseModel):
     image_index: int = 0
 
 
+def _session_path(session_id: str, *parts: str) -> Path:
+    if not isinstance(session_id, str) or not SESSION_ID_RE.fullmatch(session_id):
+        raise HTTPException(status_code=400, detail="Invalid session ID")
+
+    if parts not in ((), ("session.json",), ("originals",), ("previews",)):
+        if len(parts) != 2 or parts[0] not in {"originals", "previews"}:
+            raise HTTPException(status_code=400, detail="Invalid upload path")
+        pattern = ORIGINAL_NAME_RE if parts[0] == "originals" else PREVIEW_NAME_RE
+        if not isinstance(parts[1], str) or not pattern.fullmatch(parts[1]):
+            raise HTTPException(status_code=400, detail="Invalid upload path")
+
+    root = UPLOAD_DIR.resolve()
+    path = root
+    for part in (session_id, *parts):
+        path = path / part
+        if path.is_symlink():
+            raise HTTPException(status_code=400, detail="Invalid upload path")
+
+    scope = root / session_id
+    if parts and parts[0] in {"originals", "previews"}:
+        scope = scope / parts[0]
+    if not path.resolve().is_relative_to(scope):
+        raise HTTPException(status_code=400, detail="Invalid upload path")
+    return path
+
+
 def _session_dir(session_id: str) -> Path:
-    return UPLOAD_DIR / session_id
+    return _session_path(session_id)
 
 
 def _session_file(session_id: str) -> Path:
-    return _session_dir(session_id) / "session.json"
+    return _session_path(session_id, "session.json")
+
+
+def _original_path(session_id: str, name: str) -> Path:
+    return _session_path(session_id, "originals", name)
+
+
+def _preview_path(session_id: str, name: str) -> Path:
+    return _session_path(session_id, "previews", name)
 
 
 def _load_session(session_id: str) -> Dict[str, Any]:
@@ -133,9 +172,7 @@ async def upload_images(files: List[UploadFile] = File(...)) -> Dict[str, Any]:
         raise HTTPException(status_code=400, detail="No files uploaded")
 
     session_id = uuid.uuid4().hex
-    session_dir = _session_dir(session_id)
-    originals_dir = session_dir / "originals"
-    previews_dir = session_dir / "previews"
+    previews_dir = _session_path(session_id, "previews")
     previews_dir.mkdir(parents=True, exist_ok=True)
 
     images: List[Dict[str, Any]] = []
@@ -148,11 +185,11 @@ async def upload_images(files: List[UploadFile] = File(...)) -> Dict[str, Any]:
             filename = upload.filename or f"upload-{index}.jpg"
             suffix = _sanitize_suffix(filename)
             stored_name = f"upload-{index}{suffix}"
-            stored_path = originals_dir / stored_name
+            stored_path = _original_path(session_id, stored_name)
 
             await _save_upload_file(upload, stored_path)
             preview_name = f"preview-{index}.jpeg"
-            preview_path = previews_dir / preview_name
+            preview_path = _preview_path(session_id, preview_name)
             create_preview(stored_path, preview_path, PREVIEW_MAX_DIM)
 
             exif = extract_exif(str(stored_path))
@@ -192,7 +229,7 @@ async def upload_images(files: List[UploadFile] = File(...)) -> Dict[str, Any]:
 
 @app.get("/media/{session_id}/{filename}")
 async def media(session_id: str, filename: str) -> FileResponse:
-    preview_path = _session_dir(session_id) / "previews" / filename
+    preview_path = _preview_path(session_id, filename)
     if not preview_path.exists():
         raise HTTPException(status_code=404, detail="Preview not found")
     return FileResponse(preview_path)
@@ -222,10 +259,7 @@ async def generate_description(payload: GenerateDescriptionPayload = Body(...)) 
         502: OpenAI API error
     """
     # Load session
-    try:
-        session = _load_session(payload.session_id)
-    except HTTPException:
-        raise HTTPException(status_code=404, detail="Upload session not found")
+    session = _load_session(payload.session_id)
     
     # Validate images exist
     images = session.get("images", [])
@@ -242,8 +276,7 @@ async def generate_description(payload: GenerateDescriptionPayload = Body(...)) 
     # Use preview image (JPEG) instead of original to ensure OpenAI compatibility
     # OpenAI only supports PNG, JPEG, GIF, WebP (not HEIC/HEIF)
     image = images[payload.image_index]
-    previews_dir = _session_dir(payload.session_id) / "previews"
-    image_path = previews_dir / image["preview_name"]
+    image_path = _preview_path(payload.session_id, image["preview_name"])
 
     if not image_path.exists():
         raise HTTPException(status_code=404, detail="Preview image file not found")
@@ -297,14 +330,17 @@ async def create_post(payload: PostPayload = Body(...)) -> Dict[str, str]:
     if not images:
         raise HTTPException(status_code=400, detail="No images in session")
 
+    original_paths = [
+        _original_path(payload.session_id, image["stored_name"]) for image in images
+    ]
+
     title = payload.title.strip() or "Untitled"
     slug = ensure_unique_slug(slugify(title), BLOG_CONTENT_DIR)
     output_dir = BLOG_CONTENT_DIR / slug
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    originals_dir = _session_dir(payload.session_id) / "originals"
     featured = images[0]
-    featured_path = originals_dir / featured["stored_name"]
+    featured_path = original_paths[0]
 
     resize_image(featured_path, output_dir / "featured-image.jpeg", MAX_IMAGE_DIM)
     create_preview(featured_path, output_dir / "featured-image-preview.jpeg", PREVIEW_MAX_DIM)
@@ -313,10 +349,10 @@ async def create_post(payload: PostPayload = Body(...)) -> Dict[str, str]:
     if len(images) > 1:
         gallery_dir = output_dir / "gallery"
         gallery_dir.mkdir(parents=True, exist_ok=True)
-        for index, image in enumerate(images[1:], start=1):
+        for index, original_path in enumerate(original_paths[1:], start=1):
             gallery_name = f"photo-{index}.jpeg"
             resize_image(
-                originals_dir / image["stored_name"],
+                original_path,
                 gallery_dir / gallery_name,
                 MAX_IMAGE_DIM,
             )
