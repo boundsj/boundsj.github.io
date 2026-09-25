@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import base64
 from pathlib import Path
-from typing import Any, Dict
-
 from openai import OpenAI
 
 from config import DESCRIPTION_MAX_TOKENS, OPENAI_API_KEY, OPENAI_MODEL
@@ -17,7 +15,7 @@ def generate_image_description(image_path: Path) -> str:
         image_path: Path to the image file to analyze
         
     Returns:
-        A 2-3 sentence blog-friendly description of the image
+        A 1-2 sentence blog-friendly description of the image
         
     Raises:
         ValueError: If OPENAI_API_KEY is not configured

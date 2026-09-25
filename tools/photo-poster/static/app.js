@@ -56,6 +56,18 @@ function parseTags() {
     .filter(Boolean);
 }
 
+function buildPostPayload() {
+  return {
+    session_id: state.sessionId,
+    title: titleInput.value,
+    description: descriptionInput.value,
+    tags: parseTags(),
+    category: categoryInput.value,
+    draft: draftInput.checked,
+    image_order: state.imageOrder,
+  };
+}
+
 function schedulePreview() {
   if (state.previewTimer) {
     clearTimeout(state.previewTimer);
@@ -259,15 +271,7 @@ async function requestPreview() {
     previewEl.textContent = "Upload images to generate a preview.";
     return;
   }
-  const payload = {
-    session_id: state.sessionId,
-    title: titleInput.value,
-    description: descriptionInput.value,
-    tags: parseTags(),
-    category: categoryInput.value,
-    draft: draftInput.checked,
-    image_order: state.imageOrder,
-  };
+  const payload = buildPostPayload();
   try {
     const response = await fetch("/api/preview", {
       method: "POST",
@@ -290,15 +294,7 @@ async function createPost() {
     return;
   }
   setStatus("Creating post...");
-  const payload = {
-    session_id: state.sessionId,
-    title: titleInput.value,
-    description: descriptionInput.value,
-    tags: parseTags(),
-    category: categoryInput.value,
-    draft: draftInput.checked,
-    image_order: state.imageOrder,
-  };
+  const payload = buildPostPayload();
   try {
     const response = await fetch("/api/posts", {
       method: "POST",
