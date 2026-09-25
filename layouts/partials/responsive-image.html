@@ -1,12 +1,14 @@
 {{- $image := .image -}}
 {{- if in (slice "jpeg" "png" "webp") $image.MediaType.SubType -}}
   {{- $widths := slice (math.Min 480 $image.Width) (math.Min 960 $image.Width) (math.Min 1440 $image.Width) | uniq -}}
+  {{- $fallbackWidth := int (math.Min 960 $image.Width) -}}
+  {{- $fallback := $image -}}
   {{- $sources := slice -}}
   {{- range $widths -}}
     {{- $resized := $image.Resize (printf "%dx webp q82" (int .)) -}}
     {{- $sources = $sources | append (printf "%s %dw" $resized.RelPermalink $resized.Width) -}}
+    {{- if eq (int .) $fallbackWidth }}{{ $fallback = $resized }}{{ end -}}
   {{- end -}}
-  {{- $fallback := $image.Resize (printf "%dx webp q82" (int (math.Min 960 $image.Width))) -}}
   <img class="{{ .class }}" src="{{ $fallback.RelPermalink }}" srcset="{{ delimit $sources ", " }}" sizes="{{ .sizes }}" width="{{ $image.Width }}" height="{{ $image.Height }}" style="max-width: 100%; height: auto;" alt="{{ .alt }}" loading="{{ .loading | default "lazy" }}" decoding="async">
 {{- else -}}
   <img class="{{ .class }}" src="{{ $image.RelPermalink }}" alt="{{ .alt }}" loading="{{ .loading | default "lazy" }}">
