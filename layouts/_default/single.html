@@ -17,6 +17,6 @@
   <div class="kc-post__byline">{{ with .Params.author }}{{ . }}{{ else }}{{ $.Site.Params.author.name }}{{ end }} · {{ .Date.Format "2006-01-02" }}</div>
   {{ partial "featured-image.html" . }}
   <div class="post-content">{{ .Content }}</div>
-  {{ with .Params.tags }}<div class="kc-post__tags">{{ range . }}<a class="kc-tag" href="{{ "/tags/" | relURL }}{{ . | urlize }}/">{{ . }}</a>{{ end }}</div>{{ end }}
+  {{ with .Params.tags }}<div class="kc-post__tags">{{ range $tag := . }}{{ with $.Site.Taxonomies.tags.Get $tag }}<a class="kc-tag" href="{{ .Page.RelPermalink }}">{{ $tag }}</a>{{ end }}{{ end }}</div>{{ end }}
 </article>
 {{ end }}
