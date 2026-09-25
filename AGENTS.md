@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-- Hugo v0.135.0 static site with LoveIt theme
+- Hugo static site with the active bounds-ascii theme; GitHub Pages uses Hugo Extended 0.154.5
 - Personal blog with AI-generated and manual content
-- Built-in photo posting tool (Flask app)
+- Built-in photo posting tool (FastAPI/Uvicorn app)
 - Deployed to GitHub Pages
 
 ## Architecture & Key Files
@@ -13,17 +13,18 @@
 
 - `config.toml` - Site configuration
 - `content/posts/` - Blog posts (directories with index.md)
+- `themes/bounds-ascii/` - Active theme
 - `themes/LoveIt/` - Vendored theme (NEVER modify directly)
-- `layouts/` - Theme overrides (use instead of modifying theme)
+- `layouts/` - Root overrides that take precedence over theme templates
 - `static/` - Static assets
 - `public/` - Generated site (gitignored)
 
 ### Development Tools
 
 - `Makefile` - Common tasks
-  - `make serve` - Hugo dev server on :1313
-  - `make photo-poster` - Flask app on :8000
-- `tools/photo-poster/` - Flask app for creating photo posts with EXIF
+  - `make serve` - Draft-enabled Hugo dev server on :1313, bound to 0.0.0.0
+  - `make photo-poster` - FastAPI/Uvicorn app on :8000; first kills processes on that port and installs Python requirements
+- `tools/photo-poster/` - FastAPI app for creating photo posts with EXIF
 
 ## Development Workflow
 
@@ -39,6 +40,7 @@ make photo-poster    # Photo posting tool
 ```bash
 hugo --cleanDestinationDir    # Build site
 hugo server -D                # Dev server with drafts
+python3 scripts/compare-site-builds.py BASELINE_DIR NEW_BUILD_DIR  # Check every generated file
 ```
 
 ### Content Creation
@@ -107,7 +109,7 @@ Do not create a dedicated card for routine posts unless requested. Pages without
 
 - Generated via photo-poster tool
 - Include EXIF data, GPS coordinates
-- Use lightgallery for image viewing
+- Active templates display post images inline; older lightgallery frontmatter is inactive
 - Maps rendered below EXIF table
 
 ## AI Assistant Guidelines
@@ -128,7 +130,7 @@ Do not create a dedicated card for routine posts unless requested. Pages without
 
 ### When Working on Tools
 
-- photo-poster is Python Flask app
+- photo-poster is a Python FastAPI/Uvicorn app
 - Uses virtual environment (.venv/)
 - Install deps from requirements.txt
 
@@ -136,6 +138,7 @@ Do not create a dedicated card for routine posts unless requested. Pages without
 
 - DON'T modify themes/LoveIt/ - use layouts/ overrides
 - Hugo caches aggressively - use --cleanDestinationDir if issues
+- The local Hugo version can differ from Pages 0.154.5 and currently warns about languageCode deprecation
 - Port 1313 must be free for server
 - photo-poster kills port 8000 before starting (see Makefile)
 

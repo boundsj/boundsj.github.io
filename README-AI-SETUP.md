@@ -9,7 +9,7 @@ This repository uses a unified AI instructions architecture that works across Cu
 1. Read `AGENTS.md` for project instructions
 2. Check `.cursor/skills/` for available skills
 3. Check `.cursor/agents/` for specialized agents
-4. `.claude/` and `.codex/` are symlinks - edit in `.cursor/`
+4. `.claude/` and `.codex/` contain symlinks to the canonical `.cursor/` directories
 
 ### Architecture Overview
 
@@ -218,8 +218,8 @@ ln -s ../.cursor/skills .codex/skills
 
 ### Skills not appearing in Cursor
 
-- Verify symlink: `ls -la .cursor/skills`
-- Check it points to `../.ai/skills`
+- Verify the canonical directory exists: `ls -ld .cursor/skills`
+- Check that the skill has a `SKILL.md` file inside `.cursor/skills/`
 - Restart Cursor if just created symlink
 
 ### Skills not appearing in Claude Code
@@ -232,7 +232,7 @@ ln -s ../.cursor/skills .codex/skills
 
 - Cursor: Check command palette for agent names
 - Claude Code: Run `/agents` to see available subagents
-- Verify symlink exists and points to .ai/agents/
+- Verify `.cursor/agents/` exists and each consuming tool links to `../.cursor/agents`
 
 ### Git shows symlinks as modified
 
@@ -244,7 +244,7 @@ ln -s ../.cursor/skills .codex/skills
 Symlinks on Windows:
 
 - Requires admin privileges OR
-- Use directory junctions: `mklink /J .cursor\skills .ai\skills`
+- Use a directory junction from a consuming tool to the canonical directory, for example: `mklink /J .claude\skills .cursor\skills`
 - Git handles symlinks correctly on clone
 
 ## Migration History

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 from pathlib import Path
+
 from openai import OpenAI
 
 from config import DESCRIPTION_MAX_TOKENS, OPENAI_API_KEY, OPENAI_MODEL
