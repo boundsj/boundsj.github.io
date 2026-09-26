@@ -1,19 +1,15 @@
 {{- /* Field Signal: theme-aware artwork, kept outside the vendored theme. */ -}}
-{{- $css := resources.Get "css/field-signal.css" | minify | fingerprint -}}
+{{- $urls := dict -}}
+{{- range slice "light" "dark" -}}
+  {{- $original := resources.Get (printf "images/field-signal/%s.png" .) -}}
+  {{- $desktop := $original.Resize "1440x webp q85" -}}
+  {{- $small := $original.Resize "720x webp q85" -}}
+  {{- $mobile := $original.Fill "768x640 Center webp q85" -}}
+  {{- $urls = merge $urls (dict
+      (printf "%sSmall" .) $small.RelPermalink
+      (printf "%sDesktop" .) $desktop.RelPermalink
+      (printf "%sMobile" .) $mobile.RelPermalink) -}}
+{{- end -}}
+{{- $css := resources.Get "css/field-signal.css" | resources.ExecuteAsTemplate "css/field-signal.css" $urls | minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
-<div class="field-signal" aria-hidden="true">
-  {{- range slice "light" "dark" -}}
-    {{- $original := resources.Get (printf "images/field-signal/%s.png" .) -}}
-    {{- $desktop := $original.Resize "1440x webp q85" -}}
-    {{- $small := $original.Resize "720x webp q85" -}}
-    {{- $mobile := $original.Fill "768x640 Center webp q85" -}}
-    <picture class="field-signal__{{ . }}">
-      <source media="(max-width: 540px)" srcset="{{ $mobile.RelPermalink }}">
-      <img src="{{ $desktop.RelPermalink }}"
-           srcset="{{ $small.RelPermalink }} 720w, {{ $desktop.RelPermalink }} 1440w"
-           sizes="(max-width: 720px) 100vw, 720px"
-           width="{{ $desktop.Width }}" height="{{ $desktop.Height }}"
-           alt="" fetchpriority="high" decoding="async">
-    </picture>
-  {{- end -}}
-</div>
+<div class="field-signal" aria-hidden="true"></div>

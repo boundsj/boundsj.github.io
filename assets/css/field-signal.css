@@ -3,20 +3,20 @@
   width: 100%;
   overflow: hidden;
   aspect-ratio: 2060 / 763;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("{{ .lightDesktop }}");
+  background-image: image-set(url("{{ .lightSmall }}") 1x, url("{{ .lightDesktop }}") 2x);
 }
-.field-signal picture,
-.field-signal img {
-  display: block;
-  width: 100%;
-  height: 100%;
+.crt .field-signal {
+  background-image: url("{{ .darkDesktop }}");
+  background-image: image-set(url("{{ .darkSmall }}") 1x, url("{{ .darkDesktop }}") 2x);
 }
-.field-signal img {
-  object-fit: cover;
-  object-position: center;
-}
-.field-signal .field-signal__dark { display: none; }
-.crt .field-signal .field-signal__light { display: none; }
-.crt .field-signal .field-signal__dark { display: block; }
 @media (max-width: 540px) {
-  .field-signal { aspect-ratio: 6 / 5; }
+  .field-signal {
+    aspect-ratio: 6 / 5;
+    background-image: url("{{ .lightMobile }}");
+  }
+  .crt .field-signal { background-image: url("{{ .darkMobile }}"); }
 }

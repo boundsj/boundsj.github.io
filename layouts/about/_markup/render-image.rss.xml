@@ -1,0 +1,4 @@
+{{- /* RSS needs the portrait because it has no featured-image partial. */ -}}
+{{- with . -}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }}>
+{{- end -}}

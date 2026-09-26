@@ -27,6 +27,7 @@ Observed red case: both home `.field-signal` image elements have `complete=true`
 
 - Add a type-scoped image render hook `layouts/about/_markup/render-image.html` that omits only the image whose destination equals the featured resource's RelPermalink or its basename (current relative featured-image.jpeg). Resource alias `featured-image` means blindly resolving Destination via GetMatch may miss it. Resolve the existing featured resource first.
 - Preserve standard image rendering (destination, plain alt text, optional title) for other images. Keep the empty paragraph wrapper and existing hide rule for now, so text/margins stay unchanged. Do not edit `content/about/index.md` or delete any original asset; metadata still references it.
+- Add `render-image.rss.xml` in the same type-scoped directory to retain standard image markup in feeds. Hugo otherwise reuses the HTML hook result for the root RSS item. The fixture must compare the complete RSS output with a build using no image hook on both versions.
 - Add a small Hugo fixture or build-output regression using the actual render hook: one featured image, one unrelated image, ordinary text. Show the current duplicate before adding the hook; then require omission only of the duplicate and preserved text/other image. Run on 0.154.5 and 0.163.3.
 
 ## 3. Gallery generator

@@ -1,0 +1,9 @@
+{{- /* The RSS-specific hook keeps standard image rendering for feeds. */ -}}
+{{- $featured := .Page.Resources.GetMatch "featured-image" -}}
+{{- $duplicate := false -}}
+{{- with $featured -}}
+  {{- $duplicate = or (eq $.Destination .RelPermalink) (eq $.Destination (path.Base .RelPermalink)) -}}
+{{- end -}}
+{{- if not $duplicate -}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }}>
+{{- end -}}
