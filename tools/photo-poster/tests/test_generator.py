@@ -18,6 +18,7 @@ from post_generator import build_markdown  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 DATE = datetime(2026, 1, 2, 12, 30, tzinfo=timezone.utc)
 GALLERY = ["photo-2.jpeg", "photo-1.jpeg"]
+GALLERY_SIZES = {"photo-2.jpeg": (1600, 900), "photo-1.jpeg": (900, 1600)}
 
 
 def build_gallery_fixture(source):
@@ -50,11 +51,11 @@ def build_gallery_fixture(source):
         tags=["photos"], category="photos", draft=False,
         exif={"camera": "Fixture camera"}, gallery_images=GALLERY, date=DATE,
     ))
-    for filename, color in (("featured-image.jpeg", (120, 80, 40)),
-                            ("featured-image-preview.jpeg", (120, 80, 40)),
-                            ("gallery/photo-2.jpeg", (40, 120, 80)),
-                            ("gallery/photo-1.jpeg", (80, 40, 120))):
-        Image.new("RGB", (32, 24), color).save(bundle / filename, format="JPEG")
+    for filename, size, color in (("featured-image.jpeg", (1600, 900), (120, 80, 40)),
+                                  ("featured-image-preview.jpeg", (320, 180), (120, 80, 40)),
+                                  ("gallery/photo-2.jpeg", GALLERY_SIZES["photo-2.jpeg"], (40, 120, 80)),
+                                  ("gallery/photo-1.jpeg", GALLERY_SIZES["photo-1.jpeg"], (80, 40, 120))):
+        Image.new("RGB", size, color).save(bundle / filename, format="JPEG")
     output = source / "rendered"
     result = subprocess.run(
         ["hugo", "--source", str(source), "--destination", str(output),
@@ -138,7 +139,7 @@ A photo description.
             for src, _ in images.images:
                 target = output / "posts/gallery-probe" / src
                 with Image.open(target) as image:
-                    self.assertEqual(image.size, (32, 24))
+                    self.assertEqual(image.size, GALLERY_SIZES[Path(src).name])
             self.assertIn("Synthetic gallery description.", rendered)
             self.assertIn("Fixture camera", rendered)
             self.assertIn('class="kc-hero__media"', rendered)
