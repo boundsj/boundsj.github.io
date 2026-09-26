@@ -453,6 +453,10 @@ button:focus-visible,
   outline: 3px solid var(--border);
   outline-offset: 2px;
 }
+.mapbox .mapboxgl-canvas:focus-visible {
+  outline: 3px solid var(--border);
+  outline-offset: -3px;
+}
 
 /* Respect reduced motion: stop the blinking block cursor (stays a solid block)
    and any stepped transitions. */
