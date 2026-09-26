@@ -147,7 +147,8 @@ def build_markdown(
     if gallery_images:
         lines.append("")
         for filename in gallery_images:
-            lines.append(f'{{{{< image src="gallery/{filename}" >}}}}')
+            lines.append(f"![](gallery/{filename})")
+            lines.append("")
 
     lines.append("")
     return "\n".join(lines)
