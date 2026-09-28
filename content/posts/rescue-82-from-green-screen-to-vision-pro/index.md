@@ -6,6 +6,7 @@ description: "Bringing a childhood love of Choplifter into Apple Vision Pro, wit
 summary: "I loved Choplifter as a kid. Now I’m building a rescue helicopter game for the Vision Pro. Here’s a sneak peek."
 tags: ["games", "visionOS", "ai", "blender", "rescue82"]
 categories: ["dev"]
+images: ["social-card.jpg"]
 resources:
   - name: featured-image
     src: preview.gif
