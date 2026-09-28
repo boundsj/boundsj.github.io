@@ -18,11 +18,10 @@ In the 80s my older brother worked at a computer store and would bring demo mach
 I’ve been building a native Apple Vision Pro game inspired by my memory of playing Choplifter. **Rescue ’82** is the working name for its retro visual direction: dark skies, phosphor green, and simple shapes but in a fully immersive experience. Here is a sneak preview video I created with Claude Opus 5.5:
 
 <figure>
-  <video controls playsinline preload="none" poster="poster.jpg" width="1920" height="1080" aria-label="Rescue ’82 concept trailer" aria-describedby="trailer-caption">
+  <video controls playsinline preload="none" poster="poster.jpg" width="1920" height="1080" aria-label="Rescue ’82 concept trailer">
     <source src="rescue82-promo.mp4" type="video/mp4">
     <a href="rescue82-promo.mp4">Watch the Rescue ’82 trailer.</a>
   </video>
-  <figcaption id="trailer-caption">A 42-second concept trailer: through the old monitor, into the cockpit, and down to a rescue. This previews the look I’m working toward; it isn’t a recording from the headset.</figcaption>
 </figure>
 
 The Vision Pro implementation in SwiftUI and RealityKit already has the basics: fly out, land, pick up some people, and bring them back to base. The game has a chopper model (created with Blender using Astra and Opus), flight controls you use with an Xbox controller, six passenger seats, and enemies that shoot at you from the ground.
