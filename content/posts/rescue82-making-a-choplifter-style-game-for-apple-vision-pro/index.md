@@ -1,7 +1,8 @@
 ---
-title: "Rescue ’82: from a green screen to Vision Pro"
+title: "Rescue82: Making a Choplifter-style game for Apple Vision Pro"
 date: 2026-09-28T07:30:00-07:00
 draft: false
+aliases: ["/posts/rescue-82-from-green-screen-to-vision-pro/"]
 description: "Bringing a childhood love of Choplifter into Apple Vision Pro, with Astra, Claude Opus 5.5, Blender, and a lot to learn about VR."
 summary: "I loved Choplifter as a kid. Now I’m building a rescue helicopter game for the Vision Pro. Here’s a sneak peek."
 tags: ["games", "visionOS", "ai", "blender", "rescue82"]
