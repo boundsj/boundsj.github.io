@@ -11,5 +11,5 @@
   {{- end -}}
   <img class="{{ .class }}" src="{{ $fallback.RelPermalink }}" srcset="{{ delimit $sources ", " }}" sizes="{{ .sizes }}" width="{{ $image.Width }}" height="{{ $image.Height }}" style="max-width: 100%; height: auto;" alt="{{ .alt }}" loading="{{ .loading | default "lazy" }}" decoding="async">
 {{- else -}}
-  <img class="{{ .class }}" src="{{ $image.RelPermalink }}" alt="{{ .alt }}" loading="{{ .loading | default "lazy" }}">
+  <img class="{{ .class }}" src="{{ $image.RelPermalink }}"{{ if eq $image.MediaType.SubType "gif" }} width="{{ $image.Width }}" height="{{ $image.Height }}" style="max-width: 100%; height: auto;"{{ end }} alt="{{ .alt }}" loading="{{ .loading | default "lazy" }}">
 {{- end -}}

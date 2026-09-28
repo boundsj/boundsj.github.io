@@ -5,7 +5,13 @@
   {{- if $img }}{{ $img = $img.Fill . }}{{ end -}}
 {{- end -}}
 <a class="kc-card" href="{{ .RelPermalink }}">{{- with $img -}}
-  <div class="kc-card__thumb"><img class="kc-card__img" src="{{ .RelPermalink }}" alt=""{{ if $.Params.dither }} data-dither data-dither-res="{{ $.Params.ditherRes | default 150 }}" data-dither-contrast="{{ $.Params.ditherContrast | default 1 }}" data-dither-brightness="{{ $.Params.ditherBrightness | default 0 }}"{{ end }}></div>
+  <div class="kc-card__thumb">
+    {{- $still := false -}}
+    {{- with $.Params.featuredImageStill }}{{ $still = $.Resources.GetMatch . }}{{ end -}}
+    {{- with $still }}<picture style="display: block; height: 100%;"><source media="(prefers-reduced-motion: reduce)" srcset="{{ .RelPermalink }}">{{ end -}}
+    <img class="kc-card__img" src="{{ .RelPermalink }}" alt=""{{ if $.Params.dither }} data-dither data-dither-res="{{ $.Params.ditherRes | default 150 }}" data-dither-contrast="{{ $.Params.ditherContrast | default 1 }}" data-dither-brightness="{{ $.Params.ditherBrightness | default 0 }}"{{ end }}>
+    {{- if $still }}</picture>{{ end -}}
+  </div>
 {{- end -}}
   <div class="kc-card__body">{{- "" -}}
     <div class="kc-card__cat">{{ with .Params.categories }}{{ index . 0 }}{{ end }}{{ with .Params.author }} · {{ . }}{{ end }}</div>{{- "" -}}
