@@ -2,6 +2,7 @@
 title: "About"
 date: 2023-03-04T09:36:36-08:00
 images: [featured-image.jpeg]
+featuredImageAlt: "Jesse Bounds speaking on stage"
 resources:
 - name: featured-image
   src: featured-image.jpeg
