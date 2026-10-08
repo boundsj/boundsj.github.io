@@ -9,7 +9,7 @@ categories: ["dev"]
 
 I work at Notion, so of course I want it to be the interface for my agent fleet, the way Grok Bot was in [my last post]({{< relref "/posts/t3-fleet-gateway" >}}). Blogging is a great place to start. Between MCP and Notion's other connectors, Notion is the center of all my project work, so an agent there already knows what I've been building and what's worth writing about.
 
-I made a Notion Custom Agent called BloggerBot that uses the same T3 Fleet Gateway: Notion is the interface, and T3 manages the agent threads.
+I made a Notion Custom Agent called BloggerBot that uses the same [T3 Fleet Gateway](https://github.com/boundsj/t3-fleet-gateway): Notion is the interface, and T3 manages the agent threads.
 
 (Yes, BloggerBot had a hand in this one too.)
 
