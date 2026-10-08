@@ -2,7 +2,7 @@
 title: "Notion as Mission Control for My T3 Code Fleet"
 date: 2026-10-08T05:50:00-07:00
 draft: true
-description: "Connect BloggerBot to T3 Fleet Gateway and use a Notion page to checkpoint recurring project checks, surfacing only failures, review requests, and questions."
+description: "How I connected a Notion Custom Agent to T3 Fleet Gateway to start, follow, and check in on coding work across my machines from Notion."
 tags: ["ai", "tools", "automation", "t3-code", "notion", "mcp"]
 categories: ["dev"]
 ---
@@ -13,52 +13,68 @@ In [the original T3 Fleet Gateway post]({{< relref "/posts/t3-fleet-gateway" >}}
 
 (Yes, BloggerBot had a hand in this one too.)
 
+## How I did it
+
 <figure style="max-width: 760px; margin: 1.5rem auto;">
   <img src="t3-notion-pipeline.svg" alt="Four app mockups in a pipeline: a Notion Custom Agent settings panel with a T3 MCP connection and blue toggles for read and write tools, a Notion chat where the user asks the fictional agent WaffleBot to add a dark mode to BananaCRM's invoice page, the T3 Code app with the BananaCRM thread working on that instruction, and a pull request page titled Add dark mode to invoice page #42 with a CSS diff, passing checks, and a Merge pull request button." width="1200" height="1060" style="display: block; width: 100%; height: auto;" loading="lazy">
   <figcaption>Connect the T3 MCP tool to a Notion Custom Agent, ask for something, a T3 thread does the work, and a PR shows up.</figcaption>
 </figure>
 
-## Connect BloggerBot
+### 1. Connect the gateway
 
-In the agent's **Settings → Tools & Access → Add connection → Custom MCP server**, add the gateway's public `https://<your-host>/mcp` URL and name the connection **T3 MCP Server**. This points at the fleet gateway. Your workspace admin must enable custom MCP servers first; [Notion documents the setup here](https://www.notion.com/help/mcp-connections-for-custom-agents).
+- Have a workspace admin allow custom MCP servers ([Notion's guide](https://www.notion.com/help/mcp-connections-for-custom-agents)).
+- On the gateway machine, mint a bearer token (Notion connections can't do OAuth sign-in):
 
-For header authentication, mint a token on the gateway machine:
+  ```sh
+  node bin/t3-fleet-gateway.js clients token --name BloggerBot --ttl 90d
+  ```
 
-```sh
-node bin/t3-fleet-gateway.js clients token --name BloggerBot --access read --ttl 90d
-```
+  The default is Operate access, which BloggerBot needs to start jobs. Use `--access read` for a watch-only agent. Renewal and revocation are covered in [the operations guide](https://github.com/boundsj/t3-fleet-gateway/blob/main/docs/operations.md#agents-that-only-take-a-bearer-token).
+- In the agent: **Settings → Tools & Access → Add connection → Custom MCP server**
+  - URL: `https://<your-host>/mcp`
+  - Auth header: `Authorization: Bearer <token>`
+  - Toggle on the read tools, plus the write tools if it should start or steer work (panel 1 above).
+- Sanity check: ask the agent to run `fleet_status` and note your project's alias.
 
-Set `Authorization: Bearer <token>` in the connection's authentication settings. Read access is enough for monitoring; use Operate if BloggerBot should start or steer jobs. Keep the token in connection settings, never in the checkpoint page. The [gateway operations guide](https://github.com/boundsj/t3-fleet-gateway/blob/main/docs/operations.md#agents-that-only-take-a-bearer-token) covers token renewal and revocation. Test with `fleet_status` and copy the blog project's alias.
+### 2. Tell it how to work
 
-## Give the schedule a bookmark
-
-Create a **BloggerBot checkpoint** Notion page with the project alias, last feed cursor, and handled notification keys. Explicitly grant BloggerBot access to read and update it. Add a recurring [scheduled trigger](https://www.notion.com/help/custom-agents), and allow the feed reads and checkpoint updates needed for unattended checks.
-
-Keep one checkpoint per agent/project and serialize runs that share it. Don't trigger the agent on edits to its own checkpoint page.
-
-The feed returns events plus an `attention` list. Its [current schema](https://github.com/boundsj/t3-fleet-gateway/blob/main/src/mcp/workTools.ts) has no project argument: scope the routine by filtering **both** collections to the configured project. Save the gateway's returned cursor unchanged, including when a batch contains only other projects.
-
-## Read, handle, checkpoint
-
-Give BloggerBot this loop (pseudocode; the page helpers are instructions, not MCP tools):
+The agent's instructions are plain Notion text. Something like:
 
 ```text
-cursor = read_checkpoint("BloggerBot checkpoint")
-repeat:
-  batch = work_feed(cursor omitted on first run, otherwise cursor)
-  events = batch.events filtered to the blog project
-  attention = batch.attention filtered to the blog project
-  inspect relevant jobs with work_status / work_messages
-  handle events and attention; deduplicate recorded notifications
-  store batch.nextCursor only after handling succeeds
-  cursor = batch.nextCursor
-until batch.hasMore is false
+Blog work goes to the T3 project "blog".
+- New post or edit: work_start with the request, then reply with the job link.
+- Follow-ups on an existing draft: work_continue on that job.
+- If a job asks a question, relay it to me; answer with work_respond.
+- Never publish. Drafts land on a branch for me to review.
 ```
 
-If handling fails, leave the cursor at the last completed batch. A retry can replay events, so record notification keys based on the job and triggering event or pending question. Checkpointing supports recovery; it doesn't make notifications exactly-once.
+From then on, a chat message like panel 2 turns into a T3 thread (panel 3) and eventually a PR (panel 4).
 
-## Quiet unless I need to act
+### 3. Optional: check in on a schedule
 
-Tell BloggerBot to notify only for a failed job or run, work ready for human review, or a question needing an answer. Include the job link and the next decision. An `idle` job needs its reply inspected before calling it ready; a coordinator waiting on delegated work should be left to resume.
+For recurring checks, add a [scheduled trigger](https://www.notion.com/help/custom-agents) and a **BloggerBot checkpoint** page the agent can edit. The page holds the project alias, the last `work_feed` cursor and the notification keys it has already sent.
 
-Empty feeds and ordinary progress get no message. The attention list can repeat unresolved items, so it also needs deduplication. Permission approvals still happen in T3. The Notion page remembers where the check stopped, and I hear about the work when there's something to do.
+```text
+cursor = read checkpoint page (empty on first run)
+repeat:
+  batch = work_feed(cursor)
+  keep batch.events and batch.attention for my project only
+  look closer with work_status / work_messages if needed
+  notify me if needed (skip keys already on the page)
+  write batch.nextCursor to the page   # only after handling succeeds
+until not batch.hasMore
+```
+
+- `work_feed` has no project filter, so filter both lists yourself. Still save the returned cursor even when a batch only had other projects' events.
+- One checkpoint page per agent and project, and don't trigger the agent on edits to its own checkpoint.
+- Retries can replay events. The saved keys cut down on duplicate notifications but don't guarantee exactly-once delivery.
+
+### 4. Stay quiet
+
+The instructions only allow a message for:
+
+- a failed job,
+- work ready for review (inspect an `idle` job's last reply first),
+- a question that needs an answer.
+
+Each message includes the job link and the decision needed. Empty feeds and normal progress get nothing. Permission approvals still happen in T3 itself.
