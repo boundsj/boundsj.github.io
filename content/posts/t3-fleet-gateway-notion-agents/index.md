@@ -63,7 +63,7 @@ Things to get right:
 
 ### 3. Tell it how to work
 
-The agent's instructions are plain text. Mine, trimmed:
+The agent's instructions are plain text. Something like:
 
 ```text
 Blog work goes to the T3 project "blog" (alias from fleet_status).
