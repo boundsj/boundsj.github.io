@@ -23,13 +23,17 @@ I made a Notion Custom Agent called BloggerBot that uses the same T3 Fleet Gatew
 ### 1. Connect the gateway
 
 - Have a workspace admin allow custom MCP servers ([Notion's guide](https://www.notion.com/help/mcp-connections-for-custom-agents)).
-- On the gateway machine, mint a bearer token (Notion connections can't do OAuth sign-in):
+- Notion connections can't do OAuth sign-in, so the gateway needs to mint a bearer token. On the machine where you set up T3 Code and the gateway, give a coding agent a prompt like:
 
-  ```sh
-  node bin/t3-fleet-gateway.js clients token --name BloggerBot --ttl 90d
+  ```text
+  In my t3-fleet-gateway checkout, mint a bearer token for a Notion
+  Custom Agent named BloggerBot, with Operate access and a 90-day TTL.
+  Follow docs/operations.md ("Agents that only take a bearer token").
+  Show me the token once so I can paste it into Notion; don't save it
+  anywhere else.
   ```
 
-  The default is Operate access, which BloggerBot needs to start jobs. Use `--access read` for a watch-only agent. Renewal and revocation are covered in [the operations guide](https://github.com/boundsj/t3-fleet-gateway/blob/main/docs/operations.md#agents-that-only-take-a-bearer-token).
+  Operate access lets the agent start jobs. Ask for read-only access for a watch-only agent. Renewal and revocation are covered in [the operations guide](https://github.com/boundsj/t3-fleet-gateway/blob/main/docs/operations.md#agents-that-only-take-a-bearer-token).
 - In the agent: **Settings → Tools & Access → Add connection → Custom MCP server**
   - URL: `https://<your-host>/mcp`
   - Auth header: `Authorization: Bearer <token>`
