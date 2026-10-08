@@ -7,9 +7,11 @@ tags: ["ai", "tools", "automation", "t3-code", "notion", "mcp"]
 categories: ["dev"]
 ---
 
+I work at Notion, so of course I want it helping with my coding workflows. Blogging is an obvious place to start. Between MCP and Notion's other connectors, Notion is the center of all my project work, so an agent there already knows what I've been building and what's worth writing about.
+
 In [the original T3 Fleet Gateway post](http://clawds-mac-mini.tail6bbdcb.ts.net:1313/posts/t3-fleet-gateway/), Grok Bot was the front door to coding work on my machines. A Notion custom agent like BloggerBot can use the same gateway: Notion supplies the instructions, schedule, and persistent page; T3 still does the repo work.
 
-Note how in a very meta way this entire post you are reading now was created 100% in a Notion custom agent!
+(Yes, BloggerBot had a hand in this one too.)
 
 <figure style="max-width: 760px; margin: 1.5rem auto;">
   <img src="t3-notion-pipeline.svg" alt="A terminal-style four-step diagram: a fictional Notion agent named WaffleBot gets a T3 MCP connection with read and write tool toggles, the user asks it to add a dark mode to BananaCRM's invoice page, a T3 Code job thread runs the work on a fleet branch, and a diff lands with a PR #42 opened badge." width="1200" height="1060" style="display: block; width: 100%; height: auto;" loading="lazy">
