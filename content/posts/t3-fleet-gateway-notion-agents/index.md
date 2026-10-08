@@ -3,9 +3,15 @@ title: "Notion as Mission Control for My T3 Code Fleet"
 date: 2026-10-08T05:50:00-07:00
 draft: true
 description: "A Notion Custom Agent wired to T3 Fleet Gateway: ask for coding work in Notion, get a PR back, and let a scheduled trigger check in for you."
+images: ["social-card.png"]
 tags: ["ai", "tools", "automation", "t3-code", "notion", "mcp"]
 categories: ["dev"]
 ---
+
+<figure style="max-width: 760px; margin: 1.5rem auto;">
+  <img src="notion-fleet-hero.gif" alt="Looping animation: a Notion chat with the fictional agent BloggerBot sits beside a T3 Fleet Gateway panel, joined by a T3 MCP link. A prompt to add a dark mode to BananaCRM's invoice page is typed in Notion and travels to the gateway as a blue pulse; the gateway dispatches work to a laptop, status pulses return to Notion, and a PR #42 card appears in orbit, goes from opened to merged, then the cycle resets. A laptop, a Mac mini, and a merged PR #41 card for SpaceTaxCalculator circle the pair on a dashed track." width="1200" height="627" style="display: block; width: 100%; height: auto;">
+  <figcaption>Mission control, on loop: ask in Notion, the gateway farms it out, a PR comes back.</figcaption>
+</figure>
 
 I work at Notion, so of course I want it to be the interface for my agent fleet, the way Grok Bot was in [my last post]({{< relref "/posts/t3-fleet-gateway" >}}). Blogging is a great place to start. Between MCP and Notion's other connectors, Notion is the center of all my project work, so an agent there already knows what I've been building and what's worth writing about.
 
