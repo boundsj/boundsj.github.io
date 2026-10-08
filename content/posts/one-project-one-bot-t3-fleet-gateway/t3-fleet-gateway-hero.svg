@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" width="1600" height="800" role="img" aria-labelledby="t d">
+  <title id="t">t3-fleet-gateway: one bot, one gateway, many machines</title>
+  <desc id="d">A monochrome terminal-style diagram on a dark screen. A phone on the left sends a message to Grok Bot, which talks to a single always-on T3 Fleet Gateway. The gateway fans out to two machines, a Mac mini and an M3 MacBook, and each machine branches into git worktrees and threads named fleet/job, including a chief-of-staff thread. Small green packets travel along the wires.</desc>
+  <style>
+    .mono { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; }
+    .fg1 { fill: #ECE7D6; }
+    .fg2 { fill: #B7B2A1; }
+    .fg3 { fill: #908C7B; }
+    .wire { fill: none; stroke: #ECE7D6; stroke-width: 4; stroke-linecap: butt; stroke-linejoin: miter; }
+    .wire-thin { fill: none; stroke: #B7B2A1; stroke-width: 3; stroke-linecap: butt; stroke-linejoin: miter; }
+    .wire-ghost { fill: none; stroke: #65625A; stroke-width: 3; stroke-dasharray: 6 6; stroke-linecap: butt; stroke-linejoin: miter; }
+    .box { fill: #16150F; stroke: #ECE7D6; stroke-width: 4; }
+    .cap { letter-spacing: 0.12em; font-weight: 700; }
+    .blink { animation: blink 1.06s steps(1, end) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .blink { animation: none; }
+      .pkt { display: none; }
+    }
+  </style>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#2A2820"/>
+    </pattern>
+    <pattern id="dither-coarse" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#3A382F"/>
+    </pattern>
+    <pattern id="dither-fine" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#65625A"/>
+    </pattern>
+    <pattern id="dither-dense" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#908C7B"/>
+    </pattern>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="4" height="1" fill="#ECE7D6" opacity="0.06"/>
+    </pattern>
+  </defs>
+
+  <!-- screen -->
+  <rect x="0" y="0" width="1600" height="800" fill="#0C0C0A"/>
+  <rect x="0" y="0" width="1600" height="800" fill="url(#grid)"/>
+
+  <!-- top / bottom chrome -->
+  <text class="mono fg3" x="60" y="62" font-size="18" letter-spacing="0.14em">T3-FLEET-GATEWAY</text>
+  <text class="mono fg3" x="1540" y="62" font-size="18" letter-spacing="0.14em" text-anchor="end">MIT · GITHUB.COM/BOUNDSJ</text>
+  <rect x="60" y="80" width="1480" height="1" fill="#908C7B" opacity="0.5"/>
+  <rect x="60" y="718" width="1480" height="1" fill="#908C7B" opacity="0.5"/>
+  <text class="mono fg3" x="60" y="754" font-size="18">&gt; work_start  ·  work_continue  ·  work_feed<tspan class="fg1 blink"> ▌</tspan></text>
+  <text class="mono fg3" x="1540" y="754" font-size="18" text-anchor="end">ONE PROJECT  &lt;=&gt;  ONE BOT</text>
+
+  <!-- dithered halo around the gateway (three discrete steps, no gradient) -->
+  <rect x="560" y="180" width="560" height="440" fill="url(#dither-coarse)"/>
+  <rect x="616" y="232" width="448" height="336" fill="url(#dither-fine)"/>
+  <rect x="652" y="268" width="376" height="264" fill="url(#dither-dense)"/>
+  <rect x="672" y="292" width="344" height="224" fill="#0C0C0A"/>
+
+  <!-- wires -->
+  <path class="wire" d="M220,400 H330"/>
+  <path class="wire" d="M560,400 H680"/>
+  <path class="wire" d="M1000,400 H1060 V205 H1090"/>
+  <path class="wire" d="M1060,400 V595 H1090"/>
+  <!-- branches: mac mini -->
+  <path class="wire-thin" d="M1270,205 H1300 V125 H1330"/>
+  <path class="wire-thin" d="M1300,205 H1330"/>
+  <path class="wire-thin" d="M1300,205 V285 H1330"/>
+  <path class="wire-ghost" d="M1300,285 V365 H1330"/>
+  <!-- branches: m3 -->
+  <path class="wire-thin" d="M1270,595 H1300 V515 H1330"/>
+  <path class="wire-thin" d="M1300,595 H1330"/>
+  <path class="wire-ghost" d="M1300,595 V675 H1330"/>
+
+  <!-- phone -->
+  <rect x="100" y="260" width="120" height="280" fill="#16150F" stroke="#ECE7D6" stroke-width="4"/>
+  <rect x="140" y="272" width="40" height="4" fill="#ECE7D6"/>
+  <rect x="110" y="290" width="100" height="216" fill="#0C0C0A"/>
+  <rect x="145" y="518" width="30" height="6" fill="#ECE7D6"/>
+  <!-- chat bars -->
+  <rect x="118" y="302" width="60" height="8" fill="#908C7B"/>
+  <rect x="118" y="316" width="40" height="8" fill="#908C7B"/>
+  <rect x="140" y="338" width="62" height="8" fill="#ECE7D6"/>
+  <rect x="150" y="352" width="52" height="8" fill="#ECE7D6"/>
+  <rect x="118" y="374" width="76" height="8" fill="#908C7B"/>
+  <rect x="118" y="388" width="30" height="8" fill="#908C7B"/>
+  <rect x="152" y="410" width="50" height="8" fill="#ECE7D6"/>
+  <rect x="116" y="470" width="90" height="24" fill="none" stroke="#B7B2A1" stroke-width="2"/>
+  <text class="mono fg1" x="122" y="487" font-size="13">&gt; ship it<tspan class="blink">▌</tspan></text>
+  <text class="mono fg2 cap" x="160" y="582" font-size="22" text-anchor="middle">YOU</text>
+  <text class="mono fg3" x="160" y="606" font-size="15" text-anchor="middle" letter-spacing="0.1em">PHONE · LAPTOP</text>
+
+  <!-- grok bot -->
+  <rect class="box" x="330" y="340" width="230" height="120"/>
+  <text class="mono fg1" x="445" y="392" font-size="34" text-anchor="middle">[o_o]</text>
+  <text class="mono fg1 cap" x="445" y="436" font-size="28" text-anchor="middle">GROK BOT</text>
+  <text class="mono fg3" x="445" y="494" font-size="15" text-anchor="middle" letter-spacing="0.08em">ONE BOT PER PROJECT</text>
+
+  <!-- gateway -->
+  <rect x="688" y="308" width="320" height="200" fill="#211F17"/>
+  <rect class="box" x="680" y="300" width="320" height="200"/>
+  <rect x="690" y="310" width="300" height="180" fill="none" stroke="#ECE7D6" stroke-width="2"/>
+  <text class="mono fg1" x="840" y="374" font-size="26" font-weight="700" text-anchor="middle" letter-spacing="0.06em">T3-FLEET-GATEWAY</text>
+  <text class="mono fg2" x="840" y="412" font-size="15" text-anchor="middle" letter-spacing="0.04em">MCP · OAUTH 2.1 · TAILSCALE</text>
+  <rect x="757" y="433" width="12" height="12" fill="#38E25B"/>
+  <text class="mono fg3" x="777" y="445" font-size="17" letter-spacing="0.04em"><tspan fill="#38E25B">LIVE</tspan>  ·  jobs.sqlite</text>
+  <rect x="724" y="530" width="232" height="30" fill="#0C0C0A"/>
+  <text class="mono fg3" x="840" y="550" font-size="15" text-anchor="middle" letter-spacing="0.08em">ALWAYS-ON MAC MINI</text>
+
+  <!-- hosts -->
+  <rect class="box" x="1090" y="170" width="180" height="70"/>
+  <text class="mono fg1 cap" x="1180" y="202" font-size="22" text-anchor="middle">MAC MINI</text>
+  <text class="mono fg3" x="1180" y="227" font-size="14" text-anchor="middle" letter-spacing="0.1em">T3 CODE</text>
+
+  <rect class="box" x="1090" y="560" width="180" height="70"/>
+  <text class="mono fg1 cap" x="1180" y="592" font-size="22" text-anchor="middle">M3 MACBOOK</text>
+  <text class="mono fg3" x="1180" y="617" font-size="14" text-anchor="middle" letter-spacing="0.1em">T3 CODE</text>
+
+  <!-- worktree / thread nodes: mac mini -->
+  <rect x="1323" y="118" width="14" height="14" fill="none" stroke="#ECE7D6" stroke-width="3"/>
+  <text class="mono fg2" x="1352" y="132" font-size="18">fleet/job-7f3a</text>
+  <rect x="1321" y="196" width="18" height="18" fill="#ECE7D6"/>
+  <text class="mono fg1" x="1352" y="212" font-size="18">chief-of-staff<tspan class="blink">▌</tspan></text>
+  <rect x="1323" y="278" width="14" height="14" fill="none" stroke="#ECE7D6" stroke-width="3"/>
+  <text class="mono fg2" x="1352" y="292" font-size="18">fleet/job-9c21</text>
+  <rect x="1323" y="358" width="14" height="14" fill="none" stroke="#65625A" stroke-width="3"/>
+  <text class="mono fg3" x="1352" y="372" font-size="18">fleet/job-…</text>
+  <!-- worktree / thread nodes: m3 -->
+  <rect x="1323" y="508" width="14" height="14" fill="none" stroke="#ECE7D6" stroke-width="3"/>
+  <text class="mono fg2" x="1352" y="522" font-size="18">fleet/job-b05e</text>
+  <rect x="1323" y="588" width="14" height="14" fill="none" stroke="#ECE7D6" stroke-width="3"/>
+  <text class="mono fg2" x="1352" y="602" font-size="18">fleet/job-d41c</text>
+  <rect x="1323" y="668" width="14" height="14" fill="none" stroke="#65625A" stroke-width="3"/>
+  <text class="mono fg3" x="1352" y="682" font-size="18">fleet/job-…</text>
+
+  <!-- packets (the one signal) -->
+  <g class="pkt">
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="4s" repeatCount="indefinite" path="M220,400 H330" keyPoints="0;0;1;1" keyTimes="0;0;0.14;1"/>
+      <animate attributeName="opacity" dur="4s" repeatCount="indefinite" calcMode="discrete" values="1;0" keyTimes="0;0.14"/>
+    </rect>
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="4s" repeatCount="indefinite" path="M560,400 H680" keyPoints="0;0;1;1" keyTimes="0;0.2;0.34;1"/>
+      <animate attributeName="opacity" dur="4s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.2;0.34"/>
+    </rect>
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="4s" repeatCount="indefinite" path="M1000,400 H1060 V205 H1090" keyPoints="0;0;1;1" keyTimes="0;0.42;0.66;1"/>
+      <animate attributeName="opacity" dur="4s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.42;0.66"/>
+    </rect>
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="4s" repeatCount="indefinite" path="M1000,400 H1060 V595 H1090" keyPoints="0;0;1;1" keyTimes="0;0.42;0.66;1"/>
+      <animate attributeName="opacity" dur="4s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.42;0.66"/>
+    </rect>
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="4s" repeatCount="indefinite" path="M1270,205 H1300 V285 H1323" keyPoints="0;0;1;1" keyTimes="0;0.72;0.86;1"/>
+      <animate attributeName="opacity" dur="4s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.72;0.86"/>
+    </rect>
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="4s" repeatCount="indefinite" path="M1270,595 H1300 V515 H1323" keyPoints="0;0;1;1" keyTimes="0;0.72;0.86;1"/>
+      <animate attributeName="opacity" dur="4s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.72;0.86"/>
+    </rect>
+  </g>
+
+  <!-- scanlines -->
+  <rect x="0" y="0" width="1600" height="800" fill="url(#scan)" pointer-events="none"/>
+</svg>
