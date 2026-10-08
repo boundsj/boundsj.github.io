@@ -98,10 +98,9 @@ On a scheduled run, read the checkpoint page (cursor, sent keys) and
 call work_feed from the cursor. Keep only my project's events and
 attention items; use work_status or work_messages for detail. Message
 me only for a failed job, work ready for review, or a question, with
-the job link, skipping keys already on the page. Only once that has
-succeeded, save nextCursor and the new keys to the page (even if
-nothing was mine) and repeat while hasMore. Otherwise stay silent.
+the job link. Events can repeat after a retry, so skip any key
+already on the page. Only once that has succeeded, save nextCursor
+and the new keys to the page (even if nothing was mine) and repeat
+while hasMore. Otherwise stay silent. Never run because of your own
+edits to the checkpoint page.
 ```
-
-- Don't trigger the agent on edits to its own checkpoint page.
-- Retries can replay events; the saved keys cut duplicates but don't guarantee exactly-once delivery.
