@@ -23,7 +23,7 @@ I made a Notion Custom Agent called BloggerBot that uses the same T3 Fleet Gatew
 ### 1. Connect the gateway
 
 - Have a workspace admin allow custom MCP servers ([Notion's guide](https://www.notion.com/help/mcp-connections-for-custom-agents)).
-- Notion connections can't do OAuth sign-in, so the gateway needs to mint a bearer token. On the machine where you set up T3 Code and the gateway, give a coding agent a prompt like:
+- Mint a bearer token for the connection. On the machine where you set up T3 Code and the gateway, give a coding agent a prompt like:
 
   ```text
   In my t3-fleet-gateway checkout, mint a bearer token for a Notion
