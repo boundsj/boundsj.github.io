@@ -79,21 +79,13 @@ repeat:
   batch = work_feed(cursor)
   keep batch.events and batch.attention for my project only
   look closer with work_status / work_messages if needed
-  notify me if needed (skip keys already on the page)
+  message me only for a failed job, work ready for review,
+    or a question, with the job link (skip keys already on the page)
   write batch.nextCursor to the page   # only after handling succeeds
 until not batch.hasMore
 ```
 
+- Otherwise it stays silent, so a quiet run means nothing needs me.
 - `work_feed` has no project filter, so filter both lists yourself. Still save the returned cursor even when a batch only had other projects' events.
 - One checkpoint page per agent and project, and don't trigger the agent on edits to its own checkpoint.
 - Retries can replay events. The saved keys cut down on duplicate notifications but don't guarantee exactly-once delivery.
-
-### 5. Stay quiet
-
-The instructions only allow a message for:
-
-- a failed job,
-- work ready for review (inspect an `idle` job's last reply first),
-- a question that needs an answer.
-
-Each message includes the job link and the decision needed. Empty feeds and normal progress get nothing. Permission approvals still happen in T3 itself.
