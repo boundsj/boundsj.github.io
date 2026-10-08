@@ -7,7 +7,9 @@ tags: ["ai", "tools", "automation", "t3-code", "notion", "mcp"]
 categories: ["dev"]
 ---
 
-In [the original T3 Fleet Gateway post]({{< relref "t3-fleet-gateway" >}}), Grok Bot was the front door to coding work on my machines. A Notion custom agent like BloggerBot can use the same gateway: Notion supplies the instructions, schedule, and persistent page; T3 still does the repo work.
+In [the original T3 Fleet Gateway post](http://clawds-mac-mini.tail6bbdcb.ts.net:1313/posts/t3-fleet-gateway/), Grok Bot was the front door to coding work on my machines. A Notion custom agent like BloggerBot can use the same gateway: Notion supplies the instructions, schedule, and persistent page; T3 still does the repo work.
+
+Note how in a very meta way this entire post you are reading now was created 100% in a Notion custom agent!
 
 ## Connect BloggerBot
 
