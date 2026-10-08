@@ -9,7 +9,7 @@ categories: ["dev"]
 
 I work at Notion, so of course I want it helping with my coding workflows. Blogging is an obvious place to start. Between MCP and Notion's other connectors, Notion is the center of all my project work, so an agent there already knows what I've been building and what's worth writing about.
 
-In [the original T3 Fleet Gateway post](http://clawds-mac-mini.tail6bbdcb.ts.net:1313/posts/t3-fleet-gateway/), Grok Bot was the front door to coding work on my machines. A Notion custom agent like BloggerBot can use the same gateway: Notion supplies the instructions, schedule, and persistent page; T3 still does the repo work.
+In [the original T3 Fleet Gateway post]({{< relref "/posts/t3-fleet-gateway" >}}), Grok Bot was the front door to coding work on my machines. A Notion custom agent like BloggerBot can use the same gateway: Notion supplies the instructions, schedule, and persistent page; T3 still does the repo work.
 
 (Yes, BloggerBot had a hand in this one too.)
 
