@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" width="760" height="320" role="img" aria-labelledby="t d">
+  <title id="t">One scheduled run of a Notion Custom Agent watching T3 jobs</title>
+  <desc id="d">A flow diagram of eight boxes on a dark background, in two rows joined by arrows. Top row, left to right: a recurring trigger fires; the agent reads its checkpoint page for the cursor and sent keys; it calls work_feed from that cursor; it keeps only this project's events. Bottom row, right to left: it decides whether anything needs attention, meaning a failed job, work ready for review, or a question; it messages only in that case and stays silent otherwise; it saves the new cursor and keys to the page only after that succeeds; then it is done. A loop arrow labelled hasMore goes from the save box back to work_feed. Boxes outlined in Notion blue are Notion pieces; the others are gateway tools.</desc>
+  <style>
+    .ui { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .lbl { fill: #b3b3b3; font-size: 14px; }
+    .t { fill: #e6e6e6; font-size: 13px; font-weight: 600; }
+    .s { fill: #9b9b9b; font-size: 11.5px; }
+    .edge { fill: #8a8a8a; font-size: 11px; }
+    .box { fill: #191919; stroke: #3a3a3a; stroke-width: 1.5; }
+    .notion { stroke: #2383e2; }
+    .decide { stroke: #6a6a6a; stroke-dasharray: 5 3; }
+    .arrow { fill: none; stroke: #5c5c5c; stroke-width: 2; }
+    .blue { fill: #5b9bf0; }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5c5c5c"/>
+    </marker>
+  </defs>
+
+  <!-- canvas -->
+  <rect width="760" height="320" fill="#141414"/>
+
+  <g class="ui">
+    <text class="lbl" x="20" y="30">BloggerBot on a scheduled run</text>
+
+    <!-- arrows, top row -->
+    <path class="arrow" d="M180,79 H206" marker-end="url(#ah)"/>
+    <path class="arrow" d="M370,79 H396" marker-end="url(#ah)"/>
+    <path class="arrow" d="M560,79 H586" marker-end="url(#ah)"/>
+    <!-- down to the bottom row -->
+    <path class="arrow" d="M665,106 V186" marker-end="url(#ah)"/>
+    <!-- arrows, bottom row (right to left) -->
+    <path class="arrow" d="M590,217 H564" marker-end="url(#ah)"/>
+    <path class="arrow" d="M400,217 H374" marker-end="url(#ah)"/>
+    <path class="arrow" d="M210,217 H184" marker-end="url(#ah)"/>
+    <!-- loop back to work_feed -->
+    <path class="arrow" d="M290,190 V150 H480 V110" marker-end="url(#ah)"/>
+    <rect x="356" y="139" width="60" height="18" rx="4" fill="#141414"/>
+    <text class="edge mono" x="386" y="152" text-anchor="middle">hasMore</text>
+
+    <!-- top row -->
+    <rect class="box notion" x="20" y="52" width="160" height="54" rx="8"/>
+    <text class="t" x="100" y="75" text-anchor="middle">Recurring trigger</text>
+    <text class="s" x="100" y="94" text-anchor="middle">Settings → Triggers</text>
+
+    <rect class="box notion" x="210" y="52" width="160" height="54" rx="8"/>
+    <text class="t" x="290" y="75" text-anchor="middle">Read checkpoint page</text>
+    <text class="s" x="290" y="94" text-anchor="middle">cursor · sent keys</text>
+
+    <rect class="box" x="400" y="52" width="160" height="54" rx="8"/>
+    <text class="t mono blue" x="480" y="75" text-anchor="middle">work_feed(cursor)</text>
+    <text class="s" x="480" y="94" text-anchor="middle">events · attention</text>
+
+    <rect class="box" x="590" y="52" width="150" height="54" rx="8"/>
+    <text class="t" x="665" y="75" text-anchor="middle">Keep my project</text>
+    <text class="s" x="665" y="94" text-anchor="middle">no server-side filter</text>
+
+    <!-- bottom row -->
+    <rect class="box decide" x="590" y="190" width="150" height="54" rx="8"/>
+    <text class="t" x="665" y="213" text-anchor="middle">Needs me?</text>
+    <text class="s" x="665" y="232" text-anchor="middle">failed · review · question</text>
+
+    <rect class="box notion" x="400" y="190" width="160" height="54" rx="8"/>
+    <text class="t" x="480" y="213" text-anchor="middle">Message me if yes</text>
+    <text class="s" x="480" y="232" text-anchor="middle">job link · skip sent keys</text>
+
+    <rect class="box notion" x="210" y="190" width="160" height="54" rx="8"/>
+    <text class="t" x="290" y="213" text-anchor="middle">Save cursor + keys</text>
+    <text class="s" x="290" y="232" text-anchor="middle">only after that succeeds</text>
+
+    <rect class="box" x="20" y="190" width="160" height="54" rx="8"/>
+    <text class="t" x="100" y="213" text-anchor="middle">Done</text>
+    <text class="s" x="100" y="232" text-anchor="middle">quiet = nothing needs me</text>
+
+    <!-- legend -->
+    <rect x="20" y="290" width="14" height="14" rx="3" fill="#191919" stroke="#2383e2" stroke-width="1.5"/>
+    <text class="s" x="42" y="301.5">Notion: trigger, checkpoint page, message</text>
+    <rect x="300" y="290" width="14" height="14" rx="3" fill="#191919" stroke="#3a3a3a" stroke-width="1.5"/>
+    <text class="s" x="322" y="301.5">T3 Fleet Gateway: work_feed, work_status, work_messages</text>
+  </g>
+</svg>

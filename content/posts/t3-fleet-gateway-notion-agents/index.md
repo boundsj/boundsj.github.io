@@ -2,7 +2,7 @@
 title: "Notion as Mission Control for My T3 Code Fleet"
 date: 2026-10-08T05:50:00-07:00
 draft: true
-description: "How I connected a Notion Custom Agent to T3 Fleet Gateway to start, follow, and check in on coding work across my machines from Notion."
+description: "A Notion Custom Agent wired to T3 Fleet Gateway: ask for coding work in Notion, get a PR back, and let a scheduled trigger check in for you."
 tags: ["ai", "tools", "automation", "t3-code", "notion", "mcp"]
 categories: ["dev"]
 ---
@@ -13,6 +13,13 @@ I made a Notion Custom Agent called BloggerBot that uses the same T3 Fleet Gatew
 
 (Yes, BloggerBot had a hand in this one too.)
 
+## What Notion brings
+
+- **Context.** My project pages and connectors.
+- **Tools.** One Custom MCP server connection, each tool toggled on or off.
+- **Triggers.** A recurring schedule, so it checks on jobs unasked.
+- **Memory.** A page as its checkpoint between runs.
+
 ## How I did it
 
 <figure style="max-width: 760px; margin: 1.5rem auto;">
@@ -22,7 +29,7 @@ I made a Notion Custom Agent called BloggerBot that uses the same T3 Fleet Gatew
 
 ### 1. Set up the gateway and a token
 
-On the always-on machine that runs T3 Code, give a coding agent this prompt. If you already set up the gateway from the last post, it'll skip straight to the token.
+Give a coding agent on the always-on T3 Code machine this prompt. If the gateway is already set up from the last post, it skips to the token.
 
 ```text
 Clone https://github.com/boundsj/t3-fleet-gateway and set it up on this
@@ -37,23 +44,26 @@ that only take a bearer token"). Give me the public /mcp URL, and
 show me the token once without saving it anywhere else.
 ```
 
-- Notion's agents run in Notion's cloud, so the gateway needs a public HTTPS URL. It only listens on localhost, so use a tunnel. I use Tailscale Funnel; Cloudflare Tunnel or ngrok work too.
-- For jobs that run without you watching, set the project's `runtimeMode` to `auto` or `full-access`. With the default, `approval-required`, every edit waits for you to approve it in T3 ([details](https://github.com/boundsj/t3-fleet-gateway/blob/main/docs/configuration.md#approvals-and-unattended-projects)).
-- If you want PRs at the end, make sure `gh` is signed in on that machine. The worker opens the PR; the gateway doesn't.
-- Operate access lets the agent start jobs. Ask for read-only access for a watch-only agent. Renewal and revocation are in [the operations guide](https://github.com/boundsj/t3-fleet-gateway/blob/main/docs/operations.md#agents-that-only-take-a-bearer-token), and everything else is in [the repo](https://github.com/boundsj/t3-fleet-gateway).
+Things to get right:
 
-### 2. Connect the agent in Notion
+- **A public HTTPS URL.** Notion's agents run in the cloud and the gateway listens only on localhost, so a tunnel is required, [as before]({{< relref "/posts/t3-fleet-gateway" >}}).
+- **Unattended runs.** Set the project's `runtimeMode` to `auto` or `full-access`; otherwise every edit waits for your approval in T3 ([details](https://github.com/boundsj/t3-fleet-gateway/blob/main/docs/configuration.md#approvals-and-unattended-projects)).
+- **PRs.** Sign `gh` in on that machine; the worker opens the PR.
+- **Token scope.** Operate (the `clients token` default) starts and steers jobs; `--access read` is for a watch-only agent. Renewal and revocation: [the operations guide](https://github.com/boundsj/t3-fleet-gateway/blob/main/docs/operations.md#agents-that-only-take-a-bearer-token).
 
-- A workspace admin turns on **Settings → Connections → Enable custom MCP servers** ([Notion's guide](https://www.notion.com/help/mcp-connections-for-custom-agents)). If your workspace limits members to approved connections, add the gateway URL there too.
-- In the agent: **Settings → Tools & Access → Add connection → Custom MCP server**
-  - URL: `https://<your public URL>/mcp`
-  - Authentication: the bearer token from step 1 (sent as `Authorization: Bearer <token>`)
-  - Toggle on the read tools, plus the write tools if it should start or steer work (panel 1 above). Write tools default to **Always ask**; if it'll run on a schedule, set the tools it needs to **Run automatically**.
-- Save the agent, then ask it to run `fleet_status`. It should list your hosts and project aliases.
+### 2. Connect it in Notion
+
+1. An admin turns on **Settings → Connections → Enable custom MCP servers** ([Notion's guide](https://www.notion.com/help/mcp-connections-for-custom-agents)), and adds the gateway to the approved list if the workspace keeps one.
+2. Make the agent: **Agents** in the sidebar **→ +**.
+3. In the agent: **Settings → Tools & Access → Add connection → Custom MCP server**
+   - URL: `https://<your public URL>/mcp`
+   - Authentication: header-based, with the token from step 1
+   - Turn on the read tools, and the write tools if it should start or steer work (panel 1 above). Write tools default to **Always ask**; for scheduled runs, set the ones it needs to **Run automatically**.
+4. Save, then ask it to run `fleet_status`; it should list your hosts and project aliases.
 
 ### 3. Tell it how to work
 
-The agent's instructions are plain Notion text. Something like:
+The agent's instructions are plain text. Mine, trimmed:
 
 ```text
 Blog work goes to the T3 project "blog" (alias from fleet_status).
@@ -67,25 +77,31 @@ Blog work goes to the T3 project "blog" (alias from fleet_status).
 - Never publish. Drafts land in a PR for me to review.
 ```
 
-From then on, a chat message like panel 2 turns into a T3 thread (panel 3) and eventually a PR (panel 4).
+From then on, a chat message (panel 2) becomes a T3 thread (panel 3) and then a PR (panel 4).
 
 ### 4. Optional: check in on a schedule
 
-For recurring checks, add a [scheduled trigger](https://www.notion.com/help/custom-agents) and a **BloggerBot checkpoint** page, and give the agent edit access to it. The page holds the project alias, the last `work_feed` cursor and the notification keys it has already sent.
+Two more Notion pieces turn BloggerBot from a chat into a watcher:
+
+- **Settings → Triggers → Recurring**: pick a frequency and time ([Notion's guide](https://www.notion.com/help/custom-agents)).
+- A **BloggerBot checkpoint** page it can edit, holding the project alias, the last `work_feed` cursor and the keys of notifications already sent. One page per agent and project.
+
+<figure style="max-width: 760px; margin: 1.5rem auto;">
+  <img src="schedule-loop.svg" alt="Flow diagram of one scheduled run: recurring trigger, read checkpoint page, work_feed from the saved cursor, keep only this project's events, message only for a failed job, review-ready work or a question, save the new cursor and sent keys to the page, loop while hasMore." width="760" height="320" style="display: block; width: 100%; height: auto;" loading="lazy">
+  <figcaption>One scheduled run. Blue is Notion, grey is the gateway.</figcaption>
+</figure>
+
+Add this to the instructions:
 
 ```text
-cursor = read checkpoint page (empty on first run)
-repeat:
-  batch = work_feed(cursor)
-  keep batch.events and batch.attention for my project only
-  look closer with work_status / work_messages if needed
-  message me only for a failed job, work ready for review,
-    or a question, with the job link (skip keys already on the page)
-  write batch.nextCursor to the page   # only after handling succeeds
-until not batch.hasMore
+On a scheduled run, read the checkpoint page (cursor, sent keys) and
+call work_feed from the cursor. Keep only my project's events and
+attention items; use work_status or work_messages for detail. Message
+me only for a failed job, work ready for review, or a question, with
+the job link, skipping keys already on the page. Only once that has
+succeeded, save nextCursor and the new keys to the page (even if
+nothing was mine) and repeat while hasMore. Otherwise stay silent.
 ```
 
-- Otherwise it stays silent, so a quiet run means nothing needs me.
-- `work_feed` has no project filter, so filter both lists yourself. Still save the returned cursor even when a batch only had other projects' events.
-- One checkpoint page per agent and project, and don't trigger the agent on edits to its own checkpoint.
-- Retries can replay events. The saved keys cut down on duplicate notifications but don't guarantee exactly-once delivery.
+- Don't trigger the agent on edits to its own checkpoint page.
+- Retries can replay events; the saved keys cut duplicates but don't guarantee exactly-once delivery.
