@@ -141,6 +141,8 @@ Do not create a dedicated card for routine posts unless requested. Pages without
 - The local Hugo version can differ from Pages 0.154.5 and currently warns about languageCode deprecation
 - Port 1313 must be free for server
 - photo-poster kills port 8000 before starting (see Makefile)
+- Previews for other devices: `make preview` prints a tailnet HTTPS link and a LAN link, and removes the tailnet path when stopped. If a phone can't open the tailnet link, check iCloud Private Relay first.
+- Never commit tailnet hostnames or IPs; `make check-private-hosts` runs in the Pages workflow and fails the deploy.
 
 ## Available Skills
 

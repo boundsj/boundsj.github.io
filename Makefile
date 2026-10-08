@@ -8,7 +8,7 @@ MAGENTA := \033[0;35m
 RESET := \033[0m
 BOLD := \033[1m
 
-.PHONY: help serve photo-poster
+.PHONY: help serve preview preview-stop check-private-hosts photo-poster
 
 help: ## Show this help message
 	@echo "$(BOLD)$(MAGENTA)bounds.dev$(RESET) - Available commands:\n"
@@ -21,6 +21,22 @@ help: ## Show this help message
 serve: ## Build and serve the site with live reload
 	@echo "$(YELLOW)Starting Hugo development server...$(RESET)"
 	@hugo server -D --bind 0.0.0.0
+
+PREVIEW_PATH := /bounds-preview
+TS_NAME = $(shell tailscale status --json | jq -r '.Self.DNSName | rtrimstr(".")')
+
+preview: ## Serve drafts on the LAN and on tailnet HTTPS (never Funnel)
+	@tailscale serve --bg --https=443 --set-path $(PREVIEW_PATH) http://127.0.0.1:1313$(PREVIEW_PATH) >/dev/null
+	@echo "$(GREEN)Tailnet:$(RESET) https://$(TS_NAME)$(PREVIEW_PATH)/"
+	@echo "$(GREEN)LAN:$(RESET)     http://$$(ipconfig getifaddr en0 || ipconfig getifaddr en1):1313$(PREVIEW_PATH)/"
+	@trap 'tailscale serve --https=443 --set-path $(PREVIEW_PATH) off >/dev/null' EXIT; \
+		hugo server -D --bind 0.0.0.0 --baseURL https://$(TS_NAME)$(PREVIEW_PATH)/ --appendPort=false --disableLiveReload
+
+preview-stop: ## Remove the tailnet preview path
+	@tailscale serve --https=443 --set-path $(PREVIEW_PATH) off
+
+check-private-hosts: ## Fail if tailnet names or IPs are in site sources
+	@scripts/check-private-hosts.sh
 
 PHOTO_POSTER_DIR := tools/photo-poster
 PHOTO_VENV := $(PHOTO_POSTER_DIR)/.venv
