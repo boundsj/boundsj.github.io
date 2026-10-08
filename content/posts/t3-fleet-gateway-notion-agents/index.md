@@ -1,7 +1,6 @@
 ---
 title: "Notion as Mission Control for My T3 Code Fleet"
 date: 2026-10-08T05:50:00-07:00
-draft: true
 description: "A Notion Custom Agent wired to T3 Fleet Gateway: ask for coding work in Notion, get a PR back, and let a scheduled trigger check in for you."
 images: ["social-card.png"]
 tags: ["ai", "tools", "automation", "t3-code", "notion", "mcp"]
