@@ -1,5 +1,5 @@
 ---
-title: "Notion Custom Agents, Powered by T3 Fleet Gateway"
+title: "Notion as Mission Control for My T3 Code Fleet"
 date: 2026-10-08T05:50:00-07:00
 draft: true
 description: "Connect BloggerBot to T3 Fleet Gateway and use a Notion page to checkpoint recurring project checks, surfacing only failures, review requests, and questions."
