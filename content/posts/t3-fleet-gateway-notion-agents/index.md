@@ -107,4 +107,4 @@ edits to the checkpoint page.
 
 ## Put the spare laptop to work
 
-That's it. Ask in Notion, and the real work happens on whatever machines you have: one always-on Mac mini, or a whole fleet including the old laptop in the drawer and the desktop gathering dust under your desk. Your agent subscriptions get used, your spare hardware earns its keep, and you get a PR to review instead of a to-do list.
+That's the whole setup. Now I just ask in Notion and my agents get cooking on whatever machines I have around: the always-on Mac mini, my big laptop, maybe even that old one in the drawer. If you're already paying for agent subs, you might as well put them (and your spare hardware) to work. 🍳
