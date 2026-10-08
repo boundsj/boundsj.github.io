@@ -11,6 +11,11 @@ In [the original T3 Fleet Gateway post](http://clawds-mac-mini.tail6bbdcb.ts.net
 
 Note how in a very meta way this entire post you are reading now was created 100% in a Notion custom agent!
 
+<figure style="max-width: 760px; margin: 1.5rem auto;">
+  <img src="t3-notion-pipeline.svg" alt="A terminal-style four-step diagram: a fictional Notion agent named WaffleBot gets a T3 MCP connection with read and write tool toggles, the user asks it to add a dark mode to BananaCRM's invoice page, a T3 Code job thread runs the work on a fleet branch, and a diff lands with a PR #42 opened badge." width="1200" height="1060" style="display: block; width: 100%; height: auto;" loading="lazy">
+  <figcaption>Connect the T3 MCP tool to a Notion custom agent, ask for something, a T3 thread does the work, and a PR shows up.</figcaption>
+</figure>
+
 ## Connect BloggerBot
 
 In the agent's **Settings → Tools & Access → Add connection → Custom MCP server**, add the gateway's public `https://<your-host>/mcp` URL and name the connection **T3 MCP Server**. This points at the fleet gateway. Your workspace admin must enable custom MCP servers first; [Notion documents the setup here](https://www.notion.com/help/mcp-connections-for-custom-agents).

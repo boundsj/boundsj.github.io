@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1060" width="1200" height="1060" role="img" aria-labelledby="t d">
+  <title id="t">From a Notion custom agent to a pull request in four steps</title>
+  <desc id="d">A monochrome terminal-style diagram on a dark screen with four cards joined by wires. Step one, Connect: a settings panel for a fictional agent named WaffleBot with a T3 MCP connection marked connected and toggles for read tools like fleet status, job status, list jobs, job feed and read messages, and write tools like start work, continue a job, answer a question and cancel a job. Step two, Ask: a chat where the user asks WaffleBot to add a dark mode to BananaCRM's invoice page and the bot replies that it is starting a T3 job. Step three, Thread: a T3 Code job card on a fleet branch showing the instruction sent by another agent, a working timer, a progress bar and a log. Step four, Ship: a code diff adding dark theme tokens and a green badge reading PR #42 opened. Small green packets travel along the wires.</desc>
+  <style>
+    .mono { font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace; }
+    .fg1 { fill: #ECE7D6; }
+    .fg2 { fill: #B7B2A1; }
+    .fg3 { fill: #908C7B; }
+    .ink { fill: #0C0C0A; }
+    .ok { fill: #38E25B; }
+    .add { fill: #38E25B; }
+    .del { fill: #E25B5B; }
+    .wire { fill: none; stroke: #ECE7D6; stroke-width: 4; stroke-linecap: butt; stroke-linejoin: miter; }
+    .box { fill: #16150F; stroke: #ECE7D6; stroke-width: 4; }
+    .inner { fill: #211F17; stroke: #B7B2A1; stroke-width: 2; }
+    .well { fill: #0C0C0A; stroke: #3A382F; stroke-width: 2; }
+    .tog { fill: none; stroke: #ECE7D6; stroke-width: 2; }
+    .tog-off { fill: none; stroke: #65625A; stroke-width: 2; }
+    .cap { letter-spacing: 0.12em; font-weight: 700; }
+    .blink { animation: blink 1.06s steps(1, end) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .blink { animation: none; }
+      .pkt { display: none; }
+    }
+  </style>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#2A2820"/>
+    </pattern>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="4" height="1" fill="#ECE7D6" opacity="0.06"/>
+    </pattern>
+  </defs>
+
+  <!-- screen -->
+  <rect x="0" y="0" width="1200" height="1060" fill="#0C0C0A"/>
+  <rect x="0" y="0" width="1200" height="1060" fill="url(#grid)"/>
+
+  <!-- top / bottom chrome -->
+  <text class="mono fg3" x="60" y="62" font-size="18" letter-spacing="0.14em">T3 FLEET GATEWAY  ×  NOTION CUSTOM AGENT</text>
+  <text class="mono fg3" x="1140" y="62" font-size="18" letter-spacing="0.14em" text-anchor="end">ONE AGENT · ONE PROJECT</text>
+  <rect x="60" y="80" width="1080" height="1" fill="#908C7B" opacity="0.5"/>
+  <rect x="60" y="990" width="1080" height="1" fill="#908C7B" opacity="0.5"/>
+  <text class="mono fg3" x="60" y="1026" font-size="18">&gt; connect  ·  ask  ·  thread  ·  ship<tspan class="fg1 blink"> ▌</tspan></text>
+  <text class="mono fg3" x="1140" y="1026" font-size="18" text-anchor="end">NOTION  &lt;=&gt;  T3 MCP  &lt;=&gt;  T3 CODE</text>
+
+  <!-- wires -->
+  <path class="wire" d="M570,310 H630"/>
+  <path class="wire" d="M885,500 V535 H315 V570"/>
+  <path class="wire" d="M570,760 H630"/>
+
+  <!-- ===== 01 CONNECT ===== -->
+  <rect class="box" x="60" y="120" width="510" height="380"/>
+  <rect x="60" y="120" width="150" height="30" fill="#ECE7D6"/>
+  <text class="mono ink cap" x="72" y="141" font-size="15">01 · CONNECT</text>
+  <text class="mono fg1" x="84" y="192" font-size="22" font-weight="700">WAFFLEBOT</text>
+  <text class="mono fg3" x="84" y="216" font-size="15">Settings › Tools &amp; Access</text>
+
+  <rect class="inner" x="84" y="232" width="462" height="44"/>
+  <rect x="98" y="248" width="12" height="12" fill="#38E25B"/>
+  <text class="mono fg1" x="120" y="261" font-size="17" font-weight="700">T3 MCP</text>
+  <text class="mono fg3" x="196" y="261" font-size="14">custom MCP server</text>
+  <text class="mono ok" x="532" y="261" font-size="13" letter-spacing="0.1em" text-anchor="end">CONNECTED</text>
+
+  <text class="mono fg3 cap" x="84" y="308" font-size="13">READ</text>
+  <text class="mono fg3 cap" x="320" y="308" font-size="13">WRITE</text>
+
+  <!-- read toggles -->
+  <g class="mono fg2" font-size="15">
+    <rect class="tog" x="84" y="325" width="30" height="16"/><rect x="99" y="328" width="12" height="10" fill="#38E25B"/>
+    <text x="126" y="338">Fleet status</text>
+    <rect class="tog" x="84" y="353" width="30" height="16"/><rect x="99" y="356" width="12" height="10" fill="#38E25B"/>
+    <text x="126" y="366">Job status</text>
+    <rect class="tog" x="84" y="381" width="30" height="16"/><rect x="99" y="384" width="12" height="10" fill="#38E25B"/>
+    <text x="126" y="394">List jobs</text>
+    <rect class="tog" x="84" y="409" width="30" height="16"/><rect x="99" y="412" width="12" height="10" fill="#38E25B"/>
+    <text x="126" y="422">Job feed</text>
+    <rect class="tog" x="84" y="437" width="30" height="16"/><rect x="99" y="440" width="12" height="10" fill="#38E25B"/>
+    <text x="126" y="450">Read messages</text>
+  </g>
+  <!-- write toggles -->
+  <g class="mono fg2" font-size="15">
+    <rect class="tog" x="320" y="325" width="30" height="16"/><rect x="335" y="328" width="12" height="10" fill="#38E25B"/>
+    <text x="362" y="338">Start work</text>
+    <rect class="tog" x="320" y="353" width="30" height="16"/><rect x="335" y="356" width="12" height="10" fill="#38E25B"/>
+    <text x="362" y="366">Continue a job</text>
+    <rect class="tog" x="320" y="381" width="30" height="16"/><rect x="335" y="384" width="12" height="10" fill="#38E25B"/>
+    <text x="362" y="394">Answer a question</text>
+    <rect class="tog-off" x="320" y="409" width="30" height="16"/><rect x="323" y="412" width="12" height="10" fill="#65625A"/>
+    <text x="362" y="422" class="fg3">Cancel a job</text>
+  </g>
+  <text class="mono fg3" x="84" y="482" font-size="13" letter-spacing="0.06em">read = monitor  ·  write = operate</text>
+
+  <!-- ===== 02 ASK ===== -->
+  <rect class="box" x="630" y="120" width="510" height="380"/>
+  <rect x="630" y="120" width="110" height="30" fill="#ECE7D6"/>
+  <text class="mono ink cap" x="642" y="141" font-size="15">02 · ASK</text>
+  <text class="mono fg1" x="654" y="192" font-size="22" font-weight="700">NOTION · WAFFLEBOT</text>
+  <text class="mono fg3" x="654" y="216" font-size="15">custom agent · chat</text>
+
+  <text class="mono fg3" x="1116" y="238" font-size="13" letter-spacing="0.1em" text-anchor="end">YOU</text>
+  <rect class="inner" x="740" y="246" width="376" height="68"/>
+  <text class="mono fg1" x="756" y="274" font-size="15">Add a dark mode to BananaCRM's</text>
+  <text class="mono fg1" x="756" y="298" font-size="15">invoice page. Ship it as a PR.</text>
+
+  <rect class="box" x="654" y="334" width="400" height="98" stroke-width="2"/>
+  <text class="mono fg1" x="670" y="360" font-size="16" font-weight="700">[o_o] WaffleBot</text>
+  <text class="mono fg2" x="670" y="384" font-size="15">On it. Starting a T3 job on</text>
+  <text class="mono fg2" x="670" y="404" font-size="15">bananacrm. I'll ping you</text>
+  <text class="mono fg2" x="670" y="424" font-size="15">when the PR is up.</text>
+
+  <rect x="654" y="450" width="300" height="32" fill="#0C0C0A" stroke="#38E25B" stroke-width="2"/>
+  <text class="mono ok" x="666" y="471" font-size="15">&gt; work_start bananacrm<tspan class="blink">▌</tspan></text>
+
+  <!-- ===== 03 THREAD ===== -->
+  <rect class="box" x="60" y="570" width="510" height="380"/>
+  <rect x="60" y="570" width="140" height="30" fill="#ECE7D6"/>
+  <text class="mono ink cap" x="72" y="591" font-size="15">03 · THREAD</text>
+  <text class="mono fg1" x="84" y="642" font-size="22" font-weight="700">T3 CODE · bananacrm</text>
+  <text class="mono fg3" x="84" y="666" font-size="15">fleet/job-4f2c  ·  worktree  ·  full access</text>
+
+  <text class="mono fg3" x="546" y="692" font-size="13" letter-spacing="0.06em" text-anchor="end">Sent by another agent</text>
+  <rect class="inner" x="84" y="700" width="462" height="58"/>
+  <text class="mono fg1" x="100" y="724" font-size="15">Add a dark mode to the invoice page.</text>
+  <text class="mono fg3" x="100" y="746" font-size="14">work_continue  ·  from WaffleBot via T3 MCP</text>
+
+  <circle cx="96" cy="790" r="7" fill="none" stroke="#38E25B" stroke-width="2" stroke-dasharray="5 3"/>
+  <text class="mono fg1" x="112" y="796" font-size="16">Working 2m 14s</text>
+  <text class="mono fg3" x="546" y="796" font-size="14" text-anchor="end">job running…</text>
+
+  <!-- progress blocks -->
+  <g>
+    <rect x="84" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="108" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="132" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="156" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="180" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="204" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="228" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="252" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="276" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="300" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="324" y="816" width="20" height="14" fill="#ECE7D6"/>
+    <rect x="348" y="816" width="20" height="14" fill="#3A382F"/>
+    <rect x="372" y="816" width="20" height="14" fill="#3A382F"/>
+    <rect x="396" y="816" width="20" height="14" fill="#3A382F"/>
+    <rect x="420" y="816" width="20" height="14" fill="#3A382F"/>
+    <rect x="444" y="816" width="20" height="14" fill="#3A382F"/>
+    <rect x="468" y="816" width="20" height="14" fill="#3A382F"/>
+  </g>
+  <text class="mono fg2" x="546" y="829" font-size="14" text-anchor="end">65%</text>
+
+  <text class="mono fg3" x="84" y="862" font-size="14">› reading src/invoice/*.css</text>
+  <text class="mono fg3" x="84" y="884" font-size="14">› adding --paper / --ink tokens</text>
+  <text class="mono fg2" x="84" y="906" font-size="14">› writing tests<tspan class="fg1 blink">▌</tspan></text>
+
+  <!-- ===== 04 SHIP ===== -->
+  <rect class="box" x="630" y="570" width="510" height="380"/>
+  <rect x="630" y="570" width="120" height="30" fill="#ECE7D6"/>
+  <text class="mono ink cap" x="642" y="591" font-size="15">04 · SHIP</text>
+  <text class="mono fg1" x="654" y="642" font-size="22" font-weight="700">PULL REQUEST · bananacrm</text>
+  <text class="mono fg3" x="654" y="666" font-size="15">src/invoice/theme.css   <tspan class="add">+41</tspan> <tspan class="del">−3</tspan></text>
+
+  <rect class="well" x="654" y="684" width="462" height="168"/>
+  <g class="mono" font-size="14">
+    <text class="fg3" x="668" y="708">@@ -1,4 +1,12 @@</text>
+    <text class="add" x="668" y="730">+ :root[data-theme=dark] {</text>
+    <text class="add" x="668" y="752">+   --paper: #0c0c0a;</text>
+    <text class="add" x="668" y="774">+   --ink:   #ece7d6;</text>
+    <text class="add" x="668" y="796">+ }</text>
+    <text class="del" x="668" y="818">- body { background: #fff; }</text>
+    <text class="add" x="668" y="840">+ body { background: var(--paper); }</text>
+  </g>
+
+  <rect x="654" y="870" width="196" height="36" fill="#38E25B"/>
+  <text class="mono ink cap" x="752" y="894" font-size="15" text-anchor="middle">PR #42 OPENED</text>
+  <text class="mono fg2" x="866" y="894" font-size="15">WaffleBot › main</text>
+  <text class="mono fg3" x="654" y="932" font-size="13" letter-spacing="0.06em">1 commit  ·  checks passing  ·  ready for review</text>
+
+  <!-- packets -->
+  <g class="pkt">
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="6s" repeatCount="indefinite" path="M570,310 H630" keyPoints="0;0;1;1" keyTimes="0;0;0.12;1"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite" calcMode="discrete" values="1;0" keyTimes="0;0.12"/>
+    </rect>
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="6s" repeatCount="indefinite" path="M885,500 V535 H315 V570" keyPoints="0;0;1;1" keyTimes="0;0.3;0.62;1"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.3;0.62"/>
+    </rect>
+    <rect x="-6" y="-6" width="12" height="12" fill="#38E25B">
+      <animateMotion dur="6s" repeatCount="indefinite" path="M570,760 H630" keyPoints="0;0;1;1" keyTimes="0;0.78;0.9;1"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.78;0.9"/>
+    </rect>
+  </g>
+
+  <!-- scanlines -->
+  <rect x="0" y="0" width="1200" height="1060" fill="url(#scan)" pointer-events="none"/>
+</svg>
