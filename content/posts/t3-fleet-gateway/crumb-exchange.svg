@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" width="760" height="500" role="img" aria-labelledby="title desc">
+  <title id="title">Crumb Exchange, a fictional play-money prediction market for sandwich questions, with its new Resting orders panel</title>
+  <desc id="desc">A dark trading-style web app. The header shows a balance of 1,000 crumbs. A market list offers questions like Is a hot dog a sandwich, with bids and asks in crumbs. A detail pane shows the selected market, a YES/NO and BUY/SELL order ticket, and a newly added Resting orders panel with a Cancel button.</desc>
+  <style>
+    .ui { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+    .t { fill: #e8edf3; }
+    .m { fill: #8d99a8; }
+    .g { fill: #3fcf7f; }
+    .r { fill: #ef6b6b; }
+    .row { font-size: 11px; }
+    .num { font-size: 11px; }
+    .lbl { font-size: 10px; fill: #8d99a8; }
+    .chip { font-size: 10px; fill: #c4ccd6; }
+  </style>
+  <defs>
+    <clipPath id="frame"><rect width="760" height="500" rx="14"/></clipPath>
+  </defs>
+  <rect width="760" height="500" rx="14" fill="#0f141b"/>
+  <g clip-path="url(#frame)" class="ui">
+    <!-- header -->
+    <rect width="760" height="40" fill="#121920"/>
+    <path d="M0 40H760" stroke="#243040"/>
+    <text x="16" y="25" font-size="14" font-weight="700" class="t">Crumb Exchange</text>
+    <circle cx="148" cy="21" r="3.5" fill="#3fcf7f"/><text x="156" y="25" font-size="11" class="m">exchange</text>
+    <circle cx="218" cy="21" r="3.5" fill="#3fcf7f"/><text x="226" y="25" font-size="11" class="m">trading</text>
+    <circle cx="278" cy="21" r="3.5" fill="#3fcf7f"/><text x="286" y="25" font-size="11" class="m">auth</text>
+    <text x="744" y="25" text-anchor="end" font-size="12" class="t">Balance <tspan font-weight="700">1,000 crumbs</tspan>   <tspan class="m">Portfolio</tspan> 0 crumbs</text>
+
+    <!-- left: market list -->
+    <rect x="12" y="52" width="150" height="24" rx="5" fill="#1a222c" stroke="#2b3645"/>
+    <text x="22" y="68" font-size="11" class="t">sandwich</text>
+    <rect x="170" y="52" width="106" height="24" rx="5" fill="#1a222c" stroke="#2b3645"/>
+    <text x="180" y="68" font-size="11" class="t">Closing soon <tspan class="m">⌄</tspan></text>
+
+    <g class="chip">
+      <rect x="12" y="86" width="30" height="18" rx="9" fill="#1a222c"/><text x="27" y="98.5" text-anchor="middle">All</text>
+      <rect x="48" y="86" width="86" height="18" rx="9" fill="#1b2a40" stroke="#3a5a86"/><text x="91" y="98.5" text-anchor="middle" fill="#9fc0ff">Sandwiches 12</text>
+      <rect x="140" y="86" width="52" height="18" rx="9" fill="#1a222c"/><text x="166" y="98.5" text-anchor="middle">Soups 3</text>
+      <rect x="198" y="86" width="54" height="18" rx="9" fill="#1a222c"/><text x="225" y="98.5" text-anchor="middle">Wraps 2</text>
+    </g>
+
+    <g class="lbl">
+      <text x="12" y="126">Market</text>
+      <text x="196" y="126" text-anchor="end">Bid</text>
+      <text x="228" y="126" text-anchor="end">Ask</text>
+      <text x="260" y="126" text-anchor="end">Last</text>
+      <text x="282" y="126" text-anchor="end">Vol</text>
+    </g>
+    <path d="M12 132H282" stroke="#243040"/>
+
+    <!-- rows -->
+    <g class="row">
+      <rect x="6" y="138" width="282" height="30" rx="5" fill="#1b2a40"/>
+      <text x="12" y="157" class="t" font-weight="600">Is a hot dog a sandwich?</text>
+      <g class="mono num"><text x="196" y="157" text-anchor="end" class="g">20c</text><text x="228" y="157" text-anchor="end" class="r">21c</text><text x="260" y="157" text-anchor="end" class="t">21c</text><text x="282" y="157" text-anchor="end" class="m">92</text></g>
+
+      <text x="12" y="189" class="t">Is a taco a sandwich?</text>
+      <g class="mono num"><text x="196" y="189" text-anchor="end" class="g">34c</text><text x="228" y="189" text-anchor="end" class="r">36c</text><text x="260" y="189" text-anchor="end" class="t">35c</text><text x="282" y="189" text-anchor="end" class="m">41</text></g>
+      <path d="M12 198H282" stroke="#1c2633"/>
+
+      <text x="12" y="221" class="t">Is cereal a soup?</text>
+      <g class="mono num"><text x="196" y="221" text-anchor="end" class="g">12c</text><text x="228" y="221" text-anchor="end" class="r">15c</text><text x="260" y="221" text-anchor="end" class="t">13c</text><text x="282" y="221" text-anchor="end" class="m">18</text></g>
+      <path d="M12 230H282" stroke="#1c2633"/>
+
+      <text x="12" y="253" class="t">Does a wrap count?</text>
+      <g class="mono num"><text x="196" y="253" text-anchor="end" class="g">48c</text><text x="228" y="253" text-anchor="end" class="r">50c</text><text x="260" y="253" text-anchor="end" class="t">49c</text><text x="282" y="253" text-anchor="end" class="m">67</text></g>
+      <path d="M12 262H282" stroke="#1c2633"/>
+
+      <text x="12" y="285" class="t">Is a Pop-Tart a ravioli?</text>
+      <g class="mono num"><text x="196" y="285" text-anchor="end" class="g">7c</text><text x="228" y="285" text-anchor="end" class="r">9c</text><text x="260" y="285" text-anchor="end" class="t">8c</text><text x="282" y="285" text-anchor="end" class="m">12</text></g>
+      <path d="M12 294H282" stroke="#1c2633"/>
+
+      <text x="12" y="317" class="t">Is toast a sandwich?</text>
+      <g class="mono num"><text x="196" y="317" text-anchor="end" class="g">61c</text><text x="228" y="317" text-anchor="end" class="r">63c</text><text x="260" y="317" text-anchor="end" class="t">62c</text><text x="282" y="317" text-anchor="end" class="m">30</text></g>
+      <path d="M12 326H282" stroke="#1c2633"/>
+
+      <text x="12" y="349" class="t">Does a burrito count?</text>
+      <g class="mono num"><text x="196" y="349" text-anchor="end" class="g">44c</text><text x="228" y="349" text-anchor="end" class="r">47c</text><text x="260" y="349" text-anchor="end" class="t">45c</text><text x="282" y="349" text-anchor="end" class="m">22</text></g>
+      <path d="M12 358H282" stroke="#1c2633"/>
+
+      <text x="12" y="381" class="t">Is a quesadilla a wrap?</text>
+      <g class="mono num"><text x="196" y="381" text-anchor="end" class="g">29c</text><text x="228" y="381" text-anchor="end" class="r">31c</text><text x="260" y="381" text-anchor="end" class="t">30c</text><text x="282" y="381" text-anchor="end" class="m">9</text></g>
+      <path d="M12 390H282" stroke="#1c2633"/>
+
+      <text x="12" y="413" class="t">Is a calzone a sandwich?</text>
+      <g class="mono num"><text x="196" y="413" text-anchor="end" class="g">55c</text><text x="228" y="413" text-anchor="end" class="r">58c</text><text x="260" y="413" text-anchor="end" class="t">56c</text><text x="282" y="413" text-anchor="end" class="m">14</text></g>
+      <path d="M12 422H282" stroke="#1c2633"/>
+
+      <text x="12" y="445" class="t">Is a hot pocket a calzone?</text>
+      <g class="mono num"><text x="196" y="445" text-anchor="end" class="g">38c</text><text x="228" y="445" text-anchor="end" class="r">41c</text><text x="260" y="445" text-anchor="end" class="t">40c</text><text x="282" y="445" text-anchor="end" class="m">5</text></g>
+    </g>
+    <rect x="12" y="466" width="44" height="20" rx="4" fill="#1a222c"/><text x="34" y="480" text-anchor="middle" font-size="10" class="m">‹ Prev</text>
+    <text x="147" y="480" text-anchor="middle" font-size="10" class="m">1–10 of 17</text>
+    <rect x="238" y="466" width="44" height="20" rx="4" fill="#1a222c"/><text x="260" y="480" text-anchor="middle" font-size="10" class="t">Next ›</text>
+
+    <path d="M296 40V500" stroke="#243040"/>
+
+    <!-- center: market detail -->
+    <text x="312" y="66" font-size="10.5" class="m">Sandwiches · open question</text>
+    <text x="312" y="88" font-size="16" font-weight="700" class="t">Is a hot dog a sandwich?</text>
+    <rect x="312" y="98" width="46" height="16" rx="3" fill="none" stroke="#3a4a60"/>
+    <text x="335" y="109.5" text-anchor="middle" font-size="9" class="m">ACTIVE</text>
+    <text x="368" y="110" font-size="10.5" class="m">· settles by group chat vote</text>
+    <circle cx="520" cy="106" r="3" fill="#3fcf7f"/><text x="527" y="110" font-size="10.5" class="g">live</text>
+
+    <g font-size="10" class="m">
+      <rect x="312" y="124" width="58" height="42" rx="5" fill="#141c25" stroke="#243040"/><text x="320" y="139">Last</text><text x="320" y="158" class="mono t" font-size="14">21c</text>
+      <rect x="378" y="124" width="58" height="42" rx="5" fill="#141c25" stroke="#243040"/><text x="386" y="139">Yes bid</text><text x="386" y="158" class="mono g" font-size="14">20c</text>
+      <rect x="444" y="124" width="58" height="42" rx="5" fill="#141c25" stroke="#243040"/><text x="452" y="139">Yes ask</text><text x="452" y="158" class="mono r" font-size="14">21c</text>
+      <rect x="510" y="124" width="58" height="42" rx="5" fill="#141c25" stroke="#243040"/><text x="518" y="139">Spread</text><text x="518" y="158" class="mono t" font-size="14">1c</text>
+    </g>
+
+    <!-- chart -->
+    <rect x="312" y="178" width="256" height="118" rx="6" fill="#141c25" stroke="#243040"/>
+    <text x="322" y="196" font-size="11" font-weight="600" class="t">Yes price <tspan class="m" font-weight="400">crumbs</tspan></text>
+    <rect x="484" y="186" width="76" height="16" rx="4" fill="#1a222c"/>
+    <text x="496" y="197.5" font-size="9" class="m">1h</text>
+    <rect x="508" y="188" width="22" height="12" rx="3" fill="#2b3a52"/><text x="519" y="197.5" text-anchor="middle" font-size="9" class="t">1d</text>
+    <text x="544" y="197.5" font-size="9" class="m">1w</text>
+    <g stroke="#1e2834"><path d="M322 220H560M322 250H560M322 280H560"/></g>
+    <text x="558" y="218" text-anchor="end" font-size="8" class="m">24c</text>
+    <text x="558" y="248" text-anchor="end" font-size="8" class="m">20c</text>
+    <text x="558" y="278" text-anchor="end" font-size="8" class="m">16c</text>
+    <polyline points="322,262 340,258 358,268 376,250 394,254 412,240 430,246 448,236 466,244 484,232 502,238 520,228 538,234" fill="none" stroke="#3fcf7f" stroke-width="1.6" stroke-linejoin="round"/>
+    <rect x="538" y="229" width="18" height="12" rx="2" fill="#3fcf7f"/><text x="547" y="238" text-anchor="middle" font-size="8" font-weight="700" fill="#0f141b">21c</text>
+
+    <!-- right: ticket -->
+    <rect x="582" y="52" width="80" height="26" rx="4" fill="#1b4a35" stroke="#3fcf7f"/><text x="622" y="69" text-anchor="middle" font-size="11" font-weight="700" class="g">YES</text>
+    <rect x="668" y="52" width="80" height="26" rx="4" fill="#141c25" stroke="#2b3645"/><text x="708" y="69" text-anchor="middle" font-size="11" font-weight="700" class="t">NO</text>
+    <rect x="582" y="84" width="80" height="26" rx="4" fill="#1b2a40" stroke="#3a5a86"/><text x="622" y="101" text-anchor="middle" font-size="11" font-weight="700" fill="#9fc0ff">BUY</text>
+    <rect x="668" y="84" width="80" height="26" rx="4" fill="#141c25" stroke="#2b3645"/><text x="708" y="101" text-anchor="middle" font-size="11" font-weight="700" class="t">SELL</text>
+
+    <text x="582" y="128" font-size="10" class="m">Price (crumbs)</text>
+    <rect x="582" y="134" width="26" height="24" rx="4" fill="#1a222c" stroke="#2b3645"/><text x="595" y="150" text-anchor="middle" font-size="12" class="t">–</text>
+    <rect x="614" y="134" width="102" height="24" rx="4" fill="#1a222c" stroke="#2b3645"/><text x="665" y="150" text-anchor="middle" font-size="12" class="mono t">20</text>
+    <rect x="722" y="134" width="26" height="24" rx="4" fill="#1a222c" stroke="#2b3645"/><text x="735" y="150" text-anchor="middle" font-size="12" class="t">+</text>
+
+    <text x="582" y="178" font-size="10" class="m">Contracts</text>
+    <rect x="582" y="184" width="166" height="24" rx="4" fill="#1a222c" stroke="#2b3645"/><text x="592" y="200" font-size="12" class="mono t">1</text>
+
+    <g font-size="10.5">
+      <text x="582" y="230" class="m">Cost</text><text x="748" y="230" text-anchor="end" class="mono t">20 crumbs</text>
+      <text x="582" y="248" class="m">Max payout</text><text x="748" y="248" text-anchor="end" class="mono t">100 crumbs</text>
+      <text x="582" y="266" class="m">Max profit</text><text x="748" y="266" text-anchor="end" class="mono g">80 crumbs</text>
+    </g>
+    <rect x="582" y="276" width="166" height="28" rx="5" fill="#2e9c5e"/>
+    <text x="665" y="294" text-anchor="middle" font-size="11" font-weight="700" fill="#f3fff7">BUY 1 YES @ 20c</text>
+
+    <!-- resting orders panel (new) -->
+    <rect x="312" y="312" width="436" height="172" rx="8" fill="#141c25" stroke="#3a5a86"/>
+    <text x="326" y="334" font-size="12" font-weight="700" class="t">Resting orders</text>
+    <rect x="422" y="322" width="34" height="16" rx="8" fill="#2b4f86"/><text x="439" y="333.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#cfe2ff">NEW</text>
+    <text x="736" y="334" text-anchor="end" font-size="10" class="m">1 open</text>
+    <g class="lbl">
+      <text x="326" y="356">Market</text>
+      <text x="500" y="356">Side</text>
+      <text x="566" y="356">Price</text>
+      <text x="608" y="356">Left</text>
+      <text x="640" y="356">Status</text>
+    </g>
+    <path d="M326 362H736" stroke="#243040"/>
+    <text x="326" y="382" font-size="11" class="t">Is a hot dog a sandwich?</text>
+    <text x="500" y="382" font-size="11" font-weight="600" class="g">BUY YES</text>
+    <text x="566" y="382" font-size="11" class="mono t">20c</text>
+    <text x="608" y="382" font-size="11" class="mono t">1</text>
+    <text x="640" y="382" font-size="10.5" class="m">resting</text>
+    <rect x="690" y="368" width="46" height="20" rx="4" fill="none" stroke="#ef6b6b"/>
+    <text x="713" y="382" text-anchor="middle" font-size="10" font-weight="600" class="r">Cancel</text>
+    <path d="M326 396H736" stroke="#1c2633"/>
+    <text x="326" y="420" font-size="10.5" class="m">Orders rest until filled, canceled, or the question is settled.</text>
+    <text x="326" y="436" font-size="10.5" class="m">Crumbs are play money. Nobody has ever been paid in crumbs.</text>
+    <path d="M326 452H736" stroke="#1c2633"/>
+    <text x="326" y="472" font-size="10.5" class="m">Positions</text>
+    <text x="400" y="472" font-size="10.5" class="m">No positions yet.</text>
+  </g>
+</svg>

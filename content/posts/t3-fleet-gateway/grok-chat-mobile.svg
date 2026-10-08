@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 560" width="360" height="560" role="img" aria-labelledby="title desc">
+  <title id="title">A mobile mock of Grok Bot chatting with a Crumb Exchange Chief of Staff bot</title>
+  <desc id="desc">A dark phone-sized chat. The user asks for a resting orders panel, the bot confirms it sent the request to the T3 thread, and later relays that Opus built it and Fable reviewed it.</desc>
+  <style>
+    .ui { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif; }
+    .t { fill: #ececec; }
+    .m { fill: #9a9a9a; }
+    .b { font-size: 13px; fill: #e6e6e6; }
+    .eye { fill: #141414; }
+  </style>
+  <defs>
+    <clipPath id="frame"><rect width="360" height="560" rx="16"/></clipPath>
+  </defs>
+  <rect width="360" height="560" rx="16" fill="#121212"/>
+  <g clip-path="url(#frame)" class="ui">
+    <!-- top bar -->
+    <rect width="360" height="52" fill="#181818"/>
+    <path d="M0 52H360" stroke="#2a2a2a"/>
+    <path d="M22 20l-7 6 7 6" fill="none" stroke="#cfcfcf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M52 14c7 0 12 5 12 12s-5 12-12 12-12-5-12-12 5-12 12-12z" fill="#c47a3a"/>
+    <ellipse cx="48.5" cy="25" rx="1.8" ry="2.6" class="eye"/>
+    <ellipse cx="55.5" cy="25" rx="1.8" ry="2.6" class="eye"/>
+    <circle cx="61" cy="35" r="3.4" fill="#2ecc71" stroke="#181818" stroke-width="1.5"/>
+    <text x="74" y="24" font-size="14" font-weight="600" class="t">Crumb Exchange CoS</text>
+    <text x="74" y="40" font-size="11" class="m">Chief of Staff · crumb-exchange</text>
+    <text x="344" y="31" text-anchor="end" font-size="14" class="m">···</text>
+
+    <!-- user bubble -->
+    <rect x="76" y="70" width="268" height="54" rx="14" fill="#5a3717"/>
+    <text x="92" y="92" class="b">Ask the CoS to add a resting</text>
+    <text x="92" y="111" class="b">orders panel to Crumb Exchange.</text>
+
+    <!-- bot reply 1 -->
+    <rect x="16" y="138" width="276" height="74" rx="14" fill="#232323"/>
+    <text x="32" y="160" class="b">Sent to the Crumb Exchange CoS</text>
+    <text x="32" y="179" class="b">thread. I'll check back and tell</text>
+    <text x="32" y="198" class="b">you when it's done.</text>
+
+    <!-- divider -->
+    <path d="M16 236H104M256 236H344" stroke="#2a2a2a"/>
+    <text x="180" y="240" text-anchor="middle" font-size="11" class="m">about ten minutes later</text>
+
+    <!-- bot reply 2 -->
+    <rect x="16" y="258" width="318" height="134" rx="14" fill="#232323"/>
+    <text x="32" y="280" class="b">Done. Opus added a Resting orders</text>
+    <text x="32" y="299" class="b">panel with a cancel button on each</text>
+    <text x="32" y="318" class="b">order. Fable reviewed it and caught</text>
+    <text x="32" y="337" class="b">an off-by-one in the crumb rounding,</text>
+    <text x="32" y="356" class="b">now fixed. Tests pass and a preview</text>
+    <text x="32" y="375" class="b">is running.</text>
+
+    <!-- working indicator -->
+    <path d="M30 438c6 0 10 4 10 10s-4 10-10 10-10-4-10-10 4-10 10-10z" fill="#c47a3a"/>
+    <ellipse cx="27" cy="448" rx="1.5" ry="2.2" class="eye"/>
+    <ellipse cx="33" cy="448" rx="1.5" ry="2.2" class="eye"/>
+    <text x="48" y="452" font-size="12.5" class="t">Crumb Exchange CoS <tspan class="m">is working</tspan></text>
+
+    <!-- composer -->
+    <rect x="16" y="494" width="328" height="46" rx="16" fill="#1c1c1c" stroke="#2e2e2e"/>
+    <circle cx="40" cy="517" r="11" fill="#2b2b2b"/>
+    <path d="M40 511.5v11M34.5 517h11" stroke="#cfcfcf" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="60" y="521" font-size="12.5" class="m">Message Crumb Exchange CoS</text>
+    <circle cx="320" cy="517" r="13" fill="#f0f0f0"/>
+    <path d="M317 514v6M320 512v10M323 514.5v5M325.5 516v2" stroke="#121212" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+</svg>

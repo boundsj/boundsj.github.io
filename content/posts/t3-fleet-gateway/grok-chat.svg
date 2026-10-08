@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" width="760" height="480" role="img" aria-labelledby="title desc">
+  <title id="title">A simplified Grok Bot desktop window chatting with a Crumb Exchange Chief of Staff bot</title>
+  <desc id="desc">A dark chat app. The left sidebar lists fictional bots such as Crumb Exchange CoS, Sock Matcher CoS and Gerbil Ops CoS. The main pane shows the user asking for a resting orders panel, the bot confirming it sent the request to the T3 thread, and a later summary that Opus implemented it and Fable reviewed it.</desc>
+  <style>
+    .ui { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif; }
+    .t { fill: #ececec; }
+    .m { fill: #9a9a9a; }
+    .n { font-size: 12px; font-weight: 600; fill: #ececec; }
+    .p { font-size: 10.5px; fill: #9a9a9a; }
+    .b { font-size: 12px; fill: #e6e6e6; }
+    .eye { fill: #141414; }
+  </style>
+  <defs>
+    <clipPath id="frame"><rect width="760" height="480" rx="14"/></clipPath>
+  </defs>
+  <rect width="760" height="480" rx="14" fill="#121212"/>
+  <g clip-path="url(#frame)" class="ui">
+    <!-- Sidebar -->
+    <rect width="226" height="480" fill="#181818"/>
+    <path d="M226 0V480" stroke="#2a2a2a"/>
+
+    <!-- search / new icons -->
+    <circle cx="94" cy="24" r="12" fill="#262626"/>
+    <circle cx="92.5" cy="22.5" r="4" fill="none" stroke="#bdbdbd" stroke-width="1.5"/>
+    <path d="M95.5 25.5L98.5 28.5" stroke="#bdbdbd" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="132" cy="24" r="12" fill="#262626"/>
+    <path d="M132 18.5V29.5M126.5 24H137.5" stroke="#bdbdbd" stroke-width="1.6" stroke-linecap="round"/>
+
+    <!-- mascot blob (original) -->
+    <path d="M113 48c17 0 29 11 29 27 0 13-7 25-22 29-3 1-6-1-9-3-16-4-27-13-27-26 0-16 12-27 29-27z" fill="#f3efe6"/>
+    <ellipse cx="104" cy="74" rx="3" ry="5.5" class="eye" transform="rotate(-12 104 74)"/>
+    <ellipse cx="121" cy="72" rx="3" ry="5.5" class="eye" transform="rotate(-12 121 72)"/>
+    <path d="M107 85c4 2 8 2 12 0" stroke="#141414" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <circle cx="136" cy="98" r="6.5" fill="#f0a93a"/>
+    <path d="M136 94.5l1 2.4 2.6.2-2 1.7.6 2.6-2.2-1.4-2.2 1.4.6-2.6-2-1.7 2.6-.2z" fill="#3a2500"/>
+    <text x="113" y="120" text-anchor="middle" font-size="12" class="t">Grok Bot</text>
+
+    <!-- conversation list -->
+    <g transform="translate(0 140)">
+      <!-- selected: Crumb Exchange CoS -->
+      <rect x="8" y="0" width="210" height="44" rx="10" fill="#282828"/>
+      <path d="M26 10c7 0 12 5 12 12s-5 12-12 12-12-5-12-12 5-12 12-12z" fill="#c47a3a"/>
+      <ellipse cx="22.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <ellipse cx="29.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <circle cx="35" cy="32" r="3.6" fill="#2ecc71" stroke="#282828" stroke-width="1.5"/>
+      <text x="48" y="19" class="n">Crumb Exchange CoS</text>
+      <text x="48" y="35" class="p">Done. Opus added the panel…</text>
+    </g>
+    <g transform="translate(0 188)">
+      <path d="M26 10c7 0 12 5 12 12s-5 12-12 12-12-5-12-12 5-12 12-12z" fill="#4f8fe0"/>
+      <ellipse cx="22.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <ellipse cx="29.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <text x="48" y="19" class="n">Sock Matcher CoS</text>
+      <text x="48" y="35" class="p">Paired 14 of 15. One is at large.</text>
+    </g>
+    <g transform="translate(0 236)">
+      <path d="M26 10c7 0 12 5 12 12s-5 12-12 12-12-5-12-12 5-12 12-12z" fill="#4fae62"/>
+      <ellipse cx="22.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <ellipse cx="29.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <text x="48" y="19" class="n">Houseplant Hydration</text>
+      <text x="48" y="35" class="p">The fern is thirsty again.</text>
+    </g>
+    <g transform="translate(0 284)">
+      <path d="M26 10c7 0 12 5 12 12s-5 12-12 12-12-5-12-12 5-12 12-12z" fill="#d4a53a"/>
+      <ellipse cx="22.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <ellipse cx="29.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <text x="48" y="19" class="n">Gerbil Ops CoS</text>
+      <text x="48" y="35" class="p">Wheel uptime holding at 99.9%.</text>
+    </g>
+    <g transform="translate(0 332)">
+      <path d="M26 10c7 0 12 5 12 12s-5 12-12 12-12-5-12-12 5-12 12-12z" fill="#d9509a"/>
+      <ellipse cx="22.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <ellipse cx="29.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <text x="48" y="19" class="n">Meeting Dodger</text>
+      <text x="48" y="35" class="p">Declined 3, hid from 1.</text>
+    </g>
+    <g transform="translate(0 380)">
+      <path d="M26 10c7 0 12 5 12 12s-5 12-12 12-12-5-12-12 5-12 12-12z" fill="#8d6ad9"/>
+      <ellipse cx="22.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <ellipse cx="29.5" cy="21" rx="1.8" ry="2.6" class="eye"/>
+      <text x="48" y="19" class="n">Bagel Telemetry CoS</text>
+      <text x="48" y="35" class="p">Hole ratio nominal. Schmear low.</text>
+    </g>
+
+    <!-- bottom: connect apps -->
+    <rect x="34" y="438" width="132" height="28" rx="14" fill="#1f1f1f" stroke="#333"/>
+    <text x="100" y="456" text-anchor="middle" font-size="11.5" class="t">Connect apps</text>
+    <circle cx="192" cy="452" r="14" fill="#1f1f1f" stroke="#333"/>
+    <path d="M192 445v11M188 452l4 4 4-4" stroke="#bdbdbd" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18 442c7 0 12 5 12 12s-5 12-12 12-12-5-12-12 5-12 12-12z" fill="#2e2e2e"/>
+    <ellipse cx="14.5" cy="453" rx="1.6" ry="2.3" fill="#8a8a8a"/>
+    <ellipse cx="21.5" cy="453" rx="1.6" ry="2.3" fill="#8a8a8a"/>
+
+    <!-- Main pane header -->
+    <g transform="translate(493 10)">
+      <rect x="-82" y="0" width="164" height="26" rx="13" fill="#1d1d1d"/>
+      <path d="M-66 5c4.5 0 8 3.5 8 8s-3.5 8-8 8-8-3.5-8-8 3.5-8 8-8z" fill="#c47a3a"/>
+      <ellipse cx="-68.3" cy="13" rx="1.2" ry="1.8" class="eye"/>
+      <ellipse cx="-63.7" cy="13" rx="1.2" ry="1.8" class="eye"/>
+      <text x="-52" y="17.5" font-size="12.5" font-weight="600" class="t">Crumb Exchange CoS</text>
+    </g>
+    <text x="736" y="26" font-size="12" class="m" text-anchor="end">— ▢ ✕</text>
+
+    <!-- user bubble -->
+    <rect x="372" y="60" width="368" height="50" rx="14" fill="#5a3717"/>
+    <text x="388" y="81" class="b">Ask the CoS to add a resting orders panel to</text>
+    <text x="388" y="99" class="b">Crumb Exchange.</text>
+
+    <!-- bot reply 1 -->
+    <rect x="246" y="124" width="420" height="50" rx="14" fill="#232323"/>
+    <text x="262" y="145" class="b">Sent to the Crumb Exchange CoS thread. I'll check</text>
+    <text x="262" y="163" class="b">back and tell you when it's done.</text>
+
+    <!-- time divider -->
+    <path d="M246 203H440M548 203H740" stroke="#2a2a2a"/>
+    <text x="494" y="207" text-anchor="middle" font-size="10.5" class="m">about ten minutes later</text>
+
+    <!-- bot reply 2 -->
+    <rect x="246" y="226" width="470" height="100" rx="14" fill="#232323"/>
+    <text x="262" y="248" class="b">Done. Opus added a Resting orders panel with a cancel</text>
+    <text x="262" y="266" class="b">button on each order. Fable reviewed it and caught an</text>
+    <text x="262" y="284" class="b">off-by-one in the crumb rounding, now fixed. Tests pass</text>
+    <text x="262" y="302" class="b">and a preview is running. Want me to ask for anything</text>
+    <text x="262" y="320" class="b">else while the thread is warm?</text>
+    <text x="736" y="340" text-anchor="end" font-size="12" class="m">☺ ↩ ···</text>
+
+    <!-- working indicator -->
+    <path d="M259 372c6 0 10 4 10 10s-4 10-10 10-10-4-10-10 4-10 10-10z" fill="#c47a3a"/>
+    <ellipse cx="256" cy="382" rx="1.5" ry="2.2" class="eye"/>
+    <ellipse cx="262" cy="382" rx="1.5" ry="2.2" class="eye"/>
+    <text x="276" y="386" font-size="12" class="t">Crumb Exchange CoS <tspan class="m">is working</tspan></text>
+
+    <!-- composer -->
+    <rect x="246" y="416" width="494" height="46" rx="16" fill="#1c1c1c" stroke="#2e2e2e"/>
+    <circle cx="270" cy="439" r="11" fill="#2b2b2b"/>
+    <path d="M270 433.5v11M264.5 439h11" stroke="#cfcfcf" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="290" y="443" font-size="12" class="m">Message Crumb Exchange CoS</text>
+    <rect x="680" y="433" width="7" height="11" rx="3.5" fill="none" stroke="#9a9a9a" stroke-width="1.4"/>
+    <path d="M679 441.5a4.5 4.5 0 0 0 9 0M683.5 446v3" stroke="#9a9a9a" stroke-width="1.4" fill="none"/>
+    <circle cx="716" cy="439" r="13" fill="#f0f0f0"/>
+    <path d="M710.5 439v0M713 436v6M716 434v10M719 436.5v5M721.5 438v2" stroke="#121212" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+</svg>

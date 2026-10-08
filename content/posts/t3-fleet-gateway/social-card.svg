@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 627" width="1200" height="627" role="img" aria-labelledby="t d">
+  <title id="t">t3-fleet-gateway: A unified MCP gateway for T3 Code, driven by Grok Bot</title>
+  <desc id="d">A monochrome terminal-style social card on a dark screen. The headline reads t3-fleet-gateway. Below it, a compact wire diagram shows Grok Bot connected to a single T3 Fleet Gateway, which fans out to a Mac mini and an M3 MacBook running T3 Code, each branching into fleet/job worktrees.</desc>
+  <style>
+    .mono { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; }
+    .crt { font-family: 'VT323', 'IBM Plex Mono', monospace; font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0, "dlig" 0; }
+    .fg1 { fill: #ECE7D6; }
+    .fg2 { fill: #B7B2A1; }
+    .fg3 { fill: #908C7B; }
+    .wire { fill: none; stroke: #ECE7D6; stroke-width: 4; stroke-linecap: butt; stroke-linejoin: miter; }
+    .wire-thin { fill: none; stroke: #B7B2A1; stroke-width: 3; stroke-linecap: butt; stroke-linejoin: miter; }
+    .wire-ghost { fill: none; stroke: #65625A; stroke-width: 3; stroke-dasharray: 6 6; stroke-linecap: butt; stroke-linejoin: miter; }
+    .box { fill: #16150F; stroke: #ECE7D6; stroke-width: 4; }
+    .cap { letter-spacing: 0.12em; font-weight: 700; }
+  </style>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#2A2820"/>
+    </pattern>
+    <pattern id="dither-coarse" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#3A382F"/>
+    </pattern>
+    <pattern id="dither-fine" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#65625A"/>
+    </pattern>
+    <pattern id="dither-dense" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="2" fill="#908C7B"/>
+    </pattern>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="4" height="1" fill="#ECE7D6" opacity="0.06"/>
+    </pattern>
+  </defs>
+
+  <!-- screen -->
+  <rect x="0" y="0" width="1200" height="627" fill="#0C0C0A"/>
+  <rect x="0" y="0" width="1200" height="627" fill="url(#grid)"/>
+
+  <!-- top chrome -->
+  <text class="mono fg3" x="60" y="72" font-size="16" letter-spacing="0.14em">MCP GATEWAY · OAUTH 2.1 · MIT</text>
+  <text class="mono fg3" x="1140" y="72" font-size="16" letter-spacing="0.14em" text-anchor="end">bounds.dev</text>
+  <rect x="60" y="88" width="1080" height="1" fill="#908C7B" opacity="0.5"/>
+
+  <!-- headline -->
+  <text class="crt fg1" x="54" y="212" font-size="140">t3-fleet-gateway<tspan fill="#38E25B">_</tspan></text>
+  <text class="mono fg2" x="60" y="266" font-size="25">A unified MCP gateway for T3 Code, driven by Grok Bot</text>
+
+  <!-- dithered halo around the gateway (three discrete steps, no gradient) -->
+  <rect x="284" y="304" width="392" height="212" fill="url(#dither-coarse)"/>
+  <rect x="306" y="324" width="348" height="172" fill="url(#dither-fine)"/>
+  <rect x="320" y="338" width="320" height="144" fill="url(#dither-dense)"/>
+  <rect x="328" y="346" width="304" height="128" fill="#0C0C0A"/>
+
+  <!-- wires -->
+  <path class="wire" d="M262,410 H334"/>
+  <path class="wire" d="M630,410 H684 V342 H710"/>
+  <path class="wire" d="M684,410 V478 H710"/>
+  <!-- branches: mac mini -->
+  <path class="wire-thin" d="M890,342 H912 V322 H936"/>
+  <path class="wire-thin" d="M912,342 V362 H936"/>
+  <!-- branches: m3 -->
+  <path class="wire-thin" d="M890,478 H912 V458 H936"/>
+  <path class="wire-ghost" d="M912,478 V498 H936"/>
+
+  <!-- grok bot -->
+  <rect class="box" x="60" y="360" width="202" height="100"/>
+  <text class="mono fg1" x="161" y="403" font-size="30" text-anchor="middle">[o_o]</text>
+  <text class="mono fg1 cap" x="161" y="441" font-size="22" text-anchor="middle">GROK BOT</text>
+
+  <!-- gateway -->
+  <rect x="342" y="362" width="284" height="104" fill="#211F17"/>
+  <rect class="box" x="334" y="354" width="292" height="112"/>
+  <rect x="344" y="364" width="272" height="92" fill="none" stroke="#ECE7D6" stroke-width="2"/>
+  <text class="mono fg1" x="480" y="402" font-size="22" font-weight="700" text-anchor="middle" letter-spacing="0.06em">T3-FLEET-GATEWAY</text>
+  <rect x="412" y="423" width="11" height="11" fill="#38E25B"/>
+  <text class="mono fg3" x="431" y="434" font-size="15" letter-spacing="0.04em"><tspan fill="#38E25B">LIVE</tspan> · jobs.sqlite</text>
+
+  <!-- hosts -->
+  <rect class="box" x="710" y="310" width="180" height="64"/>
+  <text class="mono fg1 cap" x="800" y="339" font-size="19" text-anchor="middle">MAC MINI</text>
+  <text class="mono fg3" x="800" y="362" font-size="13" text-anchor="middle" letter-spacing="0.1em">T3 CODE</text>
+
+  <rect class="box" x="710" y="446" width="180" height="64"/>
+  <text class="mono fg1 cap" x="800" y="475" font-size="19" text-anchor="middle">M3 MACBOOK</text>
+  <text class="mono fg3" x="800" y="498" font-size="13" text-anchor="middle" letter-spacing="0.1em">T3 CODE</text>
+
+  <!-- worktree / thread nodes: mac mini -->
+  <rect x="930" y="314" width="16" height="16" fill="#ECE7D6"/>
+  <text class="mono fg1" x="958" y="328" font-size="17">chief-of-staff</text>
+  <rect x="931" y="355" width="14" height="14" fill="none" stroke="#ECE7D6" stroke-width="3"/>
+  <text class="mono fg2" x="958" y="368" font-size="17">fleet/job-7f3a</text>
+  <!-- worktree / thread nodes: m3 -->
+  <rect x="931" y="451" width="14" height="14" fill="none" stroke="#ECE7D6" stroke-width="3"/>
+  <text class="mono fg2" x="958" y="464" font-size="17">fleet/job-b05e</text>
+  <rect x="931" y="491" width="14" height="14" fill="none" stroke="#65625A" stroke-width="3"/>
+  <text class="mono fg3" x="958" y="504" font-size="17">fleet/job-…</text>
+
+  <!-- packets (the one signal, frozen mid-flight) -->
+  <rect x="292" y="404" width="12" height="12" fill="#38E25B"/>
+  <rect x="678" y="366" width="12" height="12" fill="#38E25B"/>
+  <rect x="678" y="446" width="12" height="12" fill="#38E25B"/>
+
+  <!-- bottom chrome -->
+  <rect x="60" y="538" width="1080" height="1" fill="#908C7B" opacity="0.5"/>
+  <text class="mono fg3" x="60" y="568" font-size="16">&gt; work_start  ·  work_continue  ·  work_feed<tspan class="fg1"> ▌</tspan></text>
+  <text class="mono fg3" x="1140" y="568" font-size="16" text-anchor="end">ONE PROJECT  &lt;=&gt;  ONE BOT</text>
+
+  <!-- scanlines -->
+  <rect x="0" y="0" width="1200" height="627" fill="url(#scan)" pointer-events="none"/>
+</svg>
