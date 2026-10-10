@@ -17,6 +17,6 @@ I'm an software engineer based in the San Francisco Bay Area. Feel free to conta
 **GitHub:** [github.com/boundsj](https://github.com/boundsj)  
 **Twitter:** [twitter.com/boundsnet](https://twitter.com/boundsnet)  
 **LinkedIn:** [linkedin.com/in/jessebounds](https://www.linkedin.com/in/jessebounds/)  
-**Email:** [hello@rebounds.net](mailto:hello@rebounds.net)
+**Email:** [bounds@mail.grokbot.com](mailto:bounds@mail.grokbot.com)
 
 ![](featured-image.jpeg)
