@@ -4,22 +4,20 @@
    A mostly black & white, low-res, 80s ASCII / terminal aesthetic.
    ----------------------------------------------------------------------------
    Fonts are self-hosted (OFL) from ./fonts/ — no CDN required. Just link this
-   file and the @font-face rules below resolve relative to it.
+   file and the font-face rules below resolve relative to it.
    ============================================================================ */
 
 /* --- SELF-HOSTED FONTS (OFL) — files live in ./fonts/ ---------------------- */
-@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap;
-  src: url('../fonts/IBMPlexMono-Regular.woff2') format('woff2'), url('../fonts/IBMPlexMono-Regular.ttf') format('truetype'); }
-@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap;
-  src: url('../fonts/IBMPlexMono-Medium.woff2') format('woff2'), url('../fonts/IBMPlexMono-Medium.ttf') format('truetype'); }
-@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 600; font-display: swap;
-  src: url('../fonts/IBMPlexMono-SemiBold.woff2') format('woff2'), url('../fonts/IBMPlexMono-SemiBold.ttf') format('truetype'); }
-@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 700; font-display: swap;
-  src: url('../fonts/IBMPlexMono-Bold.woff2') format('woff2'), url('../fonts/IBMPlexMono-Bold.ttf') format('truetype'); }
-@font-face { font-family: 'IBM Plex Mono'; font-style: italic; font-weight: 400; font-display: swap;
-  src: url('../fonts/IBMPlexMono-Italic.woff2') format('woff2'), url('../fonts/IBMPlexMono-Italic.ttf') format('truetype'); }
-@font-face { font-family: 'IBM Plex Mono'; font-style: italic; font-weight: 600; font-display: swap;
-  src: url('../fonts/IBMPlexMono-SemiBoldItalic.woff2') format('woff2'), url('../fonts/IBMPlexMono-SemiBoldItalic.ttf') format('truetype'); }
+/* Fontsource @fontsource/iosevka 5.3.0, locally subsetted with FontTools.
+   Latin, punctuation, and terminal arrows/box drawing; OFL-Iosevka.txt. */
+@font-face { font-family: 'Iosevka'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/iosevka-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Iosevka'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('../fonts/iosevka-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Iosevka'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/iosevka-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Iosevka'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('../fonts/iosevka-latin-700-normal.woff2') format('woff2'); }
 
 :root {
   /* --- CORE INK & PAPER ---------------------------------------------------
@@ -59,7 +57,7 @@
   --selection-fg: var(--paper);
 
   /* --- TYPE FAMILIES ------------------------------------------------------- */
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-mono: 'Iosevka', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   --font-body: var(--font-mono);   /* everything is monospace in this system */
 
   /* --- TYPE SCALE (monospace, tuned to the character cell) -----------------

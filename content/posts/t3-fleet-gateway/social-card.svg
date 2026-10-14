@@ -2,8 +2,8 @@
   <title id="t">t3-fleet-gateway: A unified MCP gateway for T3 Code, driven by Grok Bot</title>
   <desc id="d">A monochrome terminal-style social card on a dark screen. The headline reads t3-fleet-gateway. Below it, a compact wire diagram shows Grok Bot connected to a single T3 Fleet Gateway, which fans out to a Mac mini and an M3 MacBook running T3 Code, each branching into fleet/job worktrees.</desc>
   <style>
-    .mono { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; }
-    .crt { font-family: 'IBM Plex Mono', monospace; font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0, "dlig" 0; }
+    .mono { font-family: 'Iosevka', ui-monospace, Menlo, monospace; }
+    .crt { font-family: 'Iosevka', monospace; font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0, "dlig" 0; }
     .fg1 { fill: #ECE7D6; }
     .fg2 { fill: #B7B2A1; }
     .fg3 { fill: #908C7B; }
