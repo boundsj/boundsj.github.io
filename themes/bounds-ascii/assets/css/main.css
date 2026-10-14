@@ -20,8 +20,6 @@
   src: url('../fonts/IBMPlexMono-Italic.woff2') format('woff2'), url('../fonts/IBMPlexMono-Italic.ttf') format('truetype'); }
 @font-face { font-family: 'IBM Plex Mono'; font-style: italic; font-weight: 600; font-display: swap;
   src: url('../fonts/IBMPlexMono-SemiBoldItalic.woff2') format('woff2'), url('../fonts/IBMPlexMono-SemiBoldItalic.ttf') format('truetype'); }
-@font-face { font-family: 'VT323'; font-style: normal; font-weight: 400; font-display: swap;
-  src: url('../fonts/VT323-Regular.woff2') format('woff2'), url('../fonts/VT323-Regular.ttf') format('truetype'); }
 
 :root {
   /* --- CORE INK & PAPER ---------------------------------------------------
@@ -62,13 +60,12 @@
 
   /* --- TYPE FAMILIES ------------------------------------------------------- */
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  --font-crt:  'VT323', 'IBM Plex Mono', monospace;  /* CRT reading face */
   --font-body: var(--font-mono);   /* everything is monospace in this system */
 
   /* --- TYPE SCALE (monospace, tuned to the character cell) -----------------
      The whole site rides a 4px baseline grid and a fixed character measure. */
   --fs-banner: 13px;   /* pre-formatted ASCII art line-height anchor */
-  --fs-display: 56px;  /* VT323 hero numerals / page titles */
+  --fs-display: 56px;  /* hero numerals / page titles */
   --fs-h1: 30px;
   --fs-h2: 23px;
   --fs-h3: 18px;
@@ -134,16 +131,6 @@
    "dark mode". Add .crt--green or .crt--amber to tint the phosphor.
    ---------------------------------------------------------------------------- */
 .crt {
-  --font-body: var(--font-crt);
-  --fs-body: 22px;
-  --fs-h1: 38px;
-  --fs-h2: 30px;
-  --fs-h3: 25px;
-  --fs-small: 19px;
-  --fs-micro: 17px;
-  --lh-tight: 1.2;
-  --lh-snug: 1.35;
-  --lh-body: 1.45;
   --fg-1: #ECE7D6;
   --fg-2: #B7B2A1;
   --fg-3: #908C7B;
@@ -548,36 +535,4 @@ button:focus-visible,
 @media (max-width: 380px) {
   :root { --fs-body: 15px; }
   .kc-banner { font-size: 5px; }
-}
-
-/* VT323 has a smaller glyph height: compensate for component-level sizes too.
-   The ASCII banner, code, and compact picker retain their fixed-cell face. */
-.crt h1, .crt h2, .crt h3, .crt h4, .crt h5, .crt h6 { font-family: var(--font-crt); font-weight: 400; }
-.crt .kc-brand { font-size: 24px; font-weight: 400; }
-.crt .kc-nav__a { font-size: 18px; }
-.crt .kc-profile__name { font-size: 34px; }
-.crt .kc-profile__sub { font-size: 22px; line-height: 1.4; }
-.crt .kc-social__a, .crt .kc-tag, .crt .kc-cat, .crt .kc-footer__row,
-.crt .kc-footer__hugo, .crt .kc-pager__n { font-size: 17px; }
-.crt .kc-sectionhead { font-size: 19px; }
-.crt .kc-pagetitle { font-size: 30px; }
-.crt .kc-card__title { font-size: 27px; }
-.crt .kc-card__excerpt, .crt .kc-featured__summary { font-size: 21px; line-height: 1.45; }
-.crt .kc-card__cat, .crt .kc-card__meta { font-size: 16px; }
-.crt .kc-featured__title { font-size: clamp(28px, 3vw, 34px); line-height: 1.2; }
-.crt .kc-featured__meta, .crt .kc-featured .kc-hero figcaption,
-.crt .kc-row__date, .crt .kc-row__readtime, .crt .kc-archive__count,
-.crt .kc-back, .crt .kc-post__byline, .crt .kc-pager__a { font-size: 18px; }
-.crt .kc-row { font-size: 21px; line-height: 1.4; }
-.crt .kc-btn, .crt .kc-hero figcaption { font-size: 19px; }
-.crt .kc-post__title { font-size: 38px; line-height: 1.2; overflow-wrap: anywhere; }
-.crt .post--generated .post-content > p:first-child,
-.crt .post--generated .post-content ul > li { font-size: 20px; line-height: 1.45; }
-.crt .post--generated .post-content > p:first-child + p { font-size: 25px; line-height: 1.6; }
-.crt .post--photos .post-content > p:first-child { font-size: 22px; line-height: 1.45; }
-.crt .post--about .post-content > p:first-child { font-size: 28px; }
-@media (max-width: 640px) {
-  .crt { --fs-h1: 32px; --fs-h2: 27px; }
-  .crt .kc-post__title { font-size: 32px; }
-  .crt .kc-profile .kc-social__a { font-size: 19px; }
 }
