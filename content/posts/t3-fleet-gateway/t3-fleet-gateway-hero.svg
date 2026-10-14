@@ -2,7 +2,7 @@
   <title id="t">t3-fleet-gateway: one bot, one gateway, many machines</title>
   <desc id="d">A monochrome terminal-style diagram on a dark screen. A phone on the left sends a message to Grok Bot, which talks to a single always-on T3 Fleet Gateway. The gateway fans out to two machines, a Mac mini and an M3 MacBook, and each machine branches into git worktrees and threads named fleet/job, including a chief-of-staff thread. Small green packets travel along the wires.</desc>
   <style>
-    .mono { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; }
+    .mono { font-family: 'Iosevka', ui-monospace, Menlo, monospace; }
     .fg1 { fill: #ECE7D6; }
     .fg2 { fill: #B7B2A1; }
     .fg3 { fill: #908C7B; }

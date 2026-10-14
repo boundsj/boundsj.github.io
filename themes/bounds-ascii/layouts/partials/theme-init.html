@@ -1,0 +1,4 @@
+{{- /* Inline before body paint; shared with the interactive theme picker. */ -}}
+{{- with resources.Get "js/theme-init.js" -}}
+<script>{{ .Content | safeJS }}</script>
+{{- end -}}

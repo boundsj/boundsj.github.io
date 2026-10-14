@@ -10,7 +10,7 @@
 </style>
 {{- $cat := "" -}}
 {{- with .Params.categories }}{{ $cat = index . 0 }}{{ end -}}
-<article class="kc-post post--{{ $cat | default "post" }}">
+<article class="kc-post{{ if eq .Section "posts" }} kc-post--prose{{ end }} post--{{ $cat | default "post" }}">
   <a class="kc-back" href="{{ "/posts/" | relURL }}">← back to posts</a>
   {{ with $cat }}<div class="kc-post__cat"><span class="kc-cat is-on">{{ . }}</span></div>{{ end }}
   <h1 class="kc-post__title"><span class="kc-prompt">$</span> {{ .Title }}</h1>

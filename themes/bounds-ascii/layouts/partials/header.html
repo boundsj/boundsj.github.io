@@ -4,9 +4,10 @@
     <a class="kc-brand" href="{{ .Site.Home.RelPermalink }}">bounds.dev</a>
     <div class="kc-theme-control" role="group" aria-label="Color theme">
       <span class="kc-theme-indicator" aria-hidden="true"></span>
-      <button class="kc-theme-option" type="button" data-theme-mode="paper" aria-pressed="true" aria-label="Light mode">light</button>
-      <span class="kc-theme-control__sep" aria-hidden="true"></span>
-      <button class="kc-theme-option" type="button" data-theme-mode="crt" aria-pressed="false" aria-label="Dark mode">dark</button>
+      {{- range $index, $mode := slice "light" "dark" "green" "amber" }}
+      {{- if $index }}<span class="kc-theme-control__sep" aria-hidden="true"></span>{{ end }}
+      <button class="kc-theme-option" type="button" data-theme-mode="{{ $mode }}" aria-pressed="{{ if eq $mode "light" }}true{{ else }}false{{ end }}" aria-label="{{ $mode | title }} mode" title="{{ $mode | title }} mode">{{ index (dict "light" "lt" "dark" "dk" "green" "grn" "amber" "amb") $mode }}</button>
+      {{- end }}
     </div>
   </div>
   <nav class="kc-nav" aria-label="Main">

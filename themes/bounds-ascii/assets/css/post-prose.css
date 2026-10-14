@@ -1,0 +1,17 @@
+/* Single-post reading face only. Fontsource @fontsource/iosevka-aile 5.3.0,
+   locally subsetted to Latin, punctuation, and terminal symbols with FontTools.
+   See OFL-Iosevka-Aile.txt. */
+@font-face { font-family: 'Iosevka Aile'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/iosevka-aile-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Iosevka Aile'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('../fonts/iosevka-aile-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Iosevka Aile'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('../fonts/iosevka-aile-latin-700-normal.woff2') format('woff2'); }
+
+.kc-post--prose { --font-prose: 'Iosevka Aile', system-ui, sans-serif; }
+.kc-post--prose .post-content,
+.kc-post--prose .post-content :is(h1, h2, h3, h4, h5, h6),
+.kc-post--prose .kc-post__title,
+.kc-post--prose figcaption { font-family: var(--font-prose); }
+.kc-post--prose .kc-post__title .kc-prompt { font-family: var(--font-mono); }
+.kc-post--prose.post--photos table { font-family: var(--font-mono); }

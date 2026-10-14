@@ -8,6 +8,7 @@
   {{- $documentTitle = printf "%s · %s" .Title .Site.Title -}}
   {{- $socialTitle = .Title -}}
 {{- end -}}
+{{- $socialTitle = .Params.socialTitle | default $socialTitle -}}
 <title>{{ $documentTitle }}</title>
 
 {{- $description := .Params.description | default .Site.Params.description | plainify | htmlUnescape | strings.TrimSpace -}}
@@ -30,16 +31,15 @@
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{- end -}}
 
-{{- /* Pre-paint CRT theme script: apply .crt before first paint, no flash. */ -}}
-<script>
-(function(){var s;try{s=localStorage.getItem("bounds-crt");}catch(e){}var dark=s==="crt"||(s!=="paper"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("crt",!!dark);})();
-</script>
+{{ partial "post-prose.html" . }}
+
+{{ partial "theme-init.html" . }}
 
 {{- /* Prefer the first page image, then fall back to the site image. */ -}}
 {{- $imageURL := "" -}}
 {{- $imageWidth := 0 -}}
 {{- $imageHeight := 0 -}}
-{{- $imageAlt := $socialTitle -}}
+{{- $imageAlt := .Params.socialImageAlt | default $socialTitle -}}
 {{- with .Params.images -}}
   {{- $imagePath := index . 0 -}}
   {{- with $.Resources.GetMatch $imagePath -}}
@@ -54,6 +54,8 @@
     {{- $imageURL = (index . 0) | absURL -}}
   {{- end -}}
 {{- end -}}
+
+{{- $imageURL = .Params.socialImageURL | default $imageURL -}}
 
 {{- /* Open Graph. */ -}}
 <meta property="og:title" content="{{ $socialTitle }}">
