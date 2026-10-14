@@ -1,7 +1,7 @@
 /* ============================================================================
    bounds.dev — theme.js
    Vanilla JS (no modules). Wired on DOMContentLoaded:
-     (a) Light/dark selection + localStorage persistence + pressed states;
+     (a) Four-mode theme selection + localStorage persistence + pressed states;
          on toggle, restyle any Mapbox maps to match.
      (b) Typed subtitle on the home page (respects prefers-reduced-motion).
      (c) Per-image dithering via window.ditherInit().
@@ -10,7 +10,7 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "bounds-crt";
+  var theme = window.boundsTheme;
   var maps = []; // module-scoped Mapbox map instances, for restyling on toggle.
 
   /* ---------- CRT DARK MODE ---------- */
@@ -31,35 +31,32 @@
 
   function initCrtToggle() {
     var buttons = document.querySelectorAll("[data-theme-mode]");
-    var preference;
-    try {
-      preference = localStorage.getItem(STORAGE_KEY);
-    } catch (e) { /* use the system theme when storage is unavailable */ }
-    var manual = preference === "crt" || preference === "paper";
+    var preference = theme.read();
+    var manual = !!preference;
     var systemTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
 
-    function applyTheme(dark) {
-      document.documentElement.classList.toggle("crt", dark);
+    function applyTheme(mode) {
+      theme.apply(mode);
       buttons.forEach(function (button) {
-        button.setAttribute("aria-pressed", String((button.dataset.themeMode === "crt") === dark));
+        button.setAttribute("aria-pressed", String(button.dataset.themeMode === mode));
       });
       applyMapStyles();
     }
 
-    applyTheme(manual ? preference === "crt" : !!(systemTheme && systemTheme.matches));
+    applyTheme(preference || (systemTheme && systemTheme.matches ? "dark" : "light"));
     if (systemTheme) {
       systemTheme.addEventListener("change", function (event) {
-        if (!manual) applyTheme(event.matches);
+        if (!manual) applyTheme(event.matches ? "dark" : "light");
       });
     }
 
     buttons.forEach(function (button) {
       button.addEventListener("click", function () {
-        var nowCrt = button.dataset.themeMode === "crt";
+        var mode = button.dataset.themeMode;
         manual = true;
-        applyTheme(nowCrt);
+        applyTheme(mode);
         try {
-          localStorage.setItem(STORAGE_KEY, nowCrt ? "crt" : "paper");
+          localStorage.setItem(theme.key, mode);
         } catch (e) { /* ignore */ }
       });
     });

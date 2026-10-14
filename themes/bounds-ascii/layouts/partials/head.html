@@ -27,10 +27,7 @@
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{- end -}}
 
-{{- /* Pre-paint CRT theme script: apply .crt before first paint, no flash */ -}}
-<script>
-(function(){try{var s=localStorage.getItem("bounds-crt");var dark=s==="crt"||(s===null&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(dark){document.documentElement.classList.add("crt");}}catch(e){}})();
-</script>
+{{ partial "theme-init.html" . }}
 
 {{- /* Open Graph */ -}}
 <meta property="og:title" content="{{ $title }}">

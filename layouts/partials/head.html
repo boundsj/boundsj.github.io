@@ -30,10 +30,7 @@
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{- end -}}
 
-{{- /* Pre-paint CRT theme script: apply .crt before first paint, no flash. */ -}}
-<script>
-(function(){var s;try{s=localStorage.getItem("bounds-crt");}catch(e){}var dark=s==="crt"||(s!=="paper"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("crt",!!dark);})();
-</script>
+{{ partial "theme-init.html" . }}
 
 {{- /* Prefer the first page image, then fall back to the site image. */ -}}
 {{- $imageURL := "" -}}
