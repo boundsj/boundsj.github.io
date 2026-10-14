@@ -6,7 +6,7 @@ featuredImageAlt: "Jesse Bounds speaking on stage"
 resources:
 - name: featured-image
   src: featured-image.jpeg
-description: "I'm an software engineer based in the San Francisco Bay Area"
+description: "I'm a software engineer based in the San Francisco Bay Area"
 socialTitle: "I'm Jesse!"
 socialImageURL: "https://www.bounds.dev/about/featured-image.jpeg"
 socialImageAlt: "Jesse Bounds speaking on stage at a TED talk"
@@ -15,7 +15,7 @@ lightgallery: true
 ---
 👋 I'm Jesse!
 
-I'm an software engineer based in the San Francisco Bay Area. Feel free to contact me at:
+I'm a software engineer based in the San Francisco Bay Area. Feel free to contact me at:
 
 **GitHub:** [github.com/boundsj](https://github.com/boundsj)  
 **Twitter:** [twitter.com/boundsnet](https://twitter.com/boundsnet)  
