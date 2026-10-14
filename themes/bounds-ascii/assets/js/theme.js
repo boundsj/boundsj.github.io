@@ -1,7 +1,7 @@
 /* ============================================================================
    bounds.dev — theme.js
    Vanilla JS (no modules). Wired on DOMContentLoaded:
-     (a) CRT dark-mode toggle + localStorage persistence + button label;
+     (a) Light/dark selection + localStorage persistence + pressed states;
          on toggle, restyle any Mapbox maps to match.
      (b) Typed subtitle on the home page (respects prefers-reduced-motion).
      (c) Per-image dithering via window.ditherInit().
@@ -18,13 +18,6 @@
     return document.documentElement.classList.contains("crt");
   }
 
-  function updateToggleLabel(btn) {
-    if (!btn) return;
-    var crt = isCrt();
-    btn.setAttribute("aria-label", crt ? "Switch to paper mode" : "Switch to CRT mode");
-    btn.setAttribute("title", crt ? "Paper mode" : "CRT mode");
-  }
-
   function applyMapStyles() {
     var dark = isCrt();
     for (var i = 0; i < maps.length; i++) {
@@ -37,7 +30,7 @@
   }
 
   function initCrtToggle() {
-    var btn = document.getElementById("crt-toggle");
+    var buttons = document.querySelectorAll("[data-theme-mode]");
     var preference;
     try {
       preference = localStorage.getItem(STORAGE_KEY);
@@ -47,8 +40,9 @@
 
     function applyTheme(dark) {
       document.documentElement.classList.toggle("crt", dark);
-      updateToggleLabel(btn);
-      if (btn) btn.setAttribute("aria-pressed", String(dark));
+      buttons.forEach(function (button) {
+        button.setAttribute("aria-pressed", String((button.dataset.themeMode === "crt") === dark));
+      });
       applyMapStyles();
     }
 
@@ -59,14 +53,15 @@
       });
     }
 
-    if (!btn) return;
-    btn.addEventListener("click", function () {
-      var nowCrt = !isCrt();
-      manual = true;
-      applyTheme(nowCrt);
-      try {
-        localStorage.setItem(STORAGE_KEY, nowCrt ? "crt" : "paper");
-      } catch (e) { /* ignore */ }
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var nowCrt = button.dataset.themeMode === "crt";
+        manual = true;
+        applyTheme(nowCrt);
+        try {
+          localStorage.setItem(STORAGE_KEY, nowCrt ? "crt" : "paper");
+        } catch (e) { /* ignore */ }
+      });
     });
   }
 

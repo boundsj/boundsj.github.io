@@ -5,12 +5,12 @@ description: "A Notion Custom Agent wired to T3 Fleet Gateway: ask for coding wo
 images: ["social-card.png"]
 tags: ["ai", "tools", "automation", "t3-code", "notion", "mcp"]
 categories: ["dev"]
+resources:
+  - name: featured-image
+    src: notion-fleet-hero.gif
+featuredImageAlt: "Looping animation: a Notion chat with the fictional agent BloggerBot sits beside a T3 Fleet Gateway panel, joined by a T3 MCP link, with a laptop and a Mac mini wired to the gateway and a Pull requests row below. A prompt to start three queued jobs is typed in Notion and travels to the gateway as a blue pulse. The gateway dispatches BananaCRM to the laptop and SpaceTaxCalculator and NoodleWiki to the Mac mini; its project rows go from queued to working to PR open to merged while the machines show progress bars and send pulses back. BloggerBot reports each job starting and each PR ready, and PR #42, #43 and #44 cards pop into the row, two of them flipping to merged, before the scene resets."
+featuredImageCaption: "Mission control, on loop: one ask in Notion, three jobs across two machines, three PRs back."
 ---
-
-<figure style="max-width: 760px; margin: 1.5rem auto;">
-  <img src="notion-fleet-hero.gif" alt="Looping animation: a Notion chat with the fictional agent BloggerBot sits beside a T3 Fleet Gateway panel, joined by a T3 MCP link, with a laptop and a Mac mini wired to the gateway and a Pull requests row below. A prompt to start three queued jobs is typed in Notion and travels to the gateway as a blue pulse. The gateway dispatches BananaCRM to the laptop and SpaceTaxCalculator and NoodleWiki to the Mac mini; its project rows go from queued to working to PR open to merged while the machines show progress bars and send pulses back. BloggerBot reports each job starting and each PR ready, and PR #42, #43 and #44 cards pop into the row, two of them flipping to merged, before the scene resets." width="1200" height="627" style="display: block; width: 100%; height: auto;">
-  <figcaption>Mission control, on loop: one ask in Notion, three jobs across two machines, three PRs back.</figcaption>
-</figure>
 
 I work at Notion, so of course I want it to be the interface for my agent fleet, the way Grok Bot was in [my last post]({{< relref "/posts/t3-fleet-gateway" >}}). Blogging is a great place to start. Between MCP and Notion's other connectors, Notion is the center of all my project work, so an agent there already knows what I've been building and what's worth writing about.
 

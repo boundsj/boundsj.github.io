@@ -1,13 +1,21 @@
-{{- with .Resources.GetMatch "featured-image" -}}
+{{- /* Page context by default; the home feature can omit its caption. */ -}}
+{{- $page := . -}}
+{{- $hideCaption := false -}}
+{{- if reflect.IsMap . -}}
+  {{- $page = .page -}}
+  {{- $hideCaption = .hideCaption | default false -}}
+{{- end -}}
+{{- with $page.Resources.GetMatch "featured-image" -}}
 <figure class="kc-hero">
   {{- $still := false -}}
-  {{- with $.Params.featuredImageStill }}{{ $still = $.Resources.GetMatch . }}{{ end -}}
+  {{- with $page.Params.featuredImageStill }}{{ $still = $page.Resources.GetMatch . }}{{ end -}}
   {{- with $still }}<picture><source media="(prefers-reduced-motion: reduce)" srcset="{{ .RelPermalink }}">{{ end -}}
-  {{- if $.Params.dither -}}
-    <img class="kc-hero__media" src="{{ .RelPermalink }}" alt="{{ $.Title }}" data-dither data-dither-res="{{ $.Params.ditherRes | default 200 }}" data-dither-contrast="{{ $.Params.ditherContrast | default 1 }}" data-dither-brightness="{{ $.Params.ditherBrightness | default 0 }}">
+  {{- if $page.Params.dither -}}
+    <img class="kc-hero__media" src="{{ .RelPermalink }}" alt="{{ $page.Title }}" data-dither data-dither-res="{{ $page.Params.ditherRes | default 200 }}" data-dither-contrast="{{ $page.Params.ditherContrast | default 1 }}" data-dither-brightness="{{ $page.Params.ditherBrightness | default 0 }}">
   {{- else -}}
-    {{- partial "responsive-image.html" (dict "image" . "class" "kc-hero__media" "alt" ($.Params.featuredImageAlt | default $.Title) "sizes" "(max-width: 720px) 90vw, 640px" "loading" "eager") -}}
+    {{- partial "responsive-image.html" (dict "image" . "class" "kc-hero__media" "alt" ($page.Params.featuredImageAlt | default $page.Title) "sizes" "(max-width: 720px) 90vw, 640px" "loading" "eager") -}}
   {{- end -}}
   {{- if $still }}</picture>{{ end -}}
+  {{- if not $hideCaption }}{{ with $page.Params.featuredImageCaption }}<figcaption>{{ . }}</figcaption>{{ end }}{{ end -}}
 </figure>
 {{- end -}}

@@ -4,7 +4,7 @@
 <article class="kc-post post--{{ $cat | default "post" }}">
   <a class="kc-back" href="{{ "/posts/" | relURL }}">← back to posts</a>
   {{ with $cat }}<div class="kc-post__cat"><span class="kc-cat is-on">{{ . }}</span></div>{{ end }}
-  <h1 class="kc-post__title">{{ .Title }}</h1>
+  <h1 class="kc-post__title"><span class="kc-prompt">$</span> {{ .Title }}</h1>
   <div class="kc-post__byline">{{ with .Params.author }}{{ . }}{{ else }}{{ $.Site.Params.author.name }}{{ end }} · {{ .Date.Format "2006-01-02" }}</div>
   {{ partial "featured-image.html" . }}
   <div class="post-content">{{ .Content }}</div>

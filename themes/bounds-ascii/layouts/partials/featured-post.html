@@ -1,0 +1,8 @@
+{{- /* The newest post is one expanded entry above the directory listing. */ -}}
+<article class="kc-featured">
+  <div class="kc-featured__body">
+    <h3 class="kc-featured__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    <div class="kc-featured__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time> · {{ .ReadingTime }} min read</div>
+  </div>
+  {{ partial "featured-image.html" (dict "page" . "hideCaption" true) }}
+</article>

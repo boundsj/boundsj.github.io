@@ -1,7 +1,7 @@
-{{- /* context is a Page: a single archive row */ -}}
-<a class="kc-row" href="{{ .RelPermalink }}">{{- "" -}}
-  <span class="kc-row__date">{{ .Date.Format "2006-01-02" }}</span>{{- "" -}}
-  <span class="kc-row__title">{{ .Title }}</span>{{- "" -}}
-  <span class="kc-row__cat">{{ with .Params.categories }}{{ index . 0 }}{{ end }}</span>{{- "" -}}
-  <span class="kc-row__arrow">›</span>{{- "" -}}
+{{- /* A terminal listing row with the article title, date, and read time. */ -}}
+<a class="kc-row" href="{{ .RelPermalink }}" title="{{ .Title }}" aria-label="{{ .Title }} — {{ .Date.Format "2006-01-02" }}, {{ .ReadingTime }} min read">
+  <span class="kc-row__glyph" aria-hidden="true">›</span>
+  <time class="kc-row__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+  <span class="kc-row__readtime">{{ .ReadingTime }} min</span>
+  <span class="kc-row__title">{{ .Title }}</span>
 </a>
