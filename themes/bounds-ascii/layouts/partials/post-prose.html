@@ -1,0 +1,7 @@
+{{- /* Aile is requested only by single posts, never archives or other pages. */ -}}
+{{- if and .IsPage (eq .Section "posts") -}}
+  {{- with resources.Get "css/post-prose.css" -}}
+    {{- $css := . | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  {{- end -}}
+{{- end -}}

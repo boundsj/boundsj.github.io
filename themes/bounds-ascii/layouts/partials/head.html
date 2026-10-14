@@ -27,6 +27,8 @@
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{- end -}}
 
+{{ partial "post-prose.html" . }}
+
 {{ partial "theme-init.html" . }}
 
 {{- /* Open Graph */ -}}

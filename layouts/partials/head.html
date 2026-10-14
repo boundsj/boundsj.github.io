@@ -30,6 +30,8 @@
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{- end -}}
 
+{{ partial "post-prose.html" . }}
+
 {{ partial "theme-init.html" . }}
 
 {{- /* Prefer the first page image, then fall back to the site image. */ -}}
