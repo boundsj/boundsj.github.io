@@ -6,7 +6,10 @@ featuredImageAlt: "Jesse Bounds speaking on stage"
 resources:
 - name: featured-image
   src: featured-image.jpeg
-Description: "About Jesse Bounds"
+description: "I'm an software engineer based in the San Francisco Bay Area"
+socialTitle: "I'm Jesse!"
+socialImageURL: "https://www.bounds.dev/about/featured-image.jpeg"
+socialImageAlt: "Jesse Bounds speaking on stage at a TED talk"
 layout: "about"
 lightgallery: true
 ---

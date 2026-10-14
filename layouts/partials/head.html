@@ -8,6 +8,7 @@
   {{- $documentTitle = printf "%s · %s" .Title .Site.Title -}}
   {{- $socialTitle = .Title -}}
 {{- end -}}
+{{- $socialTitle = .Params.socialTitle | default $socialTitle -}}
 <title>{{ $documentTitle }}</title>
 
 {{- $description := .Params.description | default .Site.Params.description | plainify | htmlUnescape | strings.TrimSpace -}}
@@ -38,7 +39,7 @@
 {{- $imageURL := "" -}}
 {{- $imageWidth := 0 -}}
 {{- $imageHeight := 0 -}}
-{{- $imageAlt := $socialTitle -}}
+{{- $imageAlt := .Params.socialImageAlt | default $socialTitle -}}
 {{- with .Params.images -}}
   {{- $imagePath := index . 0 -}}
   {{- with $.Resources.GetMatch $imagePath -}}
@@ -53,6 +54,8 @@
     {{- $imageURL = (index . 0) | absURL -}}
   {{- end -}}
 {{- end -}}
+
+{{- $imageURL = .Params.socialImageURL | default $imageURL -}}
 
 {{- /* Open Graph. */ -}}
 <meta property="og:title" content="{{ $socialTitle }}">
