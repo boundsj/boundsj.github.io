@@ -154,15 +154,15 @@
 
   function createMap(el) {
     if (el.dataset.mapReady) return;
-    el.dataset.mapReady = "1";
+    el.dataset.mapReady = "pending";
     var raw = el.getAttribute("data-mapbox");
     var opts;
     try {
       opts = JSON.parse(decodeEntities(raw || ""));
     } catch (e) {
-      return; // malformed JSON: skip this map.
+      opts = null; // malformed JSON
     }
-    if (!opts) return;
+    if (!opts) { mapFailed(el); return; }
 
     var lng = parseFloat(opts.lng);
     var lat = parseFloat(opts.lat);
@@ -171,6 +171,7 @@
     var darkStyle = opts.darkStyle || opts.lightStyle;
 
     try {
+      if (window.mapboxgl.supported && !window.mapboxgl.supported()) throw new Error("WebGL unavailable");
       window.mapboxgl.accessToken = window.boundsMapbox.accessToken;
       var map = new window.mapboxgl.Map({
         container: el.id,
@@ -195,11 +196,17 @@
       }
 
       maps.push({ map: map, lightStyle: lightStyle, darkStyle: darkStyle });
-    } catch (e) { /* ignore failed map */ }
+      el.dataset.mapReady = "1";
+    } catch (e) {
+      // Constructor failures (e.g. no WebGL) can leave partial Mapbox markup behind: clear it.
+      el.innerHTML = "";
+      el.className = el.className.split(/\s+/).filter(function (c) { return c && c.indexOf("mapboxgl") !== 0; }).join(" ");
+      mapFailed(el);
+    }
   }
 
   function mapFailed(el) {
-    if (el.dataset.mapReady) return;
+    if (el.dataset.mapReady && el.dataset.mapReady !== "pending") return;
     el.dataset.mapReady = "failed";
     el.classList.add("mapbox--failed");
     el.setAttribute("aria-label", "Map of the photo location (unavailable)");

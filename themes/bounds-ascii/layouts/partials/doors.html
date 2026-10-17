@@ -7,12 +7,12 @@
   <section class="kc-door tui-panel" data-kind="writing" aria-labelledby="door-writing">
     <h2 class="tui-panel__title" id="door-writing"><span aria-hidden="true">~/</span>writing</h2>
     <p class="kc-door__lede">Coding agents, dev tools, games, and the terminal.</p>
-    {{- /* The four top tags across the writing, so this door has a texture of its own next to the photo strip. */ -}}
+    {{- /* The three top tags across the writing, so this door has a texture of its own next to the photo strip. */ -}}
     {{- $counts := dict -}}
     {{- range . }}{{ range .Params.tags }}{{ $counts = merge $counts (dict . (add 1 (index $counts . | default 0))) }}{{ end }}{{ end -}}
     {{- $top := slice -}}
     {{- range $k, $v := $counts }}{{ $top = $top | append (dict "tag" $k "n" $v) }}{{ end -}}
-    <div class="kc-door__tags">{{ range $t := first 4 (sort $top "n" "desc") }}{{ with site.Taxonomies.tags.Get $t.tag }}<a class="kc-tag" href="{{ .Page.RelPermalink }}" data-nav="tags">{{ $t.tag }}</a>{{ end }}{{ end }}</div>
+    <div class="kc-door__tags">{{ range $t := first 3 (sort $top "n" "desc") }}{{ with site.Taxonomies.tags.Get $t.tag }}<a class="kc-tag" href="{{ .Page.RelPermalink }}" data-nav="tags">{{ $t.tag }}</a>{{ end }}{{ end }}</div>
     <p class="kc-door__meta">{{ len . }} posts<span class="kc-door__newest"> · newest {{ (index . 0).Date.Format "2006-01-02" }}</span></p>
     <a class="kc-btn kc-door__cta" href="{{ "/writing/" | relURL }}" data-nav="writing">all writing <span aria-hidden="true">→</span><span class="kc-btn__end" aria-hidden="true">]</span></a>
   </section>

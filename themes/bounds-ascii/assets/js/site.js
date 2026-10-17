@@ -197,6 +197,10 @@
       });
       button.hidden = false;
       render();
+      // Turning on reduced motion mid-visit pauses the GIF too (turning it off leaves it as is).
+      if (reduceQuery && reduceQuery.addEventListener) {
+        reduceQuery.addEventListener("change", function () { if (reduced() && playing) { playing = false; render(); } });
+      }
     });
   }
 

@@ -358,8 +358,10 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
   text-shadow: 0 0 4px color-mix(in srgb, var(--theme-glow) 35%, transparent); }
 
 /* ---------- CURSOR / BANNER ---------- */
+/* The subtitle cursor blinks six times (about 6 s), then stays solid: WCAG 2.2.2 asks that
+   blinking longer than 5 s can be stopped, and a solid block still reads as "typing". */
 .kc-cursor { display: inline-block; width: .55em; height: 1.05em; background: var(--accent);
-  vertical-align: -2px; margin-left: 1px; animation: kc-blink 1.06s steps(1, end) infinite; }
+  vertical-align: -2px; margin-left: 1px; animation: kc-blink 1.06s steps(1, end) 6; }
 @keyframes kc-blink { 50% { opacity: 0; } }
 .kc-banner-wrap { position: relative; overflow: hidden; max-width: 100%; }
 .kc-banner { font-family: var(--font-mono); font-weight: 700; font-size: 9px; line-height: 1.12;
@@ -589,8 +591,11 @@ html.has-lightbox { overflow: hidden; }
   border-bottom: 1px solid color-mix(in srgb, var(--sig) 45%, var(--bg-1)); font-size: 12px; color: var(--sig); }
 .kc-lightbox__count { font-variant-numeric: tabular-nums; letter-spacing: .06em; }
 .kc-lightbox__close { margin-left: auto; box-shadow: none; }
-.kc-lightbox__stage { display: flex; align-items: center; justify-content: center; background: var(--bg-3); min-height: 120px; }
-.kc-lightbox__img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 260px);
+/* The stage shrinks first when space runs out (long captions, zoom), so the controls stay visible. */
+.kc-lightbox__stage { display: flex; align-items: center; justify-content: center; background: var(--bg-3);
+  flex: 1 1 auto; min-height: 80px; overflow: hidden; }
+.kc-lightbox__bar, .kc-lightbox__info, .kc-lightbox__controls { flex: none; }
+.kc-lightbox__img { display: block; width: auto; height: auto; max-width: 100%; max-height: min(100%, calc(100dvh - 260px)); object-fit: contain;
   transition: opacity var(--dur-2) ease; }
 .kc-lightbox__stage.is-loading .kc-lightbox__img { opacity: .35; }
 .kc-lightbox__info { padding: 12px 14px 4px; }
@@ -723,6 +728,13 @@ figure.kc-hero { margin: 0 0 20px; }
   :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(11) { --n: 10; }
 }
 @keyframes kc-rise { from { opacity: 0; transform: translateY(6px); } }
+/* Large blocks (heroes, article text, the doors) only slide: starting them at opacity 0 would
+   hold back Largest Contentful Paint until the fade began. */
+@keyframes kc-slide { from { transform: translateY(6px); } }
+@media (prefers-reduced-motion: no-preference) {
+  :is(.kc-shell, .kc-post, .kc-archive) > :is(.kc-banner-wrap, .kc-hero, .post-content, .kc-doors, [data-ui="home_latest"], [data-ui="archive_latest"]) {
+    animation-name: kc-slide; }
+}
 /* The theme switch paints the new theme in a circle growing from the pressed pill (site.js). */
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 
@@ -781,11 +793,14 @@ main:focus-visible { outline: none; }
   /* Larger tap targets on touch screens. */
   .kc-btn { min-height: 44px; }
   .kc-chip { min-height: 44px; }
-  /* Tags look 32 px tall; an invisible 6 px band above and below makes each hit area 44 px,
-     and 12 px row gaps keep neighbouring hit areas from overlapping. */
+  /* Tags look 32 px tall; an invisible band of 6 px past the 1 px border (inset is measured from
+     the padding box) makes each hit area 44 px, and 14 px row gaps keep neighbouring hit areas
+     from overlapping. */
   .kc-tag { position: relative; min-height: 32px; padding: 0 10px; }
-  .kc-tag::after { content: ""; position: absolute; inset: -6px 0; }
-  .kc-post__tags, .kc-door__tags { row-gap: 12px; }
+  .kc-tag::after { content: ""; position: absolute; inset: -7px -1px; }
+  .kc-door__tags .kc-tag, .kc-entry .kc-tag { min-height: 32px; }
+  .kc-motion { min-height: 44px; min-width: 44px; justify-content: center; }
+  .kc-post__tags, .kc-door__tags { row-gap: 14px; }
   .kc-door__newest { display: none; }
   .kc-entry { padding: 12px 10px 12px 14px; }
   .kc-back { min-height: 44px; }
