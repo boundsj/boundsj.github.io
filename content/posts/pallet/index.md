@@ -1,5 +1,6 @@
 ---
 title: Pallet
+description: "A pallet on the street somewhere in San Rafael, California."
 date: 2023-04-09T21:22:48-07:00
 draft: false
 resources:
@@ -7,9 +8,8 @@ resources:
   src: featured-image.jpeg
 - name: featured-image-preview
   src: featured-image-preview.jpeg
-tags: []
+tags: ["street"]
 categories: ["photos"]
-lightgallery: true
 ---
 A pallet on the street somewhere in San Rafael, California.
 <!--more-->

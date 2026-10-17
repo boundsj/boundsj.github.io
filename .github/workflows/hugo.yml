@@ -47,6 +47,15 @@ jobs:
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
       - name: Check for private tailnet hosts
         run: scripts/check-private-hosts.sh
+      # Every GIF hero should ship with its committed animated WebP (scripts/gif-heroes.lock). If one
+      # is missing or stale, make it here so the deploy still serves the WebP, and flag it to commit.
+      # An encoding failure isn't fatal: the hero template falls back to the GIF.
+      - name: Make animated WebPs for GIF heroes
+        run: |
+          if ! python3 scripts/gif-heroes.py check --ci; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq webp
+            python3 scripts/gif-heroes.py build --ci || echo "::error::Some GIF heroes have no WebP; their GIFs are served instead."
+          fi
       - name: Build with Hugo
         env:
           # For maximum backward compatibility with Hugo modules

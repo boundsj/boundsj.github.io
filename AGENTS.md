@@ -22,7 +22,10 @@
 ### Development Tools
 
 - `Makefile` - Common tasks
-  - `make serve` - Draft-enabled Hugo dev server on :1313, bound to 0.0.0.0
+  - `make serve` - Draft-enabled Hugo dev server on :1313, bound to 0.0.0.0 (makes missing GIF-hero WebPs first)
+  - `make post SLUG=…` - Scaffold a writing post from `archetypes/writing/`
+  - `make check` - Private hosts, GIF-hero WebPs, and a production build with post checks
+  - `make webp` - Make or refresh animated WebPs for GIF heroes (libwebp)
   - `make photo-poster` - FastAPI/Uvicorn app on :8000; first kills processes on that port and installs Python requirements
 - `tools/photo-poster/` - FastAPI app for creating photo posts with EXIF
 
@@ -43,52 +46,52 @@ hugo server -D                # Dev server with drafts
 python3 scripts/compare-site-builds.py BASELINE_DIR NEW_BUILD_DIR  # Check every generated file
 ```
 
-### Content Creation
+### New post checklist
 
-Posts structure:
-```
-content/posts/[slug]/
-├── index.md           # Required, with frontmatter
-├── featured-image.*   # Optional
-└── [other assets]
-```
+Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every build runs post checks (`themes/bounds-ascii/layouts/partials/post-checks.html`) and prints a `[post-check]` line for each finding. **Missing content only warns, even in production and deploys**: a missing description, hero alt text, or social card. Fix these before asking for review; they never block a deploy. **Only broken references fail a production build** (`hugo`, `make check`, the Pages deploy): a `resources` or `images` entry naming a file that isn't in the bundle, or a GIF/WebP/SVG file used as the social card. `hugo server` and drafts only warn about those too, so drafting is never blocked. The 292 generated limericks (category `generated`) are exempt.
 
-Frontmatter template:
-```yaml
----
-title: "Post Title"
-date: 2026-01-25T12:00:00-07:00
-draft: false
-description: "A concise description for search results and social previews."
-# images: ["social-card.png"]
-tags: ["tag1", "tag2"]
-categories: ["category"]
----
-```
+#### Writing posts
 
-### SEO and Social Previews
+1. **Scaffold:** `make post SLUG=my-post-slug` creates `content/posts/my-post-slug/index.md` from `archetypes/writing/index.md`, with every field explained. Keep `draft: true` until it's ready.
+2. **Front matter:**
 
-All posts should:
+   | Field | Required? | Notes |
+   | --- | --- | --- |
+   | `title` | yes | |
+   | `date` | yes | With a timezone offset, e.g. `2026-10-17T09:00:00-07:00` |
+   | `description` | **yes** (warns if missing) | One or two plain sentences, about 160 characters at most. Used for search results, social previews and `~/writing` |
+   | `tags` | yes (warning) | Lowercase; reuse existing tags (`/tags/`) |
+   | `categories` | yes | `["dev"]` usually. Anything but `photos`/`generated` puts the post in `~/writing` |
+   | `summary` | optional | One-line RSS teaser. Without it, Hugo uses the opening text (or everything before `<!--more-->`, so don't put `<!--more-->` first) |
+   | `resources` → `featured-image` | optional | The hero shown on the post, home and archive: `- name: featured-image` / `src: hero.png` |
+   | `featuredImageAlt` | **yes if there's a hero** (warns if missing) | What the image shows, for screen readers |
+   | `featuredImageCaption` | optional | Shown under the hero on the post page |
+   | `featuredImageStill` | optional, GIF heroes only | A PNG/JPEG frame for reduced motion. Without it, the GIF's first frame is used |
+   | `images` | see step 4 | Social card. The first entry is used for Open Graph, Twitter/X and structured data |
 
-- Include a concise, page-specific `description` in frontmatter
-- Use `images: ["social-card.png"]` when the post has a dedicated social card
-- Keep the social card separate from the visible `featured-image` resource when their ideal aspect ratios differ
+   Don't add `lightgallery` or `featuredImagePreviewCrop`: those are LoveIt-only, ignored, and warned about.
+3. **Hero image** (optional): JPEG, PNG, SVG or GIF in the bundle, named in `resources`. Hugo makes responsive WebP sizes of JPEG/PNG heroes, so keep a sensible original (about 2,000 px wide is plenty).
+   - **GIF heroes:** `make serve` and `make preview` create `<hero>.webp` next to the GIF automatically when libwebp is installed (`brew install webp`); `make webp` does it on demand. **Commit the `.webp` and `scripts/gif-heroes.lock`** with the GIF. The site serves the WebP (typically 25–65% of the GIF), with the GIF as fallback. If you forget, the Pages deploy makes it and flags it, and `make check` fails until it's committed.
+4. **Social card:**
+   - Hero is GIF or SVG → add a dedicated card: a 1200×627 PNG/JPEG in the bundle, listed as `images: ["social-card.png"]`. Without one, previews fall back to the site card and the build warns. A GIF, WebP or SVG file listed as the card fails the build, because those don't unfurl reliably.
+   - Hero is JPEG/PNG and no `images` → the build frames the whole hero into a 1200×627 card automatically (never cropped), so routine posts need nothing.
+   - No hero and no `images` → the site card (`static/social-default.png`).
+   - Make a dedicated card for posts meant for Hacker News, LinkedIn or another launch, for major or evergreen technical articles, and whenever the hero is a poor preview. Card rules: PNG or JPEG, exactly 1200×627 (warned otherwise), under 5 MB (warned), legible at feed size, exact spelling and punctuation in any rendered text. Keep it separate from the hero when their ideal aspect ratios differ.
+5. **Verify locally** (step-by-step below), then ask Jesse to review on the preview.
 
-Create a dedicated social card for:
+#### Photo posts
 
-- Posts intended for Hacker News, LinkedIn, or another coordinated launch
-- Major technical articles or evergreen reference content
-- Posts whose featured image is unsuitable for social previews
+1. Create them with the photo tool (`make photo-poster`). It writes the bundle: `featured-image.jpeg`, `featured-image-preview.jpeg`, any gallery images, the caption, an EXIF table and a map. The caption goes in front matter as `description` and in the body before `<!--more-->`.
+2. Check the front matter it wrote: `title`, a caption-based `description` (required), `tags` (warned if empty; e.g. `sf`, `street`, `nature`, `travel`) and `categories: ["photos"]`. No `images` is needed: the photo is framed into the social card automatically. `featuredImageAlt` is optional for photo posts, since the caption serves as alt text.
+3. If you edit a photo post by hand: keep the caption as the first paragraph followed by `<!--more-->` (the lightbox and contact sheet use it), and keep the `resources` names matching real files (a missing file fails a production build).
+4. Verify locally as below.
 
-Social-card requirements:
+#### Verify locally before asking Jesse
 
-- PNG or JPEG
-- Exactly 1200×627 pixels (1.91:1)
-- Under 5 MB
-- Relevant to the article and legible at feed-card size
-- Preserve exact spelling and punctuation in any rendered text
-
-Do not create a dedicated card for routine posts unless requested. Pages without one use the site-wide `static/social-default.png` fallback. The first entry in frontmatter `images` is used for Open Graph, Twitter/X cards, and article structured data.
+1. `make check`: private-host scan, GIF-hero WebPs, and a production build with the post checks. It must end with "All checks passed".
+2. `make preview`: open the tailnet link on a phone and on desktop. Check the post in light and dark, the hero (pause/play for GIFs), the home page (the newest post shows once, with its hero), and `~/writing` or `~/photos`.
+3. Optional: `scripts/browser-checks/` (see its README) runs the page matrix, UI, reduced-motion and analytics checks against the preview.
+4. Social preview: the built page's `og:image` should be the card you expect; check it in the page source of the `make preview` build.
 
 ## Code Patterns & Conventions
 

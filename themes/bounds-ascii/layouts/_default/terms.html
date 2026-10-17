@@ -1,7 +1,8 @@
 {{ define "main" }}
 <div class="kc-archive">
-  <h1 class="kc-pagetitle"><span class="kc-prompt">$</span> {{ .Title | lower }}</h1>
-  <div class="kc-archive__count">{{ len .Data.Terms }} {{ .Data.Singular }}</div>
-  <div class="kc-post__tags">{{ range .Data.Terms.ByCount }}<a class="kc-tag" href="{{ .Page.RelPermalink }}">{{ .Page.Title }} ({{ .Count }})</a>{{ end }}</div>
+  <h1 class="kc-pagetitle"><span class="kc-prompt" aria-hidden="true">$</span> {{ .Title | lower }}</h1>
+  <p class="kc-archive__count">{{ len .Data.Terms }} {{ .Data.Plural }}</p>
+  {{ partial "channel-chips.html" (dict "page" . "active" (cond (eq .Data.Plural "tags") "tags" "")) }}
+  <div class="kc-post__tags" data-ui="terms">{{ range .Data.Terms.ByCount }}<a class="kc-tag" href="{{ .Page.RelPermalink }}" data-nav="{{ $.Data.Plural }}">{{ .Page.Title }} <span class="kc-tag__n">{{ .Count }}</span></a>{{ end }}</div>
 </div>
 {{ end }}

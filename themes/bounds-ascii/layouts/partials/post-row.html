@@ -1,7 +1,10 @@
-{{- /* A terminal listing row with the article title, date, and read time. */ -}}
-<a class="kc-row" href="{{ .RelPermalink }}" title="{{ .Title }}" aria-label="{{ .Title }} — {{ .Date.Format "2006-01-02" }}, {{ .ReadingTime }} min read">
-  <span class="kc-row__glyph" aria-hidden="true">›</span>
+{{- /* A terminal listing row: date, read time (or kind for photos and bot limericks), title. */ -}}
+{{- $kind := partial "kind.html" . -}}
+{{- $meta := printf "%d min" .ReadingTime -}}
+{{- if eq $kind "photo" }}{{ $meta = "photo" }}{{ else if eq $kind "bots" }}{{ $meta = "bot" }}{{ end -}}
+<a class="kc-row" data-kind="{{ $kind }}" data-content-id="{{ path.Base .RelPermalink }}" href="{{ .RelPermalink }}" aria-label="{{ .Title }} — {{ .Date.Format "2006-01-02" }}, {{ if eq $kind "writing" }}{{ .ReadingTime }} min read{{ else if eq $kind "photo" }}photo{{ else }}bot limerick{{ end }}">
+  <span class="kc-row__glyph" aria-hidden="true"></span>
   <time class="kc-row__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-  <span class="kc-row__readtime">{{ .ReadingTime }} min</span>
-  <span class="kc-row__title">{{ .Title }}</span>
+  <span class="kc-row__readtime">{{ $meta }}</span>
+  <span class="kc-row__title"><span class="kc-u">{{ .Title }}</span></span>
 </a>

@@ -1,5 +1,6 @@
 ---
 title: Hermit Crab
+description: "Exploring tide pools in La Jolla, CA."
 date: 2023-11-24T18:55:03-08:00
 draft: false
 resources:
@@ -7,9 +8,8 @@ resources:
   src: featured-image.jpeg
 - name: featured-image-preview
   src: featured-image-preview.jpeg
-tags: []
+tags: ["nature"]
 categories: ["photos"]
-lightgallery: true
 ---
 Exploring tide pools in La Jolla, CA
 <!--more-->

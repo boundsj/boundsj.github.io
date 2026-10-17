@@ -1,0 +1,16 @@
+{{- /* One deferred, fingerprinted bundle. dither.js loads first, and only where a page sets `dither: true`. */ -}}
+{{- if .Params.dither -}}
+  {{- with resources.Get "js/dither.js" | minify | fingerprint }}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+  {{- end -}}
+{{- end -}}
+{{- $js := slice -}}
+{{- /* Order matters: theme.js defines window.boundsTrack, analytics.js listens, and site.js may
+       report (e.g. reading progress) as soon as it boots. */ -}}
+{{- range slice "js/theme.js" "js/analytics.js" "js/site.js" -}}
+  {{- with resources.Get . }}{{ $js = $js | append . }}{{ end -}}
+{{- end -}}
+{{- with $js -}}
+  {{- $bundle := . | resources.Concat "js/bundle.js" | minify | fingerprint }}
+<script src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" defer></script>
+{{- end -}}

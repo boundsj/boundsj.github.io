@@ -1,0 +1,11 @@
+{{- /* Photo post hero: the standard responsive image, wrapped in a link that opens the lightbox
+       (or the full-size original without JavaScript). */ -}}
+{{- with .Resources.GetMatch "featured-image" -}}
+{{- $data := partial "photo-data.html" $ -}}
+<figure class="kc-hero kc-hero--photo" data-photo-group="post_hero">
+  <a class="kc-hero__open" href="{{ .RelPermalink }}"{{ range $k, $v := $data }} {{ $k | safeHTMLAttr }}="{{ $v }}"{{ end }} aria-label="View {{ $.Title }} larger">
+    {{- partial "responsive-image.html" (dict "image" . "class" "kc-hero__media" "alt" (index $data "data-photo-alt") "sizes" "(max-width: 720px) 90vw, 640px" "loading" "eager") -}}
+    <span class="kc-hero__zoom" aria-hidden="true">[ view larger ]</span>
+  </a>
+</figure>
+{{- end -}}

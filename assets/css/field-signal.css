@@ -20,3 +20,32 @@
   }
   .crt .field-signal { background-image: url("{{ .darkMobile }}"); }
 }
+
+/* Signal nodes: invisible until the first home view of a session ("kc-intro"), when the art scans
+   in top to bottom and a signal crosses the nodes once, left to right. Finite (about 2.6 s), and
+   reduced motion never sets kc-intro. */
+.field-signal { position: relative; }
+.fs-node {
+  position: absolute; left: var(--lx); top: var(--ly); width: 18px; height: 18px; margin: -9px 0 0 -9px;
+  border: 2px solid #F5A623; border-radius: 2px; opacity: 0; pointer-events: none;
+  box-shadow: 0 0 10px 2px rgba(245, 166, 35, .65), inset 0 0 6px rgba(245, 166, 35, .5);
+}
+.crt .fs-node { left: var(--dx); top: var(--dy); }
+.kc-intro .field-signal { animation: fs-scan 720ms steps(12, end) both; }
+.kc-intro .field-signal::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, transparent calc(100% - 2px), #F5A623 calc(100% - 2px));
+  filter: drop-shadow(0 0 6px #F5A623);
+  animation: fs-scanline 720ms steps(12, end) both;
+}
+.kc-intro .fs-node { animation: fs-node 700ms ease-out calc(760ms + var(--i) * 140ms) both; }
+@keyframes fs-scan { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes fs-scanline { from { transform: translateY(-100%); } 99% { opacity: 1; } to { transform: translateY(0); opacity: 0; } }
+@keyframes fs-node { 0% { opacity: 0; transform: scale(.6); } 35% { opacity: 1; transform: scale(1.15); } 100% { opacity: 0; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .kc-intro .field-signal, .kc-intro .field-signal::after, .kc-intro .fs-node { animation: none; }
+}
+@media (max-width: 540px) {
+  .fs-node { left: var(--lmx); width: 14px; height: 14px; margin: -7px 0 0 -7px; }
+  .crt .fs-node { left: var(--dmx); }
+}

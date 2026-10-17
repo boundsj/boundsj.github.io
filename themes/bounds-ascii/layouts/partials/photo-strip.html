@@ -1,0 +1,10 @@
+{{- /* A row of small square photo thumbnails; each opens the lightbox (or the post without JS). */ -}}
+<ul class="kc-strip" data-photo-group="{{ .group }}">
+  {{- range $p := .pages }}
+  {{- with $p.Resources.GetMatch "featured-image" }}
+  {{- $thumb := .Fill "200x200 Smart webp q72" }}
+  {{- $data := partial "photo-data.html" $p }}
+  <li><a class="kc-strip__a" href="{{ $p.RelPermalink }}"{{ range $k, $v := $data }} {{ $k | safeHTMLAttr }}="{{ $v }}"{{ end }}><img src="{{ $thumb.RelPermalink }}" width="100" height="100" alt="{{ $p.Title }}" loading="lazy" decoding="async"></a></li>
+  {{- end }}
+  {{- end }}
+</ul>

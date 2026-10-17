@@ -1,0 +1,31 @@
+{{ define "main" }}
+{{- $ch := partialCached "channels.html" . "channels" -}}
+<div class="kc-archive" data-kind="photo">
+  <h1 class="kc-pagetitle"><span class="kc-prompt" aria-hidden="true">$</span> <span aria-hidden="true">~/</span>photos</h1>
+  <p class="kc-lede">{{ .Description }}</p>
+  {{ partial "channel-chips.html" (dict "page" . "active" "photos") }}
+  <ol class="kc-sheet" data-photo-group="photo_grid" data-ui="photo_grid">
+    {{- range $i, $p := $ch.photos }}
+    {{- $img := $p.Resources.GetMatch "featured-image" }}
+    {{- /* Lightbox attributes only when there is an image; otherwise the tile is a plain link. */}}
+    {{- $data := cond (ne $img nil) (partial "photo-data.html" $p) dict }}
+    <li class="kc-frame" data-kind="photo">
+      <a class="kc-frame__link" href="{{ $p.RelPermalink }}"{{ range $k, $v := $data }} {{ $k | safeHTMLAttr }}="{{ $v }}"{{ end }}>
+        {{- with $img }}
+        {{- $small := .Fill "240x240 Smart webp q74" }}
+        {{- $thumb := .Fill "480x480 Smart webp q74" }}
+        <span class="kc-frame__img"><img src="{{ $thumb.RelPermalink }}" srcset="{{ $small.RelPermalink }} 240w, {{ $thumb.RelPermalink }} 480w" sizes="(max-width: 600px) 45vw, 240px" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="{{ index $data "data-photo-alt" }}"{{ if ge $i 4 }} loading="lazy"{{ end }} decoding="async"></span>
+        {{- else }}
+        <span class="kc-frame__img kc-frame__img--none" aria-hidden="true">no image</span>
+        {{- end }}
+        <span class="kc-frame__no" aria-hidden="true">{{ printf "%02d" (add $i 1) }}A</span>
+        <span class="kc-frame__cap">
+          <span class="kc-frame__title"><span class="kc-u">{{ $p.Title }}</span></span>
+          <span class="kc-frame__meta"><time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006-01-02" }}</time>{{ with index $data "data-photo-meta" }} · {{ . }}{{ end }}</span>
+        </span>
+      </a>
+    </li>
+    {{- end }}
+  </ol>
+</div>
+{{ end }}

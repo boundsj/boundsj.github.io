@@ -102,9 +102,9 @@ class GeneratorTests(unittest.TestCase):
         )
         self.assertEqual(generated, f'''---
 title: "Single photo"
+description: "A photo description."
 date: {DATE.astimezone().isoformat()}
 draft: false
-images: ["featured-image.jpeg"]
 tags: ["photos", "travel"]
 categories: ["photos"]
 resources:
@@ -112,7 +112,6 @@ resources:
   src: featured-image.jpeg
 - name: featured-image-preview
   src: featured-image-preview.jpeg
-lightgallery: true
 ---
 A photo description.
 <!--more-->

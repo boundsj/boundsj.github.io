@@ -1,5 +1,6 @@
 ---
 title: What's under the hood?
+description: "Parked car near Balboa Park in San Francisco, CA."
 date: 2023-04-16T09:35:47-07:00
 draft: false
 resources:
@@ -7,9 +8,8 @@ resources:
   src: featured-image.jpeg
 - name: featured-image-preview
   src: featured-image-preview.jpeg
-tags: []
+tags: ["sf", "street"]
 categories: ["photos"]
-lightgallery: true
 ---
 Parked car near Balboa Park in San Francisco, CA
 <!--more-->

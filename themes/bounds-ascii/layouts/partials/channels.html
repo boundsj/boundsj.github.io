@@ -1,0 +1,10 @@
+{{- /* Site-wide post collections by channel, newest first. Call with partialCached. */ -}}
+{{- $posts := where site.RegularPages "Section" "posts" -}}
+{{- $photos := where $posts "Params.categories" "intersect" (slice "photos") -}}
+{{- $bots := where $posts "Params.categories" "intersect" (slice "generated") -}}
+{{- $writing := complement $photos $bots $posts -}}
+{{- return dict
+  "posts" $posts.ByDate.Reverse
+  "writing" $writing.ByDate.Reverse
+  "photos" $photos.ByDate.Reverse
+  "bots" $bots.ByDate.Reverse -}}

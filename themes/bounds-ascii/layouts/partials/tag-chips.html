@@ -1,0 +1,4 @@
+{{- /* Tag links resolved through the taxonomy so labels with symbols keep working hrefs. */ -}}
+{{- with .Params.tags }}
+<div class="kc-post__tags">{{ range $tag := . }}{{ with site.Taxonomies.tags.Get $tag }}<a class="kc-tag" href="{{ .Page.RelPermalink }}" data-nav="tags">{{ $tag }}</a>{{ end }}{{ end }}</div>
+{{- end }}

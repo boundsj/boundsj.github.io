@@ -1,0 +1,24 @@
+{{- /* Older/newer links within the post's own channel, plus one cross-link from writing to photos. */ -}}
+{{- $ch := partialCached "channels.html" . "channels" -}}
+{{- $kind := partial "kind.html" . -}}
+{{- $list := index (dict "writing" $ch.writing "photo" $ch.photos "bots" $ch.bots) $kind -}}
+{{- $label := index (dict "writing" "writing" "photo" "photos" "bots" "bot limericks") $kind -}}
+{{- $idx := -1 -}}
+{{- range $i, $p := $list }}{{ if eq $p $ }}{{ $idx = $i }}{{ end }}{{ end -}}
+{{- if ge $idx 0 }}
+<nav class="kc-postnav" aria-label="More {{ $label }}" data-ui="post_nav">
+  {{- if lt (add $idx 1) (len $list) }}{{ with index $list (add $idx 1) }}
+  <a class="kc-postnav__a" rel="prev" href="{{ .RelPermalink }}" data-content-id="{{ path.Base .RelPermalink }}" data-kind="{{ $kind }}"><span class="kc-postnav__dir"><span aria-hidden="true">←</span> older {{ $label }}</span><span class="kc-postnav__title"><span class="kc-u">{{ .Title }}</span></span></a>
+  {{- end }}{{ end }}
+  {{- if gt $idx 0 }}{{ with index $list (sub $idx 1) }}
+  <a class="kc-postnav__a kc-postnav__a--next" rel="next" href="{{ .RelPermalink }}" data-content-id="{{ path.Base .RelPermalink }}" data-kind="{{ $kind }}"><span class="kc-postnav__dir">newer {{ $label }} <span aria-hidden="true">→</span></span><span class="kc-postnav__title"><span class="kc-u">{{ .Title }}</span></span></a>
+  {{- end }}{{ end }}
+</nav>
+{{- end }}
+{{- if and (eq $kind "writing") (gt (len $ch.photos) 0) }}
+<aside class="kc-crosslink tui-panel" data-kind="photo" aria-labelledby="crosslink-title" data-ui="post_crosslink">
+  <h2 class="tui-panel__title" id="crosslink-title">meanwhile in <span aria-hidden="true">~/</span>photos</h2>
+  {{ partial "photo-strip.html" (dict "pages" (first 3 $ch.photos) "group" "post_crosslink") }}
+  <a class="kc-btn kc-crosslink__cta" href="{{ "photos/" | relURL }}" data-nav="photos">browse photos <span aria-hidden="true">→</span></a>
+</aside>
+{{- end }}

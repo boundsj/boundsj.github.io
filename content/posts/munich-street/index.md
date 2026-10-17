@@ -1,5 +1,6 @@
 ---
 title: Munich Street
+description: "Munich Street in the Excelsior District in San Francisco."
 date: 2023-03-29T14:59:48-07:00
 draft: false
 resources:
@@ -7,9 +8,8 @@ resources:
   src: featured-image.jpeg
 - name: featured-image-preview
   src: featured-image-preview.jpeg
-tags: []
+tags: ["sf", "street"]
 categories: ["photos"]
-lightgallery: true
 ---
 Munich Street in the Excelsior District in San Francisco.
 <!--more-->

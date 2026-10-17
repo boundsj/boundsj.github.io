@@ -1,13 +1,46 @@
-{{- /* Keep local previews out of analytics; use the existing site configuration. */ -}}
+{{- /* GA4, guarded twice: only production builds emit it, and at runtime it loads only on the
+       hosts in params.analytics.hosts, so local and preview builds never send data.
+       Before gtag.js loads, the URL is cleaned: only utm_* campaign parameters survive (and none
+       whose value contains "@"), both in page_location and in the address bar, because
+       Enhanced Measurement reads the raw query itself (e.g. ?q= becomes a site-search term).
+       The 404 location is fixed, and same-site referrers are reduced to their path (cross-site to
+       their origin). Schema and verification: docs/analytics.md. */ -}}
 {{- if and hugo.IsProduction .Site.Params.analytics.enable -}}
   {{- with .Site.Params.analytics.google.id }}
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', {{ . }});
+(function (id, hosts, group, notFound) {
+  if (hosts.indexOf(location.hostname) === -1) return;
+  var w = window, l = location;
+  var query = new URLSearchParams(l.search);
+  var debug = query.get("analytics_debug") === "1";
+  var keep = new URLSearchParams();
+  ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id"].forEach(function (k) {
+    var v = query.get(k);
+    if (v && v.indexOf("@") === -1 && v.length <= 100) keep.set(k, v);
+  });
+  var qs = keep.toString() ? "?" + keep.toString() : "";
+  if (l.search !== qs && w.history && history.replaceState) {
+    try { history.replaceState(history.state, "", l.pathname + qs + l.hash); } catch (e) {}
+  }
+  w.dataLayer = w.dataLayer || [];
+  w.gtag = function () { w.dataLayer.push(arguments); };
+  function clean(u) { var x = new URL(u, l.href); return x.origin + x.pathname; }
+  var ref = "";
+  try { if (document.referrer) { var r = new URL(document.referrer); ref = r.origin === l.origin ? clean(r.href) : r.origin + "/"; } } catch (e) {}
+  var page = { page_location: notFound ? l.origin + "/404.html" : l.origin + l.pathname + qs, page_referrer: ref };
+  if (notFound) page.page_title = "404";
+  var cfg = { content_group: group };
+  if (debug) cfg.debug_mode = true;
+  gtag("js", new Date());
+  gtag("set", page);
+  gtag("set", "user_properties", { site_theme: document.documentElement.dataset.theme || "light" });
+  gtag("config", id, Object.assign({}, page, cfg));
+  w.boundsAnalyticsLive = true;
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+  document.head.appendChild(s);
+})({{ . }}, {{ $.Site.Params.analytics.hosts | default (slice "www.bounds.dev" "bounds.dev") }}, {{ partial "content-group.html" $ }}, {{ eq $.Kind "404" }});
 </script>
-  {{- end -}}
+  {{- end }}
 {{- end -}}

@@ -1,0 +1,8 @@
+{{- /* Previous/next pagination with real links; ends are dimmed and marked disabled. */ -}}
+{{- if gt .TotalPages 1 }}
+<nav class="kc-pager" aria-label="Pages" data-ui="pager">
+  {{ if .HasPrev }}<a class="kc-btn kc-pager__a" href="{{ .Prev.URL }}" rel="prev"><span aria-hidden="true">←</span> newer</a>{{ else }}<span class="kc-btn kc-pager__a is-off" aria-disabled="true"><span aria-hidden="true">←</span> newer</span>{{ end }}
+  <span class="kc-pager__n">page {{ .PageNumber }} / {{ .TotalPages }}</span>
+  {{ if .HasNext }}<a class="kc-btn kc-pager__a" href="{{ .Next.URL }}" rel="next">older <span aria-hidden="true">→</span></a>{{ else }}<span class="kc-btn kc-pager__a is-off" aria-disabled="true">older <span aria-hidden="true">→</span></span>{{ end }}
+</nav>
+{{- end }}

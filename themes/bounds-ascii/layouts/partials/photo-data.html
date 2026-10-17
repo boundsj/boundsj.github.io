@@ -1,0 +1,32 @@
+{{- /* Lightbox data for a photo post: returns a dict of data-* attributes for the post's
+       featured image, using the same WebP sizes as the post hero so the files are shared. */ -}}
+{{- $attrs := dict -}}
+{{- with .Resources.GetMatch "featured-image" -}}
+  {{- $img := . -}}
+  {{- $sources := slice -}}
+  {{- $fallback := $img -}}
+  {{- range slice 480 960 1440 | uniq -}}
+    {{- $w := int (math.Min . $img.Width) -}}
+    {{- $r := $img.Resize (printf "%dx webp q82" $w) -}}
+    {{- $sources = $sources | append (printf "%s %dw" $r.RelPermalink $r.Width) -}}
+    {{- if eq $w (int (math.Min 960 $img.Width)) }}{{ $fallback = $r }}{{ end -}}
+  {{- end -}}
+  {{- $camera := "" -}}
+  {{- with findRESubmatch `\|\s*Camera\s*\|\s*([^|\n]+?)\s*\|` $.RawContent 1 -}}{{ $camera = index (index . 0) 1 }}{{ end -}}
+  {{- $caption := $.Summary | plainify | htmlUnescape | strings.TrimSpace -}}
+  {{- $attrs = dict
+    "data-photo" ""
+    "data-kind" "photo"
+    "data-content-id" (path.Base $.RelPermalink)
+    "data-photo-src" $fallback.RelPermalink
+    "data-photo-srcset" (delimit (uniq $sources) ", ")
+    "data-photo-w" $img.Width
+    "data-photo-h" $img.Height
+    "data-photo-title" $.Title
+    "data-photo-date" ($.Date.Format "2006-01-02")
+    "data-photo-caption" $caption
+    "data-photo-meta" $camera
+    "data-photo-alt" ($.Params.featuredImageAlt | default $caption | default $.Title)
+    "data-photo-href" $.RelPermalink -}}
+{{- end -}}
+{{- return $attrs -}}

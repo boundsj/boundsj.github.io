@@ -1,19 +1,23 @@
 {{ define "main" }}
 <div class="kc-banner-wrap">{{ partial "banner.html" . }}</div>
-<div class="kc-profile">
+<div class="kc-profile" data-ui="home_profile">
+  {{- $subtitle := .Site.Params.home.profile.subtitle }}
   <h1 class="kc-profile__name">{{ .Site.Params.home.profile.title | default .Site.Params.author.name }}</h1>
-  <div class="kc-profile__sub"><span class="kc-typeline" data-type-text="{{ .Site.Params.home.profile.subtitle }}">{{ .Site.Params.home.profile.subtitle }}</span></div>
+  <p class="kc-profile__sub"><span class="sr-only">{{ $subtitle }}</span><span class="kc-typeline" aria-hidden="true" data-type-text="{{ $subtitle }}">{{ $subtitle }}</span></p>
   {{ partial "social-links.html" . }}
 </div>
 
-<h2 class="kc-sectionhead"><span class="kc-prompt">$</span> recent posts <span class="kc-dim">// ls -lt</span></h2>
 {{- $posts := where (where .Site.RegularPages "Section" "posts") "Params.hiddenFromHomePage" "!=" true -}}
-{{- /* Select the newest by date, then exclude it from the remaining rows. */ -}}
+{{- /* Select the newest by date, then exclude it from the remaining rows (and from the door strip). */ -}}
 {{- $recent := first 7 $posts.ByDate.Reverse -}}
+{{- $latest := "" }}{{ with $recent }}{{ $latest = index . 0 }}{{ end }}
+{{ partial "doors.html" (dict "site" . "page" $latest) }}
+
+<h2 class="kc-sectionhead"><span class="kc-prompt" aria-hidden="true">$</span> recent posts <span class="kc-dim" aria-hidden="true">// ls -lt</span></h2>
 {{- if gt (len $recent) 0 -}}
-  {{ with (index $recent 0) }}{{ partial "featured-post.html" . }}{{ end }}
-  <div class="kc-rows">{{ range (after 1 $recent) }}{{ partial "post-row.html" . }}{{ end }}</div>
-  <div class="kc-more"><a class="kc-btn" href="{{ "/posts/" | relURL }}">[ all posts → ]</a></div>
+  <div data-ui="home_latest">{{ with (index $recent 0) }}{{ partial "featured-post.html" . }}{{ end }}</div>
+  <div class="kc-rows" data-ui="home_list">{{ range (after 1 $recent) }}{{ partial "post-row.html" . }}{{ end }}</div>
+  <div class="kc-more"><a class="kc-btn" href="{{ "posts/" | relURL }}" data-nav="posts">all posts <span aria-hidden="true">→</span></a></div>
 {{- else -}}
   <div class="kc-archive__count">no posts yet</div>
 {{- end -}}
