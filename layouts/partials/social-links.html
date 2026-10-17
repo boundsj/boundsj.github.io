@@ -5,7 +5,7 @@
     (dict "href" "https://twitter.com/boundsnet" "label" "twitter" "short" "x" "name" "X (Twitter)" "social" "x")
     (dict "href" "https://www.linkedin.com/in/jessebounds/" "label" "linkedin" "social" "linkedin")
     (dict "href" "mailto:bounds@mail.grokbot.com" "label" "email")
-    (dict "href" ("/index.xml" | relURL) "label" "rss") }}
+    (dict "href" ("index.xml" | relURL) "label" "rss") }}
   <li><a class="kc-social__a" href="{{ $s.href }}"{{ with $s.social }} data-social="{{ . }}"{{ end }}{{ with $s.name }} aria-label="{{ . }}"{{ end }}>{{ with $s.short }}<span class="kc-social__long">{{ $s.label }}</span><span class="kc-social__short">{{ . }}</span>{{ else }}{{ $s.label }}{{ end }}</a></li>
   {{- end }}
 </ul>

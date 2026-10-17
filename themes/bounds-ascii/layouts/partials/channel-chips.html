@@ -9,6 +9,6 @@
 <nav class="kc-chips" aria-label="Channels" data-ui="chips">
   {{- range $items }}
   {{- $on := eq .id $.active }}
-  <a class="kc-chip{{ if $on }} is-on{{ end }}" href="{{ .url | relURL }}" data-nav="{{ .id }}" data-kind="{{ .kind }}"{{ if $on }} aria-current="page"{{ end }}>{{ .label }}{{ with .count }} <span class="kc-chip__n">{{ . }}</span>{{ end }}</a>
+  <a class="kc-chip{{ if $on }} is-on{{ end }}" href="{{ strings.TrimPrefix "/" .url | relURL }}" data-nav="{{ .id }}" data-kind="{{ .kind }}"{{ if $on }} aria-current="page"{{ end }}>{{ .label }}{{ with .count }} <span class="kc-chip__n">{{ . }}</span>{{ end }}</a>
   {{- end }}
 </nav>

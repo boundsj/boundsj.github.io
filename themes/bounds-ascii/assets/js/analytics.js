@@ -56,7 +56,7 @@
 
   /* Link clicks, classified once in a fixed order. Capture phase, so every click is seen
      before anything (like the lightbox) handles it. */
-  var POST_PATH = /^\/posts\/([^/]+)\/?$/;
+  var POST_PATH = /\/posts\/([^/]+)\/?$/; // tolerant of a base path (e.g. a preview under /bounds-preview/)
   function classify(link, event) {
     var href = link.getAttribute("href") || "";
     var ui = uiLocation(link);

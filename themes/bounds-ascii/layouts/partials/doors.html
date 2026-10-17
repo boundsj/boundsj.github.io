@@ -14,7 +14,7 @@
     {{- range $k, $v := $counts }}{{ $top = $top | append (dict "tag" $k "n" $v) }}{{ end -}}
     <div class="kc-door__tags">{{ range $t := first 3 (sort $top "n" "desc") }}{{ with site.Taxonomies.tags.Get $t.tag }}<a class="kc-tag" href="{{ .Page.RelPermalink }}" data-nav="tags">{{ $t.tag }}</a>{{ end }}{{ end }}</div>
     <p class="kc-door__meta">{{ len . }} posts<span class="kc-door__newest"> · newest {{ (index . 0).Date.Format "2006-01-02" }}</span></p>
-    <a class="kc-btn kc-door__cta" href="{{ "/writing/" | relURL }}" data-nav="writing">all writing <span aria-hidden="true">→</span><span class="kc-btn__end" aria-hidden="true">]</span></a>
+    <a class="kc-btn kc-door__cta" href="{{ "writing/" | relURL }}" data-nav="writing">all writing <span aria-hidden="true">→</span><span class="kc-btn__end" aria-hidden="true">]</span></a>
   </section>
   {{- end }}
   {{- with $ch.photos }}
@@ -23,7 +23,7 @@
     {{- /* The home feature is never repeated: if the latest post is a photo, it skips the strip. */}}
     {{ partial "photo-strip.html" (dict "pages" (first 4 (complement (slice $featured) .)) "group" "home_door") }}
     <p class="kc-door__meta">{{ len . }} photos<span class="kc-door__newest"> · newest {{ (index . 0).Date.Format "2006-01-02" }}</span></p>
-    <a class="kc-btn kc-door__cta" href="{{ "/photos/" | relURL }}" data-nav="photos">all photos <span aria-hidden="true">→</span><span class="kc-btn__end" aria-hidden="true">]</span></a>
+    <a class="kc-btn kc-door__cta" href="{{ "photos/" | relURL }}" data-nav="photos">all photos <span aria-hidden="true">→</span><span class="kc-btn__end" aria-hidden="true">]</span></a>
   </section>
   {{- end }}
 </div>

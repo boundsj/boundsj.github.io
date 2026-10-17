@@ -19,6 +19,6 @@
 <aside class="kc-crosslink tui-panel" data-kind="photo" aria-labelledby="crosslink-title" data-ui="post_crosslink">
   <h2 class="tui-panel__title" id="crosslink-title">meanwhile in <span aria-hidden="true">~/</span>photos</h2>
   {{ partial "photo-strip.html" (dict "pages" (first 3 $ch.photos) "group" "post_crosslink") }}
-  <a class="kc-btn kc-crosslink__cta" href="{{ "/photos/" | relURL }}" data-nav="photos">browse photos <span aria-hidden="true">→</span></a>
+  <a class="kc-btn kc-crosslink__cta" href="{{ "photos/" | relURL }}" data-nav="photos">browse photos <span aria-hidden="true">→</span></a>
 </aside>
 {{- end }}

@@ -17,7 +17,7 @@
 {{- if gt (len $recent) 0 -}}
   <div data-ui="home_latest">{{ with (index $recent 0) }}{{ partial "featured-post.html" . }}{{ end }}</div>
   <div class="kc-rows" data-ui="home_list">{{ range (after 1 $recent) }}{{ partial "post-row.html" . }}{{ end }}</div>
-  <div class="kc-more"><a class="kc-btn" href="{{ "/posts/" | relURL }}" data-nav="posts">all posts <span aria-hidden="true">→</span></a></div>
+  <div class="kc-more"><a class="kc-btn" href="{{ "posts/" | relURL }}" data-nav="posts">all posts <span aria-hidden="true">→</span></a></div>
 {{- else -}}
   <div class="kc-archive__count">no posts yet</div>
 {{- end -}}

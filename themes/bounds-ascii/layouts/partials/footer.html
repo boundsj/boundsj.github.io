@@ -9,7 +9,7 @@
       {{- end }}
     </span>
     <span class="kc-status__group">
-      <a class="kc-status__a" href="{{ "/index.xml" | relURL }}">rss</a>
+      <a class="kc-status__a" href="{{ "index.xml" | relURL }}">rss</a>
       <a class="kc-status__a" href="mailto:bounds@mail.grokbot.com">email</a>
       <a class="kc-status__a" href="https://github.com/boundsj" data-social="github">github</a>
       <a class="kc-status__a kc-status__top" href="#top">↑ top</a>
@@ -18,7 +18,7 @@
   <div class="kc-footer__row">
     <span>© {{ $since }}–{{ now.Year }} {{ .Site.Params.author.name }}</span>
     {{ with .Site.Params.footer.license }}<span>{{ . | safeHTML }}</span>{{ end }}
-    <span><a href="{{ "/tags/" | relURL }}" data-nav="tags">tags</a> · <a href="{{ "/categories/" | relURL }}" data-nav="categories">categories</a></span>
+    <span><a href="{{ "tags/" | relURL }}" data-nav="tags">tags</a> · <a href="{{ "categories/" | relURL }}" data-nav="categories">categories</a></span>
     <span>built with <a href="https://gohugo.io/">Hugo</a></span>
   </div>
 </footer>

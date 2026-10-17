@@ -8,7 +8,7 @@
   "bots" (dict "url" "/categories/generated/" "label" "bot limericks" "nav" "bots")) $kind
   | default (dict "url" "/posts/" "label" "posts" "nav" "posts") -}}
 <article class="kc-post{{ if eq .Section "posts" }} kc-post--prose{{ end }} post--{{ $cat | default "post" }}" data-kind="{{ $kind }}" data-content-id="{{ path.Base .RelPermalink }}">
-  <a class="kc-back" href="{{ $back.url | relURL }}" data-nav="{{ $back.nav }}" data-ui="back_link" aria-label="Back to {{ $back.label }}"><span aria-hidden="true">← ~/</span>{{ $back.label }}</a>
+  <a class="kc-back" href="{{ strings.TrimPrefix "/" $back.url | relURL }}" data-nav="{{ $back.nav }}" data-ui="back_link" aria-label="Back to {{ $back.label }}"><span aria-hidden="true">← ~/</span>{{ $back.label }}</a>
   {{ with $cat }}<div class="kc-post__cat">{{ with site.Taxonomies.categories.Get . }}<a class="kc-cat is-on" href="{{ .Page.RelPermalink }}" data-nav="categories">{{ $cat }}</a>{{ else }}<span class="kc-cat is-on">{{ . }}</span>{{ end }}</div>{{ end }}
   <h1 class="kc-post__title"><span class="kc-prompt" aria-hidden="true">$</span> {{ .Title }}</h1>
   <div class="kc-post__byline">{{ with .Params.author }}{{ . }}{{ else }}{{ $.Site.Params.author.name }}{{ end }} · <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ if eq $kind "writing" }} · {{ .ReadingTime }} min read{{ end }}</div>
