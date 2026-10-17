@@ -5,7 +5,9 @@
   {{- end -}}
 {{- end -}}
 {{- $js := slice -}}
-{{- range slice "js/theme.js" "js/site.js" "js/analytics.js" -}}
+{{- /* Order matters: theme.js defines window.boundsTrack, analytics.js listens, and site.js may
+       report (e.g. reading progress) as soon as it boots. */ -}}
+{{- range slice "js/theme.js" "js/analytics.js" "js/site.js" -}}
   {{- with resources.Get . }}{{ $js = $js | append . }}{{ end -}}
 {{- end -}}
 {{- with $js -}}

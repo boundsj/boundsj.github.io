@@ -149,7 +149,7 @@ All names and parameters are snake_case. Parameters are reused across events. No
 | Event | Fires on | Parameters |
 | --- | --- | --- |
 | `select_content` (GA4 recommended) | Choosing **a specific post**: listing rows, the featured post (title or hero), writing entries, older/newer links | `content_type` (`writing`, `photo`, `bots`), `content_id` (post slug), `ui_location` |
-| `nav_click` | Index-level navigation: header nav, status bar, channel chips, back links, door buttons, 404 buttons, tag and category chips, `all posts`, pager | `nav_item` (`home`, `writing`, `photos`, `posts`, `about`, `limericks`, `tags`, `categories`, `page`), `ui_location` |
+| `nav_click` | Index-level navigation: header nav, status bar, channel chips, back links, door buttons, 404 buttons, tag and category chips, `all posts`, pager | `nav_item` (`home`, `writing`, `photos`, `posts`, `about`, `bots`, `tags`, `categories`, `top`, `page`), `ui_location` |
 | `theme_change` | A pill press that changes the theme | `theme_from`, `theme_to` |
 | `outbound_click` | A link to another host, except social links | `link_domain`, `link_path`, `ui_location` |
 | `social_click` | GitHub, X/Twitter, LinkedIn | `social_network` (`github`, `x`, `linkedin`), `ui_location` |
@@ -172,7 +172,7 @@ All names and parameters are snake_case. Parameters are reused across events. No
 
 ## Performance budget
 
-- These are targets, not measured results: CSS at or under 28 KB minified, and JS at or under 14 KB minified across theme, site and analytics.
+- These are targets, not measured results: CSS at or under 28 KB minified, and JS at or under 14 KB minified across theme, site and analytics. **Measured after M4:** main CSS 35.4 KB minified (8.0 KB gzipped; baseline 17.3 / 4.5 KB) and the JS bundle 15.6 KB minified (5.6 KB gzipped; baseline theme + dither 4.5 / 2.3 KB). Both miss the raw targets, by 7.4 KB and 1.6 KB. Gzipped, they add about 6.8 KB to a first visit and nothing after caching. Accepted for now; see the open questions.
 - No new fonts. No GIFs on new pages; door and contact-sheet thumbnails are WebP.
 - Mapbox loads lazily, and `dither.js` loads only on pages that use `data-dither`.
 - The home page adds the 4 door thumbnails (200 px WebP, about 10 KB each). Lightbox images load only when it opens.

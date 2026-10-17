@@ -288,13 +288,13 @@
       var timer = 0;
       copy.addEventListener("click", function () {
         var text = code.innerText.replace(/\n$/, "");
+        var article = document.querySelector(".kc-post[data-content-id]");
+        track("code_copy", { content_id: article ? article.getAttribute("data-content-id") : "", code_language: lang });
         var done = function () {
           copy.textContent = "copied";
           copy.classList.add("is-done");
           clearTimeout(timer);
           timer = setTimeout(function () { copy.textContent = "copy"; copy.classList.remove("is-done"); }, 1500);
-          var article = document.querySelector(".kc-post[data-content-id]");
-          track("code_copy", { content_id: article ? article.getAttribute("data-content-id") : "", code_language: lang });
         };
         if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { legacyCopy(text) && done(); });
         else if (legacyCopy(text)) done();
