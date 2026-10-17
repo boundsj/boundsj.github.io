@@ -425,8 +425,8 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-featured__title a { text-decoration: none; }
 .kc-featured__title a:hover { background: none; color: var(--fg-1); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--sig); }
 .kc-featured__meta { font-size: 12px; color: var(--fg-3); }
-.kc-featured__media { display: block; text-decoration: none; }
-.kc-featured__media:hover { background: none; }
+.kc-hero__link { display: block; text-decoration: none; }
+.kc-hero__link:hover { background: none; }
 .kc-kind { color: var(--sig); }
 
 /* ---------- TERMINAL LISTINGS ---------- */
@@ -553,6 +553,39 @@ canvas.kc-hero__media, img.is-dithered, canvas.is-dithered { image-rendering: pi
 @media (hover: none) { .kc-hero__zoom { opacity: 1; transform: none; } }
 .kc-post__tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 28px; }
 
+/* ---------- ANIMATED HERO TOGGLE ---------- */
+.kc-motion { position: absolute; left: 10px; bottom: 10px; z-index: 2; display: inline-flex; align-items: center; gap: .6ch;
+  min-height: 32px; padding: 0 10px; border-radius: 4px; border: 1px solid color-mix(in srgb, var(--fg-1) 40%, transparent);
+  background: color-mix(in srgb, var(--bg-1) 90%, transparent); color: var(--fg-1); font: 600 12px/1 var(--font-body); cursor: pointer; }
+.kc-motion::before { content: "||"; content: "||" / ""; color: var(--sig); letter-spacing: -.1em; }
+.is-paused .kc-motion::before { content: ">"; content: ">" / ""; }
+.kc-motion:hover { background: var(--bg-1); border-color: var(--sig); }
+.kc-hero--animated figcaption { line-height: 1.5; }
+
+/* ---------- LIGHTBOX ---------- */
+.kc-lightbox { width: min(1040px, calc(100vw - 24px)); max-width: none; max-height: calc(100dvh - 24px); margin: auto; padding: 0;
+  border: 1px solid var(--sig); border-radius: var(--radius-ui); background: var(--bg-1); color: var(--fg-1);
+  box-shadow: 4px 4px 0 0 var(--sig-tint); overflow: auto; overscroll-behavior: contain; }
+.kc-lightbox[open] { display: flex; flex-direction: column; animation: kc-lightbox-in var(--dur-2) var(--ease-out); }
+.kc-lightbox::backdrop { background: rgba(12, 12, 10, .82); }
+@keyframes kc-lightbox-in { from { opacity: 0; transform: scale(.96); } }
+html.has-lightbox { overflow: hidden; }
+.kc-lightbox__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 10px 8px 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--sig) 45%, var(--bg-1)); font-size: 12px; color: var(--sig); }
+.kc-lightbox__count { font-variant-numeric: tabular-nums; letter-spacing: .06em; }
+.kc-lightbox__close { margin-left: auto; box-shadow: none; }
+.kc-lightbox__stage { display: flex; align-items: center; justify-content: center; background: var(--bg-3); min-height: 120px; }
+.kc-lightbox__img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 260px);
+  transition: opacity var(--dur-2) ease; }
+.kc-lightbox__stage.is-loading .kc-lightbox__img { opacity: .35; }
+.kc-lightbox__info { padding: 12px 14px 4px; }
+.kc-lightbox__title { font-size: 17px; text-transform: none; letter-spacing: -.01em; margin: 0 0 2px; }
+.kc-lightbox__meta { font-size: 12px; color: var(--fg-3); margin: 0 0 6px; }
+.kc-lightbox__caption { font-size: 14px; color: var(--fg-2); margin: 0; max-width: 70ch; }
+.kc-lightbox__controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px 14px 14px; }
+.kc-lightbox__open { margin-left: auto; }
+.kc-lightbox [hidden] { display: none; }
+
 /* ---------- POST NAV + CROSS-LINK ---------- */
 .kc-postnav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 32px 0 0; }
 .kc-postnav__a { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; min-height: 44px;
@@ -631,6 +664,8 @@ canvas.kc-hero__media, img.is-dithered, canvas.is-dithered { image-rendering: pi
 .mapbox { border: 1px solid var(--border); border-radius: var(--radius-ui); overflow: hidden; margin: 0 0 24px; background: var(--bg-2); }
 /* Mapbox's scale control is dark-on-translucent; give it theme colors so it reads on dark maps. */
 .mapbox .mapboxgl-ctrl-scale { background: var(--bg-1); color: var(--fg-1); border-color: var(--fg-1); }
+.mapbox--failed { display: flex; align-items: center; justify-content: center; }
+.mapbox__fallback { margin: 0; font-size: 13px; color: var(--fg-3); }
 
 /* hero figure (no React toggle button in production) */
 figure.kc-hero { margin: 0 0 20px; }
@@ -723,6 +758,10 @@ main:focus-visible { outline: none; }
 }
 
 @media (max-width: 600px) {
+  .kc-lightbox { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+  .kc-lightbox__img { max-height: calc(100dvh - 300px); }
+  .kc-lightbox__controls { gap: 8px; }
+  .kc-lightbox__open { margin-left: 0; }
   /* Banner: shrink to fit rather than scroll/clip; harden the wrap. */
   .kc-banner { font-size: 6px; }
 

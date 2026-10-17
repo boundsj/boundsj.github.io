@@ -108,9 +108,9 @@
 <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
 {{- end }}
 
-{{- /* Mapbox: only load when the page actually uses the shortcode. */ -}}
+{{- /* Mapbox: only on pages that use the shortcode, and theme.js loads the library lazily
+       when a map nears the viewport. */ -}}
 {{- if .HasShortcode "mapbox" -}}
-<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<script>window.boundsMapbox={accessToken: {{ .Site.Params.page.mapbox.accessToken }} };</script>
+<link rel="preconnect" href="https://api.mapbox.com" crossorigin>
+<script>window.boundsMapbox={accessToken: {{ .Site.Params.page.mapbox.accessToken }}, css: "https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css", js: "https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"};</script>
 {{- end -}}
