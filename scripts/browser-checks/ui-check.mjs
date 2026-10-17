@@ -57,6 +57,13 @@ for (const width of [390, 768, 1024, 1280]) {
     return (links[0].left + links.at(-1).right) / 2 - (t.left + t.right) / 2;
   });
   ok(Math.abs(off) <= 2, `${width}px: social row centered under the title (off by ${off.toFixed(1)} px)`);
+  if (width < 600) {
+    const x = await p.evaluate(() => {
+      const a = document.querySelector('.kc-profile a[data-social="x"]'), r = a.getBoundingClientRect(), y = r.top + r.height / 2, c = (r.left + r.right) / 2;
+      return { hits: [-21, 21].every((dx) => document.elementFromPoint(c + dx, y)?.closest("a") === a), height: r.height };
+    });
+    ok(x.hits && x.height >= 44, "phone: the short X link still has a 44x44 hit area");
+  }
   await c.close();
 }
 

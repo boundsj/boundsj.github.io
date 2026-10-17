@@ -809,8 +809,10 @@ main:focus-visible { outline: none; }
   .kc-status__a, .kc-status__brand { min-height: 44px; }
 
   .kc-profile .kc-social { gap: 0 2px; }
-  .kc-profile .kc-social__a { min-height: 44px; min-width: 44px; justify-content: center; padding: 0 9px; font-size: 13px; letter-spacing: 0; text-transform: none; }
-  .kc-profile .kc-social__a::before, .kc-profile .kc-social__a::after { content: none; }
+  .kc-profile .kc-social__a { position: relative; min-height: 44px; justify-content: center; padding: 0 9px; font-size: 13px; letter-spacing: 0; text-transform: none; }
+  .kc-profile .kc-social__a::before { content: none; }
+  /* Short labels ("x") keep an invisible 44 px-wide hit area, so the visible spacing stays even. */
+  .kc-profile .kc-social__a::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 44px; margin: 0 0 0 -22px; }
   .kc-profile .kc-social li + li::before { content: "·"; content: "·" / ""; color: var(--fg-3); }
   .kc-profile .kc-social li { display: flex; align-items: center; }
   .kc-profile .kc-social__long { display: none; }
