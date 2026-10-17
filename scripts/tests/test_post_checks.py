@@ -1,5 +1,6 @@
-"""Build tiny sites on the real templates: post checks fail production builds on errors (and only
-warn in development), and a post without `images` gets a framed 1200×627 card from its hero."""
+"""Build tiny sites on the real templates. Missing content (description, hero alt, a card for a
+GIF/SVG hero) only warns, even in production; broken references fail production builds and only
+warn in development; a post without `images` gets a framed 1200×627 card from its hero."""
 
 import re
 import shutil
@@ -68,27 +69,44 @@ class PostCheckTests(unittest.TestCase):
         self.assertEqual((width, height), (1200, 627))
         self.assertIn('og:image:width" content="1200"', html)
 
-    def test_errors_fail_production_but_only_warn_in_development(self):
-        broken = VALID.replace('description: "A valid post."\n', "").replace('featuredImageAlt: "A hermit crab in a tide pool."', 'images: ["missing-card.png"]')
+    def test_missing_content_only_warns_even_in_production(self):
+        incomplete = VALID.replace('description: "A valid post."\n', "").replace('featuredImageAlt: "A hermit crab in a tide pool."', "")
+        self.source = site({"incomplete": (incomplete, [("hero.jpeg", JPEG_HERO)])})
+        result, out = build(self.source)
+        log = result.stdout + result.stderr
+        self.assertEqual(result.returncode, 0, log)
+        for message in ("no `description`", "has no `featuredImageAlt`"):
+            self.assertIn(message, log)
+        self.assertNotIn("ERROR", log)
+        self.assertTrue((out / "posts/incomplete/index.html").exists())
+
+    def test_gif_hero_without_card_or_webp_only_warns(self):
+        gif_post = VALID.replace("src: hero.jpeg", "src: hero.gif")
+        self.source = site({"gif": (gif_post, [("hero.gif", GIF_HERO)])})
+        result, out = build(self.source)
+        log = result.stdout + result.stderr
+        self.assertEqual(result.returncode, 0, log)
+        self.assertIn("can't be framed into a social card", log)
+        self.assertIn("GIF hero has no hero.webp yet", log)
+        self.assertIn('og:image" content="https://www.bounds.dev/social-default.png"', (out / "posts/gif/index.html").read_text())
+
+    def test_broken_references_fail_production_but_only_warn_in_development(self):
+        broken = VALID.replace("src: hero.jpeg", "src: hero.jpeg\n  - name: diagram\n    src: missing-diagram.png") + '\nimages: ["missing-card.png"]'
         self.source = site({"broken": (broken, [("hero.jpeg", JPEG_HERO)])})
         result, _ = build(self.source)
         log = result.stdout + result.stderr
         self.assertNotEqual(result.returncode, 0)
-        for message in ("no `description`", "has no `featuredImageAlt`", '`images` names "missing-card.png"'):
+        for message in ('`resources` names "missing-diagram.png"', '`images` names "missing-card.png"'):
             self.assertIn(message, log)
         dev, _ = build(self.source, "development")
         self.assertEqual(dev.returncode, 0, dev.stdout + dev.stderr)
         self.assertIn("(fails a production build)", dev.stdout + dev.stderr)
 
-    def test_gif_hero_needs_a_png_or_jpeg_card_and_a_webp(self):
-        gif_post = VALID.replace("src: hero.jpeg", "src: hero.gif")
-        self.source = site({"gif": (gif_post, [("hero.gif", GIF_HERO)])})
+    def test_gif_social_card_fails_production(self):
+        self.source = site({"gif-card": (VALID + '\nimages: ["card.gif"]', [("hero.jpeg", JPEG_HERO), ("card.gif", GIF_HERO)])})
         result, _ = build(self.source)
-        log = result.stdout + result.stderr
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("can't be cropped into a social card", log)
-        self.assertIn("GIF hero has no hero.webp yet", log)
-
+        self.assertIn('social card "card.gif" is gif', result.stdout + result.stderr)
 
 if __name__ == "__main__":
     unittest.main()

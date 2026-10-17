@@ -1,8 +1,10 @@
 {{- /* Build-time checks that keep writing and photo posts predictable (AGENTS.md → "New post
        checklist"). Called from the single-post template; renders nothing.
-       - Errors fail production builds (`hugo`, CI); `hugo server` and drafts only warn, so drafting
-         is never blocked.
-       - Warnings never fail a build.
+       - Errors are broken references only (a named file that doesn't exist, or a card in a format
+         that can't unfurl). They fail production builds (`hugo`, CI); `hugo server` and drafts only
+         warn, so drafting is never blocked.
+       - Warnings never fail a build. Missing content (description, hero alt text, a social card for
+         a GIF/SVG hero) is a warning, by Jesse's call: it shouldn't block a deploy.
        Bot limericks (category "generated") are legacy and exempt. */ -}}
 {{- $kind := partial "kind.html" . -}}
 {{- if in (slice "writing" "photo") $kind -}}
@@ -11,7 +13,7 @@
 
 {{- /* Text */ -}}
 {{- if not (strings.TrimSpace (.Params.description | default "")) -}}
-  {{- $errors = $errors | append "no `description` (search results and social previews fall back to the generic site blurb)" -}}
+  {{- $warnings = $warnings | append "no `description` (search results and social previews fall back to the generic site blurb)" -}}
 {{- end -}}
 {{- if not .Params.tags }}{{ $warnings = $warnings | append "no `tags`" }}{{ end -}}
 {{- if and (eq $kind "photo") (not (strings.TrimSpace (.Summary | plainify))) -}}
@@ -33,7 +35,7 @@
 {{- with $hero -}}
   {{- $heroType = .MediaType.SubType -}}
   {{- if and (eq $kind "writing") (not $.Params.featuredImageAlt) -}}
-    {{- $errors = $errors | append "the hero image has no `featuredImageAlt`" -}}
+    {{- $warnings = $warnings | append "the hero image has no `featuredImageAlt` (screen readers get the post title instead)" -}}
   {{- end -}}
   {{- if eq $heroType "gif" -}}
     {{- $webp := printf "%s.webp" (strings.TrimSuffix ".gif" (path.Base .RelPermalink)) -}}
@@ -64,7 +66,7 @@
   {{- end -}}
 {{- else -}}
   {{- if in (slice "gif" "svg+xml" "svg") $heroType -}}
-    {{- $errors = $errors | append (printf "the hero is %s, which can't be cropped into a social card; add a 1200×627 PNG/JPEG and list it in `images`" $heroType) -}}
+    {{- $warnings = $warnings | append (printf "the hero is %s, which can't be framed into a social card, so previews use the site card; add a 1200×627 PNG/JPEG and list it in `images`" $heroType) -}}
   {{- end -}}
 {{- end -}}
 
