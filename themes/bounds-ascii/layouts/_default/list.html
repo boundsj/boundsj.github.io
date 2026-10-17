@@ -8,7 +8,7 @@
   {{- $rows := $p.Pages -}}
   {{- /* Page 1 of the archive opens with the latest post, expanded; its row is not repeated. */ -}}
   {{- if and $isArchive (eq $p.PageNumber 1) (gt (len $rows) 0) }}
-    <div data-ui="archive_latest">{{ partial "featured-post.html" (index $rows 0) }}</div>
+    <div data-ui="archive_latest">{{ partial "featured-post.html" (dict "page" (index $rows 0) "level" 2) }}</div>
     {{- $rows = after 1 $rows -}}
   {{- end }}
   <div class="kc-rows" data-ui="archive">{{ range $rows }}{{ partial "post-row.html" . }}{{ end }}</div>

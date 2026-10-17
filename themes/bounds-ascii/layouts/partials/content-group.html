@@ -8,6 +8,6 @@
 {{- else if eq .Kind "404" }}{{ $group = "error" -}}
 {{- else if in (slice "taxonomy" "term") .Kind }}{{ $group = "taxonomy" -}}
 {{- else if eq .Kind "section" }}{{ $group = index (dict "writing" "writing" "photos" "photos" "posts" "archive") .Section | default "page" -}}
-{{- else if eq .Section "about" }}{{ $group = "about" -}}
+{{- else if or (eq .Section "about") (eq .Layout "about") }}{{ $group = "about" -}}
 {{- end -}}
 {{- return $group -}}

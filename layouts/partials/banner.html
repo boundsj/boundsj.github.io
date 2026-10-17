@@ -12,4 +12,22 @@
 {{- end -}}
 {{- $css := resources.Get "css/field-signal.css" | resources.ExecuteAsTemplate "css/field-signal.css" $urls | minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
-<div class="field-signal" aria-hidden="true"></div>
+{{- /* First home view of a session (and only when motion is welcome): the art scans in and a
+       signal crosses its nodes once. Decided before first paint so the art never flashes. */}}
+<script>try{if(!sessionStorage.getItem("bounds-intro")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("kc-intro");sessionStorage.setItem("bounds-intro","1")}}catch(e){}</script>
+<div class="field-signal" aria-hidden="true">
+  {{- /* Node centers measured from the art (2060×763), for the light and dark versions and for
+         the 768×640 centered mobile crop; -99% hides a node that falls outside the crop. */ -}}
+  {{- range $i, $n := slice
+    (slice "34.22%" "35.78%" "14.50%" "32.40%" "34.14%" "10.41%")
+    (slice "33.40%" "70.12%" "12.65%" "32.65%" "68.35%" "10.95%")
+    (slice "43.69%" "49.41%" "35.80%" "43.54%" "47.97%" "35.47%")
+    (slice "43.64%" "54.78%" "35.69%" "43.54%" "52.88%" "35.47%")
+    (slice "55.05%" "49.41%" "61.36%" "54.66%" "47.90%" "60.48%")
+    (slice "55.00%" "54.78%" "61.25%" "54.61%" "52.95%" "60.38%")
+    (slice "66.07%" "32.90%" "86.15%" "66.97%" "33.68%" "88.17%")
+    (slice "68.25%" "76.93%" "91.06%" "67.84%" "74.25%" "90.14%")
+    (slice "84.90%" "82.18%" "-99%" "84.15%" "80.28%" "-99%") }}
+  <span class="fs-node" style="--lx:{{ index $n 0 }};--ly:{{ index $n 1 }};--lmx:{{ index $n 2 }};--dx:{{ index $n 3 }};--dy:{{ index $n 4 }};--dmx:{{ index $n 5 }};--i:{{ $i }}"></span>
+  {{- end }}
+</div>

@@ -1,9 +1,16 @@
-{{- /* The newest post as one expanded, unboxed entry above a listing. The hero links to the post too. */ -}}
+{{- /* The newest post as one expanded, unboxed entry above a listing; the hero links to the post too.
+       Page context (title is an h3 under a section head), or a dict with page and level (2 or 3). */ -}}
+{{- $page := . -}}
+{{- $level := 3 -}}
+{{- if reflect.IsMap . }}{{ $page = .page }}{{ $level = .level | default 3 }}{{ end -}}
+{{- with $page -}}
 {{- $kind := partial "kind.html" . -}}
+{{- $title := printf `<a href="%s" data-content-id="%s" data-kind="%s">%s</a>` .RelPermalink (path.Base .RelPermalink) $kind (.Title | htmlEscape) | safeHTML -}}
 <article class="kc-featured" data-kind="{{ $kind }}">
   <div class="kc-featured__body">
-    <h3 class="kc-featured__title"><a href="{{ .RelPermalink }}" data-content-id="{{ path.Base .RelPermalink }}" data-kind="{{ $kind }}">{{ .Title }}</a></h3>
+    {{ if eq $level 2 }}<h2 class="kc-featured__title">{{ $title }}</h2>{{ else }}<h3 class="kc-featured__title">{{ $title }}</h3>{{ end }}
     <div class="kc-featured__meta"><span class="kc-kind">{{ index (dict "writing" "writing" "photo" "photo" "bots" "bot limerick") $kind }}</span> · <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ if ne $kind "photo" }} · {{ .ReadingTime }} min read{{ end }}</div>
   </div>
   {{ partial "featured-image.html" (dict "page" . "hideCaption" true "link" .RelPermalink "kind" $kind) }}
 </article>
+{{- end -}}

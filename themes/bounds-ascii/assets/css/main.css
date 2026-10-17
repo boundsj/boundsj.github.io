@@ -143,6 +143,7 @@
   --sig: var(--sig-ok);
   --sig-tint: color-mix(in srgb, var(--sig) 13%, var(--bg-1));
   --scan: rgba(20, 19, 15, .035);
+  --meta-on-tint: var(--fg-2);  /* meta text inside tinted hover/selection states */
   --radius-ui: 6px;
   --gutter: clamp(16px, 5vw, 40px);
 }
@@ -177,7 +178,8 @@
 .crt--green { --fg-1: #38E25B; --fg-2: #1FB14B; --border: #1FB14B; --accent: #38E25B; --rule:#1FB14B; --selection-bg:#38E25B;
   --sig-write: #38E25B; --sig-photo: #A6F7B4; --sig-bots: #2BC650; --sig-ok: #38E25B; --scan: rgba(56, 226, 91, .03); }
 .crt--amber { --fg-1: #FFB23E; --fg-2: #C77B14; --border: #C77B14; --accent: #FFB23E; --rule:#C77B14; --selection-bg:#FFB23E;
-  --sig-write: #FFB23E; --sig-photo: #FFD592; --sig-bots: #E99A2C; --sig-ok: #FFB23E; --scan: rgba(255, 178, 62, .03); }
+  --sig-write: #FFB23E; --sig-photo: #FFD592; --sig-bots: #E99A2C; --sig-ok: #FFB23E; --scan: rgba(255, 178, 62, .03);
+  --meta-on-tint: var(--fg-1); /* dim amber (#C77B14) is 4.48:1 on the photo tint */ }
 
 /* Channel hooks: any element with data-kind re-points --sig for itself and its children. */
 [data-kind="writing"] { --sig: var(--sig-write); }
@@ -348,6 +350,10 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .crt .kc-theme-control { --theme-step: 1; --theme-glow: #63EAF4; }
 .crt--green .kc-theme-control { --theme-step: 2; --theme-glow: #38E25B; }
 .crt--amber .kc-theme-control { --theme-step: 3; --theme-glow: #FFB23E; }
+/* While the glow travels it stretches a little, like a drop of phosphor (individual `scale`
+   composes with the translate transition). */
+.kc-theme-control.is-moving .kc-theme-indicator { animation: kc-pill-stretch 380ms var(--ease-out); }
+@keyframes kc-pill-stretch { 40% { scale: 1.28 .9; } 100% { scale: 1 1; } }
 .kc-theme-option[aria-pressed="true"] { border-color: transparent; color: var(--fg-1);
   text-shadow: 0 0 4px color-mix(in srgb, var(--theme-glow) 35%, transparent); }
 
@@ -423,7 +429,7 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-featured__body { margin-bottom: 16px; }
 .kc-featured__title { font-size: clamp(20px, 3vw, 24px); text-transform: none; letter-spacing: -.01em; line-height: 1.35; overflow-wrap: anywhere; margin: 0 0 8px; }
 .kc-featured__title a { text-decoration: none; }
-.kc-featured__title a:hover { background: none; color: var(--fg-1); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--sig); }
+.kc-featured__title a:hover { color: var(--fg-1); background-color: transparent; }
 .kc-featured__meta { font-size: 12px; color: var(--fg-3); }
 .kc-hero__link { display: block; text-decoration: none; }
 .kc-hero__link:hover { background: none; }
@@ -440,7 +446,15 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
   transition: transform var(--dur-2) var(--ease-out); }
 .kc-row:hover, .kc-row:focus-visible { background: none; color: var(--fg-1); }
 .kc-row:hover::before, .kc-row:focus-visible::before { transform: scaleX(1); }
-.kc-row:hover .kc-row__title, .kc-row:focus-visible .kc-row__title { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--sig); }
+/* Underline draw: titles get a 2 px signal line that draws left to right (wraps across lines). */
+.kc-u, .kc-featured__title a, .kc-entry__link { background-image: linear-gradient(var(--sig), var(--sig)); background-repeat: no-repeat;
+  background-position: 0 100%; background-size: 0% 2px; padding-bottom: 1px;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: background-size var(--dur-2) var(--ease-out); }
+.kc-row:hover .kc-u, .kc-row:focus-visible .kc-u, .kc-postnav__a:hover .kc-u, .kc-postnav__a:focus-visible .kc-u,
+.kc-frame__link:hover .kc-u, .kc-frame__link:focus-visible .kc-u,
+.kc-featured__title a:hover, .kc-featured__title a:focus-visible, .kc-entry__link:hover, .kc-entry__link:focus-visible,
+.kc-entry:hover .kc-entry__link { background-size: 100% 2px; }
 .kc-row__glyph { align-self: center; width: 7px; height: 7px; background: var(--sig); border-radius: 1px;
   transition: transform var(--dur-2) var(--ease-out); }
 .kc-row:hover .kc-row__glyph, .kc-row:focus-visible .kc-row__glyph { transform: scaleY(2.4); }
@@ -449,7 +463,7 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-row__title { min-width: 0; overflow-wrap: anywhere; }
 /* Tinted hover/selection states: meta text steps up to --fg-2 to keep 4.5:1 on the tint. */
 .kc-row:hover, .kc-row:focus-visible, .kc-entry:hover, .kc-entry:focus-within, .kc-chip:hover,
-.kc-tag:hover, .kc-postnav__a:hover, .kc-status__a:hover { --fg-3: var(--fg-2); }
+.kc-tag:hover, .kc-postnav__a:hover, .kc-status__a:hover { --fg-3: var(--meta-on-tint); }
 .kc-archive__count { font-size: 12px; color: var(--fg-3); text-transform: uppercase; letter-spacing: .1em; margin: 0; }
 .kc-more { margin-top: 24px; }
 
@@ -472,7 +486,7 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-entry:hover, .kc-entry:focus-within { background: var(--sig-tint); }
 .kc-entry__title { font-size: 19px; line-height: 1.3; letter-spacing: -.01em; text-transform: none; margin: 0 0 4px; }
 .kc-entry__link { text-decoration: none; color: var(--fg-1); }
-.kc-entry__link:hover { background: none; color: var(--fg-1); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--sig); }
+.kc-entry__link:hover { color: var(--fg-1); background-color: transparent; }
 .kc-entry__meta { font-size: 12px; color: var(--fg-3); margin: 0 0 8px; }
 .kc-entry__desc { font-size: 14px; color: var(--fg-2); margin: 0; }
 .kc-entry .kc-post__tags { position: relative; z-index: 1; margin: 10px 0 0; }
@@ -493,6 +507,7 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-frame__img img { display: block; width: 100%; height: 100%; object-fit: cover;
   transition: transform 420ms var(--ease-out); }
 .kc-frame__link:hover .kc-frame__img img, .kc-frame__link:focus-visible .kc-frame__img img { transform: scale(1.04); }
+.kc-frame__img--none { display: flex; align-items: center; justify-content: center; color: var(--fg-3); font-size: 12px; }
 .kc-frame__no { position: absolute; top: 20px; left: 14px; padding: 1px 6px; border-radius: 3px;
   background: var(--bg-1); color: var(--sig); font-size: 11px; font-weight: 700; letter-spacing: .06em; }
 .kc-frame__cap { display: block; margin-top: 8px; }
@@ -624,7 +639,7 @@ html.has-lightbox { overflow: hidden; }
   content: counter(win) ":" / ""; color: var(--sig); margin-right: 2px; }
 .kc-status__top { color: var(--fg-2); }
 .kc-footer__row { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 10px; font-size: 11px; color: var(--fg-3); }
-.kc-footer__row a { display: inline-block; padding: 4px 0; color: var(--fg-2); }
+.kc-footer__row a { display: inline-block; min-width: 24px; padding: 4px 2px; text-align: center; color: var(--fg-2); }
 
 /* ============================================================================
    POST BODY (markdown rendered via {{ .Content }} inside .post-content)
@@ -669,6 +684,47 @@ html.has-lightbox { overflow: hidden; }
 
 /* hero figure (no React toggle button in production) */
 figure.kc-hero { margin: 0 0 20px; }
+
+/* ---------- CODE PANELS (built by site.js around highlighted code) ---------- */
+.kc-code { position: relative; margin: 0 0 var(--sp-4); border: 1px solid color-mix(in srgb, var(--sig) 55%, var(--bg-1));
+  border-radius: var(--radius-ui); background: var(--bg-2); overflow: hidden; }
+.kc-code__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 6px 4px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--sig) 35%, var(--bg-1)); font-family: var(--font-mono); font-size: 12px; color: var(--sig); }
+.kc-code__copy { min-height: 30px; padding: 2px 10px; box-shadow: none; font-size: 12px; }
+.kc-code__copy.is-done { background: var(--sig); color: var(--bg-1); border-color: var(--sig); }
+.kc-code__copy.is-done::before, .kc-code__copy.is-done::after { color: inherit; }
+.kc-code pre, .kc-code .highlight pre { margin: 0; border: 0; border-radius: 0; background: transparent; }
+.kc-code .highlight { margin: 0; }
+
+/* ---------- MOTION: ENTRANCES + THEME WIPE ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Sections rise 6 px and fade in, 40 ms apart. `backwards` fill, so nothing lingers afterwards.
+     Wrappers (.kc-post, .kc-archive) and lists animate their children instead, never twice. */
+  :is(.kc-shell, .kc-post, .kc-archive) > :not(.kc-post, .kc-archive, .kc-rows, .kc-sheet, .kc-entries) {
+    animation: kc-rise var(--dur-3) var(--ease-out) backwards; }
+  :is(.kc-shell, .kc-post, .kc-archive) > :nth-child(2) { animation-delay: 40ms; }
+  :is(.kc-shell, .kc-post, .kc-archive) > :nth-child(3) { animation-delay: 80ms; }
+  :is(.kc-shell, .kc-post, .kc-archive) > :nth-child(4) { animation-delay: 120ms; }
+  :is(.kc-shell, .kc-post, .kc-archive) > :nth-child(5) { animation-delay: 160ms; }
+  :is(.kc-shell, .kc-post, .kc-archive) > :nth-child(n+6) { animation-delay: 200ms; }
+  /* List items (rows, photo tiles, writing entries) cascade in, 35 ms apart, first 12 only. */
+  :is(.kc-rows, .kc-sheet, .kc-entries) > * { animation: kc-rise var(--dur-3) var(--ease-out) backwards;
+    animation-delay: calc(100ms + min(var(--n, 12), 12) * 35ms); }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(1) { --n: 0; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(2) { --n: 1; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(3) { --n: 2; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(4) { --n: 3; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(5) { --n: 4; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(6) { --n: 5; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(7) { --n: 6; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(8) { --n: 7; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(9) { --n: 8; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(10) { --n: 9; }
+  :is(.kc-rows, .kc-sheet, .kc-entries) > :nth-child(11) { --n: 10; }
+}
+@keyframes kc-rise { from { opacity: 0; transform: translateY(6px); } }
+/* The theme switch paints the new theme in a circle growing from the pressed pill (site.js). */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 
 /* ============================================================================
    ACCESSIBILITY
@@ -724,16 +780,19 @@ main:focus-visible { outline: none; }
 
   /* Larger tap targets on touch screens. */
   .kc-btn { min-height: 44px; }
-  .kc-chip { min-height: 36px; }
-  .kc-tag { min-height: 32px; padding: 0 10px; }
-  .kc-entry .kc-tag, .kc-door__tags .kc-tag { min-height: 28px; padding: 0 8px; }
+  .kc-chip { min-height: 44px; }
+  /* Tags look 32 px tall; an invisible 6 px band above and below makes each hit area 44 px,
+     and 12 px row gaps keep neighbouring hit areas from overlapping. */
+  .kc-tag { position: relative; min-height: 32px; padding: 0 10px; }
+  .kc-tag::after { content: ""; position: absolute; inset: -6px 0; }
+  .kc-post__tags, .kc-door__tags { row-gap: 12px; }
   .kc-door__newest { display: none; }
   .kc-entry { padding: 12px 10px 12px 14px; }
   .kc-back { min-height: 44px; }
   .kc-status__a, .kc-status__brand { min-height: 44px; }
 
   .kc-profile .kc-social { gap: 0 2px; }
-  .kc-profile .kc-social__a { min-height: 44px; padding: 0 9px; font-size: 13px; letter-spacing: 0; text-transform: none; }
+  .kc-profile .kc-social__a { min-height: 44px; min-width: 44px; justify-content: center; padding: 0 9px; font-size: 13px; letter-spacing: 0; text-transform: none; }
   .kc-profile .kc-social__a::before, .kc-profile .kc-social__a::after { content: none; }
   .kc-profile .kc-social li + li::before { content: "·"; content: "·" / ""; color: var(--fg-3); }
   .kc-profile .kc-social li { display: flex; align-items: center; }
@@ -784,5 +843,5 @@ main:focus-visible { outline: none; }
 @media (max-width: 380px) {
   :root { --fs-body: 15px; }
   .kc-banner { font-size: 5px; }
-  .kc-profile .kc-social__a { padding: 0 6px; }
+  .kc-profile .kc-social__a { padding: 0 4px; }
 }

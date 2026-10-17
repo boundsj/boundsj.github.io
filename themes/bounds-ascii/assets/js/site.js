@@ -6,6 +6,11 @@
          [data-photo-group]. Prev/next stay within the group.
      (b) Animated heroes: pause/play by flipping the <picture> still source.
      (c) Reduced motion: pause autoplaying videos and start heroes paused.
+     (d) Theme switch: circular View Transition from the pressed pill, and the
+         pill glow's stretch.
+     (e) Reading progress: the header bar plus read_progress milestones.
+     (f) Code panels: language label and a copy button.
+     (g) 404: echo the missing path (as text) into the shell error.
    ============================================================================ */
 (function () {
   "use strict";
@@ -204,10 +209,131 @@
     });
   }
 
+  /* ---------- (d) THEME SWITCH ---------- */
+  window.boundsThemeTransition = function (button, swap) {
+    var control = button.closest(".kc-theme-control");
+    if (control && !reduced()) {
+      control.classList.remove("is-moving");
+      void control.offsetWidth; // restart the stretch animation
+      control.classList.add("is-moving");
+    }
+    if (!document.startViewTransition || reduced()) { swap(); return; }
+    var r = button.getBoundingClientRect();
+    var x = r.left + r.width / 2, y = r.top + r.height / 2;
+    var radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    var transition = document.startViewTransition(swap);
+    transition.ready.then(function () {
+      document.documentElement.animate(
+        { clipPath: ["circle(0px at " + x + "px " + y + "px)", "circle(" + radius + "px at " + x + "px " + y + "px)"] },
+        { duration: 420, easing: "cubic-bezier(.22, 1, .36, 1)", pseudoElement: "::view-transition-new(root)" }
+      );
+    }).catch(function () { /* skipped transition: theme already applied */ });
+  };
+
+  /* ---------- (e) READING PROGRESS ---------- */
+  function initProgress() {
+    var article = document.querySelector(".kc-post[data-content-id]");
+    var body = article && article.querySelector(".post-content");
+    var header = document.querySelector(".kc-header");
+    if (!body || !header) return;
+    var kind = article.getAttribute("data-kind");
+    var id = article.getAttribute("data-content-id");
+    var marks = [25, 50, 75, 100], sent = {};
+    var engagedMs = 0, visibleSince = document.hidden ? 0 : Date.now();
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { if (visibleSince) engagedMs += Date.now() - visibleSince; visibleSince = 0; }
+      else visibleSince = Date.now();
+    });
+    function engagedSeconds() { return Math.round((engagedMs + (visibleSince ? Date.now() - visibleSince : 0)) / 1000); }
+    var queued = false;
+    function measure() {
+      queued = false;
+      var rect = body.getBoundingClientRect();
+      // How much of the article body has passed the bottom of the viewport.
+      var p = rect.height > 0 ? (window.innerHeight - rect.top) / rect.height : 1;
+      p = Math.max(0, Math.min(1, p));
+      header.style.setProperty("--read", p.toFixed(4));
+      marks.forEach(function (m) {
+        if (!sent[m] && p * 100 >= m) {
+          sent[m] = true;
+          track("read_progress", { percent: m, content_type: kind, content_id: id, engaged_seconds: engagedSeconds() });
+        }
+      });
+    }
+    function queue() { if (!queued) { queued = true; window.requestAnimationFrame(measure); } }
+    window.addEventListener("scroll", queue, { passive: true });
+    window.addEventListener("resize", queue);
+    document.documentElement.classList.add("has-progress");
+    measure();
+  }
+
+  /* ---------- (f) CODE PANELS ---------- */
+  function initCode() {
+    document.querySelectorAll(".post-content pre > code").forEach(function (code) {
+      var pre = code.parentElement;
+      var block = pre.closest(".highlight") || pre;
+      if (block.parentElement && block.parentElement.classList.contains("kc-code")) return;
+      var lang = code.getAttribute("data-lang") || ((code.className.match(/language-([\w-]+)/) || [])[1]) || "text";
+      var panel = el("div", "kc-code");
+      var bar = el("div", "kc-code__bar");
+      var label = el("span", "kc-code__lang", lang);
+      var copy = el("button", "kc-btn kc-code__copy", "copy");
+      copy.type = "button";
+      copy.setAttribute("aria-label", "Copy " + lang + " code");
+      bar.appendChild(label);
+      bar.appendChild(copy);
+      block.parentElement.insertBefore(panel, block);
+      panel.appendChild(bar);
+      panel.appendChild(block);
+      var timer = 0;
+      copy.addEventListener("click", function () {
+        var text = code.innerText.replace(/\n$/, "");
+        var done = function () {
+          copy.textContent = "copied";
+          copy.classList.add("is-done");
+          clearTimeout(timer);
+          timer = setTimeout(function () { copy.textContent = "copy"; copy.classList.remove("is-done"); }, 1500);
+          var article = document.querySelector(".kc-post[data-content-id]");
+          track("code_copy", { content_id: article ? article.getAttribute("data-content-id") : "", code_language: lang });
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { legacyCopy(text) && done(); });
+        else if (legacyCopy(text)) done();
+      });
+    });
+  }
+
+  // Plain-HTTP pages (like a LAN preview) have no async clipboard; fall back to execCommand.
+  function legacyCopy(text) {
+    var focused = document.activeElement;
+    var area = el("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(area);
+    if (focused && focused.focus) focused.focus();
+    return ok;
+  }
+
+  /* ---------- (g) 404 ---------- */
+  function initNotFound() {
+    var path = decodeURIComponentSafe(window.location.pathname);
+    if (path.length > 60) path = path.slice(0, 57) + "...";
+    document.querySelectorAll("[data-404-path]").forEach(function (node) { node.textContent = path; });
+  }
+  function decodeURIComponentSafe(s) { try { return decodeURIComponent(s); } catch (e) { return s; } }
+
   function boot() {
     initLightbox();
     initMotionToggles();
     pauseAutoplay();
+    initProgress();
+    initCode();
+    if (document.querySelector("[data-404-path]")) initNotFound();
     if (reduceQuery && reduceQuery.addEventListener) reduceQuery.addEventListener("change", pauseAutoplay);
   }
 
