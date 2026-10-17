@@ -8,6 +8,7 @@ resources:
 - name: featured-image-preview
   src: preview.png
 description: "I wrote a skill that teaches coding agents like Claude Code how to use cmux's CLI to split panes, report progress, and orchestrate terminal sessions."
+summary: "I wrote a skill that teaches coding agents like Claude Code how to use cmux's CLI to split panes, report progress, and orchestrate terminal sessions."
 ---
 <!--more-->
 

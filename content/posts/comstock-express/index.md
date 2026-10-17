@@ -1,5 +1,6 @@
 ---
 title: Comstock Express
+description: "Comstock Express chairlift at Northstar California Resort."
 date: 2023-04-05T09:20:00-07:00
 draft: false
 resources:
@@ -7,9 +8,8 @@ resources:
   src: featured-image.jpeg
 - name: featured-image-preview
   src: featured-image-preview.jpeg
-tags: []
+tags: ["travel"]
 categories: ["photos"]
-lightgallery: true
 ---
 Comstock Express chairlift at Northstar California Resort
 <!--more-->

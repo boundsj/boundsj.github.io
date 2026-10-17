@@ -39,11 +39,17 @@
 
 {{ partial "theme-init.html" . }}
 
-{{- /* Prefer the first page image, then fall back to the site image. */ -}}
+{{- /* Social image, in order: the first entry of `images` (a dedicated 1200×627 card); else, for a
+       writing or photo post with a JPEG/PNG hero, that whole hero fitted inside 1200×627 on the ink
+       background (never cropped, so portrait photos keep their subject); else the site image.
+       GIF/SVG heroes never become cards (they unfurl poorly); the post checks require `images` for
+       those. */ -}}
 {{- $imageURL := "" -}}
 {{- $imageWidth := 0 -}}
 {{- $imageHeight := 0 -}}
 {{- $imageAlt := .Params.socialImageAlt | default $socialTitle -}}
+{{- $hero := false -}}
+{{- if in (slice "writing" "photo") (partial "kind.html" .) }}{{ $hero = .Resources.GetMatch "featured-image" }}{{ end -}}
 {{- with .Params.images -}}
   {{- $imagePath := index . 0 -}}
   {{- with $.Resources.GetMatch $imagePath -}}
@@ -54,8 +60,19 @@
     {{- $imageURL = $imagePath | absURL -}}
   {{- end -}}
 {{- else -}}
-  {{- with .Site.Params.images -}}
-    {{- $imageURL = (index . 0) | absURL -}}
+  {{- if and $hero (in (slice "jpeg" "png") $hero.MediaType.SubType) -}}
+    {{- $fit := $hero.Fit "1200x627 jpg q85" -}}
+    {{- $left := div (sub 1200 $fit.Width) 2 -}}
+    {{- $top := div (sub 627 $fit.Height) 2 -}}
+    {{- $card := $fit | images.Filter (images.Padding $top (sub (sub 1200 $fit.Width) $left) (sub (sub 627 $fit.Height) $top) $left "#14130F") -}}
+    {{- $imageURL = $card.Permalink -}}
+    {{- $imageWidth = $card.Width -}}
+    {{- $imageHeight = $card.Height -}}
+    {{- $imageAlt = .Params.socialImageAlt | default .Params.featuredImageAlt | default $description -}}
+  {{- else -}}
+    {{- with .Site.Params.images -}}
+      {{- $imageURL = (index . 0) | absURL -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 

@@ -8,7 +8,7 @@ MAGENTA := \033[0;35m
 RESET := \033[0m
 BOLD := \033[1m
 
-.PHONY: help serve preview preview-stop check-private-hosts photo-poster
+.PHONY: help serve preview preview-stop check check-private-hosts webp post photo-poster
 
 help: ## Show this help message
 	@echo "$(BOLD)$(MAGENTA)bounds.dev$(RESET) - Available commands:\n"
@@ -19,6 +19,7 @@ help: ## Show this help message
 	@echo ""
 
 serve: ## Build and serve the site with live reload
+	@python3 scripts/gif-heroes.py build --if-available
 	@echo "$(YELLOW)Starting Hugo development server...$(RESET)"
 	@hugo server -D --bind 0.0.0.0
 
@@ -26,6 +27,7 @@ PREVIEW_PATH := /bounds-preview
 TS_NAME = $(shell tailscale status --json | jq -r '.Self.DNSName | rtrimstr(".")')
 
 preview: ## Serve drafts on the LAN and on tailnet HTTPS (never Funnel)
+	@python3 scripts/gif-heroes.py build --if-available
 	@tailscale serve --bg --https=443 --set-path $(PREVIEW_PATH) http://127.0.0.1:1313$(PREVIEW_PATH) >/dev/null
 	@echo "$(GREEN)Tailnet:$(RESET) https://$(TS_NAME)$(PREVIEW_PATH)/"
 	@echo "$(GREEN)LAN:$(RESET)     http://$$(ipconfig getifaddr en0 || ipconfig getifaddr en1):1313$(PREVIEW_PATH)/"
@@ -37,6 +39,20 @@ preview-stop: ## Remove the tailnet preview path
 
 check-private-hosts: ## Fail if tailnet names or IPs are in site sources
 	@scripts/check-private-hosts.sh
+
+webp: ## Make or refresh the animated WebP for every GIF hero (needs libwebp: brew install webp)
+	@python3 scripts/gif-heroes.py build
+
+check: ## Before asking for review: private hosts, GIF heroes, and a production build with post checks
+	@scripts/check-private-hosts.sh
+	@python3 scripts/gif-heroes.py check
+	@out=$$(mktemp -d) && hugo --minify --cleanDestinationDir --destination "$$out" && rm -rf "$$out"
+	@echo "$(GREEN)All checks passed.$(RESET)"
+
+post: ## Start a writing post bundle: make post SLUG=my-post-slug
+	@test -n "$(SLUG)" || { echo "usage: make post SLUG=my-post-slug"; exit 2; }
+	@hugo new content --kind writing posts/$(SLUG)
+	@echo "$(GREEN)Created content/posts/$(SLUG)/index.md$(RESET); follow AGENTS.md → New post checklist."
 
 PHOTO_POSTER_DIR := tools/photo-poster
 PHOTO_VENV := $(PHOTO_POSTER_DIR)/.venv

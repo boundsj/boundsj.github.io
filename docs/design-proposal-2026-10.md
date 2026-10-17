@@ -296,7 +296,7 @@ Two later commits were verified by the lead only, because the review cycle limit
 
 **Done in response:**
 
-1. **Animated WebP heroes.** Each GIF hero now has a same-named `.webp` in its bundle, made with libwebp 1.6.0's `gif2webp` by `scripts/gif-to-webp.sh`. The hero layout serves the WebP; the GIF stays in the repo, still published at its old URL, and is the `<img>` fallback. The pause/play toggle and the reduced-motion still work as before. Social previews are unchanged (`og:image`, `twitter:image` and JSON-LD all point at each post's `social-card.png`/`.jpg`).
+1. **Animated WebP heroes.** Each GIF hero now has a same-named `.webp` in its bundle, made with libwebp 1.6.0's `gif2webp` by `scripts/gif-to-webp.sh` (since replaced by the automated `scripts/gif-heroes.py`; see the next section). The hero layout serves the WebP; the GIF stays in the repo, still published at its old URL, and is the `<img>` fallback. The pause/play toggle and the reduced-motion still work as before. Social previews are unchanged (`og:image`, `twitter:image` and JSON-LD all point at each post's `social-card.png`/`.jpg`).
 
    | Hero | GIF | WebP | Mode | Frames / total / loop (GIF → WebP) |
    | --- | --- | --- | --- | --- |
@@ -309,3 +309,34 @@ Two later commits were verified by the lead only, because the review cycle limit
    Page weight on a fresh visit (1280 px, motion allowed): home 1,438 → 989 KB; `/posts/` 1,363 → 913 KB; Notion post 1,454 → 1,005 KB; tokenmax post 8,894 → 2,393 KB; Rescue82 post 1,016 → 440 KB.
 
 2. **`docs/analytics.md`** now registers `percent` as an event-scoped dimension (not a metric) and adds `engaged_seconds` as a custom metric in seconds. It also notes the `photo_open` fallback `ui_location: "photo"`, that `content_group` rides on every event, and that empty parameters are dropped.
+
+## Jesse's review of the preview (2026-10-17)
+
+1. **Social links off-center on desktop.** Root cause: the list inherited the base `ul { max-width: var(--measure) }` rule (66ch = 528 px) and sat left-aligned in the 640 px column, so its centered links landed about 56 px left of the title. Phones weren't affected because their column is narrower than the cap. Fixed with `max-width: none`; `ui-check` asserts the row is centered under the title at 390, 768, 1024 and 1280 px.
+2. **GIF → WebP is automatic.** `scripts/gif-heroes.py` finds every GIF hero. `scripts/gif-heroes.lock` records the SHA-256 of each GIF and WebP, so a missing or replaced WebP is caught. The script encodes with libwebp's `gif2webp` (auto mode picks lossless or mixed q80) and keeps a result only if its canvas, duration and loop behavior match the GIF and `anim_diff` measures at least 40 dB on every frame.
+   - **Locally:** `make serve` and `make preview` run it first; if libwebp isn't installed they warn and continue, and the GIF fallback still works. `make webp` runs it on demand.
+   - **`make check`:** fails on a missing or stale WebP.
+   - **Pages deploy:** the job checks the lock. If anything is missing or stale, it installs Ubuntu's `webp` package (1.3.2, which includes `gif2webp` and `anim_diff`), encodes before the Hugo build, and emits a GitHub warning to commit the file. An encoding failure is reported but isn't fatal, because the GIF still works. The hand-run `scripts/gif-to-webp.sh` is removed.
+3. **Post audit and fixes.**
+   - **Found:**
+     - All 10 photo posts lacked `description`, so search and social showed the generic site blurb.
+     - Photo social images were inconsistent: 4 pointed `images` at full-size originals (two portrait, up to 1.2 MB) and 6 fell back to the site card.
+     - 5 photo posts had no tags.
+     - Every photo post carried the dead LoveIt `lightgallery` flag, and the photo tool kept writing it.
+     - `meadow-in-santa-cruz` declared `featured-image-preview.jpeg`, but the file is `.jpg`.
+     - The inbox post's hero had no `featuredImageAlt` and kept a LoveIt-only `featuredImagePreviewCrop`.
+     - The cmux post's `<!--more-->` came first, so its RSS summary was empty.
+     - The photo tool escaped only quotes in YAML.
+   - **Fixed:**
+     - Caption-based descriptions on the photo posts.
+     - Removed `images` from the 4 photo posts: a post without `images` and with a JPEG/PNG hero now gets that whole hero framed into a 1200×627 card on the ink background. Smart cropping was tried and rejected because it cropped the bird and the Nevada scene out of their cards.
+     - Tags from the existing vocabulary (`sf`, `street`, `nature`, `travel`) on the 5 untagged photo posts.
+     - Dropped `lightgallery`; corrected Meadow's preview file name.
+     - Added the inbox hero's alt text and removed its `featuredImagePreviewCrop`; gave the cmux post a `summary`.
+     - The photo tool now writes `description`, omits `images` and `lightgallery`, and escapes backslashes and newlines.
+   - **Kept predictable from now on:**
+     - Build-time post checks: errors fail production builds; `hugo server` and drafts only warn.
+     - A writing-post archetype, used by `make post SLUG=…`.
+     - The step-by-step checklist in `AGENTS.md`.
+     - Tests for the checks, the automatic card and the WebP automation.
+

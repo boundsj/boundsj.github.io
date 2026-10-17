@@ -23,7 +23,9 @@ def ensure_unique_slug(slug: str, content_dir: Path) -> str:
 
 
 def _escape_yaml(value: str) -> str:
-    return value.replace('"', '\\"')
+    """Make a value safe inside a double-quoted YAML scalar on one line."""
+    value = " ".join(value.split())  # newlines and tabs would end or break the scalar
+    return value.replace("\\", "\\\\").replace('"', '\\"')
 
 
 def _format_list(values: Iterable[str]) -> str:
@@ -36,6 +38,7 @@ def _format_list(values: Iterable[str]) -> str:
 
 def _format_frontmatter(
     title: str,
+    description: str,
     date: datetime,
     draft: bool,
     tags: List[str],
@@ -45,9 +48,17 @@ def _format_frontmatter(
     lines = [
         "---",
         f'title: "{_escape_yaml(title)}"',
-        f"date: {date.astimezone().isoformat()}",
-        f"draft: {str(draft).lower()}",
     ]
+    # The caption doubles as the page description for search results and social previews.
+    if description.strip():
+        lines.append(f'description: "{_escape_yaml(description)}"')
+    lines.extend(
+        [
+            f"date: {date.astimezone().isoformat()}",
+            f"draft: {str(draft).lower()}",
+        ]
+    )
+    # Off by default: without `images`, the site frames the photo into a 1200x627 social card.
     if include_images:
         lines.append('images: ["featured-image.jpeg"]')
     lines.extend(
@@ -59,7 +70,6 @@ def _format_frontmatter(
             "  src: featured-image.jpeg",
             "- name: featured-image-preview",
             "  src: featured-image-preview.jpeg",
-            "lightgallery: true",
             "---",
         ]
     )
@@ -123,11 +133,11 @@ def build_markdown(
     draft: bool,
     exif: Dict[str, Any],
     gallery_images: List[str],
-    include_images: bool = True,
+    include_images: bool = False,
     date: Optional[datetime] = None,
 ) -> str:
     date = date or datetime.now().astimezone()
-    lines = _format_frontmatter(title, date, draft, tags, category, include_images)
+    lines = _format_frontmatter(title, description, date, draft, tags, category, include_images)
 
     if description.strip():
         lines.append(description.strip())

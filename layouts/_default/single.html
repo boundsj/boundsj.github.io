@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{- partial "post-checks.html" . -}}
 {{- $kind := partial "kind.html" . -}}
 {{- $cat := "" -}}
 {{- with .Params.categories }}{{ $cat = index . 0 }}{{ end -}}

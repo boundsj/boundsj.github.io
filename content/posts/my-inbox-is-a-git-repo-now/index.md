@@ -6,10 +6,10 @@ date: 2026-09-19T21:47:14-07:00
 draft: false
 description: "How I automated inbox zero with Notion and agents, using TypeSafe’s Jev to cut email label classification costs from $7.20 to $0.13 per 1,000 emails."
 images: ["social-card.png"]
-featuredImagePreviewCrop: "700x700 Center webp q82"
 resources:
   - name: featured-image
     src: classifier-pipeline-simple.png
+featuredImageAlt: "Illustration: a pile of unsorted emails rides a conveyor belt into a smiling machine fed with .md rule files; out come stacks of emails stamped with colored labels, and one orange email lands in an inbox tray."
 tags: ["ai", "email", "automation"]
 categories: ["technology"]
 ---

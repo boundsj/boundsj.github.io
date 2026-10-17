@@ -1,5 +1,6 @@
 ---
 title: Sodini's Green Valley Restaurant
+description: "Early evening at Sodini's in North Beach, SF."
 date: 2023-03-26T14:49:26-07:00
 draft: false
 resources:
@@ -9,7 +10,6 @@ resources:
   src: featured-image-preview.jpeg
 tags: ["restaurants", "sf"]
 categories: ["photos"]
-lightgallery: true
 ---
 Early evening at Sodini's in North Beach, SF.
 <!--more-->

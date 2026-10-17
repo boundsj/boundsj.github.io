@@ -33,7 +33,7 @@ class TagLinkTests(unittest.TestCase):
             # The real tag and kind partials; unrelated page furniture is stubbed.
             for name in ("tag-chips.html", "kind.html"):
                 shutil.copyfile(THEME_PARTIALS / name, partials / name)
-            for name in ("featured-image.html", "photo-hero.html", "post-nav.html"):
+            for name in ("featured-image.html", "photo-hero.html", "post-nav.html", "post-checks.html"):
                 (partials / name).write_text("")
             (posts / "probe.md").write_text(
                 '+++\ntitle = "Probe"\ndate = 2026-01-01\n'

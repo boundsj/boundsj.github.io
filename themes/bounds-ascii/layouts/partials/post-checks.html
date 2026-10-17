@@ -1,0 +1,82 @@
+{{- /* Build-time checks that keep writing and photo posts predictable (AGENTS.md → "New post
+       checklist"). Called from the single-post template; renders nothing.
+       - Errors fail production builds (`hugo`, CI); `hugo server` and drafts only warn, so drafting
+         is never blocked.
+       - Warnings never fail a build.
+       Bot limericks (category "generated") are legacy and exempt. */ -}}
+{{- $kind := partial "kind.html" . -}}
+{{- if in (slice "writing" "photo") $kind -}}
+{{- $errors := slice -}}
+{{- $warnings := slice -}}
+
+{{- /* Text */ -}}
+{{- if not (strings.TrimSpace (.Params.description | default "")) -}}
+  {{- $errors = $errors | append "no `description` (search results and social previews fall back to the generic site blurb)" -}}
+{{- end -}}
+{{- if not .Params.tags }}{{ $warnings = $warnings | append "no `tags`" }}{{ end -}}
+{{- if and (eq $kind "photo") (not (strings.TrimSpace (.Summary | plainify))) -}}
+  {{- $warnings = $warnings | append "no caption before `<!--more-->`" -}}
+{{- end -}}
+
+{{- /* Every file named in `resources` must exist in the bundle. */ -}}
+{{- range .Params.resources -}}
+  {{- with .src -}}
+    {{- if not ($.Resources.GetMatch .) -}}
+      {{- $errors = $errors | append (printf "`resources` names %q, but the bundle has no such file" .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Hero */ -}}
+{{- $hero := .Resources.GetMatch "featured-image" -}}
+{{- $heroType := "" -}}
+{{- with $hero -}}
+  {{- $heroType = .MediaType.SubType -}}
+  {{- if and (eq $kind "writing") (not $.Params.featuredImageAlt) -}}
+    {{- $errors = $errors | append "the hero image has no `featuredImageAlt`" -}}
+  {{- end -}}
+  {{- if eq $heroType "gif" -}}
+    {{- $webp := printf "%s.webp" (strings.TrimSuffix ".gif" (path.Base .RelPermalink)) -}}
+    {{- if not ($.Resources.GetMatch $webp) -}}
+      {{- $warnings = $warnings | append (printf "GIF hero has no %s yet, so the full GIF is served (run `make webp`)" $webp) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Social card */ -}}
+{{- with .Params.images -}}
+  {{- $first := index . 0 -}}
+  {{- with $.Resources.GetMatch $first -}}
+    {{- if not (in (slice "png" "jpeg") .MediaType.SubType) -}}
+      {{- $errors = $errors | append (printf "social card %q is %s; use PNG or JPEG so every network can unfurl it" $first .MediaType.SubType) -}}
+    {{- else -}}
+      {{- if or (ne .Width 1200) (ne .Height 627) -}}
+        {{- $warnings = $warnings | append (printf "social card %q is %d×%d, not 1200×627" $first .Width .Height) -}}
+      {{- end -}}
+      {{- if gt (len .Content) 5000000 -}}
+        {{- $warnings = $warnings | append (printf "social card %q is over 5 MB" $first) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- if not (or (hasPrefix $first "/") (hasPrefix $first "http")) -}}
+      {{- $errors = $errors | append (printf "`images` names %q, but the bundle has no such file" $first) -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- if in (slice "gif" "svg+xml" "svg") $heroType -}}
+    {{- $errors = $errors | append (printf "the hero is %s, which can't be cropped into a social card; add a 1200×627 PNG/JPEG and list it in `images`" $heroType) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Fields only the retired LoveIt theme read. */ -}}
+{{- range slice "lightgallery" "featuredImagePreviewCrop" -}}
+  {{- if isset $.Params (lower .) }}{{ $warnings = $warnings | append (printf "`%s` is a LoveIt-only field and is ignored; remove it" .) }}{{ end -}}
+{{- end -}}
+
+{{- $where := .File.Dir | default .RelPermalink -}}
+{{- $fail := and hugo.IsProduction (not .Draft) -}}
+{{- range $errors -}}
+  {{- if $fail }}{{ errorf "[post-check] %s: %s" $where . }}{{ else }}{{ warnf "[post-check] %s: %s (fails a production build)" $where . }}{{ end -}}
+{{- end -}}
+{{- range $warnings }}{{ warnf "[post-check] %s: %s" $where . }}{{ end -}}
+{{- end -}}

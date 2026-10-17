@@ -1,8 +1,8 @@
 ---
 title: "Bird on a wire"
+description: "A yellow-bellied bird (looks like a Western Kingbird) perched on a wire slicing diagonally across an impossibly blue, cloudless sky."
 date: 2026-01-24T15:46:47.563346-08:00
 draft: false
-images: ["featured-image.jpeg"]
 tags: ["photos", "nature", "street"]
 categories: ["photos"]
 resources:
@@ -10,7 +10,6 @@ resources:
   src: featured-image.jpeg
 - name: featured-image-preview
   src: featured-image-preview.jpeg
-lightgallery: true
 ---
 A yellow-bellied bird (looks like a Western Kingbird) perched on a wire slicing diagonally across an impossibly blue, cloudless sky.
 <!--more-->
