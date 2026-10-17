@@ -16,6 +16,7 @@
   {{- $caption := $.Summary | plainify | htmlUnescape | strings.TrimSpace -}}
   {{- $attrs = dict
     "data-photo" ""
+    "data-kind" "photo"
     "data-content-id" (path.Base $.RelPermalink)
     "data-photo-src" $fallback.RelPermalink
     "data-photo-srcset" (delimit (uniq $sources) ", ")

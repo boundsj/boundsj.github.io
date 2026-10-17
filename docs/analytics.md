@@ -16,7 +16,8 @@ Property: `G-LT0HKHY2J5` (`config.toml` → `params.analytics.google.id`). This 
 
 ## Privacy rules
 
-- Page context is sanitized **before** the first `config` call. `page_location` is `origin + pathname`, so query strings and fragments are never sent. On the 404 page it is the fixed `https://www.bounds.dev/404.html`, with `page_title` `404`. `page_referrer` is `origin + pathname` for same-site referrers and the origin alone for other sites.
+- **The URL is cleaned before `gtag.js` loads.** Only the `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` and `utm_id` campaign parameters survive, and only if their value has no `@`. Everything else in the query is removed from `page_location` **and from the address bar** (`history.replaceState`; the fragment stays). This matters because Enhanced Measurement reads the raw query itself: a visit to `/?q=jane@example.com` would otherwise send a `view_search_results` event with `search_term: jane@example.com`. The production check found exactly that on the M4 build, and verifies the fix. The site is static and uses no query parameters, so nothing breaks. Keeping `utm_*` preserves campaign attribution.
+- `page_location` is therefore `origin + pathname` plus any kept `utm_*` parameters; fragments are never sent. On the 404 page it is the fixed `https://www.bounds.dev/404.html`, with `page_title` `404`. `page_referrer` is `origin + pathname` for same-site referrers and the origin alone for other sites.
 - The 404 page sets `<meta name="referrer" content="origin">`, so a mistyped URL doesn't travel on as the next page's referrer.
 - Events never carry email addresses (`email_click` has no address), visitor-typed text, query strings or fragments. `link_path` on outbound links is the path of a link Jesse wrote, with the query and fragment removed.
 - Parameter values are capped at 100 characters, GA4's limit.
@@ -27,7 +28,7 @@ Property: `G-LT0HKHY2J5` (`config.toml` → `params.analytics.google.id`). This 
 | Field | Set by | Values |
 | --- | --- | --- |
 | `content_group` | `gtag('config')` on every page | `home`, `writing`, `photos`, `bots`, `archive`, `about`, `taxonomy`, `error`, `page` |
-| user property `site_theme` | `gtag('set', 'user_properties')` before `config`, and again on every theme change | `light`, `dark`, `green`, `amber` |
+| user property `site_theme` | `gtag('set', 'user_properties')` before `config`, and again whenever the applied theme changes, whether by the pill or by the system appearance when no theme is saved | `light`, `dark`, `green`, `amber` |
 
 `content_group` comes from `themes/bounds-ascii/layouts/partials/content-group.html` (also on `<body data-content-group>`). Single posts follow their channel: `photos` category → `photos`; `generated` → `bots`; any other category → `writing`.
 
@@ -45,13 +46,15 @@ All names and parameters are snake_case. Reused parameters mean the same thing i
 | `email_click` | Any `mailto:` link | `ui_location` |
 | `rss_click` | Any link to an `index.xml` feed | `ui_location` |
 | `read_progress` | The article body reaches 25, 50, 75 and 100% read, once each per page view | `percent` (number), `content_type`, `content_id`, `engaged_seconds` (number) |
-| `photo_open` | The lightbox opens, or pages to another photo | `content_id`, `ui_location` (where it opened, or `lightbox` when paging), `method` (`click`, `next`, `prev`, `key`) |
+| `photo_open` | The lightbox opens, pages to another photo, or a modified/middle click on a photo-post hero opens the image file itself | `content_id`, `ui_location` (where it opened, or `lightbox` when paging), `method` (`click`, `next`, `prev`, `key`, `new_tab`) |
 | `native_video_start` | First play of each `<video>` in a post, per page view | `content_id`, `video_name` (file name), `video_trigger` (`user`, `autoplay`) |
 | `code_copy` | A code block's copy button | `content_id`, `code_language` |
 | `motion_toggle` | The pause/play button on an animated hero | `content_id`, `state` (`paused`, `playing`) |
 | `page_not_found` | The 404 page loads | none |
 
 `ui_location` comes from the nearest `data-ui` attribute in the templates: `header`, `footer`, `home_profile`, `door`, `home_latest`, `home_list`, `archive_latest`, `archive`, `chips`, `pager`, `writing_list`, `photo_grid`, `post_body` (default inside article text), `post_nav`, `post_crosslink`, `post_hero`, `back_link`, `about`, `terms`, `404`, `lightbox`, `page` (anything else). The photo strips use `data-photo-group` for the same purpose (`home_door`, `photo_grid`, `post_crosslink`, `post_hero`).
+
+**Classification order.** A click is classified once, in this order: `mailto:` → `email_click`; an `index.xml` feed → `rss_click`; `data-social` → `social_click`; another host → `outbound_click`. On this site: a same-page anchor (only `#top` is reported, as `nav_click`); then a photo link (a plain click is left to the lightbox; a modified click goes by destination, so a post page is `select_content` with `content_type: photo`, and an image file is `photo_open` with `method: new_tab`); then a post page → `select_content`; `data-nav` → `nav_click`; the pager; and any other page → `nav_click` with `page`. Keyboard Enter on a link produces a click, so it is classified the same way.
 
 **Read depth.** The reference is the article body (`.post-content`), not the page. Progress is `(viewport bottom − body top) / body height`, clamped to 0–100%. 100% means the bottom of the body has reached the bottom of the viewport. A post that fits on one screen reports every milestone at load. `engaged_seconds` counts only time with the tab visible.
 
@@ -63,7 +66,8 @@ The production check on 2026-10-17 saw the live property's tag emit `scroll` and
 
 | Enhanced Measurement | This site | Use |
 | --- | --- | --- |
-| `click` with `outbound: true` | `outbound_click` / `social_click` | EM for raw totals; ours for `ui_location` and network |
+| `click` with `outbound: true` (and its `link_url`) | `outbound_click` / `social_click` | EM for raw totals; ours for `ui_location` and network. EM's `link_url` is the full href. The content has no outbound links with query strings or `@` (checked 2026-10-17), so it carries only Jesse's own URLs. |
+| `view_search_results` (site search from `q`, `s`, `search`, `query`, `keyword`) | none | The site has no search, and the URL cleaning above means EM never sees those parameters |
 | `scroll` (90% of the **page**) | `read_progress` (the **article body**) | Ours for reading; EM counts footers and short pages too |
 | `video_start` (YouTube embeds only) | `native_video_start` (the site's own `<video>`) | Different names, no double count |
 | `page_view` | `page_view` | The same event; ours adds `content_group` and the sanitized location |
@@ -86,7 +90,7 @@ No custom event reuses an Enhanced Measurement or reserved name.
 
 ## Optional GA admin steps (Jesse)
 
-Custom parameters show up in Explorations right away, but standard reports need them registered as custom dimensions or metrics (Admin → Custom definitions). Suggested:
+Custom event parameters and user properties don't appear in reports or Explorations until they are registered as custom dimensions or metrics (Admin → Custom definitions). Registration isn't retroactive, and new definitions can take 24–48 hours to show data. Until then the raw values are visible only in DebugView. Suggested:
 
 | Scope | Name | Parameter |
 | --- | --- | --- |

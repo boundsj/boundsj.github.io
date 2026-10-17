@@ -45,10 +45,14 @@
     var detail = event.detail || {};
     if (!detail.name) return;
     send(detail.name, detail.params);
-    if (detail.name === "theme_change" && live) {
-      window.gtag("set", "user_properties", { site_theme: detail.params.theme_to });
-    }
   });
+
+  /* site_theme follows the applied theme however it changes (pill or system appearance). */
+  if (live && window.MutationObserver) {
+    new MutationObserver(function () {
+      window.gtag("set", "user_properties", { site_theme: document.documentElement.dataset.theme || "light" });
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  }
 
   /* Link clicks, classified once in a fixed order. Capture phase, so every click is seen
      before anything (like the lightbox) handles it. */
@@ -65,18 +69,26 @@
     if (url.origin !== window.location.origin) {
       return ["outbound_click", { link_domain: url.hostname.replace(/^www\./, ""), link_path: url.pathname, ui_location: ui }];
     }
-    // Same site from here on.
+    // Same site from here on. Same-page anchors first: "↑ top" on a post is not a post selection.
+    var samePage = url.pathname === window.location.pathname;
+    if (samePage && url.hash) return url.hash === "#top" ? ["nav_click", { nav_item: "top", ui_location: ui }] : null;
     var plain = !(event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
-    if (link.hasAttribute("data-photo") && plain) return null; // the lightbox reports photo_open
-    if (link.dataset.contentId) {
+    if (link.hasAttribute("data-photo")) {
+      if (plain) return null; // the lightbox reports photo_open
+      // A modified click follows the link: a post page is a post selection; an image file is a photo view.
+      if (!/\/$/.test(url.pathname)) {
+        var group = link.closest("[data-photo-group]");
+        return ["photo_open", { content_id: link.dataset.contentId || "", ui_location: group ? group.getAttribute("data-photo-group") : ui, method: "new_tab" }];
+      }
+    }
+    if (link.dataset.contentId && /\/$/.test(url.pathname)) {
       return ["select_content", { content_type: link.dataset.kind || "post", content_id: link.dataset.contentId, ui_location: ui }];
     }
     var post = url.pathname.match(POST_PATH);
     if (post) return ["select_content", { content_type: "post", content_id: post[1], ui_location: ui }];
     if (link.dataset.nav) return ["nav_click", { nav_item: link.dataset.nav, ui_location: ui }];
-    if (url.hash === "#top" && url.pathname === window.location.pathname) return ["nav_click", { nav_item: "top", ui_location: ui }];
     if (link.closest(".kc-pager")) return ["nav_click", { nav_item: "page", ui_location: "pager" }];
-    if (url.pathname !== window.location.pathname) return ["nav_click", { nav_item: "page", ui_location: ui }];
+    if (!samePage) return ["nav_click", { nav_item: "page", ui_location: ui }];
     return null;
   }
 

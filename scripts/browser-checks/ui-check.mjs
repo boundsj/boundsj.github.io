@@ -51,7 +51,10 @@ function watch(page) { page.on("pageerror", (e) => errors.push(e.message)); page
   const c = await ctx({ vp: { width: 1280, height: 800 }, theme: "light" }); const p = await c.newPage(); watch(p);
   const mapReq = []; p.on("request", (r) => { if (/mapbox-gl\.js/.test(r.url())) mapReq.push(r.url()); });
   await p.goto(base + "/posts/somewhere-in-nevada/", { waitUntil: "load" });
-  ok(await p.locator('script[src*="mapbox-gl.js"]').count() === 0 || mapReq.length >= 0, "no blocking Mapbox script in head");
+  await p.waitForTimeout(500);
+  const mapTop = await p.evaluate(() => document.querySelector(".mapbox").getBoundingClientRect().top - innerHeight);
+  ok(mapTop > 600 ? mapReq.length === 0 : true, `Mapbox not requested while the map is ${Math.round(mapTop)} px below the fold (${mapReq.length})`);
+  ok(mapTop > 600, "fixture: the map starts beyond the 600 px preload margin");
   const headBlocking = await p.evaluate(() => [...document.head.querySelectorAll("script[src]")].filter((s) => /mapbox/.test(s.src) && !s.async).length);
   ok(headBlocking === 0, "Mapbox script is not parser-blocking");
   await p.locator(".kc-hero__open").click();

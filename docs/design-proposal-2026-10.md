@@ -194,6 +194,28 @@ All names and parameters are snake_case. Parameters are reused across events. No
 - Analytics: in dev mode every event above is recorded in `window.__boundsAnalytics` with the documented parameters. No request goes to `googletagmanager.com` or `google-analytics.com` on `localhost` or the preview host, even from a production build. The intercepted production payloads hold no query strings, 404 paths or email addresses.
 - Retained behavior: the theme key `bounds-crt` and legacy migration, pre-paint theming, Field Signal light/dark art selection, About og tags and email, RSS at `/index.xml`, existing permalinks and aliases, Mapbox theme restyling, and the home page's single latest post.
 
+## Result (after M4 and review fixes)
+
+| | |
+| --- | --- |
+| ![Home, 390 px, light](design-audit-2026-10/after-home-390-light-full.jpg) | ![Contact-sheet lightbox, 390 px, dark](design-audit-2026-10/after-lightbox-390-dark.jpg) |
+| Home on a phone: hero, typed subtitle, the two doors, the latest post once (here paused on its still under reduced motion), ls rows with kind labels, and the status-bar footer. | The photo lightbox on a phone: counter, close, camera and caption, prev/next, and "open post". |
+| ![Writing, 390 px, light](design-audit-2026-10/after-writing-390-light.jpg) | ![Photo post, 390 px, green](design-audit-2026-10/after-photo-post-390-green.jpg) |
+| `~/writing`: every article with its description and tags. | A photo post in green: the scanlines no longer band the photo, a "view larger" control, channel back link, and the reading-progress bar under the header. |
+
+![Home, 1280 px, amber, full page](design-audit-2026-10/after-home-1280-amber-full.jpg)
+
+![Photos contact sheet, 1280 px, dark](design-audit-2026-10/after-photos-1280-dark.jpg)
+
+![Archive, 1280 px, light](design-audit-2026-10/after-posts-1280-light.jpg)
+
+| | |
+| --- | --- |
+| ![Hero signal pass](design-audit-2026-10/after-hero-signal-1280.jpg) | ![Theme wipe](design-audit-2026-10/after-theme-wipe-1280.jpg) |
+| First home view: the art scans in, then a signal crosses its nodes once. | Theme switch: the new theme grows in a circle from the pressed pill. |
+
+![404, 390 px, green](design-audit-2026-10/after-404-390-green.jpg)
+
 ## Review log
 
 ### Round 1: audit and proposal v1 (`be57745a1`)
@@ -214,3 +236,46 @@ Reviewer: Codex GPT-6.1-Sol at xhigh reasoning. Verdict: "proceed with listed ch
 | 10 | P2: the lightbox needs behavioral acceptance checks | **Accepted.** Added `showModal`, naming, initial focus, return focus, and a phone-fit check. |
 | 11 | P2: the audit overstated the focus-ring gap and treated small targets as WCAG failures | **Accepted.** Audit #13 and #14 corrected and noted under "Corrections after review". |
 | P3 | Defer the circular theme wipe, hardcoded node overlays and thumbnail fanning; responsive thumbnails; on-demand lightbox images | **Partly accepted.** Kept the theme wipe: goal 3 asks for more delight, it's a progressive enhancement with an instant fallback, and it costs about 30 lines. Kept the node overlay but made it one finite pass, with documented coordinates. Dropped thumbnail fanning. Added a thumbnail `srcset`, and lightbox images load only when it opens. |
+
+### Round 2: M1 (`80302757a..a5174ec4a`)
+
+Verdict: "no P1 blocker." The reviewer confirmed that every post appears exactly once across 26 archive pages, that RSS and aliases are byte-identical to baseline, that About metadata and email are intact, and that the guard makes no Google requests off-host.
+
+| # | Finding | Decision |
+| --- | --- | --- |
+| 1 | P2: dim amber meta text is 4.48:1 on the photo tint | **Accepted.** New `--meta-on-tint` token, `--fg-1` in amber (now 8.34:1). |
+| 2 | P2: chips, tags and the X link miss the 44 px phone target | **Accepted.** Chips are 44 px; tags are 32 px with an invisible 44 px hit band; X is at least 44 px wide. Round 3 found the door tags still short, which is fixed in round 3's commit. |
+| 3 | P2: About reports `content_group: "page"` | **Accepted.** About is a root page bundle with no section; the partial now matches `layout: about`. |
+| 4 | P2: photo posts without a hero vanish from `/photos/` | **Accepted.** The tile renders with a "no image" frame and no lightbox attributes. |
+| 5 | P2: `/categories/` has no inbound links | **Accepted.** Footer links go to tags and categories. |
+| P3 | `/posts/` jumps from h1 to h3 | **Accepted.** The archive feature uses h2. |
+
+### Round 3: M2 + M3 (`a5174ec4a..54869b0bb`)
+
+Verdict: "request changes for the three P2 findings." The reviewer confirmed the lightbox's naming, Tab containment, Esc and return focus on all ten photos at 390×844, reduced-motion behavior, map theming before and after load, and node alignment in both art versions. Subjectively, it said, "the motion fits the brief."
+
+| # | Finding | Decision |
+| --- | --- | --- |
+| 1 | P2: door tags still 26 px (a more specific rule won); GIF toggle 32 px | **Accepted.** Fixed the override and the hit-band offset (`inset` is measured from the padding box, so 7 px gives 44 px), widened the row gap to 14 px, and made the toggle 44 px. Verified by hit-testing 5 px above and below a tag. |
+| 2 | P2: turning on reduced motion mid-visit leaves the GIF playing | **Accepted.** The toggles subscribe to the media query. |
+| 3 | P2: a Mapbox constructor failure (no WebGL) leaves a blank map marked ready | **Accepted.** Clears partial markup, shows the fallback, and marks ready only after creation. Verified with WebGL forced off. |
+| P3 | Long captions push lightbox controls out of view at 200% zoom | **Accepted.** The image stage shrinks first. Verified at 640×400 with no internal overflow. |
+| Note | LCP measured 244 ms with motion versus 56 ms reduced, because the entrance faded large blocks from opacity 0 | **Accepted.** Heroes, article text and doors now only slide. Re-measured at 52 ms versus 44 ms. |
+| Note | Main CSS is 35.4 KB, over the 28 KB target | **Accepted as a known gap.** Recorded under the performance budget (8.0 KB gzipped). |
+
+The lead also capped the subtitle cursor at six blinks (about 6 s), after which it stays solid, after the motion probe showed it blinking forever (WCAG 2.2.2). The cursor itself stays; this is flagged for Jesse.
+
+### Round 4: M4 analytics (`54869b0bb..bcc7e1730`)
+
+Verdict: "request changes; fix the P1 privacy leak before shipping M4." All collect requests in the reviewer's tests were intercepted and aborted.
+
+| # | Finding | Decision |
+| --- | --- | --- |
+| 1 | P1: Enhanced Measurement's site search reads the raw query, so `/?q=jane@example.com` sent `search_term: jane@example.com` despite the sanitized `page_location` | **Accepted.** Before `gtag.js` loads, the snippet removes every parameter except `utm_*` (without `@`) from the address bar and from `page_location`. This also restores campaign attribution, which M1's strip-everything approach had silently lost. The production check now covers `q`, `s` and `search` on normal and 404 pages, and fails on the old build. The content audit found no outbound links with queries or `@` for EM's `link_url`. |
+| 2 | P2: "↑ top" on a post records `select_content` | **Accepted.** Same-page anchors are classified first; added a post-page assertion. |
+| 3 | P2: modified clicks on photos record the wrong type, and the hero's image file counts as a post selection | **Accepted.** Photo links carry `data-kind="photo"`; modified clicks go by destination (post page → `select_content`, image file → `photo_open`, `method: new_tab`). Plain, modifier and middle clicks are each tested. |
+| 4 | P2: the production check loses beacon evidence across navigation and can't read Blob bodies | **Accepted.** Beacons are recorded through a context binding with Blob/ArrayBuffer/FormData decoding, plus a self-test that an unsafe beacon is recorded and flagged. |
+| 5 | P2: a system appearance change leaves `site_theme` stale | **Accepted.** A MutationObserver on `data-theme` updates the user property however the theme changes; the production check covers the system switch. |
+| P3 | Docs: custom parameters aren't visible in Explorations before registration | **Accepted.** Corrected, including the 24–48 hour delay. |
+| P3 | `ui-check`'s lazy-Mapbox assertion was vacuous | **Accepted.** It now asserts zero requests while the map is beyond the 600 px margin, plus a fixture assertion that it is. |
+

@@ -63,6 +63,13 @@ async function expectEvent(p, name, match, label) {
   await expectEvent(p2, "page_view", { content_group: "photos" }, "photos context");
   await p2.locator(".kc-sheet a[data-photo]").nth(2).click(); await expectEvent(p2, "photo_open", { content_id: "hermit-crab", ui_location: "photo_grid", method: "click" }, "contact sheet tile");
   await p2.locator(".kc-lightbox__open").click(); await expectEvent(p2, "select_content", { content_type: "photo", content_id: "hermit-crab", ui_location: "lightbox" }, "lightbox open post");
+  await p2.keyboard.press("Escape");
+  const mod = process.platform === "darwin" ? "Meta" : "Control";
+  await p2.locator(".kc-sheet a[data-photo]").nth(3).click({ modifiers: [mod] });
+  await expectEvent(p2, "select_content", { content_type: "photo", content_id: "whats-under-the-hood", ui_location: "photo_grid" }, "modified click on a tile opens its post");
+  await p2.locator(".kc-sheet a[data-photo]").nth(4).click({ button: "middle" });
+  await expectEvent(p2, "select_content", { content_type: "photo", content_id: "pallet", ui_location: "photo_grid" }, "middle click on a tile");
+  ok(!(await p2.evaluate(() => document.querySelector("dialog.kc-lightbox").open)), "modified clicks don't open the lightbox");
   await c2.close();
 }
 // ---- Writing post: read depth, outbound, code copy, back link, post nav, tags
@@ -80,12 +87,21 @@ async function expectEvent(p, name, match, label) {
   await p.locator('.kc-postnav a[rel="next"]').click(); await expectEvent(p, "select_content", { content_type: "writing", ui_location: "post_nav" }, "newer post link");
   await p.locator(".kc-post__tags .kc-tag").first().click(); await expectEvent(p, "nav_click", { nav_item: "tags" }, "tag chip");
   await p.locator(".kc-crosslink .kc-strip__a").first().click(); await expectEvent(p, "photo_open", { ui_location: "post_crosslink" }, "cross-link thumbnail");
+  await p.keyboard.press("Escape");
+  const before = (await events(p)).length;
+  await p.locator(".kc-status__top").click();
+  const afterTop = (await events(p)).slice(before);
+  ok(afterTop.length === 1 && afterTop[0].name === "nav_click" && afterTop[0].params.nav_item === "top", `post page "top" is nav_click, not a post selection (${JSON.stringify(afterTop)})`);
   await c.close();
 }
 // ---- Photo post hero, native video, 404
 {
   const [c, p] = await open("/posts/bird-on-a-wire/");
   await p.locator(".kc-hero__open").click(); await expectEvent(p, "photo_open", { content_id: "bird-on-a-wire", ui_location: "post_hero" }, "photo post hero");
+  await p.keyboard.press("Escape");
+  await p.locator(".kc-hero__open").click({ modifiers: [process.platform === "darwin" ? "Meta" : "Control"] });
+  await expectEvent(p, "photo_open", { content_id: "bird-on-a-wire", ui_location: "post_hero", method: "new_tab" }, "modified click on the hero opens the image file");
+  ok(!(await events(p)).some((e) => e.name === "select_content"), "hero image never counts as a post selection");
   await c.close();
   // Chromium builds lack H.264; play the MP4 in branded Chrome (or CHROME_CODECS=<path to a Chrome with codecs>).
   const cft = await chromium.launch(process.env.CHROME_CODECS ? { executablePath: process.env.CHROME_CODECS } : { channel: "chrome" });
