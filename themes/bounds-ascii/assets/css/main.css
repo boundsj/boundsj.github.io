@@ -580,10 +580,13 @@ canvas.kc-hero__media, img.is-dithered, canvas.is-dithered { image-rendering: pi
 .kc-hero--animated figcaption { line-height: 1.5; }
 
 /* ---------- LIGHTBOX ---------- */
-.kc-lightbox { width: min(1040px, calc(100vw - 24px)); max-width: none; max-height: calc(100dvh - 24px); margin: auto; padding: 0;
+/* A definite height and a grid: bar, photo stage (takes what's left), info, controls. The photo
+   fills its stage with object-fit: contain, so the whole frame always shows and the controls stay
+   in view. When space runs out (long captions at 200% zoom), the info row scrolls on its own. */
+.kc-lightbox { width: min(1040px, calc(100vw - 24px)); height: calc(100dvh - 24px); max-width: none; max-height: none; margin: auto; padding: 0;
   border: 1px solid var(--sig); border-radius: var(--radius-ui); background: var(--bg-1); color: var(--fg-1);
   box-shadow: 4px 4px 0 0 var(--sig-tint); overflow: auto; overscroll-behavior: contain; }
-.kc-lightbox[open] { display: flex; flex-direction: column; animation: kc-lightbox-in var(--dur-2) var(--ease-out); }
+.kc-lightbox[open] { display: grid; grid-template-rows: auto minmax(100px, 1fr) minmax(0, auto) auto; animation: kc-lightbox-in var(--dur-2) var(--ease-out); }
 .kc-lightbox::backdrop { background: rgba(12, 12, 10, .82); }
 @keyframes kc-lightbox-in { from { opacity: 0; transform: scale(.96); } }
 html.has-lightbox { overflow: hidden; }
@@ -591,14 +594,11 @@ html.has-lightbox { overflow: hidden; }
   border-bottom: 1px solid color-mix(in srgb, var(--sig) 45%, var(--bg-1)); font-size: 12px; color: var(--sig); }
 .kc-lightbox__count { font-variant-numeric: tabular-nums; letter-spacing: .06em; }
 .kc-lightbox__close { margin-left: auto; box-shadow: none; }
-/* The stage shrinks first when space runs out (long captions, zoom), so the controls stay visible. */
-.kc-lightbox__stage { display: flex; align-items: center; justify-content: center; background: var(--bg-3);
-  flex: 1 1 auto; min-height: 80px; overflow: hidden; }
-.kc-lightbox__bar, .kc-lightbox__info, .kc-lightbox__controls { flex: none; }
-.kc-lightbox__img { display: block; width: auto; height: auto; max-width: 100%; max-height: min(100%, calc(100dvh - 260px)); object-fit: contain;
+.kc-lightbox__stage { position: relative; background: var(--bg-3); }
+.kc-lightbox__img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain;
   transition: opacity var(--dur-2) ease; }
 .kc-lightbox__stage.is-loading .kc-lightbox__img { opacity: .35; }
-.kc-lightbox__info { padding: 12px 14px 4px; }
+.kc-lightbox__info { min-height: 0; overflow: auto; padding: 12px 14px 4px; }
 .kc-lightbox__title { font-size: 17px; text-transform: none; letter-spacing: -.01em; margin: 0 0 2px; }
 .kc-lightbox__meta { font-size: 12px; color: var(--fg-3); margin: 0 0 6px; }
 .kc-lightbox__caption { font-size: 14px; color: var(--fg-2); margin: 0; max-width: 70ch; }
@@ -832,8 +832,7 @@ main:focus-visible { outline: none; }
 }
 
 @media (max-width: 600px) {
-  .kc-lightbox { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
-  .kc-lightbox__img { max-height: calc(100dvh - 300px); }
+  .kc-lightbox { width: calc(100vw - 16px); height: calc(100dvh - 16px); }
   .kc-lightbox__controls { gap: 8px; }
   .kc-lightbox__open { margin-left: 0; }
   /* Banner: shrink to fit rather than scroll/clip; harden the wrap. */

@@ -46,6 +46,36 @@ function watch(page) { page.on("pageerror", (e) => errors.push(e.message)); page
   await c.close();
 }
 
+// ---- Every photo fits, whole, with the controls in view (phone, 200% zoom equivalent, desktop)
+for (const vp of [{ width: 390, height: 844 }, { width: 640, height: 400 }, { width: 1280, height: 800 }]) {
+  const c = await ctx({ vp }); const p = await c.newPage(); watch(p);
+  await p.goto(base + "/photos/", { waitUntil: "load" });
+  await p.locator(".kc-sheet a[data-photo]").first().click();
+  const bad = [];
+  for (let i = 0; i < 10; i++) {
+    await p.waitForFunction(() => { const im = document.querySelector(".kc-lightbox__img"); return im.complete && im.naturalWidth > 0; });
+    const g = await p.evaluate(() => {
+      const r = (s) => document.querySelector(s).getBoundingClientRect();
+      const img = document.querySelector(".kc-lightbox__img"), box = img.getBoundingClientRect();
+      // Rendered picture under object-fit: contain.
+      const scale = Math.min(box.width / img.naturalWidth, box.height / img.naturalHeight);
+      const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
+      const pic = { left: box.left + (box.width - w) / 2, top: box.top + (box.height - h) / 2, right: box.left + (box.width + w) / 2, bottom: box.top + (box.height + h) / 2 };
+      const d = document.querySelector("dialog.kc-lightbox");
+      return { title: document.querySelector("#kc-lightbox-title").textContent, fit: fitFn(), scroll: d.scrollHeight - d.clientHeight };
+      function fitFn() {
+        const st = r(".kc-lightbox__stage"), ctl = r(".kc-lightbox__controls"), dl = r("dialog.kc-lightbox");
+        const inside = (a, b) => a.left >= b.left - 1 && a.top >= b.top - 1 && a.right <= b.right + 1 && a.bottom <= b.bottom + 1;
+        return inside(pic, st) && inside(st, dl) && inside(ctl, dl) && dl.bottom <= innerHeight + 1 && dl.right <= innerWidth + 1 && h > 60;
+      }
+    });
+    if (!g.fit || g.scroll > 1) bad.push(`${g.title} (fit=${g.fit}, scroll=${g.scroll})`);
+    await p.keyboard.press("ArrowRight");
+  }
+  ok(bad.length === 0, `${vp.width}x${vp.height}: all 10 photos fit whole with controls in view${bad.length ? " — " + bad.join("; ") : ""}`);
+  await c.close();
+}
+
 // ---- Photo post hero: single-item lightbox, open-post hidden; lazy Mapbox
 {
   const c = await ctx({ vp: { width: 1280, height: 800 }, theme: "light" }); const p = await c.newPage(); watch(p);

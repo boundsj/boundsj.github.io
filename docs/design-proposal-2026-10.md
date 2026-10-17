@@ -279,3 +279,13 @@ Verdict: "request changes; fix the P1 privacy leak before shipping M4." All coll
 | P3 | Docs: custom parameters aren't visible in Explorations before registration | **Accepted.** Corrected, including the 24–48 hour delay. |
 | P3 | `ui-check`'s lazy-Mapbox assertion was vacuous | **Accepted.** It now asserts zero requests while the map is beyond the 600 px margin, plus a fixture assertion that it is. |
 
+
+### Round 5: verification of the round-3 and round-4 fixes (`54869b0bb..f46834901`)
+
+Verdict: "not ship-ready … until the lightbox regression is fixed." Every other fix passed the reviewer's own reproduction: five search keys on home, post and 404 pages; safe and unsafe `utm_*` values; debug mode; history navigation; system theme updates; plain, modified and middle photo clicks; "top" on posts; tag hit areas; reduced motion turned on mid-visit; and three Mapbox failure modes.
+
+| # | Finding | Decision |
+| --- | --- | --- |
+| 1 | P2: the round-3 lightbox change cropped photos. `max-height: min(100%, …)` resolved against an indefinite stage height, so the image overflowed and was clipped (an 818 px image in a 135 px stage at 640×400) | **Accepted.** The lead's own round-3 check had measured only the controls' position, not the photo, so it missed this. The dialog now has a definite height and a grid layout; the photo fills its stage with `object-fit: contain`; and the info row scrolls on its own when space runs out. `ui-check` now asserts that the whole rendered photo, the stage and the controls fit for all 10 photos at 390×844, 640×400 and 1280×800. |
+
+Two later commits were verified by the lead only, because the review cycle limit had been reached. One is the fix above. The other keeps links inside a base path: literal `"/x/" | relURL` links escaped `/bounds-preview/`, as the existing "all posts" button already did. Verification: production `href`s are byte-identical on 7 sampled pages, the preview has no unprefixed links, and a click-through across nav, chips, entries, back link, footer, pager and brand stays under the prefix.
