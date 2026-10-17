@@ -1,8 +1,11 @@
-{{- /* The newest post is one expanded entry above the directory listing. */ -}}
-<article class="kc-featured">
+{{- /* The newest post as one expanded, unboxed entry above a listing. The hero links to the post too. */ -}}
+{{- $kind := partial "kind.html" . -}}
+<article class="kc-featured" data-kind="{{ $kind }}">
   <div class="kc-featured__body">
-    <h3 class="kc-featured__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-    <div class="kc-featured__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time> · {{ .ReadingTime }} min read</div>
+    <h3 class="kc-featured__title"><a href="{{ .RelPermalink }}" data-content-id="{{ path.Base .RelPermalink }}" data-kind="{{ $kind }}">{{ .Title }}</a></h3>
+    <div class="kc-featured__meta"><span class="kc-kind">{{ index (dict "writing" "writing" "photo" "photo" "bots" "bot limerick") $kind }}</span> · <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ if ne $kind "photo" }} · {{ .ReadingTime }} min read{{ end }}</div>
   </div>
-  {{ partial "featured-image.html" (dict "page" . "hideCaption" true) }}
+  <a class="kc-featured__media" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true" data-content-id="{{ path.Base .RelPermalink }}" data-kind="{{ $kind }}">
+    {{- partial "featured-image.html" (dict "page" . "hideCaption" true) -}}
+  </a>
 </article>

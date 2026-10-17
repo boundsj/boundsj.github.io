@@ -1,0 +1,13 @@
+{{- /* Analytics content group and channel for a page; also used for styling hooks. */ -}}
+{{- $kind := partial "kind.html" . -}}
+{{- $group := "page" -}}
+{{- if .IsHome }}{{ $group = "home" -}}
+{{- else if eq $kind "writing" }}{{ $group = "writing" -}}
+{{- else if eq $kind "photo" }}{{ $group = "photos" -}}
+{{- else if eq $kind "bots" }}{{ $group = "bots" -}}
+{{- else if eq .Kind "404" }}{{ $group = "error" -}}
+{{- else if in (slice "taxonomy" "term") .Kind }}{{ $group = "taxonomy" -}}
+{{- else if eq .Kind "section" }}{{ $group = index (dict "writing" "writing" "photos" "photos" "posts" "archive") .Section | default "page" -}}
+{{- else if eq .Section "about" }}{{ $group = "about" -}}
+{{- end -}}
+{{- return $group -}}

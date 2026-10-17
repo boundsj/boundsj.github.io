@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode | default "en" }}">
 <head>
-{{ partial "google-analytics.html" . }}
 {{ partial "head.html" . }}
+{{ partial "google-analytics.html" . }}
 </head>
-<body class="scanlines">
+<body class="scanlines" data-kind="{{ partial "kind.html" . }}" data-content-group="{{ partial "content-group.html" . }}">
   <a class="kc-skip" href="#main">[ skip to content ]</a>
   {{ partial "header.html" . }}
   <main id="main" class="kc-main" tabindex="-1">
     <div class="kc-shell">
       {{ block "main" . }}{{ end }}
-      {{ partial "footer.html" . }}
     </div>
   </main>
-  {{- $d := resources.Get "js/dither.js" -}}
-  {{- $t := resources.Get "js/theme.js" -}}
-  {{- with $d }}{{ $d = . | minify | fingerprint }}<script src="{{ $d.RelPermalink }}"></script>{{ end -}}
-  {{- with $t }}{{ $t = . | minify | fingerprint }}<script src="{{ $t.RelPermalink }}"></script>{{ end -}}
+  {{ partial "footer.html" . }}
+  {{ partial "scripts.html" . }}
 </body>
 </html>

@@ -1,0 +1,10 @@
+{{- /* Returns the channel of a page: "writing", "photo", "bots", or "page". */ -}}
+{{- $kind := "page" -}}
+{{- if and .IsPage (eq .Section "posts") -}}
+  {{- $cats := .Params.categories | default slice -}}
+  {{- if in $cats "photos" -}}{{ $kind = "photo" }}
+  {{- else if in $cats "generated" -}}{{ $kind = "bots" }}
+  {{- else -}}{{ $kind = "writing" }}
+  {{- end -}}
+{{- end -}}
+{{- return $kind -}}

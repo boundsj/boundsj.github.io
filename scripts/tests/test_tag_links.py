@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SINGLE = ROOT / "layouts/_default/single.html"
+THEME_PARTIALS = ROOT / "themes/bounds-ascii/layouts/partials"
 
 
 class TagLinkTests(unittest.TestCase):
@@ -29,7 +30,11 @@ class TagLinkTests(unittest.TestCase):
             shutil.copyfile(SINGLE, layouts / "single.html")
             (layouts / "baseof.html").write_text('{{ block "main" . }}{{ end }}')
             (layouts / "list.html").write_text('{{ .Title }}')
-            (partials / "featured-image.html").write_text("")
+            # The real tag and kind partials; unrelated page furniture is stubbed.
+            for name in ("tag-chips.html", "kind.html"):
+                shutil.copyfile(THEME_PARTIALS / name, partials / name)
+            for name in ("featured-image.html", "photo-hero.html", "post-nav.html"):
+                (partials / name).write_text("")
             (posts / "probe.md").write_text(
                 '+++\ntitle = "Probe"\ndate = 2026-01-01\n'
                 'tags = ["Art & Culture", "lowercase", "Tech & Business", "Art & Culture"]\n'
@@ -43,7 +48,7 @@ class TagLinkTests(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             rendered = (output / "posts/probe/index.html").read_text()
-            links = re.findall(r'<a class="kc-tag" href="([^"]+)">([^<]+)</a>', rendered)
+            links = re.findall(r'<a class="kc-tag" href="([^"]+)"[^>]*>([^<]+)</a>', rendered)
             self.assertEqual(
                 [(href, html.unescape(label)) for href, label in links],
                 [

@@ -1,8 +1,8 @@
 {{ define "main" }}
 <article class="kc-post post--about">
-  <h1 class="kc-pagetitle"><span class="kc-prompt">$</span> about</h1>
+  <h1 class="kc-pagetitle"><span class="kc-prompt" aria-hidden="true">$</span> about</h1>
   {{ partial "featured-image.html" . }}
   <div class="post-content">{{ .Content }}</div>
-  {{ partial "social-links.html" . }}
+  <div data-ui="about">{{ partial "social-links.html" . }}</div>
 </article>
 {{ end }}

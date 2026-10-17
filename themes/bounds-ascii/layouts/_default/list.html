@@ -1,16 +1,17 @@
 {{ define "main" }}
+{{- $isArchive := and .IsSection (eq .Section "posts") -}}
 <div class="kc-archive">
-  <h1 class="kc-pagetitle"><span class="kc-prompt">$</span> {{ .Title | lower }}</h1>
-  <div class="kc-archive__count">{{ len .Pages }} entries · sorted newest first</div>
+  <h1 class="kc-pagetitle"><span class="kc-prompt" aria-hidden="true">$</span> {{ if $isArchive }}<span aria-hidden="true">~/</span>posts{{ else }}{{ .Title | lower }}{{ end }}</h1>
+  <p class="kc-archive__count">{{ len .Pages }} entries · newest first</p>
+  {{- if $isArchive }}{{ partial "channel-chips.html" (dict "page" . "active" "posts") }}{{ end }}
   {{- $p := .Paginate .Pages -}}
-  {{- if and .IsSection (eq .Section "posts") (eq $p.PageNumber 1) (gt (len $p.Pages) 0) }}
-    {{ with (index $p.Pages 0) }}{{ partial "featured-image.html" . }}{{ end }}
+  {{- $rows := $p.Pages -}}
+  {{- /* Page 1 of the archive opens with the latest post, expanded; its row is not repeated. */ -}}
+  {{- if and $isArchive (eq $p.PageNumber 1) (gt (len $rows) 0) }}
+    <div data-ui="archive_latest">{{ partial "featured-post.html" (index $rows 0) }}</div>
+    {{- $rows = after 1 $rows -}}
   {{- end }}
-  <div class="kc-rows">{{ range $p.Pages }}{{ partial "post-row.html" . }}{{ end }}</div>
-  <div class="kc-pager">
-    {{ if $p.HasPrev }}<a class="kc-pager__a" href="{{ $p.Prev.URL }}">← prev</a>{{ else }}<span class="kc-pager__a is-off">← prev</span>{{ end }}
-    <span class="kc-pager__n">page {{ $p.PageNumber }} / {{ $p.TotalPages }}</span>
-    {{ if $p.HasNext }}<a class="kc-pager__a" href="{{ $p.Next.URL }}">next →</a>{{ else }}<span class="kc-pager__a is-off">next →</span>{{ end }}
-  </div>
+  <div class="kc-rows" data-ui="archive">{{ range $rows }}{{ partial "post-row.html" . }}{{ end }}</div>
+  {{ partial "pager.html" $p }}
 </div>
 {{ end }}

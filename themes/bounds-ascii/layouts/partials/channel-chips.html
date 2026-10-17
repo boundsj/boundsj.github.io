@@ -1,0 +1,14 @@
+{{- /* Channel switcher for listings: plain links, so it works without JavaScript. */ -}}
+{{- $ch := partialCached "channels.html" .page "channels" -}}
+{{- $items := slice
+  (dict "id" "posts" "label" "all" "url" "/posts/" "count" (len $ch.posts) "kind" "page")
+  (dict "id" "writing" "label" "writing" "url" "/writing/" "count" (len $ch.writing) "kind" "writing")
+  (dict "id" "photos" "label" "photos" "url" "/photos/" "count" (len $ch.photos) "kind" "photo")
+  (dict "id" "bots" "label" "limericks" "url" "/categories/generated/" "count" (len $ch.bots) "kind" "bots")
+  (dict "id" "tags" "label" "tags" "url" "/tags/" "count" 0 "kind" "page") -}}
+<nav class="kc-chips" aria-label="Channels" data-ui="chips">
+  {{- range $items }}
+  {{- $on := eq .id $.active }}
+  <a class="kc-chip{{ if $on }} is-on{{ end }}" href="{{ .url | relURL }}" data-nav="{{ .id }}" data-kind="{{ .kind }}"{{ if $on }} aria-current="page"{{ end }}>{{ .label }}{{ with .count }} <span class="kc-chip__n">{{ . }}</span>{{ end }}</a>
+  {{- end }}
+</nav>

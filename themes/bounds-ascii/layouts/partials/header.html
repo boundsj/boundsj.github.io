@@ -1,7 +1,10 @@
-{{- /* Sticky site header: brand + theme selection, followed by shell navigation. */ -}}
-<header class="kc-header">
+{{- /* Sticky site header: brand + theme selection, followed by the channel navigation. */ -}}
+{{- $kind := partial "kind.html" . -}}
+{{- $section := index (dict "writing" "writing" "photo" "photos" "bots" "posts") $kind | default "" -}}
+{{- if or (eq .Kind "taxonomy") (eq .Kind "term") }}{{ $section = "posts" }}{{ end -}}
+<header class="kc-header" id="top" data-ui="header"{{ with $kind }} data-kind="{{ . }}"{{ end }}>
   <div class="kc-identity">
-    <a class="kc-brand" href="{{ .Site.Home.RelPermalink }}">bounds.dev</a>
+    <a class="kc-brand" href="{{ .Site.Home.RelPermalink }}" data-nav="home">bounds.dev</a>
     <div class="kc-theme-control" role="group" aria-label="Color theme">
       <span class="kc-theme-indicator" aria-hidden="true"></span>
       {{- range $index, $mode := slice "light" "dark" "green" "amber" }}
@@ -13,8 +16,9 @@
   <nav class="kc-nav" aria-label="Main">
     {{- range .Site.Menus.main }}
     {{- $u := .URL | relURL -}}
-    {{- $active := or (eq $.RelPermalink $u) (and (ne .URL "/") (hasPrefix $.RelPermalink $u)) -}}
-    <a class="kc-nav__a{{ if $active }} is-on{{ end }}" href="{{ $u }}"{{ if $active }} aria-current="page"{{ end }}>{{ if $active }}<span aria-hidden="true">&gt; </span>{{ end }}~/{{ .Name | urlize | lower }}</a>
+    {{- $active := or (eq $.RelPermalink $u) (eq .Identifier $section) (and (not $.IsPage) (hasPrefix $.RelPermalink $u)) -}}
+    <a class="kc-nav__a{{ if $active }} is-on{{ end }}" href="{{ $u }}" data-nav="{{ .Identifier }}"{{ if $active }} aria-current="{{ if eq $.RelPermalink $u }}page{{ else }}true{{ end }}"{{ end }}><span class="kc-nav__path" aria-hidden="true">~/</span>{{ .Name | lower }}</a>
     {{- end }}
   </nav>
+  <div class="kc-progress" aria-hidden="true"><span class="kc-progress__bar"></span></div>
 </header>

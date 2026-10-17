@@ -1,13 +1,33 @@
-{{- /* Keep local previews out of analytics; use the existing site configuration. */ -}}
+{{- /* GA4, guarded twice: only production builds emit it, and at runtime it loads only on the
+       hosts in params.analytics.hosts, so local and preview builds never send data. Page context
+       is sanitized before the first config call: no query strings or fragments, a fixed 404
+       location, and same-site referrers reduced to their path (cross-site to their origin).
+       Schema and verification: docs/analytics.md. */ -}}
 {{- if and hugo.IsProduction .Site.Params.analytics.enable -}}
   {{- with .Site.Params.analytics.google.id }}
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', {{ . }});
+(function (id, hosts, group, notFound) {
+  if (hosts.indexOf(location.hostname) === -1) return;
+  var w = window, l = location;
+  w.dataLayer = w.dataLayer || [];
+  w.gtag = function () { w.dataLayer.push(arguments); };
+  function clean(u) { var x = new URL(u, l.href); return x.origin + x.pathname; }
+  var ref = "";
+  try { if (document.referrer) { var r = new URL(document.referrer); ref = r.origin === l.origin ? clean(r.href) : r.origin + "/"; } } catch (e) {}
+  var page = { page_location: notFound ? l.origin + "/404.html" : clean(l.href), page_referrer: ref };
+  if (notFound) page.page_title = "404";
+  var cfg = { content_group: group };
+  if (/[?&]analytics_debug=1(&|$)/.test(l.search)) cfg.debug_mode = true;
+  gtag("js", new Date());
+  gtag("set", page);
+  gtag("set", "user_properties", { site_theme: document.documentElement.dataset.theme || "light" });
+  gtag("config", id, Object.assign({}, page, cfg));
+  w.boundsAnalyticsLive = true;
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+  document.head.appendChild(s);
+})({{ . }}, {{ $.Site.Params.analytics.hosts | default (slice "www.bounds.dev" "bounds.dev") }}, {{ partial "content-group.html" $ }}, {{ eq $.Kind "404" }});
 </script>
-  {{- end -}}
+  {{- end }}
 {{- end -}}

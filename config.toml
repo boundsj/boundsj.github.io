@@ -40,43 +40,28 @@ enableEmoji = true
 [pagination]
   pagerSize = 12
 
-# Menu config
+# Menu config: the two channels first, then the full archive and About.
 [menu]
   [[menu.main]]
     weight = 1
-    identifier = "posts"
-    # you can add extra information before the name (HTML format is supported), such as icons
-    pre = ""
-    # you can add extra information after the name (HTML format is supported), such as icons
-    post = ""
-    name = "Posts"
-    url = "/posts/"
-    # title will be shown when you hover on this menu link
-    title = ""
+    identifier = "writing"
+    name = "Writing"
+    url = "/writing/"
   [[menu.main]]
     weight = 2
-    identifier = "tags"
-    pre = ""
-    post = ""
-    name = "Tags"
-    url = "/tags/"
-    title = ""
+    identifier = "photos"
+    name = "Photos"
+    url = "/photos/"
   [[menu.main]]
     weight = 3
-    identifier = "categories"
-    pre = ""
-    post = ""
-    name = "Categories"
-    url = "/categories/"
-    title = ""
+    identifier = "posts"
+    name = "Posts"
+    url = "/posts/"
   [[menu.main]]
     weight = 4
     identifier = "about"
-    pre = ""
-    post = ""
     name = "About"
     url = "/about/"
-    title = ""
 
 [params]
   # Website metadata used by the active theme.
@@ -106,8 +91,10 @@ enableEmoji = true
     scale = true
     fullscreen = false
 
+  # Analytics load only in production builds served from these hosts.
+  # See docs/analytics.md for the event schema and how to verify it.
   [params.analytics]
     enable = true
+    hosts = ["www.bounds.dev", "bounds.dev"]
     [params.analytics.google]
       id = "G-LT0HKHY2J5"
-      anonymizeIP = true

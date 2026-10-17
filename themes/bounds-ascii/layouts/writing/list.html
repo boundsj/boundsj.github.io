@@ -1,0 +1,19 @@
+{{ define "main" }}
+{{- $ch := partialCached "channels.html" . "channels" -}}
+<div class="kc-archive" data-kind="writing">
+  <h1 class="kc-pagetitle"><span class="kc-prompt" aria-hidden="true">$</span> <span aria-hidden="true">~/</span>writing</h1>
+  <p class="kc-lede">{{ .Description }}</p>
+  {{ partial "channel-chips.html" (dict "page" . "active" "writing") }}
+  <ol class="kc-entries" data-ui="writing_list">
+    {{- range $ch.writing }}
+    <li class="kc-entry" data-kind="writing">
+      <h2 class="kc-entry__title"><a class="kc-entry__link" href="{{ .RelPermalink }}" data-content-id="{{ path.Base .RelPermalink }}" data-kind="writing">{{ .Title }}</a></h2>
+      <p class="kc-entry__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time> · {{ .ReadingTime }} min read</p>
+      {{ with .Description }}<p class="kc-entry__desc">{{ . }}</p>{{ end }}
+      {{ partial "tag-chips.html" . }}
+    </li>
+    {{- end }}
+  </ol>
+  <p class="kc-aside">Also here: <a href="{{ "/categories/generated/" | relURL }}" data-nav="bots">{{ len $ch.bots }} limericks the bots wrote from the news</a> and <a href="{{ "/posts/" | relURL }}" data-nav="posts">the full archive</a>.</p>
+</div>
+{{ end }}
