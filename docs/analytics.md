@@ -20,7 +20,7 @@ Property: `G-LT0HKHY2J5` (`config.toml` → `params.analytics.google.id`). This 
 - `page_location` is therefore `origin + pathname` plus any kept `utm_*` parameters; fragments are never sent. On the 404 page it is the fixed `https://www.bounds.dev/404.html`, with `page_title` `404`. `page_referrer` is `origin + pathname` for same-site referrers and the origin alone for other sites.
 - The 404 page sets `<meta name="referrer" content="origin">`, so a mistyped URL doesn't travel on as the next page's referrer.
 - Events never carry email addresses (`email_click` has no address), visitor-typed text, query strings or fragments. `link_path` on outbound links is the path of a link Jesse wrote, with the query and fragment removed.
-- Parameter values are capped at 100 characters, GA4's limit.
+- Parameter values are capped at 100 characters, GA4's limit. Parameters with an empty value are dropped before sending (`clean()` in `analytics.js`). For example, `content_id` is left out of `photo_open`, `code_copy` or `native_video_start` when no post ID can be found.
 - GA4 doesn't log or store IP addresses, so the old `anonymizeIP` setting was dead config and has been removed.
 
 ## Page-level context
@@ -30,7 +30,7 @@ Property: `G-LT0HKHY2J5` (`config.toml` → `params.analytics.google.id`). This 
 | `content_group` | `gtag('config')` on every page | `home`, `writing`, `photos`, `bots`, `archive`, `about`, `taxonomy`, `error`, `page` |
 | user property `site_theme` | `gtag('set', 'user_properties')` before `config`, and again whenever the applied theme changes, whether by the pill or by the system appearance when no theme is saved | `light`, `dark`, `green`, `amber` |
 
-`content_group` comes from `themes/bounds-ascii/layouts/partials/content-group.html` (also on `<body data-content-group>`). Single posts follow their channel: `photos` category → `photos`; `generated` → `bots`; any other category → `writing`.
+`content_group` is passed to `gtag('config')`, so gtag attaches it to **every** event on the page (`page_view`, every custom event below, and Enhanced Measurement events like `scroll`), not just the page view. Any event can therefore be broken down by channel. It comes from `themes/bounds-ascii/layouts/partials/content-group.html` (also on `<body data-content-group>`). Single posts follow their channel: `photos` category → `photos`; `generated` → `bots`; any other category → `writing`.
 
 ## Events
 
@@ -52,7 +52,7 @@ All names and parameters are snake_case. Reused parameters mean the same thing i
 | `motion_toggle` | The pause/play button on an animated hero | `content_id`, `state` (`paused`, `playing`) |
 | `page_not_found` | The 404 page loads | none |
 
-`ui_location` comes from the nearest `data-ui` attribute in the templates: `header`, `footer`, `home_profile`, `door`, `home_latest`, `home_list`, `archive_latest`, `archive`, `chips`, `pager`, `writing_list`, `photo_grid`, `post_body` (default inside article text), `post_nav`, `post_crosslink`, `post_hero`, `back_link`, `about`, `terms`, `404`, `lightbox`, `page` (anything else). The photo strips use `data-photo-group` for the same purpose (`home_door`, `photo_grid`, `post_crosslink`, `post_hero`).
+`ui_location` comes from the nearest `data-ui` attribute in the templates: `header`, `footer`, `home_profile`, `door`, `home_latest`, `home_list`, `archive_latest`, `archive`, `chips`, `pager`, `writing_list`, `photo_grid`, `post_body` (default inside article text), `post_nav`, `post_crosslink`, `post_hero`, `back_link`, `about`, `terms`, `404`, `lightbox`, `page` (anything else). The photo strips use `data-photo-group` for the same purpose (`home_door`, `photo_grid`, `post_crosslink`, `post_hero`). `photo_open` also has a fallback, `ui_location: "photo"`, for a photo link that sits outside any `data-photo-group` (`site.js`, `openLightbox`). No current template produces it, because the post hero, the strips and the contact sheet are all grouped; if `photo` ever shows up in reports, a new template is missing its `data-photo-group`.
 
 **Classification order.** A click is classified once, in this order: `mailto:` → `email_click`; an `index.xml` feed → `rss_click`; `data-social` → `social_click`; another host → `outbound_click`. On this site: a same-page anchor (only `#top` is reported, as `nav_click`); then a photo link (a plain click is left to the lightbox; a modified click goes by destination, so a post page is `select_content` with `content_type: photo`, and an image file is `photo_open` with `method: new_tab`); then a post page → `select_content`; `data-nav` → `nav_click`; the pager; and any other page → `nav_click` with `page`. Keyboard Enter on a link produces a click, so it is classified the same way.
 
@@ -92,17 +92,20 @@ No custom event reuses an Enhanced Measurement or reserved name.
 
 Custom event parameters and user properties don't appear in reports or Explorations until they are registered as custom dimensions or metrics (Admin → Custom definitions). Registration isn't retroactive, and new definitions can take 24–48 hours to show data. Until then the raw values are visible only in DebugView. Suggested:
 
-| Scope | Name | Parameter |
-| --- | --- | --- |
-| Event | UI location | `ui_location` |
-| Event | Content type | `content_type` |
-| Event | Content ID | `content_id` |
-| Event | Nav item | `nav_item` |
-| Event | Social network | `social_network` |
-| Event | Link domain | `link_domain` |
-| Event | Theme (to) | `theme_to` |
-| Event | Photo open method | `method` |
-| Event metric | Read percent | `percent` |
-| User | Site theme | `site_theme` |
+| Scope | Name | Parameter | Notes |
+| --- | --- | --- | --- |
+| Event | UI location | `ui_location` | All click events and `photo_open` |
+| Event | Content type | `content_type` | `select_content`, `read_progress` |
+| Event | Content ID | `content_id` | Post slug, on six events |
+| Event | Nav item | `nav_item` | `nav_click` |
+| Event | Social network | `social_network` | `social_click` |
+| Event | Link domain | `link_domain` | `outbound_click` |
+| Event | Theme (to) | `theme_to` | `theme_change` |
+| Event | Photo open method | `method` | `photo_open` |
+| Event | Read percent | `percent` | `read_progress`. Register it as a **dimension**, not a metric: GA sums metrics, and a summed percentage means nothing. As a dimension, reads split into 25/50/75/100. |
+| Event metric | Engaged seconds | `engaged_seconds` | Unit: **seconds**. Visible-tab time when each read milestone fired. Filtered to `percent = 100`, its sum ÷ event count is the average time to finish an article. |
+| User | Site theme | `site_theme` | |
 
-`content_group` is built in (Reports → Engagement → Pages and screens → Content group); it needs no registration.
+Optional, lower-value event dimensions: `link_path`, `theme_from`, `video_name`, `video_trigger`, `code_language`, `state`.
+
+Already built in, so no registration: `content_group` (Content group dimension; see Page-level context above for why it's on every event), and `page_location`, `page_referrer`, `page_title`.

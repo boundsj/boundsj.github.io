@@ -88,6 +88,8 @@ Social-card requirements:
 - Relevant to the article and legible at feed-card size
 - Preserve exact spelling and punctuation in any rendered text
 
+Animated GIF heroes: also run `scripts/gif-to-webp.sh content/posts/<slug>/<hero>.gif` (add `mixed` for illustrated or photographic animations) and commit the `.webp` it writes. The hero layout serves that WebP, which is much smaller, and keeps the GIF as the fallback; social cards stay PNG/JPG.
+
 Do not create a dedicated card for routine posts unless requested. Pages without one use the site-wide `static/social-default.png` fallback. The first entry in frontmatter `images` is used for Open Graph, Twitter/X cards, and article structured data.
 
 ## Code Patterns & Conventions

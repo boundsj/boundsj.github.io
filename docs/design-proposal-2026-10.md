@@ -289,3 +289,23 @@ Verdict: "not ship-ready … until the lightbox regression is fixed." Every othe
 | 1 | P2: the round-3 lightbox change cropped photos. `max-height: min(100%, …)` resolved against an indefinite stage height, so the image overflowed and was clipped (an 818 px image in a 135 px stage at 640×400) | **Accepted.** The lead's own round-3 check had measured only the controls' position, not the photo, so it missed this. The dialog now has a definite height and a grid layout; the photo fills its stage with `object-fit: contain`; and the info row scrolls on its own when space runs out. `ui-check` now asserts that the whole rendered photo, the stage and the controls fit for all 10 photos at 390×844, 640×400 and 1280×800. |
 
 Two later commits were verified by the lead only, because the review cycle limit had been reached. One is the fix above. The other keeps links inside a base path: literal `"/x/" | relURL` links escaped `/bounds-preview/`, as the existing "all posts" button already did. Verification: production `href`s are byte-identical on 7 sampled pages, the preview has no unprefixed links, and a click-through across nav, chips, entries, back link, footer, pager and brand stays under the prefix.
+
+## Jesse's review (2026-10-17)
+
+**Kept as built:** tags and categories out of the main nav; `photo` and `bot` in place of read times on photo and limerick rows; the latest-post hero on `/posts/`, not repeated in the list; scanlines behind the content; 6 px rounded corners; the subtitle cursor blinking six times, then staying solid; non-`utm_*` query parameters stripped from the address bar. The CSS stays as is (no trimming). GA custom definitions will be registered by hand later; the corrected list is in `docs/analytics.md`.
+
+**Done in response:**
+
+1. **Animated WebP heroes.** Each GIF hero now has a same-named `.webp` in its bundle, made with libwebp 1.6.0's `gif2webp` by `scripts/gif-to-webp.sh`. The hero layout serves the WebP; the GIF stays in the repo, still published at its old URL, and is the `<img>` fallback. The pause/play toggle and the reduced-motion still work as before. Social previews are unchanged (`og:image`, `twitter:image` and JSON-LD all point at each post's `social-card.png`/`.jpg`).
+
+   | Hero | GIF | WebP | Mode | Frames / total / loop (GIF → WebP) |
+   | --- | --- | --- | --- | --- |
+   | `notion-fleet-hero` | 1,240,287 B | 778,894 B (62.8%) | lossless, pixel-identical | 180 → 175 frames (identical frames merged), 15.00 s → 15.00 s, forever → forever |
+   | `tokenmax-visual-loop` | 8,628,610 B | 2,156,744 B (25.0%) | mixed q80 | 150 → 150, 15.00 s → 15.00 s, forever → forever |
+   | `preview` (Rescue82) | 771,062 B | 180,090 B (23.4%) | mixed q80 | 22 → 22, 3.67 s → 3.67 s, plays once → plays once |
+
+   Every file passed `anim_diff -min_psnr 40`, which compares pixels per frame, frame timing and loop count. Chromium's own `ImageDecoder` reports the same frame durations and repetition counts for each GIF/WebP pair. Hugo's built-in WebP encoder was tried first and rejected: it crashed on the Notion and Rescue GIFs, and only got tokenmax down to 5.4 MB.
+
+   Page weight on a fresh visit (1280 px, motion allowed): home 1,438 → 989 KB; `/posts/` 1,363 → 913 KB; Notion post 1,454 → 1,005 KB; tokenmax post 8,894 → 2,393 KB; Rescue82 post 1,016 → 440 KB.
+
+2. **`docs/analytics.md`** now registers `percent` as an event-scoped dimension (not a metric) and adds `engaged_seconds` as a custom metric in seconds. It also notes the `photo_open` fallback `ui_location: "photo"`, that `content_group` rides on every event, and that empty parameters are dropped.

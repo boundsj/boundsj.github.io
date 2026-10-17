@@ -22,10 +22,14 @@ for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
     }
   });
   const p = await ctx.newPage();
-  const gifs = []; p.on("request", (r) => { if (/\.gif($|\?)/.test(r.url())) gifs.push(r.url()); });
-  for (const path of ["/", "/photos/", "/writing/", "/posts/", "/posts/t3-fleet-gateway/", "/posts/teaching-claude-code-to-drive-cmux/"]) {
+  // Animated media: any GIF, or an animated hero's WebP (source[data-motion-anim]), checked after load.
+  const requested = []; p.on("request", (r) => requested.push(r.url()));
+  const animated = new Set();
+  for (const path of ["/", "/photos/", "/writing/", "/posts/", "/posts/t3-fleet-gateway/", "/posts/teaching-claude-code-to-drive-cmux/",
+    "/posts/environment-update-a-t3-code-tokenmaxing-constellation/", "/posts/rescue82-making-a-choplifter-style-game-for-apple-vision-pro/"]) {
     await p.goto(base + path, { waitUntil: "load" });
     await p.waitForTimeout(150);
+    (await p.evaluate(() => [...document.querySelectorAll("source[data-motion-anim]")].map((n) => new URL(n.getAttribute("srcset"), location.href).href))).forEach((u) => animated.add(u));
     const a1 = await running(p);
     ok(a1.length === 0, `${vp.width}px ${path}: no running animations right after load (${a1.slice(0, 3).join("; ")})`);
     if (path === "/") {
@@ -49,7 +53,8 @@ for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
       ok(await p.evaluate(() => [...document.querySelectorAll("video")].every((v) => v.paused)), `${vp.width}px autoplay video is paused`);
     }
   }
-  ok(gifs.length === 0, `${vp.width}px no animated GIF requested (${gifs.length})`);
+  const fetched = requested.filter((u) => /\.gif($|\?)/.test(u) || animated.has(u));
+  ok(animated.size === 3 && fetched.length === 0, `${vp.width}px no animated GIF or WebP hero requested (${fetched.length} of ${animated.size} checked)`);
   await ctx.close();
 }
 await browser.close();

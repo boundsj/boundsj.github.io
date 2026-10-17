@@ -117,26 +117,48 @@ for (const vp of [{ width: 390, height: 844 }, { width: 640, height: 400 }, { wi
   await c.close();
 }
 
-// ---- Reduced motion: GIF hero shows still, GIF not requested; toggle plays it
+// ---- Animated heroes: still under reduced motion (nothing animated fetched); play/pause swaps
+// between the still and the animated WebP; the GIF is only the <img> fallback.
+const heroSources = (p) => p.evaluate(() => {
+  const fig = document.querySelector(".kc-hero--animated");
+  const abs = (u) => u && new URL(u, location.href).href;
+  return { still: abs(fig.querySelector("source[data-motion-still]")?.getAttribute("srcset")),
+    webp: abs(fig.querySelector("source[data-motion-anim]")?.getAttribute("srcset")),
+    gif: abs(fig.querySelector("img").getAttribute("src")), current: fig.querySelector("img").currentSrc };
+});
 {
   const c = await ctx({ reduced: true }); const p = await c.newPage(); watch(p);
-  const gifs = []; p.on("request", (r) => { if (/\.gif($|\?)/.test(r.url())) gifs.push(r.url()); });
+  const requested = []; p.on("request", (r) => requested.push(r.url()));
   await p.goto(base + "/", { waitUntil: "load" });
   await p.waitForTimeout(500);
-  const cur = await p.evaluate(() => document.querySelector(".kc-hero--animated img").currentSrc);
-  ok(/\.png$/.test(cur), `reduced motion: home hero shows the PNG still (${cur.split("/").pop()})`);
-  ok(gifs.length === 0, `reduced motion: no GIF requested (${gifs.length})`);
+  const h = await heroSources(p);
+  ok(h.current === h.still && /\.png$/.test(h.current), `reduced motion: home hero shows the PNG still (${h.current.split("/").pop()})`);
+  ok(!requested.includes(h.webp) && !requested.includes(h.gif), "reduced motion: neither the animated WebP nor the GIF is requested");
   const btn = p.locator("[data-motion-toggle]");
   ok(await btn.isVisible() && (await btn.textContent()) === "play", "toggle visible, reads play");
   await btn.click();
   await p.waitForTimeout(400);
-  const cur2 = await p.evaluate(() => document.querySelector(".kc-hero--animated img").currentSrc);
-  ok(/\.gif$/.test(cur2), "pressing play switches to the GIF");
+  const h2 = await heroSources(p);
+  ok(h2.current === h2.webp && /\.webp$/.test(h2.current), "pressing play switches to the animated WebP");
+  ok(!requested.includes(h.gif), "the GIF is still never requested");
   // home door thumbnails open a lightbox group (excluding featured)
   await p.locator(".kc-door .kc-strip__a").first().click();
   ok(await p.locator("dialog.kc-lightbox").evaluate((n) => n.open), "home door thumbnail opens lightbox");
   ok((await p.locator(".kc-lightbox__count").textContent()).endsWith("/ 04"), "door group has 4 photos");
   await p.keyboard.press("Escape");
+  await c.close();
+}
+// Every GIF hero offers still → animated WebP → GIF fallback, and all three files serve.
+for (const post of ["t3-fleet-gateway-notion-agents", "environment-update-a-t3-code-tokenmaxing-constellation", "rescue82-making-a-choplifter-style-game-for-apple-vision-pro"]) {
+  const c = await ctx({ vp: { width: 1280, height: 800 } }); const p = await c.newPage(); watch(p);
+  const requested = []; p.on("request", (r) => requested.push(r.url()));
+  await p.goto(base + "/posts/" + post + "/", { waitUntil: "load" });
+  await p.waitForTimeout(600);
+  const h = await heroSources(p);
+  const status = async (u) => (await c.request.get(u)).status();
+  ok(h.still && /\.webp$/.test(h.webp) && /\.gif$/.test(h.gif) && h.current === h.webp, `${post.slice(0, 24)}: shows the animated WebP, with still and GIF fallback`);
+  ok(!requested.includes(h.gif), `${post.slice(0, 24)}: GIF not downloaded by a WebP-capable browser`);
+  ok((await status(h.webp)) === 200 && (await status(h.gif)) === 200 && (await status(h.still)) === 200, `${post.slice(0, 24)}: still, WebP and GIF all serve`);
   await c.close();
 }
 {
@@ -152,7 +174,7 @@ for (const vp of [{ width: 390, height: 844 }, { width: 640, height: 400 }, { wi
   await p.goto(base + "/", { waitUntil: "load" });
   await p.waitForTimeout(300);
   const btn = p.locator("[data-motion-toggle]");
-  ok((await btn.textContent()) === "pause", "normal motion: GIF plays, toggle reads pause");
+  ok((await btn.textContent()) === "pause", "normal motion: animation plays, toggle reads pause");
   await btn.click();
   await p.waitForTimeout(400);
   ok(/\.png$/.test(await p.evaluate(() => document.querySelector(".kc-hero--animated img").currentSrc)), "pause swaps to the still");
