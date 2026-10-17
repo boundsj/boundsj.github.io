@@ -67,11 +67,11 @@ Priority: **P1** blocks a stated goal, **P2** is a clear defect or friction, **P
 
 ### Accessibility (P2)
 
-13. **Target size (WCAG 2.2 SC 2.5.8, minimum 24×24 px):** desktop nav links are 23 px tall. Social links are 18 px tall on desktop and 15–21 px wide on mobile. Pager links are 19 px, "← back to posts" is 19 px, and footer links are 13 px.
-14. **The focus ring is opt-in per selector.** `:focus { outline: none }` removes outlines everywhere, and `:focus-visible` restores them only for a list of classes. Any new control that isn't on that list, such as a `<dialog>` button or a `<summary>`, would have no visible focus.
+13. **Target size:** desktop nav links are 23 px tall. Social links are 18 px tall on desktop and 15–21 px wide on mobile. Pager links are 19 px, "← back to posts" is 19 px, and footer links are 13 px. These measurements alone don't prove a WCAG 2.2 SC 2.5.8 failure: the spacing and inline exceptions can apply (for example, the desktop nav has about 20 px gaps). Treat them as a usability problem, especially for touch, rather than a demonstrated compliance failure.
+14. **Focus-ring coverage has gaps.** `:focus { outline: none }` removes outlines everywhere. `:focus-visible` restores them for generic `a` and `button` plus a list of component classes. Other focusable elements get no ring, including `summary`, form fields, `[tabindex]` elements, and native `<video>` controls. A single universal `:focus-visible` rule closes the gap.
 15. **The typed subtitle empties its text and re-types it.** Assistive technology can announce partial text. The static string should stay available to screen readers.
-16. **Contrast:** the theme tokens pass. `--fg-3` is at least 4.5:1 on every background in all four themes. Failures: the disabled pager `<span>` (2.21:1, not interactive, but it looks like a link) and the third-party Mapbox scale control in dark themes (1.45:1).
-17. **Reduced motion is respected today:** transitions are zeroed and the typing is skipped. The redesign must keep that guarantee for every new animation.
+16. **Contrast:** the theme tokens pass. `--fg-3` is at least 4.5:1 on every background in all four themes. Failures: the disabled pager `<span>` (2.21:1, not interactive, but it looks like a link) and the third-party Mapbox scale control in dark themes (1.45:1). Lazy loading won't fix that; the control needs its own colors.
+17. **Reduced motion is only partly respected.** CSS transitions are zeroed and the typing is skipped. But animated media keeps moving: the latest post's hero GIF (180 frames, 15 s, looping forever) has no `featuredImageStill`, so no still is offered under reduced motion. It also has no pause control, which WCAG 2.2.2 expects for motion that lasts longer than 5 s next to other content. The cmux post autoplays a looping video. That video has native controls, but it ignores reduced motion. CSS-only checks miss all of this.
 
 ### Performance (P2/P3)
 
@@ -103,6 +103,10 @@ Transferred bytes per page, measured locally without a cache:
 ### Existing issues not addressed here
 
 These are from the September audit and unchanged: Mapbox's `setSprite` style-diff warning on theme change, 302 posts without a `description`, `content/posts/cleanup.sh` published as a page, and no PR build gate in CI.
+
+## Corrections after review
+
+The reviewer (Codex GPT-6.1-Sol, round 1) found two overstated claims in the first draft of this audit. Both are fixed above. #14 had said the focus ring was limited to listed classes, but generic `a` and `button` were already covered. #13 had treated target sizes under 24 px as WCAG failures without checking the spacing exceptions. The reviewer also showed that #17 was materially incomplete: it had missed the looping GIF and the autoplaying video.
 
 ## Summary
 
