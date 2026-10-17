@@ -46,6 +46,20 @@ function watch(page) { page.on("pageerror", (e) => errors.push(e.message)); page
   await c.close();
 }
 
+// ---- Home profile: the social row is centered under the title at every width
+for (const width of [390, 768, 1024, 1280]) {
+  const c = await ctx({ vp: { width, height: 900 } }); const p = await c.newPage(); watch(p);
+  await p.goto(base + "/", { waitUntil: "load" });
+  const off = await p.evaluate(() => {
+    const box = (el) => el.getBoundingClientRect();
+    const links = [...document.querySelectorAll(".kc-profile .kc-social__a")].map(box);
+    const t = box(document.querySelector(".kc-profile__name"));
+    return (links[0].left + links.at(-1).right) / 2 - (t.left + t.right) / 2;
+  });
+  ok(Math.abs(off) <= 2, `${width}px: social row centered under the title (off by ${off.toFixed(1)} px)`);
+  await c.close();
+}
+
 // ---- Every photo fits, whole, with the controls in view (phone, 200% zoom equivalent, desktop)
 for (const vp of [{ width: 390, height: 844 }, { width: 640, height: 400 }, { width: 1280, height: 800 }]) {
   const c = await ctx({ vp }); const p = await c.newPage(); watch(p);
