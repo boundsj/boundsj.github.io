@@ -4,8 +4,7 @@
    without this file.
      (a) Photo lightbox: a native <dialog> over any [data-photo] link inside a
          [data-photo-group]. Prev/next stay within the group.
-     (b) Animated heroes: pause/play by flipping the <picture> still source.
-     (c) Reduced motion: pause autoplaying videos and start heroes paused.
+     (c) Reduced motion: pause autoplaying videos.
      (d) Theme switch: circular View Transition from the pressed pill, and the
          pill glow's stretch.
      (e) Reading progress: the header bar plus read_progress milestones.
@@ -176,34 +175,6 @@
     });
   }
 
-  /* ---------- (b) ANIMATED HEROES ---------- */
-  function initMotionToggles() {
-    document.querySelectorAll("[data-motion]").forEach(function (figure) {
-      var button = figure.querySelector("[data-motion-toggle]");
-      var still = figure.querySelector("source[data-motion-still]");
-      if (!button || !still) return;
-      var playing = !reduced();
-      function render() {
-        // "all" forces the still; "not all" lets the GIF through.
-        still.media = playing ? "not all" : "all";
-        button.textContent = playing ? "pause" : "play";
-        button.setAttribute("aria-label", (playing ? "Pause" : "Play") + " animation");
-        figure.classList.toggle("is-paused", !playing);
-      }
-      button.addEventListener("click", function () {
-        playing = !playing;
-        render();
-        track("motion_toggle", { content_id: figure.dataset.contentId || "", state: playing ? "playing" : "paused" });
-      });
-      button.hidden = false;
-      render();
-      // Turning on reduced motion mid-visit pauses the GIF too (turning it off leaves it as is).
-      if (reduceQuery && reduceQuery.addEventListener) {
-        reduceQuery.addEventListener("change", function () { if (reduced() && playing) { playing = false; render(); } });
-      }
-    });
-  }
-
   /* ---------- (c) REDUCED MOTION FOR VIDEO ---------- */
   function pauseAutoplay() {
     if (!reduced()) return;
@@ -333,7 +304,6 @@
 
   function boot() {
     initLightbox();
-    initMotionToggles();
     pauseAutoplay();
     initProgress();
     initCode();

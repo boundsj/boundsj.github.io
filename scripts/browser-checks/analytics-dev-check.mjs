@@ -41,7 +41,6 @@ async function expectEvent(p, name, match, label) {
   await p.locator(".kc-featured__title a").click(); await expectEvent(p, "select_content", { content_type: "writing", content_id: "t3-fleet-gateway-notion-agents", ui_location: "home_latest" }, "featured title");
   await p.locator(".kc-rows .kc-row").last().click(); await expectEvent(p, "select_content", { content_type: "photo", content_id: "somewhere-in-nevada", ui_location: "home_list" }, "recent row");
   await p.locator('[data-theme-mode="amber"]').click(); await expectEvent(p, "theme_change", { theme_from: "light", theme_to: "amber" }, "theme pill");
-  await p.locator("[data-motion-toggle]").click(); await expectEvent(p, "motion_toggle", { content_id: "t3-fleet-gateway-notion-agents", state: "playing" }, "hero motion toggle");
   await p.locator(".kc-door .kc-strip__a").first().click(); await expectEvent(p, "photo_open", { ui_location: "home_door", method: "click" }, "door thumbnail");
   await p.locator(".kc-lightbox__next").click(); await expectEvent(p, "photo_open", { ui_location: "lightbox", method: "next" }, "lightbox next");
   await p.keyboard.press("ArrowLeft"); await expectEvent(p, "photo_open", { ui_location: "lightbox", method: "key" }, "lightbox arrow key");
@@ -131,7 +130,7 @@ async function expectEvent(p, name, match, label) {
 
 const pii = all.filter((e) => /@|\?|#/.test(JSON.stringify(e.params)));
 ok(pii.length === 0, `no event param contains @, ? or # (${JSON.stringify(pii)})`);
-const names = ["select_content", "nav_click", "theme_change", "outbound_click", "social_click", "email_click", "rss_click", "read_progress", "photo_open", "native_video_start", "code_copy", "motion_toggle", "page_not_found"];
+const names = ["select_content", "nav_click", "theme_change", "outbound_click", "social_click", "email_click", "rss_click", "read_progress", "photo_open", "native_video_start", "code_copy", "page_not_found"];
 ok(names.every((n) => seen.has(n)), `every documented event observed (${names.filter((n) => !seen.has(n)).join(", ") || "all"})`);
 await browser.close();
 console.log(fails ? `${fails} FAILED` : "ALL PASS");

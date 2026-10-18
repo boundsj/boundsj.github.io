@@ -1,4 +1,4 @@
-// Behavioral checks for M2: lightbox, animated hero toggle, reduced-motion video, lazy Mapbox.
+// Behavioral checks for M2: lightbox, animated heroes without controls, reduced-motion video, lazy Mapbox.
 import { chromium } from "playwright";
 const base = (process.argv[2] || "http://127.0.0.1:1391").replace(/\/$/, "");
 const exe = process.env.CHROME || undefined; // default: Playwright's bundled Chromium
@@ -138,8 +138,7 @@ for (const vp of [{ width: 390, height: 844 }, { width: 640, height: 400 }, { wi
   await c.close();
 }
 
-// ---- Animated heroes: still under reduced motion (nothing animated fetched); play/pause swaps
-// between the still and the animated WebP; the GIF is only the <img> fallback.
+// ---- Animated heroes: native still selection under reduced motion; WebP with GIF fallback.
 const heroSources = (p) => p.evaluate(() => {
   const fig = document.querySelector(".kc-hero--animated");
   const abs = (u) => u && new URL(u, location.href).href;
@@ -155,13 +154,7 @@ const heroSources = (p) => p.evaluate(() => {
   const h = await heroSources(p);
   ok(h.current === h.still && /\.png$/.test(h.current), `reduced motion: home hero shows the PNG still (${h.current.split("/").pop()})`);
   ok(!requested.includes(h.webp) && !requested.includes(h.gif), "reduced motion: neither the animated WebP nor the GIF is requested");
-  const btn = p.locator("[data-motion-toggle]");
-  ok(await btn.isVisible() && (await btn.textContent()) === "play", "toggle visible, reads play");
-  await btn.click();
-  await p.waitForTimeout(400);
-  const h2 = await heroSources(p);
-  ok(h2.current === h2.webp && /\.webp$/.test(h2.current), "pressing play switches to the animated WebP");
-  ok(!requested.includes(h.gif), "the GIF is still never requested");
+  ok(await p.locator(".kc-hero button").count() === 0, "hero has no playback controls");
   // home door thumbnails open a lightbox group (excluding featured)
   await p.locator(".kc-door .kc-strip__a").first().click();
   ok(await p.locator("dialog.kc-lightbox").evaluate((n) => n.open), "home door thumbnail opens lightbox");
@@ -194,11 +187,18 @@ for (const post of ["t3-fleet-gateway-notion-agents", "environment-update-a-t3-c
   const c = await ctx(); const p = await c.newPage();
   await p.goto(base + "/", { waitUntil: "load" });
   await p.waitForTimeout(300);
-  const btn = p.locator("[data-motion-toggle]");
-  ok((await btn.textContent()) === "pause", "normal motion: animation plays, toggle reads pause");
-  await btn.click();
-  await p.waitForTimeout(400);
-  ok(/\.png$/.test(await p.evaluate(() => document.querySelector(".kc-hero--animated img").currentSrc)), "pause swaps to the still");
+  const h = await heroSources(p);
+  ok(h.current === h.webp, "normal motion: animated WebP selected without controls");
+  ok(await p.locator(".kc-hero button").count() === 0, "normal motion: hero has no playback controls");
+  await p.emulateMedia({ reducedMotion: "reduce" });
+  await p.waitForFunction(() => {
+    const fig = document.querySelector(".kc-hero--animated");
+    return fig.querySelector("img").currentSrc === new URL(fig.querySelector("source[media]").srcset, location.href).href;
+  });
+  ok((await heroSources(p)).current === h.still, "preference change selects still");
+  await p.emulateMedia({ reducedMotion: "no-preference" });
+  await p.waitForFunction(() => document.querySelector(".kc-hero--animated img").currentSrc.endsWith(".webp"));
+  ok((await heroSources(p)).current === h.webp, "preference change back resumes animation");
   await c.close();
 }
 
