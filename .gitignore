@@ -13,7 +13,3 @@ resources/_gen/
 # Environment files
 tools/photo-poster/.env
 .env
-
-
-# Browser checks (scripts/browser-checks/README.md)
-scripts/browser-checks/node_modules/

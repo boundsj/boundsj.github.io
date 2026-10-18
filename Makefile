@@ -8,7 +8,7 @@ MAGENTA := \033[0;35m
 RESET := \033[0m
 BOLD := \033[1m
 
-.PHONY: help serve preview preview-stop check check-private-hosts webp post photo-poster
+.PHONY: help serve preview preview-stop check test check-private-hosts webp post photo-poster
 
 help: ## Show this help message
 	@echo "$(BOLD)$(MAGENTA)bounds.dev$(RESET) - Available commands:\n"
@@ -48,6 +48,13 @@ check: ## Before asking for review: private hosts, GIF heroes, and a production 
 	@python3 scripts/gif-heroes.py check
 	@out=$$(mktemp -d) && hugo --minify --cleanDestinationDir --destination "$$out" && rm -rf "$$out"
 	@echo "$(GREEN)All checks passed.$(RESET)"
+
+# Install requirements-test.txt into a venv, then: make test PYTHON_BIN=/path/to/venv/bin/python
+test: ## Build production output and run the contract suite (Python, Node, libwebp)
+	@hugo --cleanDestinationDir
+	@$(PYTHON_BIN) -m unittest discover -s scripts/tests -v
+	@PYTHON_DOTENV_DISABLED=1 OPENAI_API_KEY= $(PYTHON_BIN) -m unittest discover -s tools/photo-poster/tests -v
+	@node --test scripts/tests/analytics.test.cjs tools/photo-poster/tests/payload.test.cjs
 
 post: ## Start a writing post bundle: make post SLUG=my-post-slug
 	@test -n "$(SLUG)" || { echo "usage: make post SLUG=my-post-slug"; exit 2; }

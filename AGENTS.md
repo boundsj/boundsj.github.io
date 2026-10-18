@@ -24,6 +24,7 @@
 - `Makefile` - Common tasks
   - `make serve` - Draft-enabled Hugo dev server on :1313, bound to 0.0.0.0 (makes missing GIF-hero WebPs first)
   - `make post SLUG=…` - Scaffold a writing post from `archetypes/writing/`
+  - `make test` - Production build plus the small Python/Node contract suite (setup: `scripts/tests/README.md`)
   - `make check` - Private hosts, GIF-hero WebPs, and a production build with post checks
   - `make webp` - Make or refresh animated WebPs for GIF heroes (libwebp)
   - `make photo-poster` - FastAPI/Uvicorn app on :8000; first kills processes on that port and installs Python requirements
@@ -90,7 +91,7 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
 
 1. `make check`: private-host scan, GIF-hero WebPs, and a production build with the post checks. It must end with "All checks passed".
 2. `make preview`: open the tailnet link on a phone and on desktop. Check the post in light and dark, the hero (animated normally; a static poster or first frame under reduced motion, even without JavaScript, with no playback controls), the home page (the newest post shows once, with its hero), and `~/writing` or `~/photos`.
-3. Optional: `scripts/browser-checks/` (see its README) runs the page matrix, UI, reduced-motion and analytics checks against the preview.
+3. Run `make test PYTHON_BIN=/path/to/test-venv/bin/python` for contract coverage (setup and coverage: `scripts/tests/README.md`). It builds production output and checks all published posts; no browser/server is needed. Do not restore fixed post/count assertions, screenshot matrices, DOM layout snapshots or dev-analytics event/path classification checks.
 4. Social preview: the built page's `og:image` should be the card you expect; check it in the page source of the `make preview` build.
 
 ## Code Patterns & Conventions
@@ -104,9 +105,10 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
 
 ### Testing
 
-- Use smoke-test skill after content changes
-- Use visual-debug skill for frontend issues
-- Always build before committing: `hugo --cleanDestinationDir`
+- Use `make test` for API and built-output contracts; see `scripts/tests/README.md` for dependencies and coverage.
+- Keep tests focused on public contracts and derive post membership/order from published content, without fixed titles or counts.
+- Use visual-debug for frontend issues and manual preview review for layout/theme changes.
+- Run `make check` and always build before committing: `hugo --cleanDestinationDir`
 
 ### Photo Posts
 
@@ -121,7 +123,7 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
 
 1. Follow existing post structure in content/posts/
 2. Use proper Hugo frontmatter
-3. Test with smoke-test skill
+3. Run the contract suite (`make test`; see `scripts/tests/README.md`)
 4. Verify build succeeds
 
 ### When Modifying Theme/Layout
