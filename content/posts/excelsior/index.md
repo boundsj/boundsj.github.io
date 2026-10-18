@@ -14,3 +14,12 @@ resources:
 ---
 Driving down Excelsior street.
 <!--more-->
+
+| Attribute    | Value |
+| ------------ | ----------- |
+| Camera       | iPhone 17 Pro |
+| Focal Length | 6.8 mm |
+| Aperture     | f/1.8 |
+| ISO          | 64 |
+
+{{< mapbox lng=-122.427764 lat=37.723453 zoom=15 height=20rem width=100% >}}
