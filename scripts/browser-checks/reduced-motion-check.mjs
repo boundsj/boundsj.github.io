@@ -26,7 +26,7 @@ for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
   const requested = []; p.on("request", (r) => requested.push(r.url()));
   const animated = new Set();
   for (const path of ["/", "/photos/", "/writing/", "/posts/", "/posts/t3-fleet-gateway/", "/posts/teaching-claude-code-to-drive-cmux/",
-    "/posts/environment-update-a-t3-code-tokenmaxing-constellation/", "/posts/rescue82-making-a-choplifter-style-game-for-apple-vision-pro/"]) {
+    "/posts/t3-fleet-gateway-notion-agents/", "/posts/environment-update-a-t3-code-tokenmaxing-constellation/", "/posts/rescue82-making-a-choplifter-style-game-for-apple-vision-pro/"]) {
     await p.goto(base + path, { waitUntil: "load" });
     await p.waitForTimeout(150);
     (await p.evaluate(() => [...document.querySelectorAll("source[data-motion-anim]")].map((n) => new URL(n.getAttribute("srcset"), location.href).href))).forEach((u) => animated.add(u));
@@ -56,6 +56,41 @@ for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
   const fetched = requested.filter((u) => /\.gif($|\?)/.test(u) || animated.has(u));
   ok(animated.size === 3 && fetched.length === 0, `${vp.width}px no animated GIF or WebP hero requested (${fetched.length} of ${animated.size} checked)`);
   await ctx.close();
+}
+// Native picture selection must protect every hero without scripts, including GIF-only browsers.
+const heroPosts = ["t3-fleet-gateway-notion-agents", "environment-update-a-t3-code-tokenmaxing-constellation",
+  "rescue82-making-a-choplifter-style-game-for-apple-vision-pro"];
+for (const width of [390, 1280]) {
+  for (const gifFallback of [false, true]) {
+    for (const reducedMotion of ["reduce", "no-preference"]) {
+      const c = await browser.newContext({ viewport: { width, height: 844 }, javaScriptEnabled: false, reducedMotion });
+      // Remove only the WebP alternative before parsing to exercise the native GIF fallback.
+      if (gifFallback) await c.route("**/*", async (route) => {
+        if (route.request().resourceType() !== "document") return route.continue();
+        const response = await route.fetch();
+        await route.fulfill({ response, body: (await response.text()).replace(/<source[^>]*type="image\/webp"[^>]*>/g, "") });
+      });
+      const p = await c.newPage();
+      const requested = []; p.on("request", (r) => requested.push(r.url()));
+      const heroAnimations = new Set();
+      for (const post of heroPosts) {
+        await p.goto(base + "/posts/" + post + "/", { waitUntil: "load" });
+        const h = await p.locator(".kc-hero--animated").evaluate((fig) => ({
+          current: fig.querySelector("img").currentSrc,
+          still: new URL(fig.querySelector('source[media="(prefers-reduced-motion: reduce)"]').srcset, location.href).href,
+          gif: new URL(fig.querySelector("img").getAttribute("src"), location.href).href,
+          controls: fig.querySelectorAll("button").length,
+          loaded: fig.querySelector("img").naturalWidth > 0,
+        }));
+        heroAnimations.add(h.gif); heroAnimations.add(h.gif.replace(/\.gif$/, ".webp"));
+        const reduce = reducedMotion === "reduce";
+        ok(h.loaded && h.controls === 0 && (reduce ? h.current === h.still : h.current.endsWith(gifFallback ? ".gif" : ".webp")),
+          `${width}px ${post}: no JS, ${reducedMotion}, ${gifFallback ? "GIF fallback" : "WebP"}: loaded correct image without controls`);
+      }
+      if (reducedMotion === "reduce") ok(!requested.some((u) => heroAnimations.has(u)), `${width}px no JS: no animated media fetched (${gifFallback ? "GIF fallback" : "WebP"})`);
+      await c.close();
+    }
+  }
 }
 await browser.close();
 console.log(fails ? `${fails} FAILED` : "ALL PASS");

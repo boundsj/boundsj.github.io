@@ -572,13 +572,6 @@ canvas.kc-hero__media, img.is-dithered, canvas.is-dithered { image-rendering: pi
 @media (hover: none) { .kc-hero__zoom { opacity: 1; transform: none; } }
 .kc-post__tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 28px; }
 
-/* ---------- ANIMATED HERO TOGGLE ---------- */
-.kc-motion { position: absolute; left: 10px; bottom: 10px; z-index: 2; display: inline-flex; align-items: center; gap: .6ch;
-  min-height: 32px; padding: 0 10px; border-radius: 4px; border: 1px solid color-mix(in srgb, var(--fg-1) 40%, transparent);
-  background: color-mix(in srgb, var(--bg-1) 90%, transparent); color: var(--fg-1); font: 600 12px/1 var(--font-body); cursor: pointer; }
-.kc-motion::before { content: "||"; content: "||" / ""; color: var(--sig); letter-spacing: -.1em; }
-.is-paused .kc-motion::before { content: ">"; content: ">" / ""; }
-.kc-motion:hover { background: var(--bg-1); border-color: var(--sig); }
 .kc-hero--animated figcaption { line-height: 1.5; }
 
 /* ---------- LIGHTBOX ---------- */
@@ -801,7 +794,6 @@ main:focus-visible { outline: none; }
   .kc-tag { position: relative; min-height: 32px; padding: 0 10px; }
   .kc-tag::after { content: ""; position: absolute; inset: -7px -1px; }
   .kc-door__tags .kc-tag, .kc-entry .kc-tag { min-height: 32px; }
-  .kc-motion { min-height: 44px; min-width: 44px; justify-content: center; }
   .kc-post__tags, .kc-door__tags { row-gap: 14px; }
   .kc-door__newest { display: none; }
   .kc-entry { padding: 12px 10px 12px 14px; }

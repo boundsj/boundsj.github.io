@@ -34,7 +34,7 @@ Property: `G-LT0HKHY2J5` (`config.toml` → `params.analytics.google.id`). This 
 
 ## Events
 
-All names and parameters are snake_case. Reused parameters mean the same thing in every event.
+There are 12 custom events. All names and parameters are snake_case. Reused parameters mean the same thing in every event.
 
 | Event | Fires on | Parameters |
 | --- | --- | --- |
@@ -49,7 +49,6 @@ All names and parameters are snake_case. Reused parameters mean the same thing i
 | `photo_open` | The lightbox opens, pages to another photo, or a modified/middle click on a photo-post hero opens the image file itself | `content_id`, `ui_location` (where it opened, or `lightbox` when paging), `method` (`click`, `next`, `prev`, `key`, `new_tab`) |
 | `native_video_start` | First play of each `<video>` in a post, per page view | `content_id`, `video_name` (file name), `video_trigger` (`user`, `autoplay`) |
 | `code_copy` | A code block's copy button | `content_id`, `code_language` |
-| `motion_toggle` | The pause/play button on an animated hero | `content_id`, `state` (`paused`, `playing`) |
 | `page_not_found` | The 404 page loads | none |
 
 `ui_location` comes from the nearest `data-ui` attribute in the templates: `header`, `footer`, `home_profile`, `door`, `home_latest`, `home_list`, `archive_latest`, `archive`, `chips`, `pager`, `writing_list`, `photo_grid`, `post_body` (default inside article text), `post_nav`, `post_crosslink`, `post_hero`, `back_link`, `about`, `terms`, `404`, `lightbox`, `page` (anything else). The photo strips use `data-photo-group` for the same purpose (`home_door`, `photo_grid`, `post_crosslink`, `post_hero`). `photo_open` also has a fallback, `ui_location: "photo"`, for a photo link that sits outside any `data-photo-group` (`site.js`, `openLightbox`). No current template produces it, because the post hero, the strips and the contact sheet are all grouped; if `photo` ever shows up in reports, a new template is missing its `data-photo-group`.
@@ -79,7 +78,7 @@ No custom event reuses an Enhanced Measurement or reserved name.
 - `layouts/partials/google-analytics.html`: guard, sanitized page context, `content_group`, `site_theme`, and `?analytics_debug=1`.
 - `themes/bounds-ascii/assets/js/analytics.js`: dev/live event layer, link classification (capture phase), video starts, `page_not_found`.
 - `themes/bounds-ascii/assets/js/theme.js`: `window.boundsTrack(name, params)`, the hook every module reports through (it dispatches a `bounds:track` DOM event), plus `theme_change`.
-- `themes/bounds-ascii/assets/js/site.js`: `photo_open`, `read_progress`, `code_copy`, `motion_toggle`.
+- `themes/bounds-ascii/assets/js/site.js`: `photo_open`, `read_progress`, `code_copy`.
 - Templates mark links with `data-nav`, `data-content-id`, `data-kind`, `data-social`, `data-ui` and `data-photo-group`. A new link only needs the right attribute to be classified.
 
 ## Verifying
@@ -96,7 +95,7 @@ Custom event parameters and user properties don't appear in reports or Explorati
 | --- | --- | --- | --- |
 | Event | UI location | `ui_location` | All click events and `photo_open` |
 | Event | Content type | `content_type` | `select_content`, `read_progress` |
-| Event | Content ID | `content_id` | Post slug, on six events |
+| Event | Content ID | `content_id` | Post slug, on five events |
 | Event | Nav item | `nav_item` | `nav_click` |
 | Event | Social network | `social_network` | `social_click` |
 | Event | Link domain | `link_domain` | `outbound_click` |
@@ -106,6 +105,6 @@ Custom event parameters and user properties don't appear in reports or Explorati
 | Event metric | Engaged seconds | `engaged_seconds` | Unit: **seconds**. Visible-tab time when each read milestone fired. Filtered to `percent = 100`, its sum ÷ event count is the average time to finish an article. |
 | User | Site theme | `site_theme` | |
 
-Optional, lower-value event dimensions: `link_path`, `theme_from`, `video_name`, `video_trigger`, `code_language`, `state`.
+Optional, lower-value event dimensions: `link_path`, `theme_from`, `video_name`, `video_trigger`, `code_language`.
 
 Already built in, so no registration: `content_group` (Content group dimension; see Page-level context above for why it's on every event), and `page_location`, `page_referrer`, `page_title`.

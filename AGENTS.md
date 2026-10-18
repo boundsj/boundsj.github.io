@@ -89,7 +89,7 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
 #### Verify locally before asking Jesse
 
 1. `make check`: private-host scan, GIF-hero WebPs, and a production build with the post checks. It must end with "All checks passed".
-2. `make preview`: open the tailnet link on a phone and on desktop. Check the post in light and dark, the hero (pause/play for GIFs), the home page (the newest post shows once, with its hero), and `~/writing` or `~/photos`.
+2. `make preview`: open the tailnet link on a phone and on desktop. Check the post in light and dark, the hero (animated normally; a static poster or first frame under reduced motion, even without JavaScript, with no playback controls), the home page (the newest post shows once, with its hero), and `~/writing` or `~/photos`.
 3. Optional: `scripts/browser-checks/` (see its README) runs the page matrix, UI, reduced-motion and analytics checks against the preview.
 4. Social preview: the built page's `og:image` should be the card you expect; check it in the page source of the `make preview` build.
 

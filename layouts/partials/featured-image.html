@@ -1,7 +1,7 @@
 {{- /* Page context by default. As a dict: page, hideCaption, and optional link/kind to make the
        image a (non-focusable, duplicate) link to the post.
        Animated GIF heroes get a still (featuredImageStill, or the GIF's first frame rendered as
-       PNG) that shows under reduced motion, plus a pause/play button wired up by site.js.
+       PNG) selected by the browser under reduced motion, without JavaScript or controls.
        If the bundle has an animated WebP with the GIF's name (notion-fleet-hero.gif →
        notion-fleet-hero.webp, made with libwebp's gif2webp), browsers get that instead; the GIF
        stays as the <img> fallback and the file to share elsewhere. Source order matters: still,
@@ -25,7 +25,7 @@
 {{- $webp := false -}}
 {{- if $animated }}{{ $webp = $page.Resources.GetMatch (printf "%s.webp" (strings.TrimSuffix ".gif" (path.Base $img.RelPermalink))) }}{{ end -}}
 {{- $id := path.Base $page.RelPermalink -}}
-<figure class="kc-hero{{ if $animated }} kc-hero--animated{{ end }}"{{ if $animated }} data-motion data-content-id="{{ $id }}"{{ end }}>
+<figure class="kc-hero{{ if $animated }} kc-hero--animated{{ end }}">
   {{- if $link }}<a class="kc-hero__link" href="{{ $link }}" tabindex="-1" aria-hidden="true" data-content-id="{{ $id }}"{{ with $kind }} data-kind="{{ . }}"{{ end }}>{{ end -}}
   {{- if or $still $webp }}<picture>{{ end -}}
   {{- with $still }}<source media="(prefers-reduced-motion: reduce)" srcset="{{ .RelPermalink }}" data-motion-still>{{ end -}}
@@ -37,7 +37,6 @@
   {{- end -}}
   {{- if or $still $webp }}</picture>{{ end -}}
   {{- if $link }}</a>{{ end -}}
-  {{- if and $animated $still }}<button type="button" class="kc-motion" data-motion-toggle hidden>pause</button>{{ end -}}
   {{- if not $hideCaption }}{{ with $page.Params.featuredImageCaption }}<figcaption>{{ . }}</figcaption>{{ end }}{{ end -}}
 </figure>
 {{- end -}}
