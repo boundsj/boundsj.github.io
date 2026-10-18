@@ -1,0 +1,2 @@
+-r tools/photo-poster/requirements.txt
+PyYAML>=6,<7

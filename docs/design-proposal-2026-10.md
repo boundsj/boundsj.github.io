@@ -344,3 +344,6 @@ Two later commits were verified by the lead only, because the review cycle limit
 
 Jesse kept the framed full-photo social cards, the added tags and McLaren's shortened description. Missing content now only **warns**, in production builds and deploys too: a missing `description`, hero `featuredImageAlt`, or a social card for a GIF/SVG hero. Only broken references still fail a production build: a `resources` or `images` entry naming a missing file, or a GIF/WebP/SVG file used as the card. `AGENTS.md` and `scripts/tests/test_post_checks.py` match.
 
+## Current test suite (2026-10-18)
+
+The browser checks and screenshot matrix described in this historical design/review record have been removed. Use `make test` and [scripts/tests/README.md](../scripts/tests/README.md) for current contract coverage and setup; `make check` remains the publishing preflight. Visual layout review is manual.

@@ -43,8 +43,6 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-      - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
       - name: Check for private tailnet hosts
         run: scripts/check-private-hosts.sh
       # Every GIF hero should ship with its committed animated WebP (scripts/gif-heroes.lock). If one

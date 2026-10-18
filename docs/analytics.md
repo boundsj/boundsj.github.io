@@ -16,7 +16,7 @@ Property: `G-LT0HKHY2J5` (`config.toml` → `params.analytics.google.id`). This 
 
 ## Privacy rules
 
-- **The URL is cleaned before `gtag.js` loads.** Only the `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` and `utm_id` campaign parameters survive, and only if their value has no `@`. Everything else in the query is removed from `page_location` **and from the address bar** (`history.replaceState`; the fragment stays). This matters because Enhanced Measurement reads the raw query itself: a visit to `/?q=jane@example.com` would otherwise send a `view_search_results` event with `search_term: jane@example.com`. The production check found exactly that on the M4 build, and verifies the fix. The site is static and uses no query parameters, so nothing breaks. Keeping `utm_*` preserves campaign attribution.
+- **The URL is cleaned before `gtag.js` loads.** Only the `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` and `utm_id` campaign parameters survive, and only if their value has no `@`. Everything else in the query is removed from `page_location` **and from the address bar** (`history.replaceState`; the fragment stays). This matters because Enhanced Measurement reads the raw query itself: a visit to `/?q=jane@example.com` would otherwise send a `view_search_results` event with `search_term: jane@example.com`. The earlier production check found exactly that on the M4 build; the current contract suite checks the sanitized configuration handed to gtag. The site is static and uses no query parameters, so nothing breaks. Keeping `utm_*` preserves campaign attribution.
 - `page_location` is therefore `origin + pathname` plus any kept `utm_*` parameters; fragments are never sent. On the 404 page it is the fixed `https://www.bounds.dev/404.html`, with `page_title` `404`. `page_referrer` is `origin + pathname` for same-site referrers and the origin alone for other sites.
 - The 404 page sets `<meta name="referrer" content="origin">`, so a mistyped URL doesn't travel on as the next page's referrer.
 - Events never carry email addresses (`email_click` has no address), visitor-typed text, query strings or fragments. `link_path` on outbound links is the path of a link Jesse wrote, with the query and fragment removed.
@@ -83,9 +83,9 @@ No custom event reuses an Enhanced Measurement or reserved name.
 
 ## Verifying
 
-- **Dev mode (any local server):** open the console, or run `__boundsAnalytics` in it, and click around. `scripts/browser-checks/analytics-dev-check.mjs` drives every event above and asserts its parameters (see `scripts/browser-checks/README.md`).
-- **Production payloads, without sending anything:** `scripts/browser-checks/analytics-prod-check.mjs` serves a production build as `https://www.bounds.dev` from disk inside Playwright, loads the real `gtag.js`, and records and **aborts** every collect request (it also stubs `sendBeacon`). It asserts no PII, query strings or fragments in any payload, the fixed 404 location, origin-only referrers after a 404, and that the same build on another host requests nothing from Google.
-- **GA DebugView (live site, optional):** visit `https://www.bounds.dev/?analytics_debug=1`. The query string isn't sent, but it turns on `debug_mode` for that page view, so events appear in Admin → DebugView.
+- **Automated privacy contracts:** run `make test` (setup: [contract tests](../scripts/tests/README.md)). `scripts/tests/analytics.test.cjs` executes the built production snippet and event layer in Node, records gtag calls, and checks query/email stripping and safe campaign attribution. It uses no browser or network and does not load Google's tag or test Enhanced Measurement behavior.
+- **Manual inspection:** local events are visible in `__boundsAnalytics` and the console. Event classification, UI selections and dev URL/subpath behavior are not asserted by the suite.
+- **GA DebugView (live site, optional):** visit `https://www.bounds.dev/?analytics_debug=1`. The query string is not sent, but it turns on `debug_mode` for that page view, so events appear in Admin → DebugView.
 
 ## Optional GA admin steps (Jesse)
 
