@@ -440,8 +440,10 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-kind { color: var(--sig); }
 
 /* ---------- TERMINAL LISTINGS ---------- */
-.kc-rows { display: flex; flex-direction: column; gap: 2px; margin-top: 24px; }
-.kc-row { position: relative; isolation: isolate; display: grid; grid-template-columns: 1ch 10ch 6ch minmax(0, 1fr);
+/* Define the tracks once for the whole listing, including mixed read-time/kind labels. */
+.kc-rows { display: grid; grid-template-columns: 1ch 10ch 6ch minmax(0, 1fr);
+  gap: 2px 16px; margin-top: 24px; font-size: 14px; }
+.kc-row { position: relative; isolation: isolate; display: grid; grid-column: 1 / -1; grid-template-columns: subgrid;
   align-items: baseline; gap: 16px; font-family: var(--font-body); font-size: 14px; line-height: 1.6;
   text-decoration: none; color: var(--fg-1); padding: 10px 8px; margin: 0 -8px; border-radius: 4px; }
 /* Selection bar: the row's tint slides in from the left on hover or keyboard focus. */
@@ -459,12 +461,16 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-frame__link:hover .kc-u, .kc-frame__link:focus-visible .kc-u,
 .kc-featured__title a:hover, .kc-featured__title a:focus-visible, .kc-entry__link:hover, .kc-entry__link:focus-visible,
 .kc-entry:hover .kc-entry__link { background-size: 100% 2px; }
-.kc-row__glyph { align-self: center; width: 7px; height: 7px; background: var(--sig); border-radius: 1px;
+/* Explicit cells keep placement independent of generated or whitespace nodes.
+   The glyph shares the first text baseline instead of centering over wrapped titles. */
+.kc-row__glyph { grid-column: 1; grid-row: 1; width: 7px; height: 7px; background: var(--sig); border-radius: 1px;
   transition: transform var(--dur-2) var(--ease-out); }
 .kc-row:hover .kc-row__glyph, .kc-row:focus-visible .kc-row__glyph { transform: scaleY(2.4); }
+.kc-row__date { grid-column: 2; grid-row: 1; }
+.kc-row__readtime { grid-column: 3; grid-row: 1; }
 .kc-row__date, .kc-row__readtime { font-size: 12px; color: var(--fg-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .kc-row:not([data-kind="writing"]) .kc-row__readtime { color: var(--sig); }
-.kc-row__title { min-width: 0; overflow-wrap: anywhere; }
+.kc-row__title { grid-column: 4; grid-row: 1; min-width: 0; overflow-wrap: anywhere; }
 /* Tinted hover/selection states: meta text steps up to --fg-2 to keep 4.5:1 on the tint. */
 .kc-row:hover, .kc-row:focus-visible, .kc-entry:hover, .kc-entry:focus-within, .kc-chip:hover,
 .kc-tag:hover, .kc-postnav__a:hover, .kc-status__a:hover { --fg-3: var(--meta-on-tint); }
@@ -843,7 +849,8 @@ main:focus-visible { outline: none; }
 
 @media (max-width: 480px) {
   /* Metadata stays aligned above each title; the glyph sits beside the title. */
-  .kc-row { grid-template-columns: 1ch 10ch minmax(0, 1fr); gap: 2px 12px; }
+  .kc-rows { grid-template-columns: 1ch 10ch minmax(0, 1fr); column-gap: 12px; }
+  .kc-row { gap: 2px 12px; }
   .kc-row__glyph { grid-column: 1; grid-row: 2; }
   .kc-row__date { grid-column: 2; grid-row: 1; }
   .kc-row__readtime { grid-column: 3; grid-row: 1; }
