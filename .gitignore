@@ -3,6 +3,7 @@
 .claude/settings.local.json
 .claude/settings.json
 public/
+.preview/
 tools/photo-poster/.tmp/
 tools/photo-poster/.venv/
 __pycache__/

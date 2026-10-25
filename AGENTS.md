@@ -22,7 +22,8 @@
 ### Development Tools
 
 - `Makefile` - Common tasks
-  - `make serve` - Draft-enabled Hugo dev server on :1313, bound to 0.0.0.0 (makes missing GIF-hero WebPs first)
+  - `make serve` - Draft-enabled Hugo dev server on :1313, bound to 0.0.0.0, writing to ignored `.preview/` (makes missing GIF-hero WebPs first)
+  - `make preview` - Draft-enabled tailnet/LAN preview on :1314 under `/bounds-preview/`, writing to ignored `.preview/`
   - `make post SLUG=…` - Scaffold a writing post from `archetypes/writing/`
   - `make test` - Production build plus the small Python/Node contract suite (setup: `scripts/tests/README.md`)
   - `make check` - Private hosts, GIF-hero WebPs, and a production build with post checks
@@ -43,7 +44,7 @@ make photo-poster    # Photo posting tool
 
 ```bash
 hugo --cleanDestinationDir    # Build site
-hugo server -D                # Dev server with drafts
+hugo server -D --destination .preview  # Dev server with drafts; keep public/ for production
 python3 scripts/compare-site-builds.py BASELINE_DIR NEW_BUILD_DIR  # Check every generated file
 ```
 
@@ -146,7 +147,7 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
 - The local Hugo version can differ from Pages 0.154.5 and currently warns about languageCode deprecation
 - Port 1313 must be free for server
 - photo-poster kills port 8000 before starting (see Makefile)
-- Previews for other devices: `make preview` prints a tailnet HTTPS link and a LAN link, and removes the tailnet path when stopped. If a phone can't open the tailnet link, check iCloud Private Relay first.
+- Previews for other devices: use `make preview` (port 1314, `/bounds-preview/`, ignored `.preview/` output). Keep all dev/preview output out of `public/` so production builds and tests stay isolated. It prints a tailnet HTTPS link and a LAN link, and removes the tailnet path when stopped. If a phone can't open the tailnet link, check iCloud Private Relay first.
 - Never commit tailnet hostnames or IPs; `make check-private-hosts` runs in the Pages workflow and fails the deploy.
 
 ## Available Skills
