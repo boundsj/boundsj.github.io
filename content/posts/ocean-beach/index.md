@@ -2,7 +2,7 @@
 title: "Ocean Beach"
 description: "Sunday morning walk with the pelicans and whales."
 date: 2026-10-25T11:55:47-07:00
-draft: true
+draft: false
 tags: ["sf", "nature"]
 categories: ["photos"]
 featuredImageAlt: "Overhead view of Ocean Beach: a flock of pelicans diving and floating in green surf, a lone person standing at the waterline, and concentric arcs raked into the sand."
