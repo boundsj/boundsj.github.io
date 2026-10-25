@@ -21,18 +21,18 @@ help: ## Show this help message
 serve: ## Build and serve the site with live reload
 	@python3 scripts/gif-heroes.py build --if-available
 	@echo "$(YELLOW)Starting Hugo development server...$(RESET)"
-	@hugo server -D --bind 0.0.0.0
+	@hugo server -D --bind 0.0.0.0 --destination .preview
 
 PREVIEW_PATH := /bounds-preview
 TS_NAME = $(shell tailscale status --json | jq -r '.Self.DNSName | rtrimstr(".")')
 
 preview: ## Serve drafts on the LAN and on tailnet HTTPS (never Funnel)
 	@python3 scripts/gif-heroes.py build --if-available
-	@tailscale serve --bg --https=443 --set-path $(PREVIEW_PATH) http://127.0.0.1:1313$(PREVIEW_PATH) >/dev/null
+	@tailscale serve --bg --https=443 --set-path $(PREVIEW_PATH) http://127.0.0.1:1314$(PREVIEW_PATH) >/dev/null
 	@echo "$(GREEN)Tailnet:$(RESET) https://$(TS_NAME)$(PREVIEW_PATH)/"
-	@echo "$(GREEN)LAN:$(RESET)     http://$$(ipconfig getifaddr en0 || ipconfig getifaddr en1):1313$(PREVIEW_PATH)/"
+	@echo "$(GREEN)LAN:$(RESET)     http://$$(ipconfig getifaddr en0 || ipconfig getifaddr en1):1314$(PREVIEW_PATH)/"
 	@trap 'tailscale serve --https=443 --set-path $(PREVIEW_PATH) off >/dev/null' EXIT; \
-		hugo server -D --bind 0.0.0.0 --baseURL https://$(TS_NAME)$(PREVIEW_PATH)/ --appendPort=false --disableLiveReload
+		hugo server -D --bind 0.0.0.0 --port 1314 --destination .preview --baseURL https://$(TS_NAME)$(PREVIEW_PATH)/ --appendPort=false --disableLiveReload
 
 preview-stop: ## Remove the tailnet preview path
 	@tailscale serve --https=443 --set-path $(PREVIEW_PATH) off
