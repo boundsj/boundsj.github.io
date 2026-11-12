@@ -28,7 +28,7 @@ featuredImageCaption: "On loop: me routing every thread myself, then a Grok Bot 
   }
 </style>
 
-Over the last several weeks I've continued to push myself, all of my computers, and all of my [AI subscriptions]({{< relref "environment-update-a-t3-code-tokenmaxing-constellation" >}}) to explore just how far and how fast I can build. I'm not solving any of the world's major problems. So far I've just built things like a news reader, a [game]({{< relref "rescue82-making-a-choplifter-style-game-for-apple-vision-pro" >}}), and a quantitative research desk monitoring Kalshi data.
+Over the last several weeks I've continued to push myself, all of my computers, and all of my [AI subscriptions]({{< relref "environment-update-a-t3-code-tokenmaxing-constellation" >}}) to see how much I can build and how quickly I can ship it. I'm not solving any of the world's major problems. So far I've just built things like a news reader, a [game]({{< relref "rescue82-making-a-choplifter-style-game-for-apple-vision-pro" >}}), and a quantitative research desk monitoring Kalshi data.
 
 I've also made a few tools, like [t3-fleet-gateway](https://github.com/boundsj/t3-fleet-gateway), that have really helped me leverage the tech and accelerate way beyond what I could have imagined even just a year ago. I know I'm not the only one exploring, and it feels fun to be part of a community figuring out where we all go from here, together.
 
