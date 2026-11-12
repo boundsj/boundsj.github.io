@@ -10,12 +10,17 @@
        label       names the figure in the viewer's title bar
        caption     optional, markdown
        site.js (figure viewer) opens `full` in a dialog that fits it to the screen, with an
-       actual-size toggle for scrolling. Bundle files only; SVG sizes come from their viewBox. */ -}}
+       actual-size toggle for scrolling. Bundle files only; SVG sizes come from their viewBox.
+       Every URL is fingerprinted (content hash in the file name, as the site does for CSS and JS),
+       so a revised image always gets a new URL and no browser keeps showing a cached old one. */ -}}
 {{- $p := .Page -}}
 {{- $src := $p.Resources.GetMatch (.Get "src") -}}
 {{- $full := $p.Resources.GetMatch (.Get "full") -}}
 {{- $mobile := false -}}
 {{- with .Get "fullMobile" }}{{ $mobile = $p.Resources.GetMatch . }}{{ end -}}
+{{- with $src }}{{ $src = . | fingerprint }}{{ end -}}
+{{- with $full }}{{ $full = . | fingerprint }}{{ end -}}
+{{- with $mobile }}{{ $mobile = . | fingerprint }}{{ end -}}
 {{- if not (and $src $full) -}}
   {{- warnf "[zoom-figure] %s: src %q or full %q is not in the bundle" $p.File.Path (.Get "src") (.Get "full") -}}
 {{- else -}}
