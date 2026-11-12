@@ -66,6 +66,11 @@ def gif_heroes(content: Path) -> list[Path]:
         for res in resources(front_matter(index.read_text(encoding="utf-8"))):
             if res.get("name") == "featured-image" and res.get("src", "").lower().endswith(".gif"):
                 heroes.append(bundle / res["src"])
+        # Optional phone art direction for the hero (front matter featuredImageMobile).
+        phone = re.search(r"^featuredImageMobile:\s*[\"']?([^\"'\s]+\.gif)[\"']?\s*$",
+                          front_matter(index.read_text(encoding="utf-8")), re.M | re.I)
+        if phone and (bundle / phone.group(1)) not in heroes:
+            heroes.append(bundle / phone.group(1))
         plain = bundle / "featured-image.gif"
         if plain.exists() and plain not in heroes:
             heroes.append(plain)

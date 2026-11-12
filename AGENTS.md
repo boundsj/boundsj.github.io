@@ -69,6 +69,8 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
    | `featuredImageAlt` | **yes if there's a hero** (warns if missing) | What the image shows, for screen readers |
    | `featuredImageCaption` | optional | Shown under the hero on the post page |
    | `featuredImageStill` | optional, GIF heroes only | A PNG/JPEG frame for reduced motion. Without it, the GIF's first frame is used |
+   | `featuredImageMobile` | optional | A separate hero composition for screens up to 600px wide (art direction), e.g. a portrait GIF whose labels stay readable on a phone. A GIF gets its own WebP like the main hero |
+   | `featuredImageMobileStill` | optional, with a GIF `featuredImageMobile` | The phone hero's reduced-motion frame. Without it, the phone GIF's first frame is used |
    | `images` | see step 4 | Social card. The first entry is used for Open Graph, Twitter/X and structured data |
 
    Don't add `lightgallery` or `featuredImagePreviewCrop`: those are LoveIt-only, ignored, and warned about.

@@ -12,7 +12,9 @@ resources:
   - name: featured-image
     src: grok-bot-hero.gif
 featuredImageStill: grok-bot-hero-poster.png
-featuredImageAlt: "Looping terminal-style animation. A blocky figure labelled You is wired directly to twelve agent threads on two macOS machines and a Linux machine. Threads finish turns, ask questions and go idle; amber pings travel back along a tangle of wires and pile up beside You under the label waiting on me, faster than You can clear them. Then a Grok Bot box powers on between You and the threads, the tangle fades, and clean wiring through the T3 Fleet Gateway draws in. The pile moves to the bot, which sends green packets to each thread until they show check marks. One amber critical decision travels up to You, a reply goes back down, and the scene resets."
+featuredImageMobile: grok-bot-hero-phone.gif
+featuredImageMobileStill: grok-bot-hero-phone-poster.png
+featuredImageAlt: "Looping terminal-style animation. A blocky figure labelled You, the router, is wired directly to every agent thread on two macOS machines and a Linux machine. Threads finish turns, ask questions and go idle; amber pings travel back along a tangle of wires and pile up beside You under the label waiting on me, faster than You can clear them. Then a Grok Bot box powers on between You and the threads, the tangle fades, and clean wiring through the T3 Fleet Gateway draws in. The pile moves to the bot, which sends green packets to each thread until they show check marks. One amber critical decision travels up to You, a reply goes back down, as the label changes from me as the router to me as the CEO, and the scene resets."
 featuredImageCaption: "On loop: me routing every thread myself, then a Grok Bot taking the threads so only the critical decisions reach me."
 ---
 

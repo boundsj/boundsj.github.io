@@ -5,7 +5,11 @@
        If the bundle has an animated WebP with the GIF's name (notion-fleet-hero.gif →
        notion-fleet-hero.webp, made with libwebp's gif2webp), browsers get that instead; the GIF
        stays as the <img> fallback and the file to share elsewhere. Source order matters: still,
-       then WebP, then the GIF. */ -}}
+       then WebP, then the GIF.
+       Optional phone art direction: featuredImageMobile names a bundle image (GIF or still) shown at
+       <= 600px wide, with featuredImageMobileStill (or its first frame) under reduced motion and its
+       own same-name WebP. Phone sources come first in each group, so the order stays: stills (phone,
+       then all widths), then animated (phone WebP, phone GIF, WebP), then the GIF <img>. */ -}}
 {{- $page := . -}}
 {{- $hideCaption := false -}}
 {{- $link := "" -}}
@@ -24,18 +28,34 @@
 {{- if and $animated (not $still) }}{{ $still = $img.Resize (printf "%dx png" (int (math.Min 1280 $img.Width))) }}{{ end -}}
 {{- $webp := false -}}
 {{- if $animated }}{{ $webp = $page.Resources.GetMatch (printf "%s.webp" (strings.TrimSuffix ".gif" (path.Base $img.RelPermalink))) }}{{ end -}}
+{{- $phone := false -}}
+{{- $phoneStill := false -}}
+{{- $phoneWebp := false -}}
+{{- with $page.Params.featuredImageMobile }}{{ $phone = $page.Resources.GetMatch . }}{{ end -}}
+{{- with $phone -}}
+  {{- with $page.Params.featuredImageMobileStill }}{{ $phoneStill = $page.Resources.GetMatch . }}{{ end -}}
+  {{- if eq .MediaType.SubType "gif" -}}
+    {{- if not $phoneStill }}{{ $phoneStill = .Resize (printf "%dx png" (int (math.Min 1280 .Width))) }}{{ end -}}
+    {{- $phoneWebp = $page.Resources.GetMatch (printf "%s.webp" (strings.TrimSuffix ".gif" (path.Base .RelPermalink))) -}}
+  {{- end -}}
+{{- end -}}
+{{- $phoneMedia := "(max-width: 600px)" -}}
 {{- $id := path.Base $page.RelPermalink -}}
 <figure class="kc-hero{{ if $animated }} kc-hero--animated{{ end }}">
   {{- if $link }}<a class="kc-hero__link" href="{{ $link }}" tabindex="-1" aria-hidden="true" data-content-id="{{ $id }}"{{ with $kind }} data-kind="{{ . }}"{{ end }}>{{ end -}}
-  {{- if or $still $webp }}<picture>{{ end -}}
-  {{- with $still }}<source media="(prefers-reduced-motion: reduce)" srcset="{{ .RelPermalink }}" data-motion-still>{{ end -}}
-  {{- with $webp }}<source type="image/webp" srcset="{{ .RelPermalink }}" data-motion-anim>{{ end -}}
+  {{- $pic := or $still $webp $phone -}}
+  {{- if $pic }}<picture>{{ end -}}
+  {{- with $phoneStill }}<source media="{{ $phoneMedia }} and (prefers-reduced-motion: reduce)" srcset="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" data-motion-still>{{ end -}}
+  {{- with $still }}<source media="(prefers-reduced-motion: reduce)" srcset="{{ .RelPermalink }}"{{ if $phone }} width="{{ .Width }}" height="{{ .Height }}"{{ end }} data-motion-still>{{ end -}}
+  {{- with $phoneWebp }}<source media="{{ $phoneMedia }}" type="image/webp" srcset="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" data-motion-anim>{{ end -}}
+  {{- with $phone }}<source media="{{ $phoneMedia }}" srcset="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}"{{ if eq .MediaType.SubType "gif" }} data-motion-anim{{ end }}>{{ end -}}
+  {{- with $webp }}<source type="image/webp" srcset="{{ .RelPermalink }}"{{ if $phone }} width="{{ $img.Width }}" height="{{ $img.Height }}"{{ end }} data-motion-anim>{{ end -}}
   {{- if $page.Params.dither -}}
     <img class="kc-hero__media" src="{{ $img.RelPermalink }}" alt="{{ $page.Title }}" data-dither data-dither-res="{{ $page.Params.ditherRes | default 200 }}" data-dither-contrast="{{ $page.Params.ditherContrast | default 1 }}" data-dither-brightness="{{ $page.Params.ditherBrightness | default 0 }}">
   {{- else -}}
     {{- partial "responsive-image.html" (dict "image" $img "class" "kc-hero__media" "alt" ($page.Params.featuredImageAlt | default $page.Title) "sizes" "(max-width: 720px) 90vw, 640px" "loading" "eager") -}}
   {{- end -}}
-  {{- if or $still $webp }}</picture>{{ end -}}
+  {{- if $pic }}</picture>{{ end -}}
   {{- if $link }}</a>{{ end -}}
   {{- if not $hideCaption }}{{ with $page.Params.featuredImageCaption }}<figcaption>{{ . }}</figcaption>{{ end }}{{ end -}}
 </figure>
