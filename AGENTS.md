@@ -69,6 +69,8 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
    | `featuredImageAlt` | **yes if there's a hero** (warns if missing) | What the image shows, for screen readers |
    | `featuredImageCaption` | optional | Shown under the hero on the post page |
    | `featuredImageStill` | optional, GIF heroes only | A PNG/JPEG frame for reduced motion. Without it, the GIF's first frame is used |
+   | `featuredImageMobile` | optional | A separate hero composition for screens up to 600px wide (art direction), e.g. a portrait GIF whose labels stay readable on a phone. A GIF gets its own WebP like the main hero |
+   | `featuredImageMobileStill` | optional, with a GIF `featuredImageMobile` | The phone hero's reduced-motion frame. Without it, the phone GIF's first frame is used |
    | `images` | see step 4 | Social card. The first entry is used for Open Graph, Twitter/X and structured data |
 
    Don't add `lightgallery` or `featuredImagePreviewCrop`: those are LoveIt-only, ignored, and warned about.
@@ -79,7 +81,8 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
    - Hero is JPEG/PNG and no `images` → the build frames the whole hero into a 1200×627 card automatically (never cropped), so routine posts need nothing.
    - No hero and no `images` → the site card (`static/social-default.png`).
    - Make a dedicated card for posts meant for Hacker News, LinkedIn or another launch, for major or evergreen technical articles, and whenever the hero is a poor preview. Card rules: PNG or JPEG, exactly 1200×627 (warned otherwise), under 5 MB (warned), legible at feed size, exact spelling and punctuation in any rendered text. Keep it separate from the hero when their ideal aspect ratios differ.
-5. **Verify locally** (step-by-step below), then ask Jesse to review on the preview.
+5. **Large diagrams** (optional): `{{< zoom-figure src="summary.svg" full="detail.svg" fullMobile="detail-mobile.svg" alt="…" fullAlt="…" label="…" caption="…" >}}` shows a compact image at the prose width that opens the detailed one in a viewer (fitted to the screen, with an actual-size toggle; a plain link without JavaScript). Bundle files only.
+6. **Verify locally** (step-by-step below), then ask Jesse to review on the preview.
 
 #### Photo posts
 

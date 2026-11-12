@@ -4,6 +4,8 @@
    without this file.
      (a) Photo lightbox: a native <dialog> over any [data-photo] link inside a
          [data-photo-group]. Prev/next stay within the group.
+     (b) Figure viewer: a native <dialog> over any [data-zoom-figure] link (the zoom-figure
+         shortcode), showing the detailed image fitted to the screen, with an actual-size toggle.
      (c) Reduced motion: pause autoplaying videos.
      (d) Theme switch: circular View Transition from the pressed pill, and the
          pill glow's stretch.
@@ -175,6 +177,104 @@
     });
   }
 
+  /* ---------- (b) FIGURE VIEWER ---------- */
+  // Reuses the lightbox's dialog chrome. The stage scrolls, so a tall detailed image is shown at a
+  // readable size (fitted to the screen, or full width on a phone) instead of being shrunk to fit.
+  var fv = null;        // { dialog, title, stage, source, img, zoom, close }
+  var fvOpener = null;
+
+  function buildFigureViewer() {
+    var dialog = el("dialog", "kc-lightbox kc-figview");
+    dialog.setAttribute("aria-labelledby", "kc-figview-title");
+    dialog.setAttribute("data-ui", "figure_viewer");
+    var bar = el("div", "kc-lightbox__bar");
+    var title = el("h2", "kc-figview__title");
+    title.id = "kc-figview-title";
+    var zoom = el("button", "kc-btn kc-figview__zoom", "actual size");
+    zoom.type = "button";
+    zoom.setAttribute("aria-pressed", "false");
+    var close = el("button", "kc-btn kc-lightbox__close", "close");
+    close.type = "button";
+    bar.appendChild(title);
+    bar.appendChild(zoom);
+    bar.appendChild(close);
+    var stage = el("div", "kc-figview__stage");
+    stage.tabIndex = 0;
+    stage.setAttribute("role", "region");
+    stage.setAttribute("aria-label", "Full diagram");
+    var picture = el("picture");
+    var source = el("source");
+    source.media = "(max-width: 600px)";
+    var img = el("img", "kc-figview__img");
+    img.decoding = "async";
+    picture.appendChild(source);
+    picture.appendChild(img);
+    stage.appendChild(picture);
+    dialog.appendChild(bar);
+    dialog.appendChild(stage);
+    document.body.appendChild(dialog);
+
+    function setActual(on) {
+      stage.classList.toggle("is-actual", on);
+      zoom.setAttribute("aria-pressed", on ? "true" : "false");
+      zoom.textContent = on ? "fit to screen" : "actual size";
+    }
+    zoom.addEventListener("click", function () { setActual(!stage.classList.contains("is-actual")); });
+    close.addEventListener("click", function () { dialog.close(); });
+    dialog.addEventListener("click", function (event) { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener("keydown", function (event) {
+      if (event.key !== "Tab") return;
+      var focusable = [zoom, close, stage];
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
+    dialog.addEventListener("close", function () {
+      document.documentElement.classList.remove("has-lightbox");
+      img.removeAttribute("src");
+      source.removeAttribute("srcset");
+      setActual(false);
+      if (fvOpener && document.contains(fvOpener)) fvOpener.focus();
+    });
+    fv = { dialog: dialog, title: title, stage: stage, source: source, img: img, zoom: zoom, close: close };
+  }
+
+  function openFigure(link) {
+    if (!fv) buildFigureViewer();
+    var d = link.dataset;
+    fvOpener = link;
+    if (d.zoomMobile) {
+      fv.source.srcset = d.zoomMobile;
+      fv.source.width = +d.zoomMw || 0;
+      fv.source.height = +d.zoomMh || 0;
+    } else {
+      fv.source.removeAttribute("srcset");
+    }
+    fv.img.width = +d.zoomW || 0;
+    fv.img.height = +d.zoomH || 0;
+    fv.img.alt = d.zoomAlt || "";
+    fv.img.src = d.zoomSrc || link.href;
+    fv.title.textContent = d.zoomLabel || "";
+    var kind = el("span", "kc-figview__kind", (d.zoomLabel ? " · " : "") + "full diagram");
+    fv.title.appendChild(kind);
+    document.documentElement.classList.add("has-lightbox");
+    fv.dialog.showModal();
+    fv.stage.scrollTop = 0;
+    fv.stage.scrollLeft = 0;
+    fv.close.focus();
+  }
+
+  function initFigureViewer() {
+    if (typeof HTMLDialogElement !== "function") return; // old browsers keep plain links
+    document.addEventListener("click", function (event) {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      var link = event.target.closest && event.target.closest("a[data-zoom-figure]");
+      if (!link) return;
+      event.preventDefault();
+      openFigure(link);
+    });
+  }
+
   /* ---------- (c) REDUCED MOTION FOR VIDEO ---------- */
   function pauseAutoplay() {
     if (!reduced()) return;
@@ -304,6 +404,7 @@
 
   function boot() {
     initLightbox();
+    initFigureViewer();
     pauseAutoplay();
     initProgress();
     initCode();

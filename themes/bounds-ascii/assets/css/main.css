@@ -607,6 +607,37 @@ html.has-lightbox { overflow: hidden; }
 .kc-lightbox__open { margin-left: auto; }
 .kc-lightbox [hidden] { display: none; }
 
+/* ---------- ZOOM FIGURES (zoom-figure shortcode + site.js figure viewer) ----------
+   Inline: a compact summary image at the prose width, with a strip that says it opens the full
+   diagram. Viewer: the lightbox's dialog chrome around a scrolling stage. On wide screens the
+   detailed image is fitted inside the stage; on phones it fills the width and scrolls down;
+   "actual size" shows it at its own size, scrolling both ways. */
+.kc-zoomfig { margin: 1.75rem 0; }
+.kc-zoomfig__open { display: block; border: var(--bw-line) solid var(--border); text-decoration: none; color: inherit; cursor: zoom-in; }
+.kc-zoomfig__open:hover { background: none; }
+.kc-zoomfig__img { display: block; width: 100%; height: auto; }
+.kc-zoomfig__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 36px; padding: 4px 4px 4px 12px;
+  border-top: 1px solid var(--border); background: var(--bg-2); font: 12px/1.3 var(--font-mono); color: var(--fg-3); }
+.kc-zoomfig__kind { text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.kc-zoomfig__hint { padding: 5px 9px; border-radius: 4px; color: var(--sig); font-weight: 600; }
+.kc-zoomfig__hint::before { content: "[ " / ""; }
+.kc-zoomfig__hint::after { content: " ]" / ""; }
+.kc-zoomfig__open:hover .kc-zoomfig__hint, .kc-zoomfig__open:focus-visible .kc-zoomfig__hint { background: var(--sig); color: var(--bg-1); }
+.kc-zoomfig figcaption { margin-top: .5rem; color: var(--fg-2); }
+.kc-lightbox.kc-figview { width: min(1280px, calc(100vw - 24px)); }
+.kc-figview[open] { grid-template-rows: auto minmax(0, 1fr); }
+.kc-figview__title { flex: 1; min-width: 0; margin: 0; font-size: 13px; line-height: 1.3; text-transform: none; letter-spacing: 0; color: var(--fg-1); }
+.kc-figview__zoom { box-shadow: none; }
+.kc-figview__stage { display: flex; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 8px; background: var(--bg-3); }
+.kc-figview__stage picture { display: contents; }
+.kc-figview__img { display: block; margin: auto; width: auto; height: auto; max-width: 100%; max-height: 100%; }
+.kc-figview__stage.is-actual .kc-figview__img { max-width: none; max-height: none; }
+@media (max-width: 600px) {
+  .kc-figview__kind { display: none; }
+  .kc-figview__img { width: 100%; max-height: none; }
+  .kc-figview__stage.is-actual .kc-figview__img { width: auto; }
+}
+
 /* ---------- POST NAV + CROSS-LINK ---------- */
 .kc-postnav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 32px 0 0; }
 .kc-postnav__a { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; min-height: 44px;

@@ -159,14 +159,23 @@ class SiteContracts(unittest.TestCase):
                     continue
                 checked += 1
                 with self.subTest(page=str(path.relative_to(PUBLIC))):
-                    # Native picture selection uses the first matching source, even without JS.
-                    tag, still = picture[0]
-                    self.assertEqual(tag, "source")
-                    self.assertEqual(still.get("media"), "(prefers-reduced-motion: reduce)")
-                    url = urlsplit(still["srcset"]).path
-                    target = PUBLIC / unquote(url).lstrip("/") if url.startswith("/") else path.parent / unquote(url)
-                    with Image.open(target) as image:
-                        self.assertEqual(getattr(image, "n_frames", 1), 1)
+                    # Native picture selection uses the first matching source, even without JS, so every
+                    # reduced-motion still (an optional phone still, then one for all widths) comes first.
+                    stills = []
+                    for tag, a in picture:
+                        if tag != "source" or "prefers-reduced-motion: reduce" not in a.get("media", ""):
+                            break
+                        stills.append(a)
+                    self.assertTrue(stills, "first picture source must be a reduced-motion still")
+                    self.assertEqual(stills[-1].get("media"), "(prefers-reduced-motion: reduce)")
+                    self.assertFalse(any("prefers-reduced-motion" in a.get("media", "")
+                                         for _, a in picture[len(stills):]))
+                    for still in stills:
+                        url = urlsplit(still["srcset"]).path
+                        target = (PUBLIC / unquote(url).lstrip("/") if url.startswith("/")
+                                  else path.parent / unquote(url))
+                        with Image.open(target) as image:
+                            self.assertEqual(getattr(image, "n_frames", 1), 1)
         self.assertGreater(checked, 0, "No animated heroes exercised")
 
 

@@ -1,0 +1,11 @@
+{{- /* [width height] of an image resource: from an SVG's viewBox, else the image itself. */ -}}
+{{- $size := slice 0 0 -}}
+{{- if in (slice "svg" "svg+xml") .MediaType.SubType -}}
+  {{- with findRESubmatch `viewBox="\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)` .Content 1 -}}
+    {{- $m := index . 0 -}}
+    {{- $size = slice (int (math.Round (float (index $m 1)))) (int (math.Round (float (index $m 2)))) -}}
+  {{- end -}}
+{{- else -}}
+  {{- $size = slice .Width .Height -}}
+{{- end -}}
+{{- return $size -}}

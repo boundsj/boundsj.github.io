@@ -29,6 +29,16 @@
   {{- end -}}
 {{- end -}}
 
+{{- /* Hero stills and phone art named in front matter must exist too. */ -}}
+{{- range slice "featuredImageStill" "featuredImageMobile" "featuredImageMobileStill" -}}
+  {{- $field := . -}}
+  {{- with index $.Params (lower $field) -}}
+    {{- if not ($.Resources.GetMatch .) -}}
+      {{- $errors = $errors | append (printf "`%s` names %q, but the bundle has no such file" $field .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 {{- /* Hero */ -}}
 {{- $hero := .Resources.GetMatch "featured-image" -}}
 {{- $heroType := "" -}}
