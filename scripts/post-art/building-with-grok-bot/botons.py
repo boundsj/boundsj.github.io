@@ -5,7 +5,7 @@ below. Every option shown is a documented Botons feature (github.com/boundsj/bot
 api-keys.md, connectors.md, using-botons.md, routines.md):
   brain   - my Claude Code or Codex CLI, or a model on my own Anthropic/OpenAI API key (with spending caps)
   role    - each Boton has a role and its own instructions (starters include "Chief of staff")
-  tools   - only the connectors I give it: MCP servers such as a fleet gateway, GitHub, Linear; the managed browser
+  tools   - only the connectors I give it: MCP servers such as a fleet gateway, GitHub, Notion; the managed browser
   workflow- skills from my library, routines on a schedule or a webhook, Ask first rules for risky steps
   each Boton has its own chat, memory and workspace.
 The team roles (research, review, inbox) are the Botons README's own examples, shown as an illustration
@@ -14,7 +14,7 @@ of mixing choices, not as anyone's real setup. Selected values are examples too.
 from __future__ import annotations
 
 from lib import *  # noqa: F401,F403
-from lib import Svg, boton, chrome, human, measure, screen
+from lib import Svg, boton, human, lift, measure, screen
 
 
 def radio(s, x, y, on):
@@ -60,7 +60,7 @@ def card(s, x, y, w, kind, fs=19, small=16):
             s.rect(bx + 14, by + 16 + i * 22, (w - 64) * f, 9, fill=FG3, opacity=0.6)
         s.rect(bx + 14 + (w - 64) * 0.45 + 6, by + 56, 9, 16, fill=GREEN)
     elif kind == "tools":
-        for i, (lab, on) in enumerate([("T3 fleet gateway", True), ("GitHub", True), ("Linear", False),
+        for i, (lab, on) in enumerate([("T3 fleet gateway", True), ("GitHub", True), ("Notion", True),
                                        ("managed browser", False)]):
             toggle(s, x + 18, ry + i * row - 6, on)
             s.text(x + 76, ry + i * row, lab, size=fs, fill=FG1 if on else FG2)
@@ -90,7 +90,6 @@ def figure(mobile: bool) -> str:
         s = Svg(W, H)
         screen(s)
         wires_at = s.layer()
-        chrome(s, "MAKING IT MINE", "EVERY BOTON, SET UP BY ME", margin=m, size=17)
         human(s, 84, 92, scale=0.8)
         s.text(84, 182, "ME", size=22, weight=700, fill=FG1, anchor="middle", ls=0.12)
         s.text(150, 128, "I SET UP EACH BOTON", size=24, weight=700, fill=FG1, ls=0.08)
@@ -128,7 +127,6 @@ def figure(mobile: bool) -> str:
         s = Svg(W, 10)
         screen(s)
         wires_at = s.layer()
-        chrome(s, "MAKING IT MINE", "", margin=m, size=15)
         human(s, 50, 88, scale=0.7)
         s.text(50, 166, "ME", size=20, weight=700, fill=FG1, anchor="middle", ls=0.12)
         s.text(104, 112, "I SET UP EACH BOTON", size=21, weight=700, fill=FG1, ls=0.06)
@@ -158,16 +156,17 @@ def figure(mobile: bool) -> str:
         team(s, W / 2, y + 96, 176, r=22, fs=18, small=16)
         s.h = int(y + 96 + 22 + 72)
 
+    lift(s, 44)  # no top label row: the content moves up into its space
     s.parts[0] = f'<rect x="0" y="0" width="{W}" height="{s.h}" fill="{BG}" />'
     s.parts[1] = f'<rect x="0" y="0" width="{W}" height="{s.h}" fill="url(#grid)" />'
-    title = "Botons, set up my way"
+    title = "Botons customization"
     desc = ("A dark terminal-style setup screen. At the top, a blocky figure labelled Me: I set up each Boton, its "
             "brain, its role, its tools, and how it works. In the middle, a round, button-shaped Boton with a green "
             "antenna, with its own chat, memory and workspace. Four numbered panels plug into it with green wires. "
             "One, brain or model: Claude Code is selected, with Codex and a model on my own Anthropic or OpenAI "
             "API key as the other choices, plus spending caps on API keys. Two, role and instructions: the role chief of staff and a "
-            "box of instructions in my words. Three, tools: switches for a T3 fleet gateway and GitHub turned on, "
-            "Linear and the managed browser off, only the connectors I give it. Four, workflow: skills from my "
+            "box of instructions in my words. Three, tools: switches for a T3 fleet gateway, GitHub and Notion "
+            "turned on, and the managed browser off, only the connectors I give it. Four, workflow: skills from my "
             "library, a routine every 15 minutes or when a webhook calls, and Ask first before risky steps. Below, "
             "my team, mix and match per Boton: three Botons for research on Claude Code, review on Codex, and "
             "inbox on an API key.")

@@ -287,6 +287,13 @@ def chip_width(label, size=20, pad=12, weight=400, prefix=None):
     return measure(label, size, weight) + pw + pad * 2
 
 
+def lift(s: Svg, d: float):
+    """Move everything drawn after the two screen layers up by d and shorten the canvas to match."""
+    s.parts.insert(2, f'<g transform="translate(0,-{d:g})">')
+    s.parts.append("</g>")
+    s.h = int(s.h - d)
+
+
 def label(s: Svg, x, y, text, size=16, fill=FG3, weight=700, ls=0.1, anchor="start", pad=6, bg=BG):
     """Small caps label with a screen-coloured backing so wires never run through it."""
     w = measure(text, size, weight, ls)

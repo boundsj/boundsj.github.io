@@ -74,15 +74,12 @@ T3 with my gateway is amazing, but Grok Bot is the secret ingredient. It lets me
 
 But then the usage crisis happened. Sometime last week, for whatever reason, Grok Bot usage started burning faster. That started me thinking about what I would want to change besides usage, and that line of thinking left me wondering: why not make my own Grok Bot? So I worked with Grok Bot to create a goal prompt to recreate itself. And [Botons](https://github.com/boundsj/botons) was born!
 
-## Making it mine
-
 The great thing about Botons is that it takes the part of Grok Bot that changed how I build, the ability to delegate to a persistent team, and makes it mine. I can choose the models, connect the tools, and give each Boton a role. Instead of managing a pile of coding threads myself, I can talk to my team, set direction, and let them handle the details.
 
 {{< zoom-figure src="summary-botons.svg" full="botons-setup.svg" fullMobile="botons-setup-mobile.svg"
-    label="Making it mine: setting up a Boton"
+    label="Botons customization"
     alt="Summary diagram. Me: I set up each Boton, its brain, role, tools and workflow. A round, button-shaped Boton is wired to four setup rows: one, brain or model, Claude Code, Codex or an API key; two, role and instructions, a role in my own words; three, tools, only connectors I give it; four, workflow, skills, routines and Ask first."
-    fullAlt="Setting up a Boton my way. At the top, me: I set up each Boton, its brain, its role, its tools, and how it works. In the middle, a round, button-shaped Boton with its own chat, memory and workspace, with four numbered panels plugged into it. One, brain or model: Claude Code selected, or Codex, or a model on my own Anthropic or OpenAI API key, with spending caps on API keys. Two, role and instructions: the role chief of staff and instructions in my words. Three, tools: a T3 fleet gateway and GitHub switched on, Linear and the managed browser off, only the connectors I give it. Four, workflow: skills from my library, a routine every 15 minutes or when a webhook calls, and Ask first before risky steps. Below, my team, mixed and matched per Boton: research on Claude Code, review on Codex, and inbox on an API key."
-    caption="Every Boton is mine to set up: its brain and model, its role and instructions, the tools it gets, and how and when it works." >}}
+    fullAlt="Botons customization in full detail. At the top, me: I set up each Boton, its brain, its role, its tools, and how it works. In the middle, a round, button-shaped Boton with its own chat, memory and workspace, with four numbered panels plugged into it. One, brain or model: Claude Code selected, or Codex, or a model on my own Anthropic or OpenAI API key, with spending caps on API keys. Two, role and instructions: the role chief of staff and instructions in my words. Three, tools: a T3 fleet gateway, GitHub and Notion switched on, and the managed browser off, only the connectors I give it. Four, workflow: skills from my library, a routine every 15 minutes or when a webhook calls, and Ask first before risky steps. Below, my team, mixed and matched per Boton: research on Claude Code, review on Codex, and inbox on an API key." >}}
 
 Just like with Grok Bot, I can tell a Boton what I want to build and let it figure out where the work should run, brief the coding agents, check what they produce, and keep things moving. When it needs a decision only I can make, it comes back to me. I don't have to sit there watching every thread.
 

@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 from lib import *  # noqa: F401,F403
-from lib import Svg, bot_face, boton, human, label, screen, status_glyph
+from lib import Svg, bot_face, boton, human, label, lift, screen, status_glyph
 
 W, M = 600, 20
 GAP = 14
@@ -133,7 +133,6 @@ def botons_summary() -> str:
     s = Svg(W, h)
     screen(s)
     under = s.layer()
-    top(s, "MAKING IT MINE", "SET UP BY ME", GREEN)
     human(s, 52, 66, scale=0.7)
     s.text(52, 142, "ME", size=22, weight=700, fill=FG1, anchor="middle", ls=0.12)
     s.text(104, 98, "I SET UP EACH BOTON", size=26, weight=700, fill=FG1, ls=0.06)
@@ -162,8 +161,11 @@ def botons_summary() -> str:
         for y in mids:
             s.path(f"M{jx},{y} H{rx}", stroke=GREEN, sw=3)
     s.under(under, wires)
+    lift(s, 34)  # no top label row: the content moves up into its space
+    s.parts[0] = f'<rect x="0" y="0" width="{W}" height="{s.h}" fill="{BG}" />'
+    s.parts[1] = f'<rect x="0" y="0" width="{W}" height="{s.h}" fill="url(#grid)" />'
     return s.to_string(
-        "Summary: I set up each Boton",
+        "Summary: Botons customization",
         "Summary diagram. Me: I set up each Boton, its brain, role, tools and workflow. A round, button-shaped "
         "Boton is wired to four setup rows: one, brain or model, Claude Code, Codex or an API key; two, role and "
         "instructions, a role in my own words; three, tools, only connectors I give it; four, workflow, skills, "
