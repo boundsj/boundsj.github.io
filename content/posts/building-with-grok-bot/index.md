@@ -74,7 +74,7 @@ But, there is another way. With Grok Bot (or any long-lived, project-based agent
 
 ### The project manager
 
-- **[Grok Bot](https://x.ai/bot)**: It's many things. But I like to think of it as a [mid-tier model](https://x.ai/news/grok-4-7) that I would never code with, inside an OpenClaw-style control plane with routines (timed routines), skills, memories, and so on.
+- **[Grok Bot](https://x.ai/bot)**: It's many things. But I like to think of it as a [mid-tier model](https://x.ai/news/grok-4-7) that I would never code with, inside an OpenClaw-style outer control and management loop with routines (timed routines), skills, memories, and so on.
 
 With just these ingredients, I have (IMO) the best system to wrangle coding agents: T3, my T3 Fleet Gateway routing system to schedule work on Codex and Claude Code agents on all of my computers, and Grok Bot to create infinite, per-project bots that manage all of it.
 
