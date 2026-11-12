@@ -1,7 +1,7 @@
 ---
 title: "Building with Grok Bot in the Outer Loop"
-date: 2026-11-11T12:00:00-08:00
-draft: true
+date: 2026-11-12T09:25:00-08:00
+draft: false
 description: "My limit was managing agent threads. Grok Bot let a bot per project run them while I act as CEO, and its usage spike pushed me to build Botons."
 summary: "I'm the bottleneck, so I gave every project its own bot. Then I built my own."
 images: ["social-card.png"]
