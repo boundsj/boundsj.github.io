@@ -78,7 +78,7 @@ But, there is another way. With Grok Bot (or any long-lived, project-based agent
 
 With just these ingredients, I have (IMO) the best system to wrangle coding agents: T3, my T3 Fleet Gateway routing system to schedule work on Codex and Claude Code agents on all of my computers, and Grok Bot to create infinite, per-project bots that manage all of it.
 
-Even though T3 with my gateway was amazing, it was actually Grok Bot that was the secret ingredient. That's because it really does allow me to be the CEO. I could just let go. I can delegate and give feedback on the results.
+T3 with my gateway is amazing, but Grok Bot is the secret ingredient. It lets me be the CEO. I can let go of managing every thread, delegate the work, and give feedback on the results.
 
 ## Then the usage crisis
 
