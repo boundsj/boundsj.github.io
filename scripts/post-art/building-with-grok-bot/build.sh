@@ -26,7 +26,7 @@ if [[ "$WHAT" == all || "$WHAT" == figures ]]; then
   "$PY" botons.py "$OUT/svg"
   "$PY" social.py "$OUT/svg"
   "$PY" render.py "$OUT" "$OUT/svg/social-card.svg" >/dev/null
-  cp "$OUT"/svg/router-before*.svg "$OUT"/svg/ceo-after*.svg "$OUT"/svg/grok-bot-to-botons*.svg "$BUNDLE/"
+  cp "$OUT"/svg/router-before*.svg "$OUT"/svg/ceo-after*.svg "$OUT"/svg/botons-setup*.svg "$BUNDLE/"
   magick "$OUT/social-card.png" -strip "$BUNDLE/social-card.png"
 fi
 

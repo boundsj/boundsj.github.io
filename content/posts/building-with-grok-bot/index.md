@@ -5,7 +5,7 @@ draft: true
 description: "My limit was managing agent threads. Grok Bot let a bot per project run them while I act as CEO, and its usage spike pushed me to build Botons."
 summary: "I'm the bottleneck, so I gave every project its own bot. Then I built my own."
 images: ["social-card.png"]
-socialImageAlt: "Building with Grok Bot: a terminal-style card showing You connected to a Grok Bot, which routes work through a gateway to two macOS machines and a Linux machine running Codex and Claude."
+socialImageAlt: "Building with Grok Bot: a terminal-style card showing me connected to a Grok Bot, which routes work through a gateway to two macOS machines and a Linux machine running Codex and Claude."
 tags: ["ai", "tools", "automation", "t3-code", "grok", "mcp"]
 categories: ["dev"]
 resources:
@@ -14,7 +14,7 @@ resources:
 featuredImageStill: grok-bot-hero-poster.png
 featuredImageMobile: grok-bot-hero-phone.gif
 featuredImageMobileStill: grok-bot-hero-phone-poster.png
-featuredImageAlt: "Looping terminal-style animation. A blocky figure labelled You, the router, is wired directly to every agent thread on two macOS machines and a Linux machine. Threads finish turns, ask questions and go idle; amber pings travel back along a tangle of wires and pile up beside You under the label waiting on me, faster than You can clear them. Then a Grok Bot box powers on between You and the threads, the tangle fades, and clean wiring through the T3 Fleet Gateway draws in. The pile moves to the bot, which sends green packets to each thread until they show check marks. One amber critical decision travels up to You, a reply goes back down, as the label changes from me as the router to me as the CEO, and the scene resets."
+featuredImageAlt: "Looping terminal-style animation. A blocky figure labelled Me, the router, is wired directly to every agent thread on two macOS machines and a Linux machine. Threads finish turns, ask questions and go idle; amber pings travel back along a tangle of wires and pile up beside me under the label waiting on me, faster than I can clear them. Then a Grok Bot box powers on between me and the threads, the tangle fades, and clean wiring through the T3 Fleet Gateway draws in. The pile moves to the bot, which sends green packets to each thread until they show check marks. One amber critical decision travels up to me, a reply goes back down, as the label changes from me as the router to me as the CEO, and the scene resets."
 featuredImageCaption: "On loop: me routing every thread myself, then a Grok Bot taking the threads so only the critical decisions reach me."
 ---
 
@@ -47,7 +47,7 @@ So, I know I'm the bottleneck. I managed to accumulate several computers, a stab
 <figure class="bgb-fig bgb-fig--wide">
   <picture>
     <source media="(max-width: 600px)" srcset="router-before-mobile.svg" width="560" height="1319">
-    <img src="router-before.svg" alt="Before: me as the router. A blocky figure labelled You, with the chores I have to do for every thread: start it on the right machine, notice when a turn finishes, read what it did, answer its questions, decide what to do next. A row of twelve attention cells, one per thread: one is fine, up to five is OK, beyond that things break down. Below, two macOS machines and a Linux machine run twelve Codex and Claude threads for a news reader, a game and a research desk. A tangle of wires runs from You to every thread, and most threads are amber and waiting on me: turn finished, has a question, what's next. An iOS task sits on the Linux machine, the wrong machine." width="1200" height="1018" loading="lazy">
+    <img src="router-before.svg" alt="Before: me as the router. A blocky figure labelled Me, with the chores I have to do for every thread: start it on the right machine, notice when a turn finishes, read what it did, answer its questions, decide what to do next. A row of twelve attention cells, one per thread: one is fine, up to five is OK, beyond that things break down. Below, two macOS machines and a Linux machine run twelve Codex and Claude threads for a news reader, a game and a research desk. A tangle of wires runs from me to every thread, and most threads are amber and waiting on me: turn finished, has a question, what's next. An iOS task sits on the Linux machine, the wrong machine." width="1200" height="1018" loading="lazy">
   </picture>
   <figcaption>Before: every thread is wired straight to me, and most of them are waiting on me.</figcaption>
 </figure>
@@ -59,7 +59,7 @@ But, there is another way. With Grok Bot (or any long-lived, project-based agent
 <figure class="bgb-fig bgb-fig--wide">
   <picture>
     <source media="(max-width: 600px)" srcset="ceo-after-mobile.svg" width="560" height="1319">
-    <img src="ceo-after.svg" alt="After: me as the CEO. The same twelve threads on the same machines. My job is now short: set direction, judge results, give feedback, decide when we're done, and only critical decisions reach me, where I define critical. One clean wire runs from You to three persistent Grok Bot project managers, a news bot, a game bot and a desk bot. They prompt the agents, pick the machine, read every turn, merge, build and release, through the T3 Fleet Gateway to T3 Code on each machine. A dashed amber line labelled decisions runs back up to You. The threads are green or working: turn read, answered, merged, built, released, next step sent, and the iOS task is now on a macOS machine." width="1200" height="1018" loading="lazy">
+    <img src="ceo-after.svg" alt="After: me as the CEO. The same twelve threads on the same machines. My job is now short: set direction, judge results, give feedback, decide when we're done, and only critical decisions reach me, where I define critical. One clean wire runs from me to three persistent Grok Bot project managers, a news bot, a game bot and a desk bot. They prompt the agents, pick the machine, read every turn, merge, build and release, through the T3 Fleet Gateway to T3 Code on each machine. A dashed amber line labelled decisions runs back up to me. The threads are green or working: turn read, answered, merged, built, released, next step sent, and the iOS task is now on a macOS machine." width="1200" height="1018" loading="lazy">
   </picture>
   <figcaption>After: one bot per project watches the threads. I set direction and judge results, and only the decisions I call critical come back up.</figcaption>
 </figure>
@@ -83,17 +83,17 @@ Even though T3 with my gateway was amazing, it was actually Grok Bot that was th
 
 But then the usage crisis happened. Sometime last week, for whatever reason, Grok Bot usage started burning faster. That started me thinking about what I would want to change besides usage, and that line of thinking left me wondering: why not make my own Grok Bot? So I worked with Grok Bot to create a goal prompt to recreate itself. And [Botons](https://github.com/boundsj/botons) was born!
 
-<figure class="bgb-fig bgb-fig--wide">
-  <picture>
-    <source media="(max-width: 600px)" srcset="grok-bot-to-botons-mobile.svg" width="560" height="1282">
-    <img src="grok-bot-to-botons.svg" alt="From Grok Bot to Botons, in three steps. Grok Bot, the project manager, has a usage meter that is mostly used up: started burning faster, for whatever reason. An arrow asks why not make my own Grok Bot? Next, a document card titled Goal prompt, written with Grok Bot to recreate itself, with its lines left abstract. Last, Botons: three round, button-shaped bots with antennas, a persistent team that is mine, where I choose the models, connect the tools and give one role per Boton. Below, me, still the CEO: direction goes up to the team, and decisions only I can make come back down." width="1200" height="634" loading="lazy">
-  </picture>
-  <figcaption>Grok Bot helped write the goal prompt that became Botons.</figcaption>
-</figure>
-
 ## Making it mine
 
 The great thing about Botons is that it takes the part of Grok Bot that changed how I build, the ability to delegate to a persistent team, and makes it mine. I can choose the models, connect the tools, and give each Boton a role. Instead of managing a pile of coding threads myself, I can talk to my team, set direction, and let them handle the details.
+
+<figure class="bgb-fig bgb-fig--wide">
+  <picture>
+    <source media="(max-width: 600px)" srcset="botons-setup-mobile.svg" width="560" height="1618">
+    <img src="botons-setup.svg" alt="Setting up a Boton my way. At the top, me: I set up each Boton, its brain, its role, its tools, and how it works. In the middle, a round, button-shaped Boton with its own chat, memory and workspace, with four numbered panels plugged into it. One, brain or model: Claude Code selected, or Codex, or a model on my own Anthropic or OpenAI API key, with spending caps on API keys. Two, role and instructions: the role chief of staff and instructions in my words. Three, tools: a T3 fleet gateway and GitHub switched on, Linear and the managed browser off, only the connectors I give it. Four, workflow: skills from my library, a routine every 15 minutes or when a webhook calls, and Ask first before risky steps. Below, my team, mixed and matched per Boton: research on Claude Code, review on Codex, and inbox on an API key." width="1200" height="882" loading="lazy">
+  </picture>
+  <figcaption>Every Boton is mine to set up: its brain and model, its role and instructions, the tools it gets, and how and when it works.</figcaption>
+</figure>
 
 Just like with Grok Bot, I can tell a Boton what I want to build and let it figure out where the work should run, brief the coding agents, check what they produce, and keep things moving. When it needs a decision only I can make, it comes back to me. I don't have to sit there watching every thread.
 

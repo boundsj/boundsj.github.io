@@ -8,7 +8,7 @@ review on `make preview` (or any draft-enabled `hugo server`).
 | `hero.py` | Desktop hero: `grok-bot-hero.gif` (1200×600, 140 frames at 80 ms, loops) and `grok-bot-hero-poster.png` |
 | `hero_phone.py` | Phone hero (≤ 600px wide): `grok-bot-hero-phone.gif` (600×750 design at 1.5×) and `grok-bot-hero-phone-poster.png` |
 | `fleet.py` | `router-before.svg` / `ceo-after.svg` and their `-mobile` versions |
-| `botons.py` | `grok-bot-to-botons.svg` and `-mobile` |
+| `botons.py` | `botons-setup.svg` and `-mobile`: what I can set up per Boton (brain/model, role and instructions, tools, workflow), grounded in the Botons docs |
 | `social.py` | `social-card.png` (1200×627, via `render.py`) |
 | `lib.py` | Shared palette, Iosevka measuring/subsetting, and drawing primitives |
 | `render.py` | Rasterizes SVGs through Chrome, the way the post shows them |
@@ -16,7 +16,7 @@ review on `make preview` (or any draft-enabled `hugo server`).
 
 `gif-heroes.py` then makes the `.webp` for both GIFs and updates `scripts/gif-heroes.lock`. Commit them with the GIFs.
 
-Both heroes share one timeline: router (pings pile up on me), handoff (a Grok Bot powers on and the tangle
+Every figure is first person: the human is labelled ME. Both heroes share one timeline: router (pings pile up on me), handoff (a Grok Bot powers on and the tangle
 becomes gateway wiring), CEO (the bot handles the threads; one critical decision comes back to me), and a
 power-off that lands back on frame 0. The figures embed a subset of the site's Iosevka, so they render
 the same everywhere as `<img>`.

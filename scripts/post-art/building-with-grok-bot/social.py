@@ -19,11 +19,11 @@ tw = measure(title, 92, 700, -0.01)
 s.rect(m + tw + 14, 196 - 14, 50, 14, fill=GREEN)
 s.text(m, 254, "From juggling agent threads to directing a team of project bots", size=27, fill=FG2)
 
-# chain: you -> grok bot -> gateway -> machines
+# chain: me -> grok bot -> gateway -> machines
 y0, h = 330, 150
 cy = y0 + h / 2
 human(s, m + 66, y0 + 22, scale=1.25)
-s.text(m + 66, y0 + 142, "YOU", size=26, weight=700, fill=FG1, anchor="middle", ls=0.12)
+s.text(m + 66, y0 + 142, "ME", size=26, weight=700, fill=FG1, anchor="middle", ls=0.12)
 bx, bw = 250, 250
 s.line(m + 140, cy, bx, cy, stroke=FG1, sw=4)
 s.rect(bx, y0 + 10, bw, h - 20, fill=PANEL, stroke=FG1, sw=4)
@@ -50,6 +50,6 @@ s.text(W - m, 582, "ONE PROJECT <=> ONE BOT", size=17, weight=700, fill=FG3, anc
 
 out = Path(sys.argv[1])
 (out / "social-card.svg").write_text(s.to_string(
-    "Building with Grok Bot", "Social card: the title Building with Grok Bot over a chain from You to a Grok Bot, "
+    "Building with Grok Bot", "Social card: the title Building with Grok Bot over a chain from me to a Grok Bot, "
     "through a gateway, to two macOS machines and a Linux machine running Codex and Claude."))
 print("ok")

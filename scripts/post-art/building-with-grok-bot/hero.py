@@ -315,9 +315,9 @@ def draw(t, still=False):
                 hl = math.sin(u * math.pi)
         tile(s, i, tile_state(i, t), hl)
 
-    # you
+    # me
     human(s, YOU_CX, YOU_TOP, scale=YOU_SCALE)
-    s.text(YOU_CX, YOU_TOP + 92 + 44, "YOU", size=34, weight=700, fill=FG1, anchor="middle", ls=0.12)
+    s.text(YOU_CX, YOU_TOP + 92 + 44, "ME", size=34, weight=700, fill=FG1, anchor="middle", ls=0.12)
 
     # pile of pings on me (act A)
     n = pile_count(t)

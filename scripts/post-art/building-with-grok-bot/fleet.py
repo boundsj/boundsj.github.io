@@ -124,9 +124,9 @@ def figure(mode: str, mobile: bool) -> str:
         chrome(s, "BEFORE · ME AS THE ROUTER" if before else "AFTER · ME AS THE CEO",
                "EVERY THREAD WAITS ON ME" if before else "BOTS WATCH THE THREADS", margin=m, size=L["chrome"])
 
-    # ---- you + your job ------------------------------------------------------------
+    # ---- me + my job ------------------------------------------------------------
     human(s, L["you_cx"], g["you_top"], scale=L["you_scale"])
-    s.text(L["you_cx"], g["you_label"], "YOU", size=L["you_fs"], weight=700, fill=FG1, anchor="middle", ls=0.12)
+    s.text(L["you_cx"], g["you_label"], "ME", size=L["you_fs"], weight=700, fill=FG1, anchor="middle", ls=0.12)
     head = "FOR EVERY THREAD, I HAVE TO:" if before else "MY JOB:"
     if mobile:
         lx = L["you_cx"] + 64
@@ -265,23 +265,23 @@ def figure(mode: str, mobile: bool) -> str:
 
     if before:
         title = "Before: me as the router between every agent thread"
-        desc = ("A dark terminal-style diagram. A blocky figure labelled You sits at the top left. Beside it, the "
+        desc = ("A dark terminal-style diagram. A blocky figure labelled Me sits at the top left. Beside it, the "
                 "chores I have to do for every thread: start it on the right machine, notice when a turn finishes, "
                 "read what it did, answer its questions, decide what to do next. Below, twelve attention cells, one "
                 "per thread: the first is fine, up to five are OK, and the rest are amber warnings labelled beyond "
                 "that, things break down. At the bottom are three machines, two macOS and one Linux, each running "
                 "T3 Code with four agent threads for the news reader, game and research desk projects on Codex or "
-                "Claude. A cable drops from You and splits into a tangle of wires, one to every thread. Most "
+                "Claude. A cable drops from me and splits into a tangle of wires, one to every thread. Most "
                 "threads are amber and waiting on me: turn finished, has a question, what's next. One dashed "
                 "thread is an iOS task sitting on the Linux machine, the wrong machine.")
     else:
         title = "After: me as the CEO of a team of project bots"
-        desc = ("The same terminal-style diagram and the same twelve threads. You at the top left now has a short "
+        desc = ("The same terminal-style diagram and the same twelve threads. Me at the top left now has a short "
                 "job: set direction, judge results, give feedback, decide when we're done. What reaches me is "
-                "critical decisions only, and I define critical. One clean wire runs from You to three persistent "
+                "critical decisions only, and I define critical. One clean wire runs from me to three persistent "
                 "Grok Bot project managers, a news bot, a game bot and a desk bot, one per project. They prompt "
                 "the agents, pick the machine, read every turn, merge, build and release. A dashed amber line "
-                "labelled decisions runs back up to You. Below them, the T3 Fleet Gateway bar connects to the same "
+                "labelled decisions runs back up to me. Below them, the T3 Fleet Gateway bar connects to the same "
                 "two macOS machines and one Linux machine running T3 Code. The threads are now green or working: "
                 "turn read, answered, merged, built, released, next step sent, and the iOS task is on a macOS "
                 "machine.")

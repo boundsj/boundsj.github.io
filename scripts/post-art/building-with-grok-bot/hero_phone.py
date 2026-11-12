@@ -2,7 +2,7 @@
 
 Designed on a 600 x 750 canvas (shown about 350 CSS px wide on a 390 px phone, so x0.58) and rendered
 at 1.5x. Every label that carries meaning is >= 22 px here (>= ~12.7 CSS px on the phone):
-the status banner (ME: THE ROUTER / ME: THE CEO and its subline), YOU, WAITING ON ME, GROK BOT,
+the status banner (ME: THE ROUTER / ME: THE CEO and its subline), ME, WAITING ON ME, GROK BOT,
 T3 FLEET GATEWAY, the machines, the agents, and "a critical decision".
 Act timing matches hero.py, so both loops are 11.2 s at 12.5 fps.
 
@@ -184,9 +184,9 @@ def draw(t, still=False):
         status_glyph(s, x + 10, y + 10, 32, kind)
         s.text(x + 52, y + 34, TILES[i][2], size=22, fill=FG1)
 
-    # you
+    # me
     human(s, YOU_CX, YOU_TOP, scale=YOU_SCALE)
-    s.text(YOU_CX, YOU_TOP + 79 + 36, "YOU", size=30, weight=700, fill=FG1, anchor="middle", ls=0.12)
+    s.text(YOU_CX, YOU_TOP + 79 + 36, "ME", size=30, weight=700, fill=FG1, anchor="middle", ls=0.12)
 
     # pile of pings waiting on me
     n = 0 if still else pile_count(t)
