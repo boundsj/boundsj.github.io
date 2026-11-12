@@ -81,7 +81,8 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
    - Hero is JPEG/PNG and no `images` → the build frames the whole hero into a 1200×627 card automatically (never cropped), so routine posts need nothing.
    - No hero and no `images` → the site card (`static/social-default.png`).
    - Make a dedicated card for posts meant for Hacker News, LinkedIn or another launch, for major or evergreen technical articles, and whenever the hero is a poor preview. Card rules: PNG or JPEG, exactly 1200×627 (warned otherwise), under 5 MB (warned), legible at feed size, exact spelling and punctuation in any rendered text. Keep it separate from the hero when their ideal aspect ratios differ.
-5. **Verify locally** (step-by-step below), then ask Jesse to review on the preview.
+5. **Large diagrams** (optional): `{{< zoom-figure src="summary.svg" full="detail.svg" fullMobile="detail-mobile.svg" alt="…" fullAlt="…" label="…" caption="…" >}}` shows a compact image at the prose width that opens the detailed one in a viewer (fitted to the screen, with an actual-size toggle; a plain link without JavaScript). Bundle files only.
+6. **Verify locally** (step-by-step below), then ask Jesse to review on the preview.
 
 #### Photo posts
 

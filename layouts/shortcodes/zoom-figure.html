@@ -1,0 +1,36 @@
+{{- /* A compact inline figure that opens a detailed version of itself.
+
+       {{< zoom-figure src="summary.svg" full="detail.svg" fullMobile="detail-mobile.svg"
+           alt="Summary diagram: …" fullAlt="…" label="Before: me as the router" caption="…" >}}
+
+       src         the inline image, sized for the prose column
+       full        the detailed image; also the plain link target without JavaScript
+       fullMobile  optional detailed variant for screens up to 600px wide
+       alt         describes the inline image; fullAlt describes the detailed one
+       label       names the figure in the viewer's title bar
+       caption     optional, markdown
+       site.js (figure viewer) opens `full` in a dialog that fits it to the screen, with an
+       actual-size toggle for scrolling. Bundle files only; SVG sizes come from their viewBox. */ -}}
+{{- $p := .Page -}}
+{{- $src := $p.Resources.GetMatch (.Get "src") -}}
+{{- $full := $p.Resources.GetMatch (.Get "full") -}}
+{{- $mobile := false -}}
+{{- with .Get "fullMobile" }}{{ $mobile = $p.Resources.GetMatch . }}{{ end -}}
+{{- if not (and $src $full) -}}
+  {{- warnf "[zoom-figure] %s: src %q or full %q is not in the bundle" $p.File.Path (.Get "src") (.Get "full") -}}
+{{- else -}}
+{{- $s := partial "zoom-figure-size.html" $src -}}
+{{- $f := partial "zoom-figure-size.html" $full -}}
+<figure class="kc-zoomfig">
+  <a class="kc-zoomfig__open" href="{{ $full.RelPermalink }}" data-zoom-figure
+     data-zoom-src="{{ $full.RelPermalink }}" data-zoom-w="{{ index $f 0 }}" data-zoom-h="{{ index $f 1 }}"
+     {{- with $mobile }}{{ $m := partial "zoom-figure-size.html" . }} data-zoom-mobile="{{ .RelPermalink }}" data-zoom-mw="{{ index $m 0 }}" data-zoom-mh="{{ index $m 1 }}"{{ end }}
+     data-zoom-alt="{{ .Get "fullAlt" | default (.Get "alt") }}" data-zoom-label="{{ .Get "label" }}">
+    <img class="kc-zoomfig__img" src="{{ $src.RelPermalink }}" alt="{{ .Get "alt" }}" width="{{ index $s 0 }}" height="{{ index $s 1 }}" loading="lazy" decoding="async">
+    <span class="kc-zoomfig__bar"><span class="kc-zoomfig__kind">summary</span><span class="kc-zoomfig__hint">open full diagram</span></span>
+  </a>
+  {{- with .Get "caption" }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
+{{- end -}}

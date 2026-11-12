@@ -3,7 +3,7 @@
 # the GIF heroes' WebPs. Intermediate files go to ./out (git-ignored). See README.md.
 #
 #   PYTHON=/path/to/venv/bin/python ./build.sh          # everything
-#   PYTHON=... ./build.sh figures                        # SVG figures + social card only
+#   PYTHON=... ./build.sh figures                        # SVG figures, summaries + social card only
 #   PYTHON=... ./build.sh hero                           # desktop + phone heroes only
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -24,9 +24,10 @@ gif() {  # frames dir -> looping GIF at 12.5 fps (80 ms frames), flat palette, n
 if [[ "$WHAT" == all || "$WHAT" == figures ]]; then
   "$PY" fleet.py "$OUT/svg"
   "$PY" botons.py "$OUT/svg"
+  "$PY" summary.py "$OUT/svg"
   "$PY" social.py "$OUT/svg"
   "$PY" render.py "$OUT" "$OUT/svg/social-card.svg" >/dev/null
-  cp "$OUT"/svg/router-before*.svg "$OUT"/svg/ceo-after*.svg "$OUT"/svg/botons-setup*.svg "$BUNDLE/"
+  cp "$OUT"/svg/router-before*.svg "$OUT"/svg/ceo-after*.svg "$OUT"/svg/botons-setup*.svg "$OUT"/svg/summary-*.svg "$BUNDLE/"
   magick "$OUT/social-card.png" -strip "$BUNDLE/social-card.png"
 fi
 

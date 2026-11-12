@@ -9,6 +9,7 @@ review on `make preview` (or any draft-enabled `hugo server`).
 | `hero_phone.py` | Phone hero (≤ 600px wide): `grok-bot-hero-phone.gif` (600×750 design at 1.5×) and `grok-bot-hero-phone-poster.png` |
 | `fleet.py` | `router-before.svg` / `ceo-after.svg` and their `-mobile` versions |
 | `botons.py` | `botons-setup.svg` and `-mobile`: what I can set up per Boton (brain/model, role and instructions, tools, workflow), grounded in the Botons docs |
+| `summary.py` | `summary-before.svg`, `summary-after.svg`, `summary-botons.svg`: compact inline versions (600px canvas, labels >= 21px) that open the full diagrams through the `zoom-figure` shortcode |
 | `social.py` | `social-card.png` (1200×627, via `render.py`) |
 | `lib.py` | Shared palette, Iosevka measuring/subsetting, and drawing primitives |
 | `render.py` | Rasterizes SVGs through Chrome, the way the post shows them |
