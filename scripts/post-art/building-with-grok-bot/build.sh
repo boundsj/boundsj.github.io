@@ -25,10 +25,12 @@ if [[ "$WHAT" == all || "$WHAT" == figures ]]; then
   "$PY" fleet.py "$OUT/svg"
   "$PY" botons.py "$OUT/svg"
   "$PY" summary.py "$OUT/svg"
+  "$PY" chart.py "$OUT/svg"          # gateway usage chart, from gateway-usage.json
   "$PY" social.py "$OUT/svg"
   "$PY" render.py "$OUT" "$OUT/svg/social-card.svg" >/dev/null
-  cp "$OUT"/svg/router-before*.svg "$OUT"/svg/ceo-after*.svg "$OUT"/svg/botons-setup*.svg "$OUT"/svg/summary-*.svg "$BUNDLE/"
+  cp "$OUT"/svg/router-before*.svg "$OUT"/svg/ceo-after*.svg "$OUT"/svg/botons-setup*.svg "$OUT"/svg/summary-*.svg "$OUT"/svg/usage-*.svg "$BUNDLE/"
   magick "$OUT/social-card.png" -strip "$BUNDLE/social-card.png"
+  "$PY" render.py "$OUT" "$OUT"/svg/usage-*.svg >/dev/null   # optional PNGs of the chart, in out/ only
 fi
 
 if [[ "$WHAT" == all || "$WHAT" == hero ]]; then

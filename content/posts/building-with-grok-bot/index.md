@@ -20,6 +20,12 @@ featuredImageCaption: "On loop: me routing every thread myself, then a Grok Bot 
 
 <style>
   .kc-post__title { text-wrap: pretty; }
+  .bgb-data { margin: -0.75rem 0 1.75rem; font-size: 0.875rem; color: var(--fg-2); }
+  .bgb-data summary { cursor: pointer; width: fit-content; min-height: 32px; color: var(--fg-1); }
+  .bgb-data table { margin: 0.75rem 0; font-size: 0.875rem; }
+  .bgb-data td { vertical-align: top; }
+  .bgb-data td span { color: var(--fg-3); }
+  .bgb-data ul { margin: 0.5rem 0 0; padding-left: 1.25rem; }
 </style>
 
 Over the last several weeks I've continued to push myself, all of my computers, and all of my [AI subscriptions]({{< relref "environment-update-a-t3-code-tokenmaxing-constellation" >}}) to see how much I can build and how quickly I can ship it. I'm not solving any of the world's major problems. So far I've just built things like a news reader, a [game]({{< relref "rescue82-making-a-choplifter-style-game-for-apple-vision-pro" >}}), and a quantitative research desk monitoring Kalshi data.
@@ -82,5 +88,33 @@ The great thing about Botons is that it takes the part of Grok Bot that changed 
     fullAlt="Botons customization in full detail. At the top, me: I set up each Boton, its brain, its role, its tools, and how it works. In the middle, a round, button-shaped Boton with its own chat, memory and workspace, with four numbered panels plugged into it. One, brain or model: Claude Code selected, or Codex, or a model on my own Anthropic or OpenAI API key, with spending caps on API keys. Two, role and instructions: the role chief of staff and instructions in my words. Three, tools: a T3 fleet gateway, GitHub and Notion switched on, and the managed browser off, only the connectors I give it. Four, workflow: skills from my library, a routine every 15 minutes or when a webhook calls, and Ask first before risky steps. Below, my team, mixed and matched per Boton: research on Claude Code, review on Codex, and inbox on an API key." >}}
 
 Just like with Grok Bot, I can tell a Boton what I want to build and let it figure out where the work should run, brief the coding agents, check what they produce, and keep things moving. When it needs a decision only I can make, it comes back to me. I don't have to sit there watching every thread.
+
+For a sense of scale: between October 7, when my gateway went live, and November 12, it recorded 8,461 events from 376 jobs it started or tracked. Jobs started by Grok Bot account for 5,754 of those events. Add the jobs from the Minions projects, where Botons is being built, and the outer loop accounts for 87%.
+
+{{< zoom-figure src="usage-summary.svg" full="usage-detail.svg" fullMobile="usage-detail-mobile.svg"
+    label="Gateway usage"
+    alt="Summary chart of T3 Fleet Gateway usage from October 7 to November 12, 2026. All events: 8,461, of which Grok Bot jobs 5,754 (68%), Minions/Botons 1,614 (19%), adopted/standing 946 (11%) and other/test 147 (2%). A bracket marks the outer loop, Grok Bot plus Minions/Botons: 7,368 events, 87%. Jobs started or tracked: 376, of which Grok Bot 293 (78%), Minions/Botons 61 (16%), adopted/standing 10 and other/test 12."
+    fullAlt="Full-detail chart of T3 Fleet Gateway usage from October 7 to November 12, 2026, with two stacked bars and different totals. All events, 8,461: Grok Bot jobs 5,754 (68.0%), Minions/Botons 1,614 (19.1%), adopted/standing 946 (11.2%), other/test 147 (1.7%); a bracket marks the outer loop, Grok Bot plus Minions/Botons, 7,368 events or 87.1%. Jobs started or tracked, 376 (366 launched by the gateway plus 10 adopted/standing threads it tracks): Grok Bot 293 (77.9%), Minions/Botons 61 (16.2%), adopted/standing 10 (2.7%), other/test 12 (3.2%). A table repeats every value, followed by notes on how to read the data and the snapshot time."
+    caption="T3 Fleet Gateway ledger, October 7 to November 12, 2026. Events and jobs count toward the client that started each job; Minions/Botons is the client used in the Minions projects, where Botons is being built." >}}
+
+<details class="bgb-data">
+<summary>The numbers, and how to read them</summary>
+
+| Started by | Events | Jobs |
+| --- | ---: | ---: |
+| Grok Bot | 5,754<br><span>68.0%</span> | 293<br><span>77.9%</span> |
+| Minions/Botons | 1,614<br><span>19.1%</span> | 61<br><span>16.2%</span> |
+| Adopted/standing | 946<br><span>11.2%</span> | 10<br><span>2.7%</span> |
+| Other/test | 147<br><span>1.7%</span> | 12<br><span>3.2%</span> |
+| **Total** | **8,461** | **376** |
+
+- Events are gateway ledger records, not completed tasks, and leave out work done in T3 outside the gateway.
+- Events and jobs count toward the client that started the job, not necessarily the one that sent a later follow-up or answer.
+- Grok Bot is every bot on its shared connector. Minions/Botons is another gateway client, used in the Minions projects since November 5; Botons is the product being built there, not a separate client in the data.
+- The 376 jobs are 366 the gateway launched plus 10 existing threads it tracks. Outer-loop systems can drive those too, so 87% is the two named buckets, not an exhaustive measure.
+- Other/test is early pilots, QA and a few one-offs.
+- Snapshot from about 8:50 AM PT on November 12, 2026; the gateway went live at 2:06 PM PDT on October 7.
+
+</details>
 
 I'm still figuring out where all of this goes. But for now, I'm having a lot of fun seeing how far my own bot control plane, with me as CEO, can take my ideas.

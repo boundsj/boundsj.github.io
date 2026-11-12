@@ -1,0 +1,18 @@
+{
+  "source": "T3 Fleet Gateway job and event ledger, usage snapshot copied from Jesse's private draft notes on 2026-11-12",
+  "since": "2026-10-07T14:06:00-07:00",
+  "as_of": "2026-11-12T08:50:00-08:00",
+  "as_of_note": "about 8:50 AM PT",
+  "groups": ["Grok Bot", "Minions/Botons", "Adopted/standing", "Other/test"],
+  "events": {"total": 8461, "by_group": [5754, 1614, 946, 147]},
+  "jobs": {"total": 376, "by_group": [293, 61, 10, 12], "launched": 366, "adopted": 10},
+  "outer_loop_groups": ["Grok Bot", "Minions/Botons"],
+  "notes": [
+    "Events are gateway ledger records, not completed tasks, and leave out work done in T3 outside the gateway.",
+    "Events and jobs count toward the client that started the job, not necessarily the client that sent a later follow-up or answer.",
+    "Grok Bot is every bot on the shared Grok Bot connector; individual bots can't be split out.",
+    "Minions/Botons is another gateway client, used in the Minions projects since November 5. Botons is the product being built there, not a separate client in the data.",
+    "Adopted/standing jobs are existing threads the gateway tracks rather than launched; outer-loop systems can drive them too, so 87% (the two named buckets) is not an exhaustive measure.",
+    "Other/test is early pilots, QA and a few one-offs."
+  ]
+}
