@@ -259,7 +259,7 @@ def draw(t, still=False):
     ceo = ramp(t, 4.9, 5.4) * (1 - ramp(t, 10.3, 10.6))
 
     # chrome
-    s.text(48, 46, "BUILDING WITH GROK BOT", size=17, weight=700, fill=FG3, ls=0.12)
+    s.text(48, 46, "BUILDING WITH GROK BOT IN THE OUTER LOOP", size=17, weight=700, fill=FG3, ls=0.12)
     if ceo > 0.5:
         s.text(W - 48, 46, "ME: THE CEO", size=17, weight=700, fill=GREEN, anchor="end", ls=0.12,
                opacity=clamp((ceo - 0.5) * 2))

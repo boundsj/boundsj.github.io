@@ -1,4 +1,4 @@
-# Art for "Building with Grok Bot"
+# Art for "Building with Grok Bot in the Outer Loop"
 
 Sources for every image in `content/posts/building-with-grok-bot/`. Edit a script, run `./build.sh`, then
 review on `make preview` (or any draft-enabled `hugo server`).

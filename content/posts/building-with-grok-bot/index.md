@@ -1,11 +1,11 @@
 ---
-title: "Building with Grok Bot"
+title: "Building with Grok Bot in the Outer Loop"
 date: 2026-11-11T12:00:00-08:00
 draft: true
 description: "My limit was managing agent threads. Grok Bot let a bot per project run them while I act as CEO, and its usage spike pushed me to build Botons."
 summary: "I'm the bottleneck, so I gave every project its own bot. Then I built my own."
 images: ["social-card.png"]
-socialImageAlt: "Building with Grok Bot: a terminal-style card showing me connected to a Grok Bot, which routes work through a gateway to two macOS machines and a Linux machine running Codex and Claude."
+socialImageAlt: "Building with Grok Bot in the Outer Loop: a terminal-style card showing me connected to a Grok Bot, which routes work through a gateway to two macOS machines and a Linux machine running Codex and Claude."
 tags: ["ai", "tools", "automation", "t3-code", "grok", "mcp"]
 categories: ["dev"]
 resources:
@@ -19,6 +19,7 @@ featuredImageCaption: "On loop: me routing every thread myself, then a Grok Bot 
 ---
 
 <style>
+  .kc-post__title { text-wrap: pretty; }
   .bgb-fig { margin: 2rem auto; }
   .bgb-fig img { display: block; width: 100%; height: auto; border: var(--bw-line, 2px) solid var(--border); }
   .bgb-fig figcaption { max-width: 640px; margin: 0.6rem auto 0; color: var(--fg-2); }

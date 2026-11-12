@@ -124,7 +124,7 @@ def draw(t, still=False):
         fan, power, neat, ceo = 0, 1, 1, 1
 
     # chrome + status banner (the main meaning, in big type)
-    s.text(M, 38, "BUILDING WITH GROK BOT", size=16, weight=700, fill=FG3, ls=0.12)
+    s.text(M, 38, "BUILDING WITH GROK BOT IN THE OUTER LOOP", size=16, weight=700, fill=FG3, ls=0.12)
     s.line(M, 54, W - M, 54, stroke=DIM, sw=2)
     if ceo > 0.5:
         o = clamp((ceo - 0.5) * 2)

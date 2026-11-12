@@ -1,4 +1,4 @@
-"""Shared SVG primitives for the 'Building with Grok Bot' post art.
+"""Shared SVG primitives for the 'Building with Grok Bot in the Outer Loop' post art.
 
 Palette and type follow the bounds.dev CRT (dark) tokens and the t3-fleet-gateway hero:
 near-black screen, cream ink, square corners, dotted grid, one signal colour per meaning.

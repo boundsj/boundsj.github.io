@@ -13,14 +13,19 @@ s.text(m, 52, "T3 CODE · FLEET GATEWAY · BOTONS", size=18, weight=700, fill=FG
 s.text(W - m, 52, "bounds.dev", size=20, fill=FG3, anchor="end")
 s.line(m, 72, W - m, 72, stroke=DIM, sw=2)
 
-title = "Building with Grok Bot"
-s.text(m, 196, title, size=92, weight=700, fill=FG1, ls=-0.01)
-tw = measure(title, 92, 700, -0.01)
-s.rect(m + tw + 14, 196 - 14, 50, 14, fill=GREEN)
-s.text(m, 254, "From juggling agent threads to directing a team of project bots", size=27, fill=FG2)
+# The title, "Building with Grok Bot in the Outer Loop", on two lines broken at the phrase, so both
+# halves stay big at feed size; the terminal cursor ends the second line.
+TITLE = ("Building with Grok Bot", "in the Outer Loop")
+TS, LS = 80, -0.01
+assert max(measure(t, TS, 700, LS) for t in TITLE) < W - 2 * m - 70, "title would clip"
+s.text(m, 162, TITLE[0], size=TS, weight=700, fill=FG1, ls=LS)
+s.text(m, 248, TITLE[1], size=TS, weight=700, fill=FG1, ls=LS)
+tw = measure(TITLE[1], TS, 700, LS)
+s.rect(m + tw + 14, 248 - 13, 46, 13, fill=GREEN)
+s.text(m, 300, "From juggling agent threads to directing a team of project bots", size=26, fill=FG2)
 
 # chain: me -> grok bot -> gateway -> machines
-y0, h = 330, 150
+y0, h = 356, 150
 cy = y0 + h / 2
 human(s, m + 66, y0 + 22, scale=1.25)
 s.text(m + 66, y0 + 142, "ME", size=26, weight=700, fill=FG1, anchor="middle", ls=0.12)
@@ -50,6 +55,7 @@ s.text(W - m, 582, "ONE PROJECT <=> ONE BOT", size=17, weight=700, fill=FG3, anc
 
 out = Path(sys.argv[1])
 (out / "social-card.svg").write_text(s.to_string(
-    "Building with Grok Bot", "Social card: the title Building with Grok Bot over a chain from me to a Grok Bot, "
+    "Building with Grok Bot in the Outer Loop", "Social card: the title Building with Grok Bot in the Outer Loop "
+    "over a chain from me to a Grok Bot, "
     "through a gateway, to two macOS machines and a Linux machine running Codex and Claude."))
 print("ok")
