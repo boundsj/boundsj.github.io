@@ -47,7 +47,7 @@
     send(detail.name, detail.params);
   });
 
-  /* site_theme follows the applied theme however it changes (pill or system appearance). */
+  /* site_theme follows the applied theme however it changes (theme control or system appearance). */
   if (live && window.MutationObserver) {
     new MutationObserver(function () {
       window.gtag("set", "user_properties", { site_theme: document.documentElement.dataset.theme || "light" });

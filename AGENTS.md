@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-- Hugo static site with the active bounds-ascii theme; GitHub Pages uses Hugo Extended 0.154.5
+- Hugo static site with the active bounds-ascii theme: three site themes picked in the header (light, dark, arcade; saved in `localStorage["bounds-crt"]`, otherwise light/dark follow the system); GitHub Pages uses Hugo Extended 0.154.5
 - Personal blog with AI-generated and manual content
 - Built-in photo posting tool (FastAPI/Uvicorn app)
 - Deployed to GitHub Pages
@@ -13,7 +13,11 @@
 
 - `config.toml` - Site configuration
 - `content/posts/` - Blog posts (directories with index.md)
-- `themes/bounds-ascii/` - Active theme
+- `themes/bounds-ascii/` - Active theme. Light and dark are `css/main.css` plus the main JS bundle (`theme.js`, `analytics.js`, `site.js`, `games.js`).
+  Arcade is an add-on that loads only for the arcade theme: `css/arcade.css` (every rule scoped under `:root[data-theme="arcade"]`; `main.css` is disabled while it applies) and `js/arcade.js` (`fx.js` + `arcade-skin.js`, built in `partials/arcade-assets.html`). `theme-init.js` (inline) writes both before first paint for a saved arcade choice; `arcade-skin.js` adds the arcade-only pieces (HUD, pause button, hero, bezels, high scores, chase lane, coin slot, GAME OVER 404) to production's markup and removes them on a switch away. Never put arcade markup, sprites or the Jersey 25 font into light/dark templates
+- `scripts/sprites.mjs` - Sprite shapes; writes the committed `themes/bounds-ascii/assets/sprites.svg` and `sprites.json` (`make sprites`). `/arcade/` shows sprites with `partial "sprite.html"`; the arcade theme builds them in JS (`window.boundsArcade.sprite`)
+- `content/arcade/_index.md` + `themes/bounds-ascii/layouts/arcade/list.html` - `/arcade/` (Bounds Invaders), in every theme: its cabinet is always dark (`css/arcade-cabinet.css`, scoped to `#cabinet`), the page around it follows the theme. A section page, not a post: `outputs: ["html"]`, so no feed and no listing; it embeds the newest 30 posts per channel as a JSON island
+- `themes/bounds-ascii/assets/js/games/` - One file per game (`invaders.js` on `/arcade/`, `squash.js` on the arcade theme's 404 only). **Lazy-loading rule:** a game is never bundled and never in a `<script src>`; its fingerprinted URL is in `data-game-src`, and `js/games.js` (main bundle: the loader and high scores) fetches it when the start button is pressed. Games are opt-in, keyboard and touch operable, silent by default, and pause on blur, hidden tab and scroll-away
 - `themes/LoveIt/` - Vendored theme (NEVER modify directly)
 - `layouts/` - Root overrides that take precedence over theme templates
 - `static/` - Static assets
@@ -26,8 +30,9 @@
   - `make preview` - Draft-enabled tailnet/LAN preview on :1314 under `/bounds-preview/`, writing to ignored `.preview/`
   - `make post SLUG=…` - Scaffold a writing post from `archetypes/writing/`
   - `make test` - Production build plus the small Python/Node contract suite (setup: `scripts/tests/README.md`)
-  - `make check` - Private hosts, GIF-hero WebPs, and a production build with post checks
+  - `make check` - Private hosts, GIF-hero WebPs, a fresh sprite sheet, and a production build with post checks
   - `make webp` - Make or refresh animated WebPs for GIF heroes (libwebp)
+  - `make sprites` - Regenerate the sprite sheet after editing `scripts/sprites.mjs` (Node), then commit both outputs
   - `make photo-poster` - FastAPI/Uvicorn app on :8000; first kills processes on that port and installs Python requirements
 - `tools/photo-poster/` - FastAPI app for creating photo posts with EXIF
 
@@ -94,13 +99,17 @@ Every post is a bundle: `content/posts/<slug>/index.md` plus its images. Every b
 #### Verify locally before asking Jesse
 
 1. `make check`: private-host scan, GIF-hero WebPs, and a production build with the post checks. It must end with "All checks passed".
-2. `make preview`: open the tailnet link on a phone and on desktop. Check the post in light and dark, the hero (animated normally; a static poster or first frame under reduced motion, even without JavaScript, with no playback controls), the home page (the newest post shows once, with its hero), and `~/writing` or `~/photos`.
+2. `make preview`: open the tailnet link on a phone and on desktop. Check the post in light, dark and arcade, the hero (animated normally; a static poster or first frame under reduced motion, even without JavaScript, with no playback controls), the home page (the newest post shows once, with its hero), and `~/writing` or `~/photos`.
 3. Run `make test PYTHON_BIN=/path/to/test-venv/bin/python` for contract coverage (setup and coverage: `scripts/tests/README.md`). It builds production output and checks all published posts; no browser/server is needed. Do not restore fixed post/count assertions, screenshot matrices, DOM layout snapshots or dev-analytics event/path classification checks.
 4. Social preview: the built page's `og:image` should be the card you expect; check it in the page source of the `make preview` build.
 
 ## Code Patterns & Conventions
 
 ### Theme Customization
+
+- Light and dark must keep looking and behaving like production; change them in `main.css` and the templates. Arcade changes go in `arcade.css` / `arcade-skin.js` and must not touch the light/dark rendering path.
+- Arcade: Jersey 25 for titles, headings, nav, buttons and scores, **18 px and up only** (arcade theme and the `/arcade/` cabinet only). Colors are the Arcade Night tokens at the top of `arcade.css` (all pairs checked for WCAG AA); do not add new color pairs without checking contrast.
+- Arcade motion runs only with `<html data-motion="on">`; `still` (reduced motion, more contrast, forced colors, or the header's pause button, saved in `bounds-motion`) stops everything, and every resting state is final. No ambient motion or tilt inside `.post-content`.
 
 **CRITICAL:** Never modify files in `themes/LoveIt/`
 - Override in `layouts/` instead

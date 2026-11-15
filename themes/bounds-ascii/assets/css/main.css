@@ -37,13 +37,8 @@
   --gray-2: #A8A493;
   --gray-3: #87836F;
 
-  /* --- PHOSPHOR ACCENTS (optional, off by default) ------------------------
-     The system is monochrome. These are reserved "signal" colors for a single
-     interactive highlight (cursor, live link hover, terminal mode). Use ONE,
-     sparingly — never decoratively. Default accent resolves to ink. */
-  --phosphor-green: #1FB14B;  /* P1 monitor green */
-  --phosphor-amber: #C77B14;  /* P3 amber */
-  --accent: var(--ink);       /* default: stay monochrome */
+  /* --- ACCENT: the system is monochrome; the default accent resolves to ink. */
+  --accent: var(--ink);
 
   /* --- SEMANTIC FG / BG (light is the default; see .crt for inverted) ------ */
   --fg-1: var(--ink);
@@ -151,7 +146,7 @@
 /* ----------------------------------------------------------------------------
    INVERTED / CRT MODE  — apply .crt to <html> or any container.
    Classic monochrome monitor: light text on near-black. This is the site's
-   "dark mode". Add .crt--green or .crt--amber to tint the phosphor.
+   "dark mode". (The arcade theme has its own stylesheet, arcade.css.)
    ---------------------------------------------------------------------------- */
 .crt {
   --fg-1: #ECE7D6;
@@ -174,12 +169,6 @@
   --sig-ok:    #5BE37A;
   --scan: rgba(255, 255, 255, .022);
 }
-/* Phosphor modes stay monochrome: every channel is a brightness step of the phosphor. */
-.crt--green { --fg-1: #38E25B; --fg-2: #1FB14B; --border: #1FB14B; --accent: #38E25B; --rule:#1FB14B; --selection-bg:#38E25B;
-  --sig-write: #38E25B; --sig-photo: #A6F7B4; --sig-bots: #2BC650; --sig-ok: #38E25B; --scan: rgba(56, 226, 91, .03); }
-.crt--amber { --fg-1: #FFB23E; --fg-2: #C77B14; --border: #C77B14; --accent: #FFB23E; --rule:#C77B14; --selection-bg:#FFB23E;
-  --sig-write: #FFB23E; --sig-photo: #FFD592; --sig-bots: #E99A2C; --sig-ok: #FFB23E; --scan: rgba(255, 178, 62, .03);
-  --meta-on-tint: var(--fg-1); /* dim amber (#C77B14) is 4.48:1 on the photo tint */ }
 
 /* Channel hooks: any element with data-kind re-points --sig for itself and its children. */
 [data-kind="writing"] { --sig: var(--sig-write); }
@@ -326,7 +315,8 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
 .kc-progress { position: absolute; left: 0; right: 0; bottom: -2px; height: 3px; pointer-events: none; overflow: hidden; }
 .kc-progress__bar { display: block; height: 100%; background: var(--sig); transform: scaleX(var(--read, 0)); transform-origin: left; }
 
-/* Theme pill (kept small): four rounded options with a sliding glow. */
+/* Theme pill (kept small): three rounded options (light, dark, arcade) with a sliding glow. The
+   arcade option is only ever pressed under arcade.css, which restyles the control. */
 .kc-theme-control { --pill-width: clamp(32px, 8.5vw, 36px); --theme-step: 0;
   --theme-glow: #18AABD; position: relative; isolation: isolate; display: inline-flex;
   align-items: center; flex: none; font-family: var(--font-mono); height: 26px; }
@@ -348,8 +338,6 @@ th { text-transform: uppercase; letter-spacing: var(--tracking-label); font-size
   transition: transform 380ms cubic-bezier(.22, 1, .36, 1), background-color 180ms ease,
     border-color 180ms ease, box-shadow 180ms ease; }
 .crt .kc-theme-control { --theme-step: 1; --theme-glow: #63EAF4; }
-.crt--green .kc-theme-control { --theme-step: 2; --theme-glow: #38E25B; }
-.crt--amber .kc-theme-control { --theme-step: 3; --theme-glow: #FFB23E; }
 /* While the glow travels it stretches a little, like a drop of phosphor (individual `scale`
    composes with the translate transition). */
 .kc-theme-control.is-moving .kc-theme-indicator { animation: kc-pill-stretch 380ms var(--ease-out); }

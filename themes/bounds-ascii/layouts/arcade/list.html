@@ -1,0 +1,67 @@
+{{ define "main" }}
+{{- /* /arcade/: the Bounds Invaders cabinet, in every theme (its screen is always dark; styles in
+       css/arcade-cabinet.css). Not a post: it has no feed (outputs: html) and no listing includes it. The game script is fetched only when the visitor presses Insert coin
+       (js/games.js reads data-game-src); without JavaScript the cabinet is a still screen and a
+       sentence. The newest 30 posts per channel are written below as a JSON island: every bot in
+       the game is one of them. */ -}}
+{{- $ch := partialCached "channels.html" . "channels" -}}
+{{- $game := resources.Get "js/games/invaders.js" | minify | fingerprint -}}
+{{- $posts := dict -}}
+{{- range $key, $list := dict "writing" $ch.writing "photos" $ch.photos "bots" $ch.bots -}}
+  {{- $items := slice -}}
+  {{- range first 30 $list }}{{ $items = $items | append (dict "t" .Title "u" .RelPermalink) }}{{ end -}}
+  {{- $posts = merge $posts (dict $key $items) -}}
+{{- end -}}
+<div class="kc-archive kc-arcadepage" data-kind="accent">
+  <h1 class="kc-pagetitle"><span class="kc-prompt" aria-hidden="true">$</span> arcade</h1>
+  <p class="kc-lede">{{ .Description }}</p>
+
+  <section class="kc-cabinet kc-slab" id="cabinet" data-sprite-data="{{ (partialCached "sprite-sheet.html" . "sprite-sheet").data }}" data-game="invaders" data-game-src="{{ $game.RelPermalink }}" data-game-sri="{{ $game.Data.Integrity }}" data-ambient aria-labelledby="cabinet-title">
+    <h2 class="kc-cabinet__marquee" id="cabinet-title">BOUNDS INVADERS</h2>
+    <div class="kc-cabinet__screen screen">
+      <canvas class="kc-cabinet__canvas" width="400" height="520" tabindex="-1" role="img" aria-label="Bounds Invaders game screen. Press Insert coin to start." data-game-canvas></canvas>
+      <div class="kc-attract" data-game-attract>
+        <p class="kc-attract__title kc-extrude" data-game-title>BOUNDS INVADERS</p>
+        <ul class="kc-attract__points" aria-label="Points">
+          <li data-kind="bots">{{ partial "sprite.html" (dict "name" "crawler" "anim" true "kind" "bots") }}bot limerick · 30</li>
+          <li data-kind="photo">{{ partial "sprite.html" (dict "name" "drone" "anim" true "kind" "photo") }}photo · 20</li>
+          <li data-kind="writing">{{ partial "sprite.html" (dict "name" "typist" "anim" true "kind" "writing") }}writing · 10</li>
+          <li data-kind="danger">{{ partial "sprite.html" (dict "name" "deadline" "kind" "danger") }}deadline · 100</li>
+        </ul>
+        <p class="kc-attract__msg" data-game-msg>HI <span data-hi>0000</span></p>
+        <button class="kc-btn kc-btn--coin kc-js" type="button" data-game-start>Insert coin</button>
+        <noscript><p class="kc-attract__note">Bounds Invaders needs JavaScript. Everything else on this site works without it.</p></noscript>
+      </div>
+    </div>
+    <div class="kc-cabinet__panel kc-js" role="group" aria-label="Touch controls">
+      <button class="kc-btn" type="button" data-ctl="left" aria-label="Move left">◀</button>
+      <button class="kc-btn" type="button" data-ctl="right" aria-label="Move right">▶</button>
+      <button class="kc-btn kc-btn--coin" type="button" data-ctl="fire">Fire</button>
+    </div>
+    <div class="kc-cabinet__opts kc-js">
+      <button class="kc-btn kc-btn--small" type="button" data-game-pause disabled>Pause</button>
+      <button class="kc-btn kc-btn--small" type="button" data-game-sound aria-pressed="false">Sound: off</button>
+    </div>
+    <p class="kc-cabinet__status" role="status" aria-live="polite" data-game-status>Sound is off until you turn it on. The game pauses when you switch tabs or scroll away.</p>
+    <div class="kc-cabinet__feed">
+      <h3 class="kc-cabinet__feedtitle" id="zapped-title">Posts you zapped</h3>
+      <ul class="kc-feed" aria-labelledby="zapped-title" data-game-feed></ul>
+      <p class="kc-feed__empty" data-game-feed-empty>Every bot is a real post. Zap one and its title shows up here as a link.</p>
+    </div>
+  </section>
+
+  <section class="kc-howto" aria-labelledby="howto-title">
+    <h2 class="kc-sectionhead" id="howto-title">How to play</h2>
+    <ul>
+      <li><kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> move, <kbd>Space</kbd> fires, <kbd>P</kbd> pauses, <kbd>Esc</kbd> pauses and gives the keyboard back to the page.</li>
+      <li>On a phone: the three big buttons, or drag on the screen to steer and tap to fire.</li>
+      <li>Shoot the bots before they reach you. Each wave is faster. The Deadline sometimes flies over the top for a bonus.</li>
+      <li>Every bot is one of the newest posts: writing, photos or a bot limerick. The ones you zap are listed under the cabinet.</li>
+    </ul>
+    <p class="kc-aside">Your high score stays in this browser and is never sent anywhere.
+      <button class="kc-btn kc-btn--small kc-js" type="button" data-clear-scores>Clear my scores</button></p>
+    <p class="kc-aside">Or read instead: <a href="{{ "writing/" | relURL }}">~/writing</a>, <a href="{{ "photos/" | relURL }}">~/photos</a>, <a href="{{ "posts/" | relURL }}">all posts</a>.</p>
+  </section>
+  <script type="application/json" id="arcade-posts">{{ $posts | jsonify | safeJS }}</script>
+</div>
+{{ end }}

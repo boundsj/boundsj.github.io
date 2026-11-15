@@ -10,8 +10,8 @@ out.mkdir(exist_ok=True)
 cases = [
     ("desktop-light", 1280, 900, "light", "no-preference", False),
     ("desktop-dark", 1280, 900, "dark", "no-preference", False),
-    ("desktop-amber", 1280, 900, "amber", "no-preference", False),
-    ("tablet-green", 820, 1100, "green", "no-preference", False),
+    ("tablet-light", 820, 1100, "light", "no-preference", False),
+    ("tablet-dark", 820, 1100, "dark", "no-preference", False),
     ("phone-light", 390, 844, "light", "no-preference", True),
     ("phone-dark", 390, 844, "dark", "reduce", True),
 ]

@@ -24,6 +24,9 @@ and deploy preflight, independent of test dependencies.
 | `test_site_contracts.py` | Published photo front matter has title, description, zoned date, draft boolean, tags, photos category and a real featured-image resource. Explicit alt or the caption supplies alt text. Optional EXIF tables have Attribute/Value columns and Camera plus available Focal Length/Aperture/ISO rows. |
 | `test_site_contracts.py` | All published posts appear across `/posts/` pagination; the newest post is the first titled item on the archive and home (date ties allowed). `hiddenFromHomePage` excludes only home entries, not archive entries. |
 | `test_site_contracts.py` | Every built GIF hero offers a still as the first native picture source for reduced motion, and the referenced image has one frame. This checks the HTML contract that works without JavaScript. |
+| `test_site_contracts.py` | Every built page's header offers the three-way theme control (light, dark, arcade) as real, labelled buttons with `aria-pressed`. |
+| `test_site_contracts.py` | Light/dark markup never links the arcade stylesheet, script or sprites; only `/arcade/` links its cabinet stylesheet and shows sprites. |
+| `test_site_contracts.py` | The committed sprite sheet matches `scripts/sprites.mjs` (`--check`), pages and the arcade script point at one fingerprinted sheet, and every `<use href="…#id">` names a symbol in it. |
 | `test_gif_heroes.py` | The real CLI creates animated WebPs for declared and conventionally named synthetic GIF heroes, then its freshness check passes. `make check` separately checks all repository GIF heroes. |
 | `analytics.test.cjs` | Executes the production inline snippet and real event script with a recording gtag boundary: search/query and fragments removed, email-bearing campaigns removed, safe campaigns retained, referrers sanitized, mailto addresses omitted and outbound queries removed. |
 | `tools/photo-poster/tests/test_generator.py` | Generated photo front matter, EXIF values, GPS coordinates and gallery image order, independent of whitespace and theme markup. |
@@ -48,6 +51,6 @@ node --test scripts/tests/analytics.test.cjs tools/photo-poster/tests/payload.te
 ```
 
 Visual review remains manual when changing the theme: check responsive layouts
-and light/dark modes on a preview. Screenshot matrices, fixed post selections,
+in light, dark and arcade (arcade also paused and with reduced motion) on a preview. Screenshot matrices, fixed post selections,
 lightbox navigation assertions and performance measurements are not part of the
 contract suite.

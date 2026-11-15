@@ -1,4 +1,6 @@
-{{- /* Inline before body paint; shared with the interactive theme picker. */ -}}
-{{- with resources.Get "js/theme-init.js" -}}
-<script>{{ .Content | safeJS }}</script>
+{{- /* Inline before body paint; shared with the interactive theme picker. The arcade theme's
+       fingerprinted files are named here so a saved arcade choice can load them before paint. */ -}}
+{{- $arcade := partialCached "arcade-assets.html" . "arcade-assets" -}}
+{{- with resources.Get "js/theme-init.js" | minify -}}
+<script>window.boundsArcadeAssets={{ $arcade | jsonify | safeJS }};{{ .Content | safeJS }}</script>
 {{- end -}}

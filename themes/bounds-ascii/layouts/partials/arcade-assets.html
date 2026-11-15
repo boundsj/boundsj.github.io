@@ -1,0 +1,21 @@
+{{- /* The arcade theme's two files, for theme-init.js (pre-paint) and theme.js (a runtime switch).
+       Call with partialCached "arcade-assets.html" . "arcade-assets". Returns dict css, cssSri, js,
+       jsSri. The script is games.js (the game loader, for the arcade 404) + fx.js + arcade-skin.js after a small config: the sprite sheet URL and
+       sprite sizes (sprites.json), the /arcade/ and home URLs, and the
+       fingerprinted Bug Squash game (fetched only when CONTINUE? is pressed on the arcade 404). */ -}}
+{{- $sheet := partialCached "sprite-sheet.html" . "sprite-sheet" -}}
+{{- $sizes := dict -}}
+{{- range $name, $s := $sheet.sprites -}}
+  {{- $sizes = merge $sizes (dict $name (dict "w" $s.w "h" $s.h "frames" (len $s.frames))) -}}
+{{- end -}}
+{{- $squash := resources.Get "js/games/squash.js" | minify | fingerprint -}}
+{{- $cfg := dict
+    "sheet" $sheet.url
+    "sprites" $sizes
+    "arcade" ("arcade/" | relURL)
+    "home" site.Home.RelPermalink
+    "squash" (dict "src" $squash.RelPermalink "sri" $squash.Data.Integrity) -}}
+{{- $config := resources.FromString "js/arcade-config.js" (printf "window.boundsArcadeConfig=%s;\n" ($cfg | jsonify)) -}}
+{{- $js := slice $config (resources.Get "js/games.js") (resources.Get "js/fx.js") (resources.Get "js/arcade-skin.js") | resources.Concat "js/arcade.js" | minify | fingerprint -}}
+{{- $css := resources.Get "css/arcade.css" | minify | fingerprint -}}
+{{- return dict "css" $css.RelPermalink "cssSri" $css.Data.Integrity "js" $js.RelPermalink "jsSri" $js.Data.Integrity -}}

@@ -292,11 +292,17 @@
       void control.offsetWidth; // restart the stretch animation
       control.classList.add("is-moving");
     }
-    if (!document.startViewTransition || reduced()) { swap(); return; }
+    // Arcade's paused animations count as reduced motion here too.
+    if (!document.startViewTransition || reduced() || document.documentElement.dataset.motion === "still") { swap(); return; }
     var r = button.getBoundingClientRect();
     var x = r.left + r.width / 2, y = r.top + r.height / 2;
     var radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    // .is-theme-swap tells the arcade theme's page-to-page wipe to stay out of this transition.
+    var root = document.documentElement;
+    root.classList.add("is-theme-swap");
     var transition = document.startViewTransition(swap);
+    transition.finished.then(done, done);
+    function done() { root.classList.remove("is-theme-swap"); }
     transition.ready.then(function () {
       document.documentElement.animate(
         { clipPath: ["circle(0px at " + x + "px " + y + "px)", "circle(" + radius + "px at " + x + "px " + y + "px)"] },

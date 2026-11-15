@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Bounds Arcade · theme lookbook</title>
+<meta name="description" content="A lookbook for a proposed arcade theme for bounds.dev, second pass: finer sprites, a dustier palette, depth on hover, and one playable game.">
+<!-- Before first paint: the lookbook is always the arcade theme. Motion is paused when the system asks for less of it, or when the visitor paused it last time. -->
+<script>
+(function () {
+  var root = document.documentElement, saved = null;
+  try { saved = localStorage.getItem("arcade-lookbook-motion"); } catch (e) {}
+  var asked = matchMedia("(prefers-reduced-motion: reduce)").matches || matchMedia("(prefers-contrast: more)").matches;
+  root.dataset.theme = "arcade"; root.dataset.fx = saved === "paused" || (asked && saved !== "playing") ? "calm" : "on";
+})();
+</script>
+<link rel="stylesheet" href="arcade.css">
+</head>
+<body data-kind="page">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="hud" id="top">
+  <div class="hud__row">
+    <a class="hud__brand" href="#top">bounds.dev</a>
+    <span class="hud__score" aria-hidden="true">1UP <b data-score>000000</b></span>
+    <nav class="hud__nav" aria-label="Lookbook sections">
+      <a href="#look" data-kind="accent">look</a>
+      <a href="#sprites" data-kind="bots">cast</a>
+      <a href="#parts" data-kind="writing">parts</a>
+      <a href="#motion" data-kind="photo">motion</a>
+      <a href="#play" data-kind="page">play</a>
+    </nav>
+    <div class="hud__controls">
+      <div class="seg" role="group" aria-label="Theme. Shown for context: this lookbook is always the arcade theme.">
+        <button type="button" aria-pressed="false" disabled>Light</button>
+        <button type="button" aria-pressed="false" disabled>Dark</button>
+        <button type="button" aria-pressed="true" disabled>Arcade</button>
+      </div>
+      <button class="btn btn--small hud__pause" type="button" id="motion" aria-pressed="false" aria-label="Pause animations">Pause</button>
+    </div>
+  </div>
+  <div class="chompbar" aria-hidden="true">
+    <div class="chompbar__track">
+      <span class="chompbar__power"></span><span class="chompbar__power"></span><span class="chompbar__power"></span>
+      <span class="chompbar__eaten"></span>
+      <span class="chompbar__chomp" data-sprite="chomp" data-anim></span>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="shell">
+  <noscript><p class="note">This lookbook draws its sprites, swatches and game with JavaScript. The production theme would render sprites and layout on the server; only motion and games need scripts.</p></noscript>
+
+  <!-- HERO -->
+  <section class="hero screen px" aria-labelledby="hero-title" data-ambient>
+    <div class="stars" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="formation" aria-hidden="true"></div>
+    <span class="hero__ship" data-sprite="ship" aria-hidden="true"></span>
+    <div class="hero__copy">
+      <span class="hero__mascot" data-sprite="chomp" data-anim data-depth="always" data-rock aria-hidden="true"></span>
+      <p class="eyebrow" data-kind="writing">A theme proposal for bounds.dev · second pass</p>
+      <h1 id="hero-title" class="extrude">BOUNDS ARCADE</h1>
+      <p class="hero__sub">One person and some bots are typing<span class="cursor" aria-hidden="true"></span></p>
+      <p class="hero__cta"><a class="btn btn--coin" href="#play">Insert coin</a><a class="btn" href="#look">See the lookbook</a></p>
+    </div>
+  </section>
+  <p class="note" style="margin-top:22px">Move the pointer across the hero: the title shows a different side and Chomp turns to follow. Cards and sprites below do the same; on a phone, tap a sprite in the cast. Scroll and Chomp crosses the track in the header, eating each pellet as his mouth reaches it; scroll back and they return. <strong>Pause</strong> (top right) stops every loop, effect and tilt; the same happens on its own when your system asks for reduced motion.</p>
+
+  <!-- LOOK: palette + type -->
+  <section class="sec" id="look" data-kind="accent" aria-labelledby="look-title">
+    <h2 class="sec__title" id="look-title"><span data-sprite="power" data-depth></span>Palette</h2>
+    <p class="sec__lede">Arcade is one theme, offered next to the site's light and dark; green and amber go away. The colors are the first pass's hues with about a third of the saturation taken out: butter, apricot, rose, sage and a dusty aqua on a blue-black. Ratios are measured in your browser; body and UI text needs 4.5:1.</p>
+    <div class="grid" id="palettes"></div>
+
+    <h2 class="sec__title" style="margin-top:40px"><span data-sprite="floppy" data-depth></span>Type</h2>
+    <p class="sec__lede">One pixel face, drawn fine enough to read as lettering instead of blocks, and the current reading face for everything you actually read.</p>
+    <div class="grid grid--2">
+      <div class="spec px reveal" data-tilt>
+        <p class="spec__label">Jersey 25 · titles, headings, nav, buttons, scores · 18 px and up · 20.9 KB</p>
+        <p class="t-display">HIGH SCORE 004200</p>
+        <p class="t-head">Notion as Mission Control for My T3 Code Fleet</p>
+        <p class="t-head t-head--2">All writing · Insert coin · Code, Calm, Cast · ~/photos</p>
+      </div>
+      <div class="spec px reveal" data-tilt>
+        <p class="spec__label">Iosevka Aile 17/1.7 · long-form reading · already on the site, no new bytes</p>
+        <p class="t-body">The arcade stays in the margins. Inside a post there is one reading face, one accent color and nothing that moves on its own, so a 2,000-word write-up reads the way it does today.</p>
+      </div>
+      <div class="spec px reveal" data-tilt>
+        <p class="spec__label">Iosevka · code, dates, meta, and every label under 18 px · already on the site</p>
+        <p class="t-mono">2026-10-08 · 6 min · make check &amp;&amp; hugo --cleanDestinationDir</p>
+      </div>
+      <div class="spec px reveal" data-tilt>
+        <p class="spec__label">Cut after the first pass: Press Start 2P (an 8-row grid: the low resolution you noticed) and Pixelify Sans (its C reads as O)</p>
+        <p class="t-cut t-cut--ps">HIGH SCORE 004200</p>
+        <p class="t-cut t-cut--px">Mission Control for My T3 Code Fleet</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAST -->
+  <section class="sec" id="sprites" data-kind="bots" aria-labelledby="sprites-title">
+    <h2 class="sec__title" id="sprites-title"><span data-sprite="bug" data-depth></span>The cast</h2>
+    <p class="sec__lede">Eighteen original sprites, redrawn at about two and a half times the resolution of the first pass, with a lit rim and a shaded rim. <span data-sheet-size>The whole set is one SVG symbol sheet.</span> Each has a side: hover a tile and the sprite turns to show it; on a phone, tap. The invaders are the site's bots. Chomp is the site's block cursor, grown hungry. The chasers are bugs.</p>
+    <div class="sheet" id="sheet" data-ambient></div>
+  </section>
+
+  <!-- PARTS -->
+  <section class="sec" id="parts" data-kind="writing" aria-labelledby="parts-title">
+    <h2 class="sec__title" id="parts-title"><span data-sprite="typist" data-depth></span>Parts</h2>
+    <p class="sec__lede">The same pieces the site has now, reskinned: the newest post, the listing, and a post's reading column.</p>
+    <div class="grid grid--2">
+      <article class="card px px--sig reveal" data-kind="writing" data-tilt>
+        <div class="card__bezel">
+          <img src="legacy-hero.svg" width="1600" height="800" alt="The existing t3-fleet-gateway hero: a terminal-style diagram of one bot, one gateway and many machines, in its original green-on-black palette.">
+          <div class="card__strip" aria-hidden="true"><span>NOW PLAYING</span><span>1P</span></div>
+        </div>
+        <div class="card__body">
+          <p class="card__kind"><b>Writing</b> · <time datetime="2026-10-07">2026-10-07</time> · 7 min read</p>
+          <h3 class="card__title"><a href="#parts">t3-fleet-gateway: A Unified MCP Gateway for T3 Code, Driven by Grok Bot</a></h3>
+          <p class="card__desc">A small always-on MCP gateway that lets Grok Bot run coding jobs on the T3 Code servers on my machines, one long-lived thread per project.</p>
+          <ul class="tags"><li><a class="tag" href="#parts">ai</a></li><li><a class="tag" href="#parts">t3-code</a></li><li><a class="tag" href="#parts">mcp</a></li></ul>
+        </div>
+      </article>
+      <div>
+        <div class="px reveal" data-tilt="soft">
+          <div class="scores__head" aria-hidden="true"><span>RECENT POSTS</span><span>1UP</span></div>
+          <ol class="scores">
+            <li><a href="#parts" data-kind="photo"><time datetime="2026-10-25">2026-10-25</time><span class="rt">photo</span><span class="t">Ocean Beach</span><span data-sprite="camera"></span></a></li>
+            <li><a href="#parts" data-kind="writing"><time datetime="2026-10-08">2026-10-08</time><span class="rt">6 min</span><span class="t">Notion as Mission Control for My T3 Code Fleet</span><span data-sprite="typist"></span></a></li>
+            <li><a href="#parts" data-kind="writing"><time datetime="2026-10-04">2026-10-04</time><span class="rt">9 min</span><span class="t">Environment Update: A T3 Code Tokenmaxing Constellation</span><span data-sprite="typist"></span></a></li>
+            <li><a href="#parts" data-kind="writing"><time datetime="2026-09-28">2026-09-28</time><span class="rt">8 min</span><span class="t">Rescue82: Making a Choplifter-style game for Apple Vision Pro</span><span data-sprite="typist"></span></a></li>
+            <li><a href="#parts" data-kind="bots"><time datetime="2023-12-31">2023-12-31</time><span class="rt">bot</span><span class="t">At Year's End</span><span data-sprite="crawler"></span></a></li>
+          </ol>
+        </div>
+        <p class="note" style="margin:22px 4px 0">The legacy hero on the left is the real one, unedited: old art keeps its own palette and gets a bezel. Hover the card to tilt it; hover or tab through the rows.</p>
+      </div>
+    </div>
+
+    <div class="prose" data-kind="writing" style="margin-top:40px">
+      <h2>The reading column stays calm</h2>
+      <p>This is the post body: 17 px Iosevka Aile on the plain page color, 66 characters wide. <a href="#parts">Links keep the text color</a> and carry a channel-colored underline, <code>inline code</code> sits in a well, and nothing in this column animates unless you ask it to.</p>
+      <blockquote><p>The arcade goes around the article, never through it.</p></blockquote>
+      <div class="code px px--flat" data-kind="writing">
+        <div class="code__bar"><span>BASH</span><button class="btn btn--small" type="button" data-copy>Copy</button></div>
+<pre><code><span class="c"># the same checks as today, still green</span>
+<span class="k">make</span> check
+<span class="k">make</span> test PYTHON_BIN=<span class="s">/tmp/bounds-contract-tests/bin/python</span>
+<span class="k">hugo</span> --cleanDestinationDir <span class="c"># 311 posts, <span class="n">0</span> URLs changed</span></code></pre>
+      </div>
+      <h3>Figures and charts</h3>
+      <figure class="fig px px--flat">
+        <svg viewBox="0 0 560 250" role="img" aria-labelledby="chart-t chart-d" font-family="Iosevka, ui-monospace, monospace">
+          <title id="chart-t">Cost per 1,000 emails</title>
+          <desc id="chart-d">Claude Haiku 4.5 costs $7.20, GPT-5.6 Luna $0.81 and TypeSafe Jev 1.13 $0.13.</desc>
+          <rect width="560" height="250" fill="var(--surface)"/>
+          <g fill="var(--text-2)" font-size="13">
+            <text x="20" y="62">Claude Haiku 4.5</text><text x="20" y="132">GPT-5.6 Luna</text><text x="20" y="202">TypeSafe Jev 1.13</text>
+          </g>
+          <g shape-rendering="crispEdges">
+            <rect x="170" y="40" width="340" height="36" fill="var(--pink)"/>
+            <rect x="170" y="110" width="38" height="36" fill="var(--orange)"/>
+            <rect x="170" y="180" width="8" height="36" fill="var(--cyan)"/>
+            <path d="M170 28v200" stroke="var(--line)" stroke-width="2"/>
+          </g>
+          <g fill="var(--text)" font-size="15" font-weight="700">
+            <text x="518" y="64">$7.20</text><text x="216" y="134">$0.81</text><text x="186" y="204">$0.13</text>
+          </g>
+        </svg>
+        <figcaption>New charts take the palette from CSS variables, so they follow the theme. Bars are labeled directly; color is never the only cue. Old charts stay as published.</figcaption>
+      </figure>
+      <table data-kind="photo">
+        <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
+        <tbody><tr><td>Camera</td><td>iPhone 17 Pro</td></tr><tr><td>Focal Length</td><td>16.9 mm</td></tr><tr><td>Aperture</td><td>f/2.8</td></tr><tr><td>ISO</td><td>32</td></tr></tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:40px">The 404 page</h3>
+    <div class="over screen px" data-kind="danger" id="over">
+      <h3 class="extrude">GAME OVER</h3>
+      <p class="over__cont">CONTINUE? <span data-countdown>9</span></p>
+      <p class="over__path">No page at <code>/posts/this-page/</code>. It moved, or it never existed.</p>
+      <p class="hero__cta"><a class="btn btn--coin" href="#top">Continue: home</a><a class="btn" href="#parts">~/writing</a><a class="btn" href="#parts">~/photos</a><button class="btn" type="button" data-replay="countdown">Replay countdown</button></p>
+    </div>
+  </section>
+
+  <!-- MOTION -->
+  <section class="sec" id="motion" data-kind="photo" aria-labelledby="motion-title">
+    <h2 class="sec__title" id="motion-title"><span data-sprite="drone" data-depth></span>Motion</h2>
+    <p class="sec__lede">Two kinds of movement. Sprites still swap frames in steps, the way arcade sprites do. Everything else eases and settles with a small overshoot, and turns in depth under the pointer. Each tile replays one move; paused, or under reduced motion, they show their final frame.</p>
+    <div class="grid grid--4" data-ambient>
+      <div class="tile px reveal" style="grid-column: 1 / -1" data-tilt="soft">
+        <div class="stage stage--depth screen" aria-hidden="true"><span data-sprite="typist" data-anim data-depth="always" data-rock data-kind="writing"></span><span data-sprite="duck" data-depth="always" data-rock data-kind="accent"></span><span data-sprite="bug" data-anim data-depth="always" data-rock data-kind="danger"></span></div>
+        <h3>Depth</h3>
+        <p>Every sprite is a slab seven layers deep, and every card has an edge. At rest the side is a baked shadow that costs nothing. Under the pointer, or on a tap, the real layers are built and the thing turns up to about 30 degrees; a wide card turns 3.5, a small tile 9. Nothing turns in the reading column, and nothing turns when motion is paused or reduced.</p>
+      </div>
+      <div class="tile px reveal" data-tilt>
+        <div class="stage screen" data-demo="crt"><div class="crt-pic"><span data-sprite="typist" data-kind="writing"></span><b>POWER ON</b></div></div>
+        <h3>CRT power-on</h3>
+        <p>Home hero, first view of a session. A line, then the picture opens. 620 ms, once.</p>
+        <button class="btn btn--small" type="button" data-replay="crt">Replay</button>
+      </div>
+      <div class="tile px reveal" data-tilt>
+        <div class="stage screen" data-demo="wipe"><div class="wipe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="wipe__ready" aria-hidden="true">READY!</div><b>LEVEL 02</b><small>~/photos</small></div>
+        <h3>Level-start wipe</h3>
+        <p>Between pages. Six bars close and open in steps. 900 ms here; 240 ms on real navigation.</p>
+        <button class="btn btn--small" type="button" data-replay="wipe">Replay</button>
+      </div>
+      <div class="tile px reveal" data-tilt>
+        <div class="stage screen" data-demo="count"><b>POSTS</b><span class="t-display" data-count="311" style="margin:0">311</span><small>high-score counters</small></div>
+        <h3>Score counters</h3>
+        <p>Post and photo counts tick up when they scroll into view. 700 ms, eased out, final value in the markup.</p>
+        <button class="btn btn--small" type="button" data-replay="count">Replay</button>
+      </div>
+      <div class="tile px reveal" data-tilt>
+        <div class="stage screen" data-demo="coin"><div class="slot"><span class="slot__coin" data-sprite="coin" data-kind="accent"></span><div class="slot__mouth"></div></div><b>CREDIT <span data-credit>00</span></b></div>
+        <h3>Coin slot</h3>
+        <p>The footer's way into the arcade. The coin tips, drops and the credit ticks.</p>
+        <button class="btn btn--small" type="button" data-replay="coin">Insert coin</button>
+      </div>
+      <div class="tile px reveal" style="grid-column: 1 / -1" data-ambient>
+        <div class="lane screen" aria-hidden="true">
+          <div class="lane__run"><span data-sprite="bug" data-anim data-kind="danger"></span><span data-sprite="bug" data-anim data-kind="bots"></span><span data-sprite="bug" data-anim data-kind="writing"></span><span data-sprite="bug" data-anim data-kind="photo"></span><span data-sprite="chomp" data-anim></span></div>
+        </div>
+        <h3>The chase lane</h3>
+        <p>Runs along the top of the footer. Four bugs chase Chomp across; off screen it finds a power pellet and chases them back. An 18-second loop that pauses off screen and stops when motion is paused or reduced.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:16px">Hidden extra: type the old cheat code, <kbd>↑</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>B</kbd> <kbd>A</kbd>, anywhere on this page.</p>
+  </section>
+
+  <!-- PLAY -->
+  <section class="sec" id="play" data-kind="page" aria-labelledby="play-title">
+    <h2 class="sec__title" id="play-title"><span data-sprite="ship" data-depth></span>Play: Bounds Invaders</h2>
+    <p class="sec__lede">A minimal prototype of the first game, now on a 400 × 520 screen with the same shaded sprites. Its script loads only when you press Insert coin. Every bot you zap is a post; the feed below the cabinet links to it.</p>
+    <div class="cabinet px" data-ambient>
+      <div class="cabinet__marquee">BOUNDS INVADERS</div>
+      <div class="cabinet__screen screen">
+        <canvas id="game" width="400" height="520" tabindex="0" role="img" aria-label="Bounds Invaders game screen. Press Insert coin to start."></canvas>
+        <div class="attract" id="attract">
+          <h3 id="attract-title" class="extrude">BOUNDS INVADERS</h3>
+          <ul aria-label="Points">
+            <li data-kind="bots"><span data-sprite="crawler" data-anim></span>bot limerick · 30</li>
+            <li data-kind="photo"><span data-sprite="drone" data-anim></span>photo · 20</li>
+            <li data-kind="writing"><span data-sprite="typist" data-anim></span>writing · 10</li>
+          </ul>
+          <p id="attract-msg">HI <span data-hi>0000</span></p>
+          <button class="btn btn--coin" type="button" id="start">Insert coin</button>
+        </div>
+      </div>
+      <div class="cabinet__panel" aria-label="Touch controls">
+        <button class="btn" type="button" data-ctl="left" aria-label="Move left">◀</button>
+        <button class="btn" type="button" data-ctl="right" aria-label="Move right">▶</button>
+        <button class="btn btn--coin" type="button" data-ctl="fire">Fire</button>
+      </div>
+      <div class="cabinet__opts">
+        <button class="btn btn--small" type="button" id="pause" disabled>Pause</button>
+        <button class="btn btn--small" type="button" id="sound" aria-pressed="false">Sound: off</button>
+        <span class="keys"><kbd>←</kbd> <kbd>→</kbd> move · <kbd>Space</kbd> fire · <kbd>P</kbd> pause · <kbd>Esc</kbd> leave</span>
+      </div>
+      <p class="cabinet__status" id="status" role="status" aria-live="polite">Sound is off until you turn it on. The game pauses when you switch tabs or scroll away.</p>
+      <ul class="feed" id="feed" aria-label="Posts you zapped"></ul>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="foot__bar">
+    <a href="#top">bounds.dev</a><a href="#look" data-kind="accent">look</a><a href="#parts" data-kind="writing">parts</a><a href="#play" data-kind="page">play</a>
+    <span class="foot__credit" aria-hidden="true">CREDIT <span data-credit>00</span></span>
+  </div>
+  <small>Lookbook prototype for the Bounds Arcade proposal, second pass. Original pixel art; fonts under the SIL Open Font License (see fonts/). Not the production theme, and not published.</small>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script src="sprites.js"></script>
+<script src="lookbook.js"></script>
+</body>
+</html>

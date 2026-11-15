@@ -14,7 +14,7 @@ review on `make preview` (or any draft-enabled `hugo server`).
 | `social.py` | `social-card.png` (1200×627, via `render.py`) |
 | `lib.py` | Shared palette, Iosevka measuring/subsetting, and drawing primitives |
 | `render.py` | Rasterizes SVGs through Chrome, the way the post shows them |
-| `shots.py` | Screenshots of the draft on a running preview (phone, tablet, desktop; all four themes) |
+| `shots.py` | Screenshots of the draft on a running preview (phone, tablet, desktop; Night and Day) |
 
 `gif-heroes.py` then makes the `.webp` for both GIFs and updates `scripts/gif-heroes.lock`. Commit them with the GIFs.
 

@@ -16,7 +16,7 @@ class PostCheckTests(unittest.TestCase):
                 (source / name).symlink_to(ROOT / name)
             scripts = source / "scripts"
             scripts.mkdir()
-            for name in ("check-private-hosts.sh", "gif-heroes.py"):
+            for name in ("check-private-hosts.sh", "gif-heroes.py", "sprites.mjs"):
                 shutil.copyfile(ROOT / "scripts" / name, scripts / name)
                 (scripts / name).chmod(0o755)
             bundle = source / "content/posts/probe"

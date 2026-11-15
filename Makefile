@@ -8,7 +8,7 @@ MAGENTA := \033[0;35m
 RESET := \033[0m
 BOLD := \033[1m
 
-.PHONY: help serve preview preview-stop check test check-private-hosts webp post photo-poster
+.PHONY: help serve preview preview-stop check test check-private-hosts webp sprites post photo-poster
 
 help: ## Show this help message
 	@echo "$(BOLD)$(MAGENTA)bounds.dev$(RESET) - Available commands:\n"
@@ -43,9 +43,13 @@ check-private-hosts: ## Fail if tailnet names or IPs are in site sources
 webp: ## Make or refresh the animated WebP for every GIF hero (needs libwebp: brew install webp)
 	@python3 scripts/gif-heroes.py build
 
-check: ## Before asking for review: private hosts, GIF heroes, and a production build with post checks
+sprites: ## Regenerate the committed sprite sheet and its JSON from scripts/sprites.mjs (needs Node)
+	@node scripts/sprites.mjs
+
+check: ## Before asking for review: private hosts, GIF heroes, sprite sheet, and a production build with post checks
 	@scripts/check-private-hosts.sh
 	@python3 scripts/gif-heroes.py check
+	@node scripts/sprites.mjs --check
 	@out=$$(mktemp -d) && hugo --minify --cleanDestinationDir --destination "$$out" && rm -rf "$$out"
 	@echo "$(GREEN)All checks passed.$(RESET)"
 

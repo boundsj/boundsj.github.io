@@ -1,0 +1,23 @@
+{{- /* One decorative sprite from the shared sheet. No JavaScript is needed to show it.
+       {{ partial "sprite.html" (dict "name" "chomp" "anim" true "depth" true "kind" "accent" "s" 2 "class" "x") }}
+       name   a sprite in scripts/sprites.mjs
+       anim   swap its two frames (two stacked layers, opacity + step-end); CSS decides whether it runs
+       frame  show one fixed frame instead (0 or 1)
+       depth  true: fx.js may build depth layers on hover/tap; "always": build them at load
+       rock   the slow depth rock (hero mascot)
+       kind   data-kind for its color; s is the scale (--s); class adds classes
+       Always aria-hidden: a sprite sits next to a text label or is pure decoration. */ -}}
+{{- $sheet := partialCached "sprite-sheet.html" . "sprite-sheet" -}}
+{{- $s := index $sheet.sprites .name -}}
+{{- if not $s }}{{ errorf "[sprite] unknown sprite %q" .name }}{{ end -}}
+{{- $frames := len $s.frames -}}
+{{- $only := -1 -}}
+{{- if isset . "frame" }}{{ $only = int .frame }}{{ else if or (not .anim) (lt $frames 2) }}{{ $only = 0 }}{{ end -}}
+<span class="spr-host{{ with .class }} {{ . }}{{ end }}" data-sprite="{{ .name }}"{{ if and .anim (eq $only -1) }} data-anim{{ end }}{{ with .depth }} data-depth{{ if eq . "always" }}="always"{{ end }}{{ end }}{{ if .rock }} data-rock{{ end }}{{ with .kind }} data-kind="{{ . }}"{{ end }}{{ with .s }} style="--s:{{ . }}"{{ end }} aria-hidden="true"><span class="vox"><span class="spr" style="--w:{{ $s.w }};--h:{{ $s.h }}">
+{{- range $f := seq 0 (sub $frames 1) -}}
+{{- if or (eq $only -1) (eq $only $f) -}}
+<svg class="spr__f spr__f{{ if eq $only -1 }}{{ $f }}{{ else }}0{{ end }}" viewBox="0 0 {{ $s.w }} {{ $s.h }}" shape-rendering="crispEdges" focusable="false"><use href="{{ $sheet.url }}#spr-{{ $.name }}-{{ $f }}"/></svg>
+{{- end -}}
+{{- end -}}
+</span></span></span>
+{{- /**/ -}}

@@ -28,7 +28,7 @@ Property: `G-LT0HKHY2J5` (`config.toml` → `params.analytics.google.id`). This 
 | Field | Set by | Values |
 | --- | --- | --- |
 | `content_group` | `gtag('config')` on every page | `home`, `writing`, `photos`, `bots`, `archive`, `about`, `taxonomy`, `error`, `page` |
-| user property `site_theme` | `gtag('set', 'user_properties')` before `config`, and again whenever the applied theme changes, whether by the pill or by the system appearance when no theme is saved | `light`, `dark`, `green`, `amber` |
+| user property `site_theme` | `gtag('set', 'user_properties')` before `config`, and again whenever the applied theme changes, whether by the theme control or by the system appearance when no theme is saved | `light`, `dark`, `arcade`. Saved `green`/`amber`/`crt` from the old four-theme control migrate to `dark` (and `paper` to `light`) before the first report |
 
 `content_group` is passed to `gtag('config')`, so gtag attaches it to **every** event on the page (`page_view`, every custom event below, and Enhanced Measurement events like `scroll`), not just the page view. Any event can therefore be broken down by channel. It comes from `themes/bounds-ascii/layouts/partials/content-group.html` (also on `<body data-content-group>`). Single posts follow their channel: `photos` category → `photos`; `generated` → `bots`; any other category → `writing`.
 
@@ -40,7 +40,7 @@ There are 12 custom events. All names and parameters are snake_case. Reused para
 | --- | --- | --- |
 | `select_content` (GA4 recommended) | Choosing a specific post: listing rows, the latest-post title or hero, writing entries, older/newer links, the lightbox's "open post", and links to `/posts/<slug>/` inside article text | `content_type` (`writing`, `photo`, `bots`, or `post` when a link inside article text doesn't say), `content_id` (post slug), `ui_location` |
 | `nav_click` | Index-level navigation: header nav, status-bar footer, channel chips, back links, door buttons, 404 buttons, tag/category chips, "all posts", pager, "↑ top", other internal links | `nav_item` (`home`, `writing`, `photos`, `posts`, `about`, `bots`, `tags`, `categories`, `top`, `page`), `ui_location` |
-| `theme_change` | A theme pill press that changes the theme | `theme_from`, `theme_to` |
+| `theme_change` | A theme control press that changes the theme (the arcade theme's pause button reports nothing) | `theme_from`, `theme_to` (`light`, `dark` or `arcade`) |
 | `outbound_click` | A link to another site, except the social profiles | `link_domain` (no `www.`), `link_path`, `ui_location` |
 | `social_click` | GitHub, X/Twitter, LinkedIn profile links | `social_network` (`github`, `x`, `linkedin`), `ui_location` |
 | `email_click` | Any `mailto:` link | `ui_location` |

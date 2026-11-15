@@ -1,9 +1,13 @@
 /* ============================================================================
    bounds.dev — theme.js
    Vanilla JS (no modules), first file in the deferred bundle:
-     (a) Four-mode theme selection + localStorage persistence + pressed states;
-         on toggle, restyle any Mapbox maps to match.
-     (b) Typed subtitle on the home page (respects prefers-reduced-motion).
+     (a) Three-theme selection (light, dark, arcade) + localStorage persistence + pressed
+         states; on toggle, restyle any Mapbox maps to match (arcade uses the dark style).
+         Arcade's stylesheet and script (js/arcade.js: fx.js + arcade-skin.js) are fetched
+         the first time it is chosen, unless theme-init.js already wrote them before paint;
+         window.boundsArcade.enable()/disable() add and remove the arcade-only pieces.
+     (b) Typed subtitle on the home page (respects prefers-reduced-motion, and arcade's
+         still state).
      (c) Per-image dithering via window.ditherInit().
      (d) Lazy Mapbox: the library loads once, when a map nears the viewport;
          each map is created once and kept in an array for restyling.
@@ -22,7 +26,7 @@
     } catch (e) { /* ignore */ }
   };
 
-  /* ---------- CRT DARK MODE ---------- */
+  /* ---------- THEMES ---------- */
   function isCrt() {
     return document.documentElement.classList.contains("crt");
   }
@@ -38,21 +42,72 @@
     }
   }
 
+  /* The arcade files, once: resolves when its stylesheet and script have both loaded. */
+  var arcadeLoad = null;
+  function loadArcade() {
+    if (arcadeLoad) return arcadeLoad;
+    var assets = theme.assets || {};
+    var link = document.getElementById("kc-arcade-css");
+    // A link that never reported loading is an earlier attempt that failed (the pre-paint one
+    // included): retry it. (link.sheet cannot tell: a disabled link has no sheet either.)
+    if (link && !link.dataset.ready) { link.remove(); link = null; }
+    if (link && window.boundsArcade) return Promise.resolve();
+    arcadeLoad = new Promise(function (resolve, reject) {
+      if (!assets.css || !assets.js) { arcadeLoad = null; reject(new Error("no arcade assets")); return; }
+      var pending = 2;
+      function done() { if (--pending === 0) { arcadeLoad = null; resolve(); } }
+      function fail() { arcadeLoad = null; reject(new Error("arcade failed to load")); }
+      if (link) done();
+      else {
+        link = document.createElement("link");
+        link.id = "kc-arcade-css";
+        link.rel = "stylesheet";
+        link.href = assets.css;
+        link.integrity = assets.cssSri;
+        link.onload = function () {
+          link.dataset.ready = "1";
+          // Loaded for a selection that may since have been cancelled: stay inert until arcade applies.
+          link.disabled = document.documentElement.dataset.theme !== "arcade";
+          done();
+        };
+        link.onerror = function () { link.remove(); fail(); };
+        var base = document.getElementById("kc-css");
+        if (base && base.parentNode) base.parentNode.insertBefore(link, base.nextSibling);
+        else document.head.appendChild(link);
+      }
+      if (window.boundsArcade) done();
+      else {
+        var script = document.createElement("script");
+        script.src = assets.js;
+        script.integrity = assets.jsSri;
+        script.onload = function () { window.boundsArcade ? done() : fail(); };
+        script.onerror = function () { script.remove(); fail(); };
+        document.head.appendChild(script);
+      }
+    });
+    return arcadeLoad;
+  }
+
   function initCrtToggle() {
     var buttons = document.querySelectorAll("[data-theme-mode]");
     var preference = theme.read();
     var manual = !!preference;
     var systemTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+    var selection = 0; // every press takes a number; only the latest press may apply
 
     function applyTheme(mode) {
+      var arcade = window.boundsArcade;
+      if (arcade && mode !== "arcade") arcade.disable();
       theme.apply(mode);
+      if (arcade && mode === "arcade") arcade.enable();
       buttons.forEach(function (button) {
         button.setAttribute("aria-pressed", String(button.dataset.themeMode === mode));
       });
       applyMapStyles();
     }
 
-    applyTheme(preference || (systemTheme && systemTheme.matches ? "dark" : "light"));
+    // theme-init.js already chose (and fell back to dark if the arcade stylesheet failed).
+    applyTheme(document.documentElement.dataset.theme || preference || (systemTheme && systemTheme.matches ? "dark" : "light"));
     if (systemTheme) {
       systemTheme.addEventListener("change", function (event) {
         if (!manual) applyTheme(event.matches ? "dark" : "light");
@@ -63,13 +118,25 @@
       button.addEventListener("click", function () {
         var mode = button.dataset.themeMode;
         var from = document.documentElement.dataset.theme;
+        var ticket = ++selection;
         manual = true;
         if (mode !== from) {
-          var swap = function () { applyTheme(mode); };
-          // A circular wipe from the pressed pill, where View Transitions exist and motion is welcome.
-          if (window.boundsThemeTransition) window.boundsThemeTransition(button, swap);
-          else swap();
-          window.boundsTrack("theme_change", { theme_from: from, theme_to: mode });
+          var go = function () {
+            // A later press won, even one of the theme already showing (arcade still loading).
+            if (ticket !== selection || document.documentElement.dataset.theme !== from) return;
+            // The wipe may run this a moment later: a press in between still wins, and the change is
+            // reported only if it was applied.
+            var swap = function () {
+              if (ticket !== selection) return;
+              applyTheme(mode);
+              window.boundsTrack("theme_change", { theme_from: from, theme_to: mode });
+            };
+            // A circular wipe from the pressed pill, where View Transitions exist and motion is welcome.
+            if (window.boundsThemeTransition) window.boundsThemeTransition(button, swap);
+            else swap();
+          };
+          if (mode === "arcade") loadArcade().then(go, function () { /* stay on the current theme */ });
+          else go();
         }
         try {
           localStorage.setItem(theme.key, mode);
@@ -79,6 +146,8 @@
   }
 
   /* ---------- TYPED SUBTITLE ---------- */
+  function still() { return document.documentElement.dataset.motion === "still"; }
+
   function makeCursor() {
     var c = document.createElement("span");
     c.className = "kc-cursor";
@@ -94,6 +163,7 @@
     try {
       reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     } catch (e) { reduce = false; }
+    if (still()) reduce = true;
 
     if (reduce) {
       // Leave the text in place, just append a blinking cursor.
@@ -106,6 +176,10 @@
     el.appendChild(cursor);
     var i = 0;
     function step() {
+      if (still()) { // arcade paused mid-line: finish at once
+        cursor.insertAdjacentText("beforebegin", text.slice(i));
+        i = text.length;
+      }
       if (i < text.length) {
         cursor.insertAdjacentText("beforebegin", text.charAt(i));
         i++;

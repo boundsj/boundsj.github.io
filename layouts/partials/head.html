@@ -28,11 +28,18 @@
   {{- end -}}
 {{- end -}}
 
-{{- /* CSS via Hugo pipeline: minify + fingerprint (SRI). */ -}}
+{{- /* CSS via Hugo pipeline: minify + fingerprint (SRI). main.css is light and dark; theme-init.js
+       disables it (#kc-css) while the arcade theme's own stylesheet applies. */ -}}
 {{- $css := resources.Get "css/main.css" -}}
 {{- with $css -}}
   {{- $css = . | minify | fingerprint -}}
-<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+<link id="kc-css" rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- end -}}
+{{- /* /arcade/: the cabinet is a dark arcade screen in every theme. */ -}}
+{{- if eq .Section "arcade" }}
+  {{- with resources.Get "css/arcade-cabinet.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+  {{- end }}
 {{- end -}}
 
 {{ partial "post-prose.html" . }}

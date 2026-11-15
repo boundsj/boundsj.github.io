@@ -1,0 +1,1009 @@
+/* ============================================================================
+   bounds.dev — the Arcade theme (Arcade Night). One stylesheet: tokens, components, motion.
+   Loaded only while <html data-theme="arcade"> (theme-init.js writes it before first paint for a
+   saved choice; theme.js adds it on a switch), and production's main.css is disabled meanwhile, so
+   light and dark never see a rule from here and nothing here inherits a light/dark rule. Every
+   selector is scoped under :root[data-theme="arcade"] anyway, so switching away leaves nothing.
+   The /arcade/ cabinet's own styles are in arcade-cabinet.css (loaded on that page in every theme).
+   Markup comes from production's templates; js/arcade-skin.js adds the arcade-only pieces (HUD
+   score, pause button, Chomp strip, hero, bezels, high-score chrome, chase lane, coin slot, GAME
+   OVER) and removes them again on a switch away.
+   Motion: <html data-motion="on"|"still">. "still" comes from prefers-reduced-motion,
+   prefers-contrast: more, forced-colors, or the header's pause button (bounds-motion); every
+   resting state is the final state.
+   Palette: every text value passes 4.5:1 on bg, surface and well; line passes 3:1.
+   ============================================================================ */
+
+/* Arcade Night */
+:root[data-theme="arcade"] {
+  color-scheme: dark;
+  --bg: #13141F;          /* ink: a blue-black */
+  --surface: #1C1E2E;     /* cards, panels */
+  --well: #272A3F;        /* inline code, table stripes, pressed */
+  --text: #ECE7DA;
+  --text-2: #BDBBCD;
+  --text-3: #A09EB8;
+  --line: #7F88C4;        /* dusty periwinkle: borders and focus */
+  --line-soft: #343853;   /* decorative dividers and the dot grid only */
+  --pellet: #E9C46A;      /* butter: Chomp, pellets, the accent */
+  --pellet-fill: #E9C46A;
+  --cyan: #7CC8D4;        /* writing */
+  --orange: #E8A470;      /* photos */
+  --pink: #E391B8;        /* bot limericks */
+  --lime: #8FD3A2;        /* pages, success */
+  --red: #EA8A86;         /* danger, GAME OVER */
+  --on-accent: #1B1A2B;   /* ink on butter */
+  --edge-ink: #05060C;    /* slab edges are the border color mixed halfway toward this */
+  --drop: rgba(0, 0, 0, .5);
+  --spr-ink: #13141F; --spr-light: #F3EEDF; --spr-accent: #E9C46A;
+  --title-edge: #5A4A86;
+  --scan: rgba(255, 255, 255, .028);
+  --sheen: rgba(255, 255, 255, .09);
+}
+/* Still motion lifts meta text one contrast step. */
+:root[data-theme="arcade"][data-motion="still"] { --text-3: var(--text-2); }
+
+/* Derived roles and the older names (posts' inline styles use --fg-1/2/3). */
+:root[data-theme="arcade"] {
+  --fg-1: var(--text);
+  --fg-2: var(--text-2);
+  --fg-3: var(--text-3);
+  --bg-1: var(--bg);
+  --bg-2: var(--surface);
+  --bg-3: var(--well);
+  --border: var(--line);
+  --rule: var(--line);
+  --accent: var(--pellet);
+  --selection-bg: var(--pellet-fill);
+  --selection-fg: var(--on-accent);
+  --sig-write: var(--cyan);
+  --sig-photo: var(--orange);
+  --sig-bots: var(--pink);
+  --sig-ok: var(--lime);
+  --sig: var(--lime);
+  --sig-tint: color-mix(in srgb, var(--sig) 16%, var(--bg));
+  --meta-on-tint: var(--text-2);
+  --edge: color-mix(in srgb, var(--line) 50%, var(--edge-ink));
+}
+
+/* Type, spacing, motion. One display face (Jersey 25) for titles, headings, nav, buttons and
+   scores, 18 px and up only. Body stays Iosevka Aile (posts) and code, dates and meta Iosevka. */
+:root[data-theme="arcade"] {
+  --font-display: "Jersey 25", "Iosevka", ui-monospace, monospace;
+  --font-mono: "Iosevka", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-body: var(--font-mono);
+  --font-prose: "Iosevka Aile", system-ui, sans-serif;
+  --measure: 66ch;
+  --shell-max: 760px;
+  --gutter: clamp(16px, 5vw, 40px);
+  --r-slab: 14px;
+  --r-ui: 10px;
+  --spring: cubic-bezier(.2, 1.45, .4, 1);   /* settles with a small overshoot */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --dur-1: 140ms;
+  --dur-2: 220ms;
+}
+
+/* Channels: any element with data-kind re-points --sig for itself and its children. Color is
+   never the only cue: every channel also has a text label (and usually a sprite). */
+:root[data-theme="arcade"] [data-kind="writing"] { --sig: var(--cyan); }
+:root[data-theme="arcade"] [data-kind="photo"] { --sig: var(--orange); }
+:root[data-theme="arcade"] [data-kind="bots"] { --sig: var(--pink); }
+:root[data-theme="arcade"] [data-kind="page"] { --sig: var(--lime); }
+:root[data-theme="arcade"] [data-kind="accent"] { --sig: var(--pellet); --spr-sig: var(--spr-accent); }
+:root[data-theme="arcade"] [data-kind="danger"] { --sig: var(--red); }
+:root[data-theme="arcade"] [data-kind]:not([data-kind="accent"]) { --spr-sig: initial; }
+:root[data-theme="arcade"] [data-kind] { --sig-tint: color-mix(in srgb, var(--sig) 16%, var(--bg)); }
+
+/* Until js/arcade-skin.js has added the arcade pieces, the page shows only its background (no
+   flash of production markup in arcade colors). theme-init.js lifts this after 3 s regardless. */
+:root[data-theme="arcade"].kc-arcade-boot body { visibility: hidden; }
+/* Production markup that the arcade skin hides (attribute set and removed by arcade-skin.js). */
+:root[data-theme="arcade"] [data-arcade-hidden] { display: none !important; }
+
+/* --- SELF-HOSTED FONTS (OFL) --- */
+/* Fontsource @fontsource/iosevka 5.3.0, locally subsetted with FontTools; OFL-Iosevka.txt. */
+@font-face { font-family: 'Iosevka'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/iosevka-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Iosevka'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('../fonts/iosevka-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Iosevka'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/iosevka-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Iosevka'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('../fonts/iosevka-latin-700-normal.woff2') format('woff2'); }
+/* Jersey 25 (Fontsource Latin, OFL 1.1, no Reserved Font Name; OFL-jersey-25.txt). The display
+   face: titles, headings, nav, buttons and scores, 18 px and up only. One weight. */
+@font-face { font-family: 'Jersey 25'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/jersey-25-latin-400.woff2') format('woff2'); }
+
+/* ============================================================================
+   BASE
+   ============================================================================ */
+:root[data-theme="arcade"] * { box-sizing: border-box; }
+:root[data-theme="arcade"] { -webkit-text-size-adjust: 100%; scroll-padding-top: 140px; background-color: var(--bg); }
+:root[data-theme="arcade"] body {
+  margin: 0; color: var(--text); background-color: var(--bg);
+  /* Pellet grid in the page margins only: the content column is solid, so text never sits on it. */
+  background-image: radial-gradient(var(--line-soft) 1.2px, transparent 1.7px); background-size: 24px 24px;
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6; font-weight: 400;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+:root[data-theme="arcade"] ::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+:root[data-theme="arcade"] h1, :root[data-theme="arcade"] h2, :root[data-theme="arcade"] h3, :root[data-theme="arcade"] h4 { color: var(--text); margin: 0 0 16px; }
+:root[data-theme="arcade"] h1, :root[data-theme="arcade"] h2, :root[data-theme="arcade"] h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.08; letter-spacing: .01em; }
+:root[data-theme="arcade"] h1 { font-size: 40px; }
+:root[data-theme="arcade"] h2 { font-size: 32px; }
+:root[data-theme="arcade"] h3 { font-size: 26px; }
+:root[data-theme="arcade"] h4 { font: 700 14px/1.3 var(--font-mono); text-transform: uppercase; letter-spacing: .12em; color: var(--text-2); }
+:root[data-theme="arcade"] p { margin: 0 0 16px; max-width: var(--measure); }
+
+:root[data-theme="arcade"] a { color: var(--text); text-decoration: underline; text-decoration-color: var(--sig);
+  text-decoration-thickness: 2px; text-underline-offset: 4px; }
+:root[data-theme="arcade"] a:hover { background: color-mix(in srgb, var(--sig) 18%, transparent); color: var(--text); }
+
+:root[data-theme="arcade"] small, :root[data-theme="arcade"] .meta { font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: .12em; }
+
+:root[data-theme="arcade"] code, :root[data-theme="arcade"] kbd, :root[data-theme="arcade"] samp { font-family: var(--font-mono); font-size: .9em; background: var(--well); padding: 1px 6px; border-radius: 4px; }
+:root[data-theme="arcade"] pre { font-family: var(--font-mono); font-size: 14px; line-height: 1.55; background: var(--surface); color: var(--text);
+  border: 2px solid var(--line); border-radius: var(--r-ui); padding: 14px 16px; overflow-x: auto; }
+:root[data-theme="arcade"] pre code { background: none; border: none; padding: 0; border-radius: 0; font-size: inherit; }
+
+:root[data-theme="arcade"] blockquote { margin: 24px 0; padding: 12px 18px; background: var(--surface); border-left: 4px solid var(--sig);
+  border-radius: 0 var(--r-ui) var(--r-ui) 0; color: var(--text-2); font-style: italic; }
+:root[data-theme="arcade"] blockquote > :last-child { margin-bottom: 0; }
+
+:root[data-theme="arcade"] hr { border: none; border-top: 2px solid var(--line-soft); margin: 32px 0; }
+:root[data-theme="arcade"] ul, :root[data-theme="arcade"] ol { padding-left: 24px; max-width: var(--measure); }
+:root[data-theme="arcade"] li { margin: 4px 0; }
+
+:root[data-theme="arcade"] table { border-collapse: separate; border-spacing: 0; font: 400 14px/1.5 var(--font-mono); width: 100%;
+  border: 2px solid var(--line); border-radius: 12px; overflow: hidden; }
+:root[data-theme="arcade"] th, :root[data-theme="arcade"] td { padding: 8px 12px; text-align: left; vertical-align: top; }
+:root[data-theme="arcade"] th { font: 700 12px/1.4 var(--font-mono); text-transform: uppercase; letter-spacing: .12em; color: var(--sig);
+  background: var(--surface); border-bottom: 2px solid var(--line); }
+:root[data-theme="arcade"] td + td, :root[data-theme="arcade"] th + th { border-left: 1px solid var(--line-soft); }
+:root[data-theme="arcade"] tr:nth-child(even) td { background: var(--well); }
+
+:root[data-theme="arcade"] .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* ============================================================================
+   PRIMITIVES: slab, keycap, screen, sprite
+   ============================================================================ */
+/* The slab: every card and panel. A 2 px rim, a rounded corner and an edge with real thickness:
+   six stacked hard shadows stepping from the face to the back, plus one soft shadow under it.
+   --ex/--ey is where the back sits relative to the face; at rest it hangs straight down by --lip
+   (fx.js swings it as the slab turns, so the edge you see is the one the turn would show). */
+:root[data-theme="arcade"] .kc-slab {
+  --bd: var(--line); --r: var(--r-slab); --lip: 6px; --ex: 0px; --ey: var(--lip);
+  --slab-edge: color-mix(in srgb, var(--bd) 50%, var(--edge-ink));
+  position: relative; background: var(--surface); border: 2px solid var(--bd); border-radius: var(--r);
+  box-shadow:
+    calc(var(--ex) / 6) calc(var(--ey) / 6) 0 var(--slab-edge), calc(var(--ex) / 3) calc(var(--ey) / 3) 0 var(--slab-edge),
+    calc(var(--ex) / 2) calc(var(--ey) / 2) 0 var(--slab-edge), calc(var(--ex) / 1.5) calc(var(--ey) / 1.5) 0 var(--slab-edge),
+    calc(var(--ex) / 1.2) calc(var(--ey) / 1.2) 0 var(--slab-edge), var(--ex) var(--ey) 0 var(--slab-edge),
+    calc(var(--ex) * 2) calc(var(--ey) * 2 + 8px) 22px -8px var(--drop);
+}
+:root[data-theme="arcade"] .kc-slab--flat { --lip: 3px; }
+:root[data-theme="arcade"] .kc-slab--sig { --bd: var(--sig); }
+
+/* Buttons are keycaps: a 4 px edge (fx.css lifts them on hover and sinks them when pressed). */
+:root[data-theme="arcade"] .kc-btn {
+  --bd: var(--line); --key-edge: color-mix(in srgb, var(--bd) 50%, var(--edge-ink));
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 6px 18px; margin: 0 0 4px;
+  border: 2px solid var(--bd); border-radius: var(--r-ui); background: var(--surface); color: var(--text);
+  font: 400 22px/1.1 var(--font-display); letter-spacing: .04em; text-decoration: none; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; box-shadow: 0 4px 0 var(--key-edge);
+}
+:root[data-theme="arcade"] .kc-btn:hover { background: var(--well); color: var(--text); }
+:root[data-theme="arcade"] .kc-btn:active { box-shadow: 0 1px 0 var(--key-edge); }
+:root[data-theme="arcade"] .kc-btn.is-off, :root[data-theme="arcade"] .kc-btn:disabled { color: var(--text-3); cursor: default; box-shadow: 0 2px 0 var(--key-edge); background: transparent; }
+:root[data-theme="arcade"] .kc-btn--coin { background: var(--pellet-fill); color: var(--on-accent);
+  --bd: var(--on-accent); --key-edge: color-mix(in srgb, var(--pellet-fill) 52%, #000); }
+:root[data-theme="arcade"] .kc-btn--coin { --bd: color-mix(in srgb, var(--pellet-fill) 62%, #fff); }
+:root[data-theme="arcade"] .kc-btn--coin:hover { background: color-mix(in srgb, var(--pellet-fill) 86%, #fff); color: var(--on-accent); }
+:root[data-theme="arcade"] .kc-btn--small { min-height: 36px; padding: 2px 12px; font-size: 20px; }
+
+/* Screens: a dark cabinet screen (always Night tokens; see tokens.css) with faint scanlines. Never
+   over photos or body text. */
+:root[data-theme="arcade"] .screen { position: relative; overflow: hidden; isolation: isolate; background: var(--bg); color: var(--text); }
+:root[data-theme="arcade"] .screen::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit;
+  background: repeating-linear-gradient(0deg, var(--scan) 0 1px, transparent 1px 3px); }
+
+/* Sprites: a face (one or two stacked frame layers) inside a .vox wrapper that can turn in depth.
+   --w/--h is the sprite's grid, --s its scale. At rest the side is baked: three hard drop shadows
+   in the sprite's own darkened color. fx.js adds real silhouette layers on first hover or tap. */
+:root[data-theme="arcade"] .spr-host { display: inline-block; line-height: 0; color: var(--spr-sig, var(--sig)); perspective: 420px; vertical-align: middle; flex: none; }
+:root[data-theme="arcade"] .vox { --side: color-mix(in srgb, currentColor 52%, var(--edge-ink)); display: block; position: relative;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  filter: drop-shadow(calc(var(--s, 1) * .34px) calc(var(--s, 1) * .34px) 0 var(--side)) drop-shadow(calc(var(--s, 1) * .34px) calc(var(--s, 1) * .34px) 0 var(--side)) drop-shadow(calc(var(--s, 1) * .34px) calc(var(--s, 1) * .5px) 0 var(--side)); }
+:root[data-theme="arcade"][data-motion="on"] [data-extruded] > .vox { filter: none; transform-style: preserve-3d; }
+:root[data-theme="arcade"][data-motion="still"] .vox__d { display: none; }
+:root[data-theme="arcade"] .spr { position: relative; display: block; width: calc(var(--w) * var(--s, 1) * 1px); height: calc(var(--h) * var(--s, 1) * 1px); }
+:root[data-theme="arcade"] .spr__f { position: absolute; inset: 0; display: block; width: 100%; height: 100%; overflow: visible; }
+:root[data-theme="arcade"] .spr__f1 { opacity: 0; }
+:root[data-theme="arcade"] .vox__d { position: absolute; left: 0; top: 0; color: color-mix(in srgb, currentColor calc(62% - var(--i) * 3%), var(--edge-ink));
+  transform: translateZ(calc(var(--i) * (var(--s, 1) * -.5px - .6px))); }
+:root[data-theme="arcade"] .vox__d .spr__f { position: absolute; }
+
+/* A menu-select arrow: the old "$" prompt and the current-item marker. */
+:root[data-theme="arcade"] .kc-prompt { display: inline-block; width: 0; height: 0; margin: 0 .3em 0 0; vertical-align: .12em; overflow: hidden;
+  font-size: 0; border: .2rem solid transparent; border-left: .32rem solid var(--sig); border-right: 0; }
+:root[data-theme="arcade"] h1 .kc-prompt, :root[data-theme="arcade"] .kc-post__title .kc-prompt { border-width: 8px 0 8px 12px; border-color: transparent; border-left-color: var(--sig); vertical-align: .1em; margin-right: 12px; }
+
+/* ============================================================================
+   LAYOUT
+   ============================================================================ */
+:root[data-theme="arcade"] .kc-main { display: block; }
+:root[data-theme="arcade"] .kc-shell { max-width: var(--shell-max); margin: 0 auto; padding: clamp(24px, 5vw, 44px) var(--gutter) 24px; background: var(--bg); }
+:root[data-theme="arcade"] [data-content-group="photos"] .kc-main .kc-shell, :root[data-theme="arcade"] [data-content-group="home"] .kc-main .kc-shell { max-width: 1040px; }
+/* ---------- HEADER: the HUD ----------
+   Production's header, laid out as one row: brand, the decorative 1UP score, the channel
+   navigation, the theme control and the pause button (score and button come from
+   arcade-skin.js), with the Chomp strip along the bottom edge. --hud-pad centers a 1040 px row. */
+:root[data-theme="arcade"] .kc-header { --hud-pad: max(var(--gutter), calc(50% - 520px + var(--gutter)));
+  position: sticky; top: 0; z-index: 50; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px;
+  padding: 8px var(--hud-pad) 36px; background: var(--bg); border-top: 3px solid var(--line); }
+:root[data-theme="arcade"] .kc-identity { display: contents; }
+:root[data-theme="arcade"] .kc-progress { display: none; }
+:root[data-theme="arcade"] .kc-brand { order: 0; display: inline-flex; align-items: center; min-height: 40px; font: 400 28px/1 var(--font-display); letter-spacing: .02em;
+  color: var(--text); text-decoration: none; }
+:root[data-theme="arcade"] .kc-brand:hover { background: none; color: var(--text); text-decoration: underline; text-decoration-color: var(--pellet-fill); }
+:root[data-theme="arcade"] .kc-hud__score { order: 1; font: 400 20px/1 var(--font-display); letter-spacing: .06em; color: var(--text-2); white-space: nowrap; }
+:root[data-theme="arcade"] .kc-hud__score b { font-weight: 400; color: var(--pellet); font-variant-numeric: tabular-nums; }
+:root[data-theme="arcade"] .kc-nav { order: 2; display: flex; gap: 2px; margin-left: auto; }
+:root[data-theme="arcade"] .kc-nav__a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px 0 22px; border-radius: 8px;
+  font: 400 22px/1 var(--font-display); letter-spacing: .03em; white-space: nowrap; color: var(--text); text-decoration: none; }
+:root[data-theme="arcade"] .kc-nav__a[data-nav="writing"] { --sig: var(--cyan); }
+:root[data-theme="arcade"] .kc-nav__a[data-nav="photos"] { --sig: var(--orange); }
+:root[data-theme="arcade"] .kc-nav__a[data-nav="posts"], :root[data-theme="arcade"] .kc-nav__a[data-nav="about"] { --sig: var(--lime); }
+:root[data-theme="arcade"] .kc-nav__path { color: var(--sig); }
+:root[data-theme="arcade"] .kc-nav__a:hover { background: color-mix(in srgb, var(--sig) 18%, transparent); color: var(--text); }
+/* Current page: a select arrow, a 3 px channel underline, and aria-current. Never color alone. */
+:root[data-theme="arcade"] .kc-nav__a::before { content: ""; position: absolute; left: 8px; top: 50%; margin-top: -5px; border: 5px solid transparent;
+  border-left: 7px solid var(--sig); border-right: 0; opacity: 0; }
+:root[data-theme="arcade"] .kc-nav__a[aria-current]::before { opacity: 1; }
+:root[data-theme="arcade"] .kc-nav__a[aria-current] { box-shadow: inset 0 -3px 0 0 var(--sig); border-radius: 8px 8px 0 0; }
+
+/* The theme control: production's three buttons as one segmented keycap. The Arcade option is
+   the pressed one whenever this sheet applies (aria-pressed is kept in step by theme.js). */
+:root[data-theme="arcade"] .kc-theme-control { order: 3; position: relative; display: inline-flex; flex: none; height: auto;
+  border: 2px solid var(--line); border-radius: 10px; background: var(--bg); }
+:root[data-theme="arcade"] .kc-theme-indicator, :root[data-theme="arcade"] .kc-theme-control__sep { display: none; }
+:root[data-theme="arcade"] .kc-theme-option { position: relative; min-width: 52px; min-height: 40px; padding: 0 8px; margin: 0; border: 0; border-radius: 7px;
+  background: transparent; color: var(--text-2); font: 700 12px/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+:root[data-theme="arcade"] .kc-theme-option::after { content: ""; position: absolute; inset: -4px 0; }   /* 44 px tall hit area */
+:root[data-theme="arcade"] .kc-theme-option:hover { color: var(--text); background: var(--well); }
+:root[data-theme="arcade"] .kc-theme-option[data-theme-mode="arcade"] { background: var(--pellet-fill); color: var(--on-accent); }
+:root[data-theme="arcade"] .kc-theme-option:focus-visible { outline-offset: -4px; }
+:root[data-theme="arcade"] .kc-theme-option[data-theme-mode="arcade"]:focus-visible { outline-color: var(--on-accent); }
+
+/* Pause / play animations (WCAG 2.2.2): pressed = paused, the same still page as reduced motion. */
+:root[data-theme="arcade"] .kc-motion { order: 4; position: relative; display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; margin: 0;
+  border: 2px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--text-2); cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+:root[data-theme="arcade"] .kc-motion:hover { color: var(--text); background: var(--well); }
+:root[data-theme="arcade"] .kc-motion[aria-pressed="true"] { color: var(--pellet); }
+:root[data-theme="arcade"] .kc-motion__icon { display: block; width: 14px; height: 16px; border-style: solid; border-color: currentColor; border-width: 0 5px; }
+:root[data-theme="arcade"] .kc-motion[aria-pressed="true"] .kc-motion__icon { width: 0; height: 0; margin-left: 4px; border-width: 8px 0 8px 14px; border-color: transparent transparent transparent currentColor; }
+:root[data-theme="arcade"] .kc-motion:focus-visible { outline-offset: -4px; }
+
+/* Scroll progress: Chomp eats a row of pellets on a dark strip at the header's bottom edge. The strip
+   and its rule are full width; the track is centred: 60% of the page, at least 336px (or the page less
+   48px) on phones, at most 960px, and a whole number of 24px pellets so both ends finish on a pellet.
+   arcade-skin.js moves Chomp and the eaten edge (transforms only) from one scroll fraction. */
+:root[data-theme="arcade"] .kc-chompbar { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; overflow: hidden; border-bottom: 2px solid var(--line); background: var(--bg); }
+:root[data-theme="arcade"] .kc-chompbar__track { position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: 0 auto;
+  width: min(960px, max(60%, min(100% - 48px, 336px)));
+  width: round(down, min(960px, max(60%, min(100% - 48px, 336px))), 24px);
+  background: radial-gradient(circle at 12px 50%, var(--pellet) 0 2.6px, transparent 3.4px) 0 0 / 24px 100% repeat-x; }
+:root[data-theme="arcade"] .kc-chompbar__eaten { position: absolute; inset: 0; background: var(--bg); transform: scaleX(0); transform-origin: left; }
+/* Power pellets at 25/50/75%, each on a real pellet (left set by arcade-skin.js), covering it. */
+:root[data-theme="arcade"] .kc-chompbar__power { position: absolute; top: 50%; left: 12px;
+  width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--pellet); box-shadow: inset -2px -2px 0 rgba(0, 0, 0, .22); }
+:root[data-theme="arcade"] .kc-chompbar__power.is-eaten { opacity: 0; }
+:root[data-theme="arcade"] .kc-chompbar__chomp { position: absolute; left: 0; top: 4px; --s: .78; color: var(--pellet); }
+:root[data-theme="arcade"] .kc-chompbar.is-back .kc-chompbar__chomp .vox { scale: -1 1; }
+
+/* ---------- HOME HERO: the arcade screen ---------- */
+:root[data-theme="arcade"] .kc-arcade { --r: 18px; --lip: 8px; container-type: inline-size; margin: 0 0 18px; border-radius: var(--r);
+  background: radial-gradient(80% 60% at 50% 112%, #2B2752 0%, transparent 72%), radial-gradient(60% 40% at 50% -10%, #1F2A44 0%, transparent 70%), var(--bg);
+  --hx: .045em; --hy: .07em; }
+:root[data-theme="arcade"] .kc-arcade__pic { position: relative; z-index: 2; min-height: 560px; padding: 0 16px 34px; display: flex; flex-direction: column; justify-content: flex-end; text-align: center; }
+:root[data-theme="arcade"] .kc-stars { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+/* Stars are three tiled layers of tiny dots; each tile is 300 px tall, so drifting 600 px loops seamlessly. */
+:root[data-theme="arcade"] .kc-stars i { position: absolute; left: 0; right: 0; top: -600px; bottom: 0; }
+:root[data-theme="arcade"] .kc-stars i:nth-child(1) { opacity: .55; background-size: 233px 300px;
+  background-image: radial-gradient(1px 1px at 20px 40px, var(--text-3) 50%, transparent 51%), radial-gradient(1px 1px at 140px 90px, var(--text-3) 50%, transparent 51%),
+    radial-gradient(1px 1px at 80px 170px, var(--text-3) 50%, transparent 51%), radial-gradient(1px 1px at 200px 230px, var(--text-3) 50%, transparent 51%),
+    radial-gradient(1px 1px at 50px 270px, var(--text-3) 50%, transparent 51%), radial-gradient(1px 1px at 170px 10px, var(--text-3) 50%, transparent 51%); }
+:root[data-theme="arcade"] .kc-stars i:nth-child(2) { opacity: .75; background-size: 367px 300px;
+  background-image: radial-gradient(1.4px 1.4px at 60px 60px, var(--text-2) 50%, transparent 52%), radial-gradient(1.4px 1.4px at 250px 140px, var(--text-2) 50%, transparent 52%),
+    radial-gradient(1.4px 1.4px at 130px 250px, var(--text-2) 50%, transparent 52%), radial-gradient(1.4px 1.4px at 330px 20px, var(--text-2) 50%, transparent 52%); }
+:root[data-theme="arcade"] .kc-stars i:nth-child(3) { background-size: 541px 300px;
+  background-image: radial-gradient(1.6px 1.6px at 90px 120px, var(--text) 50%, transparent 52%), radial-gradient(1.6px 1.6px at 420px 210px, var(--text) 50%, transparent 52%),
+    radial-gradient(1.6px 1.6px at 300px 40px, var(--text) 50%, transparent 52%); }
+:root[data-theme="arcade"] .kc-formation { position: absolute; left: 16px; top: 26px; z-index: 0; --s: 2; transform: translateX(calc((100cqw - 100% - 32px) / 2)); }
+:root[data-theme="arcade"] .kc-formation__layer { display: grid; grid-template-columns: repeat(7, auto); align-items: end; gap: 14px 22px; }
+:root[data-theme="arcade"] .kc-formation__layer--1 { position: absolute; inset: 0; opacity: 0; }
+:root[data-theme="arcade"] .kc-arcade__ship { position: absolute; left: 16px; bottom: 10px; z-index: 0; opacity: .9; transform: translateX(calc((100cqw - 100% - 32px) * .12)); }
+:root[data-theme="arcade"] .kc-arcade__copy { position: relative; z-index: 2; padding-top: 236px; }
+:root[data-theme="arcade"] .kc-arcade__mascot { --s: 4; margin: 0 0 14px; color: var(--pellet); }
+:root[data-theme="arcade"] .kc-arcade__eyebrow { font: 400 22px/1.2 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); margin: 0 auto 6px; max-width: none; }
+/* The title is extruded with eight stacked shadows; fx.js moves --hx/--hy under the pointer. */
+:root[data-theme="arcade"] .kc-extrude { text-shadow:
+  calc(var(--hx) * .125) calc(var(--hy) * .125) 0 var(--title-edge), calc(var(--hx) * .25) calc(var(--hy) * .25) 0 var(--title-edge),
+  calc(var(--hx) * .375) calc(var(--hy) * .375) 0 var(--title-edge), calc(var(--hx) * .5) calc(var(--hy) * .5) 0 var(--title-edge),
+  calc(var(--hx) * .625) calc(var(--hy) * .625) 0 var(--title-edge), calc(var(--hx) * .75) calc(var(--hy) * .75) 0 var(--title-edge),
+  calc(var(--hx) * .875) calc(var(--hy) * .875) 0 var(--title-edge), var(--hx) var(--hy) 0 var(--title-edge),
+  calc(var(--hx) * 2) calc(var(--hy) * 2.4) .22em rgba(0, 0, 0, .45); }
+:root[data-theme="arcade"] .kc-arcade .kc-profile__name { font: 400 clamp(52px, 12cqw, 112px)/.9 var(--font-display); letter-spacing: .02em; color: var(--pellet); margin: 0 0 16px; }
+:root[data-theme="arcade"] .kc-arcade .kc-profile__sub { font: 400 clamp(22px, 3cqw, 30px)/1.3 var(--font-display); letter-spacing: .02em; color: var(--text); margin: 0 auto 4px; max-width: none; }
+:root[data-theme="arcade"] .kc-cursor { display: inline-block; width: .5em; height: .82em; margin-left: 5px; vertical-align: -2px; border-radius: 2px; background: var(--pellet); }
+
+/* Profile links under the hero: small keycaps. */
+:root[data-theme="arcade"] .kc-profile { margin: 0 0 8px; }
+:root[data-theme="arcade"] .kc-social { list-style: none; margin: 0; padding: 0; max-width: none; display: flex; gap: 8px 10px; justify-content: center; flex-wrap: wrap; }
+:root[data-theme="arcade"] .kc-social li { margin: 0; }
+:root[data-theme="arcade"] .kc-social__a { --bd: var(--line-soft); display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border-radius: 8px;
+  border: 2px solid var(--bd); background: var(--surface); box-shadow: 0 3px 0 color-mix(in srgb, var(--line) 40%, var(--edge-ink));
+  font: 700 12px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: var(--text); }
+:root[data-theme="arcade"] .kc-social__a:hover { background: var(--well); color: var(--text); --bd: var(--sig); }
+:root[data-theme="arcade"] .kc-social__short { display: none; }
+
+/* Section heads and page titles */
+:root[data-theme="arcade"] .kc-sectionhead { display: flex; align-items: center; gap: 12px; font-size: clamp(30px, 4.6vw, 40px); margin: 44px 0 18px; }
+:root[data-theme="arcade"] .kc-pagetitle { font-size: clamp(36px, 5.6vw, 48px); margin: 0 0 8px; }
+:root[data-theme="arcade"] .kc-pagetitle [aria-hidden="true"]:not(.kc-prompt) { color: var(--sig); }
+:root[data-theme="arcade"] .kc-dim { color: var(--text-3); }
+:root[data-theme="arcade"] .kc-lede { font-size: 14px; color: var(--text-2); margin: 6px 0 0; }
+:root[data-theme="arcade"] .kc-aside { font-size: 13px; color: var(--text-2); margin-top: 28px; }
+:root[data-theme="arcade"] .kc-archive__count { font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: .1em; margin: 0; }
+:root[data-theme="arcade"] .kc-more { margin-top: 26px; }
+:root[data-theme="arcade"] .kc-rule { border: none; border-top: 2px solid var(--line-soft); margin: 28px 0; }
+
+/* TUI panel (cross-link): a slab with a titled top. */
+:root[data-theme="arcade"] .tui-panel { position: relative; padding: 18px 16px 16px; }
+:root[data-theme="arcade"] .tui-panel__title { margin: 0 0 4px; color: var(--sig); font-size: 24px; }
+
+/* ---------- HOME DOORS: two cabinet slabs ---------- */
+:root[data-theme="arcade"] .kc-doors { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 28px 0 8px; }
+:root[data-theme="arcade"] .kc-door { --bd: var(--sig); display: flex; flex-direction: column; gap: 12px; padding: 16px 18px 18px; isolation: isolate; }
+:root[data-theme="arcade"] .kc-door__head { display: flex; align-items: center; gap: 14px; }
+:root[data-theme="arcade"] .kc-door__title { margin: 0; font-size: 34px; color: var(--text); }
+:root[data-theme="arcade"] .kc-door__title [aria-hidden="true"] { color: var(--sig); }
+:root[data-theme="arcade"] .kc-door__player { display: inline-block; margin-right: 4px; padding: 0 6px; border-radius: 6px; background: var(--sig); color: var(--bg) !important; font-size: 22px; vertical-align: .2em; }
+:root[data-theme="arcade"] .kc-door__lede { font-size: 14px; color: var(--text-2); margin: 0; }
+:root[data-theme="arcade"] .kc-door__meta { font-size: 12px; color: var(--text-3); margin: auto 0 0; }
+:root[data-theme="arcade"] .kc-door__count { font: 400 26px/1 var(--font-display); color: var(--pellet); font-variant-numeric: tabular-nums; margin-right: 2px; }
+:root[data-theme="arcade"] .kc-door__cta { align-self: flex-start; }
+:root[data-theme="arcade"] .kc-door__tags { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; }
+/* The CTA stretches over the whole door; photo thumbnails and tags sit above it as their own links. */
+:root[data-theme="arcade"] .kc-door__cta::after, :root[data-theme="arcade"] .kc-entry__link::after { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: inherit; }
+:root[data-theme="arcade"] .kc-door .kc-strip { position: relative; z-index: 1; }
+
+/* ---------- PHOTO STRIP (doors, cross-links) ---------- */
+:root[data-theme="arcade"] .kc-strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: none; }
+:root[data-theme="arcade"] .kc-strip li { margin: 0; }
+:root[data-theme="arcade"] .kc-strip__a { display: block; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: var(--well);
+  border: 2px solid var(--line-soft); outline-offset: 2px; }
+:root[data-theme="arcade"] .kc-strip__a:hover { background: var(--well); border-color: var(--orange); }
+:root[data-theme="arcade"] .kc-strip__a img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- NEWEST POST: a slab, its hero in a dark bezel with a NOW PLAYING strip ---------- */
+:root[data-theme="arcade"] .kc-featured { --bd: var(--sig); display: flex; flex-direction: column; margin-bottom: 30px; overflow: visible; }
+:root[data-theme="arcade"] .kc-featured__body { order: 2; padding: 16px 18px 18px; }
+:root[data-theme="arcade"] .kc-featured .kc-bezel { order: 1; }
+:root[data-theme="arcade"] .kc-featured__title { font-size: clamp(28px, 3.8vw, 36px); line-height: 1.05; overflow-wrap: anywhere; margin: 0 0 10px; }
+:root[data-theme="arcade"] .kc-featured__title a { text-decoration: none; color: var(--text); }
+:root[data-theme="arcade"] .kc-featured__title a:hover { background-color: transparent; color: var(--text); }
+:root[data-theme="arcade"] .kc-featured__meta { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); }
+:root[data-theme="arcade"] .kc-kind { color: var(--sig); font-weight: 700; }
+:root[data-theme="arcade"] .kc-bezel { padding: 10px 10px 0; background: #343853; border-radius: calc(var(--r-slab) - 2px) calc(var(--r-slab) - 2px) 0 0; }
+:root[data-theme="arcade"] .kc-bezel .kc-hero { border: 0; margin: 0; padding: 0; background: none; border-radius: 6px; overflow: hidden; }
+:root[data-theme="arcade"] .kc-bezel__strip { display: flex; justify-content: space-between; gap: 8px; padding: 4px 4px 5px;
+  font: 400 18px/1.3 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: #ECE7DA; }
+:root[data-theme="arcade"] .kc-hero__link { display: block; text-decoration: none; }
+:root[data-theme="arcade"] .kc-hero__link:hover { background: none; }
+
+/* ---------- POST LISTINGS: a high-score table ---------- */
+:root[data-theme="arcade"] .kc-scores { padding: 6px 10px 12px; }
+:root[data-theme="arcade"] .kc-scores__head { display: flex; justify-content: space-between; padding: 10px 10px 4px; font: 400 26px/1.2 var(--font-display);
+  letter-spacing: .06em; text-transform: uppercase; color: var(--pellet); }
+:root[data-theme="arcade"] .kc-rows { display: flex; flex-direction: column; gap: 2px; font-size: 14px; counter-reset: rank; }
+:root[data-theme="arcade"] .kc-row { position: relative; isolation: isolate; display: grid; grid-template-columns: 3ch 10ch 6ch minmax(0, 1fr) auto;
+  align-items: center; gap: 4px 14px; counter-increment: rank; font-family: var(--font-body); font-size: 14px; line-height: 1.5;
+  text-decoration: none; color: var(--text); padding: 9px 8px 9px 22px; border-radius: 8px; }
+:root[data-theme="arcade"] .kc-row:hover, :root[data-theme="arcade"] .kc-row:focus-visible { background: var(--sig-tint); color: var(--text); }
+/* Select arrow on hover or focus. */
+:root[data-theme="arcade"] .kc-row::after { content: ""; position: absolute; left: 6px; top: 50%; margin-top: -6px; border: 6px solid transparent;
+  border-left: 8px solid var(--sig); border-right: 0; opacity: 0; }
+:root[data-theme="arcade"] .kc-row:hover::after, :root[data-theme="arcade"] .kc-row:focus-visible::after { opacity: 1; }
+/* Rank: decorative (a CSS counter). */
+:root[data-theme="arcade"] .kc-row__glyph { grid-column: 1; grid-row: 1; color: var(--sig); font-weight: 700; font-variant-numeric: tabular-nums; }
+:root[data-theme="arcade"] .kc-row__glyph::before { content: counter(rank, decimal-leading-zero); content: counter(rank, decimal-leading-zero) / ""; }
+:root[data-theme="arcade"] .kc-row__date { grid-column: 2; grid-row: 1; }
+:root[data-theme="arcade"] .kc-row__readtime { grid-column: 3; grid-row: 1; }
+:root[data-theme="arcade"] .kc-row__date, :root[data-theme="arcade"] .kc-row__readtime { font-size: 12px; color: var(--text-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+:root[data-theme="arcade"] .kc-row:not([data-kind="writing"]) .kc-row__readtime { color: var(--sig); }
+:root[data-theme="arcade"] .kc-row__title { grid-column: 4; grid-row: 1; min-width: 0; overflow-wrap: anywhere; font: 400 15px/1.4 var(--font-prose); }
+:root[data-theme="arcade"] .kc-row__sprite { grid-column: 5; grid-row: 1; }
+/* Titles get a channel underline on hover/focus (fx.css draws it). */
+:root[data-theme="arcade"] .kc-u, :root[data-theme="arcade"] .kc-featured__title a, :root[data-theme="arcade"] .kc-entry__link { background-image: linear-gradient(var(--sig), var(--sig)); background-repeat: no-repeat;
+  background-position: 0 100%; background-size: 0% 3px; padding-bottom: 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+:root[data-theme="arcade"] .kc-row:hover .kc-u, :root[data-theme="arcade"] .kc-row:focus-visible .kc-u, :root[data-theme="arcade"] .kc-postnav__a:hover .kc-u, :root[data-theme="arcade"] .kc-postnav__a:focus-visible .kc-u, :root[data-theme="arcade"] .kc-frame__link:hover .kc-u, :root[data-theme="arcade"] .kc-frame__link:focus-visible .kc-u, :root[data-theme="arcade"] .kc-featured:hover .kc-featured__title a, :root[data-theme="arcade"] .kc-featured__title a:focus-visible, :root[data-theme="arcade"] .kc-entry__link:focus-visible, :root[data-theme="arcade"] .kc-entry:hover .kc-entry__link { background-size: 100% 3px; }
+/* Tinted hover states: meta text steps up so it keeps 4.5:1 on the tint. */
+:root[data-theme="arcade"] .kc-row:hover, :root[data-theme="arcade"] .kc-row:focus-visible, :root[data-theme="arcade"] .kc-entry:hover, :root[data-theme="arcade"] .kc-entry:focus-within, :root[data-theme="arcade"] .kc-chip:hover, :root[data-theme="arcade"] .kc-tag:hover, :root[data-theme="arcade"] .kc-postnav__a:hover, :root[data-theme="arcade"] .kc-status__a:hover { --text-3: var(--meta-on-tint); --fg-3: var(--meta-on-tint); }
+
+/* ---------- CHANNEL CHIPS ---------- */
+:root[data-theme="arcade"] .kc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px; }
+:root[data-theme="arcade"] .kc-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border: 2px solid var(--line-soft);
+  border-radius: 999px; background: var(--surface); font: 400 20px/1 var(--font-display); letter-spacing: .03em; text-decoration: none; color: var(--text); }
+:root[data-theme="arcade"] .kc-chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--sig); }
+:root[data-theme="arcade"] .kc-chip:hover { background: var(--sig-tint); border-color: var(--sig); color: var(--text); }
+:root[data-theme="arcade"] .kc-chip.is-on { background: var(--sig); border-color: var(--sig); color: var(--bg); }
+:root[data-theme="arcade"] .kc-chip.is-on::before { background: var(--bg); }
+:root[data-theme="arcade"] .kc-chip__n { font: 400 12px/1 var(--font-mono); color: var(--text-3); }
+:root[data-theme="arcade"] .kc-chip.is-on .kc-chip__n { color: inherit; }
+:root[data-theme="arcade"] [data-ui="archive_latest"] { margin-top: 26px; }
+
+/* ---------- WRITING ENTRIES: slabs ---------- */
+:root[data-theme="arcade"] .kc-entries { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column; gap: 22px; max-width: none; }
+:root[data-theme="arcade"] .kc-entry { --bd: color-mix(in srgb, var(--sig) 70%, var(--line-soft)); isolation: isolate; margin: 0; padding: 16px 18px 16px; }
+:root[data-theme="arcade"] .kc-entry:hover, :root[data-theme="arcade"] .kc-entry:focus-within { --bd: var(--sig); }
+:root[data-theme="arcade"] .kc-entry__title { font-size: clamp(26px, 3.4vw, 32px); line-height: 1.05; margin: 0 0 6px; }
+:root[data-theme="arcade"] .kc-entry__link { text-decoration: none; color: var(--text); }
+:root[data-theme="arcade"] .kc-entry__link:hover { color: var(--text); background-color: transparent; }
+:root[data-theme="arcade"] .kc-entry__meta { font-size: 12px; color: var(--text-2); margin: 0 0 8px; letter-spacing: .04em; }
+:root[data-theme="arcade"] .kc-entry__desc { font: 400 15px/1.6 var(--font-prose); color: var(--text-2); margin: 0; }
+:root[data-theme="arcade"] .kc-entry .kc-post__tags { position: relative; z-index: 1; margin: 12px 0 0; }
+
+/* ---------- PHOTO CONTACT SHEET ---------- */
+:root[data-theme="arcade"] .kc-sheet { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 18px 14px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); max-width: none; }
+:root[data-theme="arcade"] .kc-frame { margin: 0; }
+:root[data-theme="arcade"] .kc-frame__link { --bd: var(--line-soft); --r: 12px; --lip: 5px; display: block; height: 100%; padding: 14px 8px 10px; text-decoration: none; color: var(--text);
+  position: relative; background: var(--surface); border: 2px solid var(--bd); border-radius: var(--r);
+  --ex: 0px; --ey: var(--lip); --slab-edge: color-mix(in srgb, var(--line) 50%, var(--edge-ink));
+  box-shadow: calc(var(--ex) / 3) calc(var(--ey) / 3) 0 var(--slab-edge), calc(var(--ex) / 1.5) calc(var(--ey) / 1.5) 0 var(--slab-edge),
+    var(--ex) var(--ey) 0 var(--slab-edge), calc(var(--ex) * 2) calc(var(--ey) * 2 + 6px) 16px -8px var(--drop); }
+/* Sprocket holes along the top edge, like a strip of negatives. */
+:root[data-theme="arcade"] .kc-frame__link::before { content: ""; position: absolute; left: 10px; right: 10px; top: 4px; height: 4px; opacity: .45;
+  background: repeating-linear-gradient(90deg, var(--text-3) 0 6px, transparent 6px 12px); border-radius: 1px; }
+:root[data-theme="arcade"] .kc-frame__link:hover, :root[data-theme="arcade"] .kc-frame__link:focus-visible { background: var(--surface); color: var(--text); --bd: var(--orange); }
+:root[data-theme="arcade"] .kc-frame__img { display: block; aspect-ratio: 1; overflow: hidden; border-radius: 6px; background: var(--well); }
+:root[data-theme="arcade"] .kc-frame__img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+:root[data-theme="arcade"] .kc-frame__img--none { display: flex; align-items: center; justify-content: center; color: var(--text-3); font-size: 12px; }
+:root[data-theme="arcade"] .kc-frame__no { position: absolute; top: 20px; left: 14px; padding: 1px 6px; border-radius: 4px;
+  background: var(--bg); color: var(--sig); font-size: 11px; font-weight: 700; letter-spacing: .06em; }
+:root[data-theme="arcade"] .kc-frame__cap { display: block; margin-top: 8px; }
+:root[data-theme="arcade"] .kc-frame__title { display: block; font-size: 14px; font-weight: 600; line-height: 1.35; }
+:root[data-theme="arcade"] .kc-frame__meta { display: block; margin-top: 2px; font-size: 11px; color: var(--text-3); }
+
+/* ---------- TAGS / CATEGORY ---------- */
+:root[data-theme="arcade"] .kc-tag { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 16px;
+  font-size: 13px; background: var(--well); box-shadow: 0 0 0 2px var(--line-soft); color: var(--text); text-decoration: none; }
+:root[data-theme="arcade"] .kc-tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--sig); }
+:root[data-theme="arcade"] .kc-tag:hover { background: color-mix(in srgb, var(--sig) 22%, var(--well)); box-shadow: 0 0 0 2px var(--sig); color: var(--text); }
+:root[data-theme="arcade"] .kc-tag__n { color: var(--text-3); font-size: 11px; }
+:root[data-theme="arcade"] .kc-cat { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 8px; border: 2px solid var(--sig);
+  font: 700 11px/1 var(--font-mono); text-transform: uppercase; letter-spacing: .12em; text-decoration: none; color: var(--text); }
+:root[data-theme="arcade"] .kc-cat.is-on { background: var(--sig); color: var(--bg); }
+:root[data-theme="arcade"] .kc-cat:hover { background: var(--text); border-color: var(--text); color: var(--bg); }
+:root[data-theme="arcade"] .kc-post__tags { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 28px; }
+
+/* ---------- POST ---------- */
+:root[data-theme="arcade"] .kc-post { padding-top: 2px; }
+:root[data-theme="arcade"] .kc-back { display: inline-flex; align-items: center; gap: .4ch; min-height: 36px; padding: 0 10px; margin: 0 0 12px -10px;
+  border-radius: 8px; font-size: 13px; text-decoration: none; color: var(--text-2); }
+:root[data-theme="arcade"] .kc-back [aria-hidden="true"] { color: var(--sig); }
+:root[data-theme="arcade"] .kc-back:hover { background: var(--sig-tint); color: var(--text); }
+:root[data-theme="arcade"] .kc-post__cat { margin-bottom: 12px; }
+:root[data-theme="arcade"] .kc-post__title { font-size: clamp(36px, 6vw, 44px); line-height: 1.02; margin: 0 0 10px; letter-spacing: .01em; overflow-wrap: anywhere; }
+:root[data-theme="arcade"] .kc-post__byline { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); margin-bottom: 22px; }
+
+/* ---------- HERO IMAGES: a dark bezel around the untouched image ---------- */
+:root[data-theme="arcade"] .kc-hero { position: relative; margin: 0 0 24px; padding: 10px; background: #343853; border-radius: 12px; line-height: 0; }
+:root[data-theme="arcade"] .kc-hero picture, :root[data-theme="arcade"] .kc-hero > img, :root[data-theme="arcade"] .kc-hero__link, :root[data-theme="arcade"] .kc-hero__open { display: block; border-radius: 6px; overflow: hidden; }
+:root[data-theme="arcade"] .kc-hero__media { width: 100%; display: block; }
+:root[data-theme="arcade"] .kc-hero figcaption { font-size: 13px; line-height: 1.5; padding: 10px 4px 0; color: var(--text-2); }
+:root[data-theme="arcade"] canvas.kc-hero__media, :root[data-theme="arcade"] img.is-dithered, :root[data-theme="arcade"] canvas.is-dithered { image-rendering: pixelated; }
+:root[data-theme="arcade"] .kc-hero__open { position: relative; cursor: zoom-in; }
+:root[data-theme="arcade"] .kc-hero__open:hover { background: none; }
+:root[data-theme="arcade"] .kc-hero__zoom { position: absolute; right: 10px; bottom: 10px; padding: 6px 10px; border-radius: 6px; line-height: 1.2;
+  background: color-mix(in srgb, var(--bg) 88%, transparent); color: var(--text); font-size: 12px; opacity: 0; }
+:root[data-theme="arcade"] .kc-hero__open:hover .kc-hero__zoom, :root[data-theme="arcade"] .kc-hero__open:focus-visible .kc-hero__zoom { opacity: 1; }
+@media (hover: none) { :root[data-theme="arcade"] .kc-hero__zoom { opacity: 1; } }
+
+/* ---------- LIGHTBOX: the same dialog, as a slab with keycap buttons ---------- */
+/* A definite height and a grid: bar, photo stage (takes what's left), info, controls. The photo
+   fills its stage with object-fit: contain, so the whole frame always shows and the controls stay
+   in view. When space runs out (long captions at 200% zoom), the info row scrolls on its own. */
+:root[data-theme="arcade"] .kc-lightbox { width: min(1040px, calc(100vw - 24px)); height: calc(100dvh - 24px); max-width: none; max-height: none; margin: auto; padding: 0;
+  border: 2px solid var(--sig); border-radius: var(--r-slab); background: var(--surface); color: var(--text);
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--sig) 50%, var(--edge-ink)), 0 18px 40px -10px var(--drop); overflow: auto; overscroll-behavior: contain; }
+:root[data-theme="arcade"] .kc-lightbox[open] { display: grid; grid-template-rows: auto minmax(100px, 1fr) minmax(0, auto) auto; }
+:root[data-theme="arcade"] .kc-lightbox::backdrop { background: rgba(10, 10, 18, .84); }
+:root[data-theme="arcade"].has-lightbox { overflow: hidden; }
+:root[data-theme="arcade"] .kc-lightbox__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 10px 8px 16px;
+  border-bottom: 2px solid var(--line-soft); color: var(--sig); }
+:root[data-theme="arcade"] .kc-lightbox__count { font: 400 24px/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: .06em; color: var(--pellet); }
+:root[data-theme="arcade"] .kc-lightbox__close { margin-left: auto; }
+:root[data-theme="arcade"] .kc-lightbox__stage { position: relative; background: #0E0F18; }
+:root[data-theme="arcade"] .kc-lightbox__img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; }
+:root[data-theme="arcade"] .kc-lightbox__stage.is-loading .kc-lightbox__img { opacity: .35; }
+:root[data-theme="arcade"] .kc-lightbox__info { min-height: 0; overflow: auto; padding: 12px 16px 4px; }
+:root[data-theme="arcade"] .kc-lightbox__title { font-size: 28px; margin: 0 0 4px; }
+:root[data-theme="arcade"] .kc-lightbox__meta { font-size: 12px; color: var(--text-3); margin: 0 0 6px; }
+:root[data-theme="arcade"] .kc-lightbox__caption { font-size: 14px; color: var(--text-2); margin: 0; max-width: 70ch; }
+:root[data-theme="arcade"] .kc-lightbox__controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px 16px 14px; }
+:root[data-theme="arcade"] .kc-lightbox__open { margin-left: auto; }
+:root[data-theme="arcade"] .kc-lightbox [hidden] { display: none; }
+
+/* ---------- ZOOM FIGURES (zoom-figure shortcode + site.js figure viewer) ----------
+   Inline: a compact summary image at the prose width on a flat slab, with a strip that says it
+   opens the full diagram. Viewer: the lightbox's dialog chrome around a scrolling stage. */
+:root[data-theme="arcade"] .kc-zoomfig { margin: 1.75rem 0; }
+:root[data-theme="arcade"] .kc-zoomfig__open { display: block; overflow: hidden; text-decoration: none; color: inherit; cursor: zoom-in;
+  background: var(--surface); border: 2px solid var(--line); border-radius: 12px; box-shadow: 0 3px 0 var(--edge); }
+:root[data-theme="arcade"] .kc-zoomfig__open:hover { background: var(--surface); }
+:root[data-theme="arcade"] .kc-zoomfig__img { display: block; width: 100%; height: auto; }
+:root[data-theme="arcade"] .kc-zoomfig__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; padding: 4px 6px 4px 12px;
+  border-top: 2px solid var(--line-soft); background: var(--surface); font: 12px/1.3 var(--font-mono); color: var(--text-3); }
+:root[data-theme="arcade"] .kc-zoomfig__kind { text-transform: uppercase; letter-spacing: .12em; }
+:root[data-theme="arcade"] .kc-zoomfig__hint { padding: 6px 10px; border-radius: 8px; border: 2px solid var(--sig); color: var(--text); font-weight: 600; }
+:root[data-theme="arcade"] .kc-zoomfig__open:hover .kc-zoomfig__hint, :root[data-theme="arcade"] .kc-zoomfig__open:focus-visible .kc-zoomfig__hint { background: var(--sig); color: var(--bg); }
+:root[data-theme="arcade"] .kc-zoomfig figcaption { margin-top: .6rem; color: var(--text-2); }
+:root[data-theme="arcade"] .kc-lightbox.kc-figview { width: min(1280px, calc(100vw - 24px)); }
+:root[data-theme="arcade"] .kc-figview[open] { grid-template-rows: auto minmax(0, 1fr); }
+:root[data-theme="arcade"] .kc-figview__title { flex: 1; min-width: 0; margin: 0; font-size: 24px; line-height: 1.1; color: var(--text); }
+:root[data-theme="arcade"] .kc-figview__kind { color: var(--text-3); }
+:root[data-theme="arcade"] .kc-figview__stage { display: flex; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 8px; background: var(--well); }
+:root[data-theme="arcade"] .kc-figview__stage picture { display: contents; }
+:root[data-theme="arcade"] .kc-figview__img { display: block; margin: auto; width: auto; height: auto; max-width: 100%; max-height: 100%; }
+:root[data-theme="arcade"] .kc-figview__stage.is-actual .kc-figview__img { max-width: none; max-height: none; }
+@media (max-width: 600px) {
+  :root[data-theme="arcade"] .kc-figview__kind { display: none; }
+  :root[data-theme="arcade"] .kc-figview__img { width: 100%; max-height: none; }
+  :root[data-theme="arcade"] .kc-figview__stage.is-actual .kc-figview__img { width: auto; }
+}
+
+/* ---------- POST NAV + CROSS-LINK ---------- */
+:root[data-theme="arcade"] .kc-postnav { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0 0; }
+:root[data-theme="arcade"] .kc-postnav__a { --bd: color-mix(in srgb, var(--sig) 70%, var(--line-soft)); --r: 12px; --lip: 4px;
+  display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; min-height: 44px; text-decoration: none; color: var(--text); }
+:root[data-theme="arcade"] .kc-postnav__a:hover { background: var(--sig-tint); color: var(--text); --bd: var(--sig); }
+:root[data-theme="arcade"] .kc-postnav__a--next { grid-column: 2; text-align: right; }
+:root[data-theme="arcade"] .kc-postnav__dir { font: 400 20px/1.1 var(--font-display); letter-spacing: .03em; color: var(--sig); }
+:root[data-theme="arcade"] .kc-postnav__title { font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+:root[data-theme="arcade"] .kc-crosslink { margin-top: 36px; display: flex; flex-direction: column; gap: 12px; --bd: var(--sig); }
+:root[data-theme="arcade"] .kc-crosslink .kc-strip { grid-template-columns: repeat(3, 1fr); max-width: 360px; }
+:root[data-theme="arcade"] .kc-crosslink__cta { align-self: flex-start; }
+
+/* ---------- PAGER ---------- */
+:root[data-theme="arcade"] .kc-pager { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 28px; }
+:root[data-theme="arcade"] .kc-pager__n { font: 400 22px/1 var(--font-display); color: var(--text-2); letter-spacing: .05em; }
+
+/* ---------- 404: GAME OVER ---------- */
+:root[data-theme="arcade"] .kc-over { --r: 18px; --lip: 8px; --bd: var(--red); --hx: .04em; --hy: .07em; --title-edge: #6E2F4A; padding: 34px 18px 30px; text-align: center; }
+:root[data-theme="arcade"] .kc-over > * { position: relative; z-index: 2; }
+:root[data-theme="arcade"] .kc-over__bug { margin: 0 auto 10px; }
+:root[data-theme="arcade"] .kc-over__title { font: 400 clamp(56px, 11vw, 92px)/.95 var(--font-display); letter-spacing: .03em; color: var(--red); margin: 0 0 14px; }
+:root[data-theme="arcade"] .kc-over__cont { font: 400 30px/1.2 var(--font-display); letter-spacing: .06em; color: var(--pellet); margin: 0 auto 16px; max-width: none; }
+:root[data-theme="arcade"] .kc-over__path { font-size: 14px; color: var(--text-2); margin: 0 auto 20px; overflow-wrap: anywhere; }
+:root[data-theme="arcade"] .kc-over__path code { color: var(--text); }
+:root[data-theme="arcade"] .kc-404__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+
+/* ---------- FOOTER: chase lane, then the status bar ---------- */
+:root[data-theme="arcade"] .kc-footer { max-width: var(--shell-max); margin: 0 auto; padding: 32px var(--gutter) 32px; background: var(--bg); }
+:root[data-theme="arcade"] [data-content-group="photos"] .kc-footer, :root[data-theme="arcade"] [data-content-group="home"] .kc-footer { max-width: 1040px; }
+:root[data-theme="arcade"] .kc-lane { height: 44px; margin-bottom: 12px; border-radius: 10px; container-type: inline-size; overflow: hidden;
+  background: radial-gradient(circle at 12px 50%, var(--pellet) 0 2.6px, transparent 3.4px) 0 0 / 24px 100% repeat-x, var(--bg); }
+:root[data-theme="arcade"] .kc-lane__run { position: absolute; left: 0; top: 9px; z-index: 2; display: flex; align-items: flex-end; gap: 12px; --s: .9;
+  transform: translateX(calc((100cqw - 100%) / 2)); }
+:root[data-theme="arcade"] .kc-lane__chomp { color: var(--pellet); margin-left: 22px; }
+:root[data-theme="arcade"] .kc-status { display: flex; flex-wrap: wrap; align-items: stretch; counter-reset: win;
+  border: 2px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 13px; background: var(--surface); box-shadow: 0 4px 0 var(--edge); }
+:root[data-theme="arcade"] .kc-status__brand { display: flex; align-items: center; min-height: 40px; padding: 0 14px; background: var(--pellet-fill); color: var(--on-accent);
+  font: 400 22px/1 var(--font-display); letter-spacing: .02em; text-decoration: none; }
+:root[data-theme="arcade"] .kc-status__brand:hover { background: color-mix(in srgb, var(--pellet-fill) 86%, #fff); color: var(--on-accent); }
+:root[data-theme="arcade"] .kc-status__group { display: flex; flex-wrap: wrap; }
+:root[data-theme="arcade"] .kc-status__group + .kc-status__group { margin-left: auto; }
+:root[data-theme="arcade"] .kc-status__a { display: flex; align-items: center; min-height: 40px; padding: 0 10px; text-decoration: none; color: var(--text); }
+:root[data-theme="arcade"] .kc-status__a:hover { background: var(--sig-tint); color: var(--text); }
+:root[data-theme="arcade"] .kc-status__group:first-of-type .kc-status__a::before { counter-increment: win; content: counter(win) ":";
+  content: counter(win) ":" / ""; color: var(--sig); margin-right: 2px; }
+:root[data-theme="arcade"] .kc-status__top { color: var(--text-2); }
+:root[data-theme="arcade"] .kc-footer__row { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 12px; font-size: 11px; color: var(--text-3); }
+:root[data-theme="arcade"] .kc-footer__row a { display: inline-block; min-width: 24px; padding: 4px 2px; text-align: center; color: var(--text-2); }
+
+/* ============================================================================
+   POST BODY (markdown in .post-content). The reading column is calm on purpose: one reading face,
+   one accent color, nothing that moves or tilts. Figures, code and tables use the flat slab.
+   ============================================================================ */
+:root[data-theme="arcade"] .post-content { margin-bottom: 24px; overflow-wrap: anywhere; }
+:root[data-theme="arcade"] .post-content > *:first-child { margin-top: 0; }
+:root[data-theme="arcade"] .post-content a { word-break: break-word; text-decoration-color: var(--sig); text-decoration-thickness: 2px; }
+:root[data-theme="arcade"] .post-content h2 { font-size: 36px; margin: 32px 0 12px; }
+:root[data-theme="arcade"] .post-content h2::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 12px; border-radius: 3px; background: var(--sig); vertical-align: .14em; }
+:root[data-theme="arcade"] .post-content h3 { font-size: 28px; margin: 26px 0 10px; }
+:root[data-theme="arcade"] .kc-post .post-content > :is(h2, h3, h4):not(:first-child) { padding-top: .25rem; }
+:root[data-theme="arcade"] .post-content img, :root[data-theme="arcade"] .post-content svg, :root[data-theme="arcade"] .post-content video { max-width: 100%; height: auto; }
+:root[data-theme="arcade"] .post-content figure { margin-inline: 0; }
+:root[data-theme="arcade"] .post-content picture { display: block; }
+:root[data-theme="arcade"] .post-content picture img { display: block; width: 100%; }
+:root[data-theme="arcade"] .post-content figcaption { font-size: .875rem; line-height: 1.5; margin-top: .5rem; color: var(--text-2); }
+:root[data-theme="arcade"] .post-content .post-illustration { width: 100%; margin: 1.5rem auto; }
+:root[data-theme="arcade"] .post-content table { margin: 0 0 22px; }
+
+/* generated posts: leading italic provenance line + headlines list */
+:root[data-theme="arcade"] .post--generated .post-content > p:first-child { font-style: italic; color: var(--text-2); border-left: 4px solid var(--sig); background: var(--surface);
+  border-radius: 0 var(--r-ui) var(--r-ui) 0; padding: 10px 14px; font-size: 13px; line-height: 1.5; }
+:root[data-theme="arcade"] .post--generated .post-content ul { list-style: none; padding-left: 0; max-width: var(--measure); }
+:root[data-theme="arcade"] .post--generated .post-content ul > li { position: relative; padding-left: 18px; color: var(--text-2); font-size: 13px; line-height: 1.5; }
+:root[data-theme="arcade"] .post--generated .post-content ul > li::before { content: "\203A"; position: absolute; left: 0; color: var(--sig); }
+/* the limerick is the paragraph right after the provenance: centered verse */
+:root[data-theme="arcade"] .post--generated .post-content > p:first-child + p { text-align: center; font-size: 18px; line-height: 1.9; color: var(--text); margin: 24px 0; }
+
+/* photo posts: caption + EXIF table (keeps its mono face) */
+:root[data-theme="arcade"] .post--photos .post-content > p:first-child { font-size: 15px; line-height: 1.6; color: var(--text); }
+:root[data-theme="arcade"] .post--photos .post-content table th { color: var(--sig); }
+
+/* about: lead line + hide the duplicate inline portrait (rendered as the hero) */
+:root[data-theme="arcade"] .post--about .post-content > p:first-child { font: 400 32px/1.1 var(--font-display); margin: 0 0 12px; }
+:root[data-theme="arcade"] .post--about .post-content img { display: none; }
+:root[data-theme="arcade"] .post--about .kc-social { justify-content: flex-start; margin: 4px 0 0; }
+
+/* mapbox container */
+:root[data-theme="arcade"] .mapbox { border: 2px solid var(--line); border-radius: 12px; overflow: hidden; margin: 0 0 24px; background: var(--surface); box-shadow: 0 3px 0 var(--edge); }
+:root[data-theme="arcade"] .mapbox .mapboxgl-ctrl-scale { background: var(--bg); color: var(--text); border-color: var(--text); }
+:root[data-theme="arcade"] .mapbox--failed { display: flex; align-items: center; justify-content: center; }
+:root[data-theme="arcade"] .mapbox__fallback { margin: 0; font-size: 13px; color: var(--text-3); }
+
+:root[data-theme="arcade"] figure.kc-hero { margin: 0 0 24px; }
+
+/* ---------- CODE PANELS (built by site.js around highlighted code): flat slabs, monochrome ---------- */
+:root[data-theme="arcade"] .kc-code { position: relative; margin: 0 0 20px; border: 2px solid var(--line); border-radius: 12px; background: var(--surface);
+  overflow: hidden; box-shadow: 0 3px 0 var(--edge); }
+:root[data-theme="arcade"] .kc-code__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 14px;
+  border-bottom: 2px solid var(--line-soft); font: 700 12px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--sig); }
+:root[data-theme="arcade"] .kc-code__copy { min-height: 32px; padding: 2px 12px; font-size: 18px; margin: 0 0 3px; }
+:root[data-theme="arcade"] .kc-code__copy.is-done { background: var(--sig); color: var(--bg); --bd: var(--sig); }
+:root[data-theme="arcade"] .kc-code pre, :root[data-theme="arcade"] .kc-code .highlight pre { margin: 0; border: 0; border-radius: 0; background: transparent; }
+:root[data-theme="arcade"] .kc-code .highlight { margin: 0; }
+
+/* ============================================================================
+   ARCADE: /arcade/ page text, footer coin slot, home "Insert coin", 404 Bug Squash, cheat toast.
+   Resting state only; every drop, fall and crawl is in the motion section below.
+   ============================================================================ */
+:root[data-theme="arcade"] .kc-arcade__cta { margin: 18px auto 0; max-width: none; }
+:root[data-theme="arcade"] .kc-arcadepage .kc-lede { max-width: var(--measure); }
+:root[data-theme="arcade"] .kc-howto { max-width: var(--measure); margin: 0 auto; }
+:root[data-theme="arcade"] .kc-howto ul { padding-left: 20px; }
+:root[data-theme="arcade"] .kc-howto kbd { display: inline-block; min-width: 1.6em; padding: 0 5px; border: 2px solid var(--line); border-radius: 6px; background: var(--well);
+  font: 700 12px/1.6 var(--font-mono); text-align: center; color: var(--text); box-shadow: 0 2px 0 var(--edge); }
+:root[data-theme="arcade"] .kc-howto .kc-btn { margin: 8px 0 4px; }
+
+/* Footer coin slot: the last row of the status bar. */
+:root[data-theme="arcade"] .kc-status__coin { display: flex; flex-basis: 100%; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border-top: 2px solid var(--line-soft);
+  font: 400 20px/1 var(--font-display); letter-spacing: .06em; color: var(--pellet); text-decoration: none; }
+:root[data-theme="arcade"] .kc-status__coin:hover { background: var(--well); color: var(--pellet); }
+:root[data-theme="arcade"] .kc-status__coin:focus-visible { outline-offset: -3px; }
+:root[data-theme="arcade"] .kc-coin { position: relative; display: block; width: 22px; height: 34px; overflow: hidden; }
+:root[data-theme="arcade"] .kc-coin__disc { position: absolute; left: 1px; top: 2px; --s: .8; }
+:root[data-theme="arcade"] .kc-coin__mouth { position: absolute; left: 0; right: 0; bottom: 4px; z-index: 1; height: 8px; border: 2px solid var(--line); border-radius: 4px; background: var(--well); }
+
+/* 404 Bug Squash: under the three links, never instead of them. */
+:root[data-theme="arcade"] .kc-squash { margin: 22px auto 0; max-width: 520px; }
+:root[data-theme="arcade"] .kc-squash [hidden] { display: none !important; }
+:root[data-theme="arcade"] .kc-squash__sub { font-size: 18px; color: inherit; opacity: .85; }
+:root[data-theme="arcade"] .kc-squash__timer { font: 400 22px/1.2 var(--font-display); letter-spacing: .06em; color: var(--pellet); margin: 0 auto 8px; max-width: none; }
+:root[data-theme="arcade"] .kc-squash__field { position: relative; height: 220px; border: 2px dashed var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
+:root[data-theme="arcade"] .kc-squash__bug { position: absolute; left: 0; top: 0; translate: var(--x, 0) var(--y, 0); display: grid; place-items: center;
+  width: 56px; height: 56px; padding: 0; border: 2px solid transparent; border-radius: 12px; background: transparent; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+:root[data-theme="arcade"] .kc-squash__bug:hover { background: var(--well); border-color: var(--line); }
+:root[data-theme="arcade"] .kc-squash__end { margin-top: 6px; }
+:root[data-theme="arcade"] .kc-squash__end:not(.is-won) .kc-squash__burst { display: none; }
+:root[data-theme="arcade"] .kc-squash__result { font: 400 clamp(34px, 8vw, 48px)/1 var(--font-display); letter-spacing: .05em; color: var(--pellet); margin: 0 auto 10px; max-width: none; }
+:root[data-theme="arcade"] .kc-squash__burst { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 0 0 14px; }
+:root[data-theme="arcade"] .kc-squash__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 0 auto; max-width: none; }
+:root[data-theme="arcade"] .kc-squash__status { font-size: 13px; color: var(--text-2); margin: 12px auto 0; min-height: 1.5em; }
+
+/* Cheat code: a toast; the bug storm is FX only (fx.css). */
+:root[data-theme="arcade"] .kc-toast { position: fixed; left: 50%; bottom: 24px; z-index: 80; transform: translateX(-50%); padding: 12px 18px; border-radius: 12px;
+  background: var(--pellet-fill); color: var(--on-accent); font: 400 24px/1.2 var(--font-display); letter-spacing: .04em; text-align: center;
+  box-shadow: 0 0 0 2px var(--on-accent), 0 6px 0 2px color-mix(in srgb, var(--pellet-fill) 52%, #000); width: max-content; max-width: calc(100vw - 32px); }
+:root[data-theme="arcade"] .kc-toast[hidden] { display: none; }
+:root[data-theme="arcade"] .kc-storm { position: fixed; inset: 0; z-index: 70; pointer-events: none; overflow: hidden; }
+:root[data-theme="arcade"] .kc-storm .spr-host { position: absolute; top: -70px; }
+
+/* ============================================================================
+   ACCESSIBILITY
+   ============================================================================ */
+:root[data-theme="arcade"] .kc-skip { position: absolute; left: -9999px; top: 0; z-index: 100; padding: 10px 14px;
+  background: var(--pellet-fill); color: var(--on-accent); font: 700 12px/1.2 var(--font-mono); text-transform: uppercase; letter-spacing: .12em; text-decoration: none; }
+:root[data-theme="arcade"] .kc-skip:focus { left: 0; }
+/* Keyboard focus: one rule for every focusable element, 3 px in the text color. */
+:root[data-theme="arcade"] :focus:not(:focus-visible) { outline: none; }
+:root[data-theme="arcade"] :focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+:root[data-theme="arcade"] .kc-row:focus-visible, :root[data-theme="arcade"] .kc-nav__a:focus-visible, :root[data-theme="arcade"] .kc-status__a:focus-visible, :root[data-theme="arcade"] .kc-status__brand:focus-visible { outline-offset: -3px; }
+:root[data-theme="arcade"] .kc-status__brand:focus-visible { outline-color: var(--on-accent); }
+:root[data-theme="arcade"] .mapbox .mapboxgl-canvas:focus-visible { outline: 3px solid var(--line); outline-offset: -3px; }
+:root[data-theme="arcade"] main:focus-visible { outline: none; }
+/* Forced colors: real outlines replace edges and fills. */
+@media (forced-colors: active) {
+  :root[data-theme="arcade"] .kc-slab, :root[data-theme="arcade"] .kc-btn, :root[data-theme="arcade"] .kc-theme-control, :root[data-theme="arcade"] .kc-motion, :root[data-theme="arcade"] .kc-chip, :root[data-theme="arcade"] .kc-tag, :root[data-theme="arcade"] .kc-social__a, :root[data-theme="arcade"] .kc-zoomfig__open, :root[data-theme="arcade"] .kc-code, :root[data-theme="arcade"] .kc-status, :root[data-theme="arcade"] .kc-frame__link, :root[data-theme="arcade"] .kc-lightbox { outline: 2px solid CanvasText; outline-offset: -2px; }
+  :root[data-theme="arcade"] .kc-theme-option[data-theme-mode="arcade"], :root[data-theme="arcade"] .kc-motion[aria-pressed="true"] { outline: 2px solid Highlight; outline-offset: -4px; }
+  :root[data-theme="arcade"] .kc-nav__a[aria-current] { outline: 2px solid CanvasText; }
+  :root[data-theme="arcade"] .kc-chompbar, :root[data-theme="arcade"] .kc-lane, :root[data-theme="arcade"] .kc-stars, :root[data-theme="arcade"] .kc-formation { forced-color-adjust: none; }
+  :root[data-theme="arcade"] :focus-visible { outline: 3px solid Highlight; }
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+@media (max-width: 760px) {
+  /* HUD: brand, theme control and pause on row one, the four channels as equal tabs on row two. */
+  :root[data-theme="arcade"] .kc-header { gap: 2px 10px; padding-top: 6px; padding-bottom: 30px; }
+  :root[data-theme="arcade"] .kc-hud__score { display: none; }
+  :root[data-theme="arcade"] .kc-theme-control { margin-left: auto; }
+  :root[data-theme="arcade"] .kc-theme-option { min-width: 46px; padding: 0 6px; }
+  /* Four tabs sized to their words and spread evenly, so the long ones never touch. */
+  :root[data-theme="arcade"] .kc-nav { order: 5; width: 100%; margin: 0; display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: 0; }
+  :root[data-theme="arcade"] .kc-nav__a { justify-content: center; padding: 0 4px; font-size: 21px; border-radius: 0; }
+  :root[data-theme="arcade"] .kc-nav__a::before { display: none; }
+  :root[data-theme="arcade"] .kc-nav__a[aria-current] { border-radius: 0; }
+  :root[data-theme="arcade"] .kc-doors { grid-template-columns: 1fr; gap: 26px; }
+}
+@media (max-width: 640px) {
+  :root[data-theme="arcade"] { scroll-padding-top: 150px; }
+  :root[data-theme="arcade"] .kc-header { padding-bottom: 26px; }
+  :root[data-theme="arcade"] .kc-chompbar { height: 26px; }
+  :root[data-theme="arcade"] .kc-chompbar__chomp { top: 3px; --s: .7; }
+  :root[data-theme="arcade"] .kc-arcade__pic { min-height: 470px; }
+  :root[data-theme="arcade"] .kc-arcade__copy { padding-top: 150px; }
+  :root[data-theme="arcade"] .kc-arcade__mascot { --s: 3; }
+  :root[data-theme="arcade"] .kc-formation { --s: 1; }
+  :root[data-theme="arcade"] .kc-formation__layer { gap: 10px 12px; }
+  :root[data-theme="arcade"] .kc-arcade__ship { display: none; }
+  :root[data-theme="arcade"] .kc-btn { min-height: 44px; }
+  :root[data-theme="arcade"] .kc-chip { min-height: 44px; }
+  /* Tags look 32 px tall; an invisible band makes each hit area 44 px. */
+  :root[data-theme="arcade"] .kc-tag { position: relative; }
+  :root[data-theme="arcade"] .kc-tag::after { content: ""; position: absolute; inset: -6px 0; }
+  :root[data-theme="arcade"] .kc-post__tags, :root[data-theme="arcade"] .kc-door__tags { row-gap: 14px; }
+  :root[data-theme="arcade"] .kc-door__newest { display: none; }
+  :root[data-theme="arcade"] .kc-door { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+  :root[data-theme="arcade"] .kc-door > :not(.kc-door__meta):not(.kc-door__cta) { grid-column: 1 / -1; }
+  :root[data-theme="arcade"] .kc-door__meta { margin: 0; }
+  :root[data-theme="arcade"] .kc-door__cta { margin: 0; }
+  :root[data-theme="arcade"] .kc-back { min-height: 44px; }
+  :root[data-theme="arcade"] .kc-status__a, :root[data-theme="arcade"] .kc-status__brand { min-height: 44px; }
+  :root[data-theme="arcade"] .kc-social__a { min-height: 44px; }
+  :root[data-theme="arcade"] .kc-entry { padding: 14px 14px; }
+  :root[data-theme="arcade"] .kc-postnav { grid-template-columns: 1fr; }
+  :root[data-theme="arcade"] .kc-postnav__a--next { grid-column: 1; grid-row: 1; }
+  /* Status bar: channels on row 1, the rest on row 2; window numbers hide to save space. */
+  :root[data-theme="arcade"] .kc-status__group:first-of-type .kc-status__a::before { content: none; }
+  :root[data-theme="arcade"] .kc-status__group + .kc-status__group { flex-basis: 100%; margin-left: 0; border-top: 2px solid var(--line-soft); }
+  :root[data-theme="arcade"] .kc-status__group:first-of-type { flex: 1; justify-content: space-between; }
+  :root[data-theme="arcade"] .kc-status__top { margin-left: auto; }
+  :root[data-theme="arcade"] .kc-status__coin { min-height: 44px; }
+}
+@media (max-width: 600px) {
+  :root[data-theme="arcade"] .kc-lightbox { width: calc(100vw - 16px); height: calc(100dvh - 16px); }
+  :root[data-theme="arcade"] .kc-lightbox__controls { gap: 8px; }
+  :root[data-theme="arcade"] .kc-lightbox__open { margin-left: 0; }
+  :root[data-theme="arcade"] .post-content table { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  :root[data-theme="arcade"] .kc-sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 10px; }
+  :root[data-theme="arcade"] .kc-frame__link { padding: 12px 6px 8px; }
+  :root[data-theme="arcade"] .kc-frame__no { top: 18px; left: 11px; }
+  :root[data-theme="arcade"] .kc-hero { padding: 6px; }
+}
+@media (max-width: 520px) {
+  /* Rows: rank and sprite at the sides; date and read time above the title. */
+  :root[data-theme="arcade"] .kc-scores { padding: 4px 4px 8px; }
+  :root[data-theme="arcade"] .kc-row { grid-template-columns: 3ch auto auto minmax(0, 1fr) auto; gap: 2px 10px; padding: 10px 6px 10px 18px; }
+  :root[data-theme="arcade"] .kc-row::after { left: 3px; }
+  :root[data-theme="arcade"] .kc-row__glyph { grid-row: 1 / 3; }
+  :root[data-theme="arcade"] .kc-row__date { grid-column: 2; grid-row: 1; }
+  :root[data-theme="arcade"] .kc-row__readtime { grid-column: 3; grid-row: 1; }
+  :root[data-theme="arcade"] .kc-row__title { grid-column: 2 / 5; grid-row: 2; }
+  :root[data-theme="arcade"] .kc-row__sprite { grid-row: 1 / 3; }
+}
+@media (max-width: 380px) {
+  :root[data-theme="arcade"] body { font-size: 15px; }
+  :root[data-theme="arcade"] .kc-brand { font-size: 24px; }
+  :root[data-theme="arcade"] .kc-theme-option { min-width: 42px; padding: 0 4px; letter-spacing: .04em; }
+  :root[data-theme="arcade"] .kc-social__a { padding: 0 8px; }
+}
+/* ---------- Production pieces with an arcade counterpart ---------- */
+/* Home: the arcade hero replaces the Field Signal banner. */
+:root[data-theme="arcade"] .kc-banner-wrap { display: none; }
+:root[data-theme="arcade"] .kc-btn__end { display: none; }
+:root[data-theme="arcade"] .kc-sectionhead .kc-dim { display: none; }
+/* Single posts: the title, h2 and h3 stay in the display face over post-prose.css. */
+:root[data-theme="arcade"] .kc-post--prose .kc-post__title, :root[data-theme="arcade"] .kc-post--prose .post-content :is(h1, h2, h3) { font-family: var(--font-display); font-weight: 400; }
+:root[data-theme="arcade"] .kc-post--prose .kc-post__title .kc-prompt { font-family: inherit; }
+/* The narrowest phones (320 px): the four tabs and the pager keys fit without sideways scroll. */
+@media (max-width: 380px) {
+  :root[data-theme="arcade"] .kc-nav__a { padding: 0 2px; font-size: 18px; letter-spacing: 0; }
+  :root[data-theme="arcade"] .kc-pager { gap: 6px; }
+  :root[data-theme="arcade"] .kc-pager .kc-btn { padding: 6px 10px; font-size: 20px; }
+  :root[data-theme="arcade"] .kc-pager__n { font-size: 18px; }
+}
+
+/* ============================================================================
+   MOTION. Two kinds of movement: sprites move like sprites (two-frame swaps and marches in
+   steps); everything else eases and settles with a small overshoot. Nothing blinks or swaps
+   faster than 2.5 times a second. Everything runs only with data-motion="on". Ambient loops
+   pause off screen (.is-offscreen) and when parked.
+   ============================================================================ */
+/* ---------- Keycaps, hovers and selection states ---------- */
+:root[data-theme="arcade"][data-motion="on"] .kc-btn { transition: transform 180ms var(--spring), box-shadow 180ms var(--ease), background-color 140ms; }
+:root[data-theme="arcade"][data-motion="on"] .kc-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--key-edge); }
+:root[data-theme="arcade"][data-motion="on"] .kc-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--key-edge); transition-duration: 60ms; }
+:root[data-theme="arcade"][data-motion="on"] .kc-btn.is-off, :root[data-theme="arcade"][data-motion="on"] .kc-btn:disabled { transform: none; box-shadow: 0 2px 0 var(--key-edge); }
+:root[data-theme="arcade"][data-motion="on"] .kc-social__a { transition: transform 180ms var(--spring), background-color 140ms; }
+:root[data-theme="arcade"][data-motion="on"] .kc-social__a:hover { transform: translateY(-2px); }
+:root[data-theme="arcade"][data-motion="on"] .kc-tag, :root[data-theme="arcade"][data-motion="on"] .kc-chip { transition: transform 180ms var(--spring), background-color 140ms, box-shadow 140ms; }
+:root[data-theme="arcade"][data-motion="on"] .kc-tag:hover, :root[data-theme="arcade"][data-motion="on"] .kc-chip:hover { transform: translateY(-2px); }
+:root[data-theme="arcade"][data-motion="on"] .kc-nav__a, :root[data-theme="arcade"][data-motion="on"] .kc-row, :root[data-theme="arcade"][data-motion="on"] .kc-status__a, :root[data-theme="arcade"][data-motion="on"] .kc-back, :root[data-theme="arcade"][data-motion="on"] .kc-theme-option, :root[data-theme="arcade"][data-motion="on"] .kc-motion { transition: background-color var(--dur-1) ease, color var(--dur-1) ease; }
+/* Title underline draws over 320 ms. */
+:root[data-theme="arcade"][data-motion="on"] :is(.kc-u, .kc-featured__title a, .kc-entry__link) { transition: background-size 320ms var(--ease); }
+/* The row's sprite hops once on hover or focus. */
+:root[data-theme="arcade"][data-motion="on"] .kc-row:is(:hover, :focus-visible) .kc-row__sprite { animation: kc-hop 520ms var(--ease) 1; }
+@keyframes kc-hop { 40% { transform: translateY(-7px) rotate(-8deg); } 70% { transform: translateY(0) rotate(4deg); } }
+/* Current nav item: the select arrow blinks five times (1.2 s each), then holds still. */
+:root[data-theme="arcade"][data-motion="on"] .kc-nav__a[aria-current]::before { animation: kc-blink 1.2s step-end 5; }
+@keyframes kc-blink { 50% { opacity: 0; } }
+/* The subtitle cursor blinks six times (about 6 s), then stays solid. */
+:root[data-theme="arcade"][data-motion="on"] .kc-cursor { animation: kc-blink 1.06s step-end 6; }
+:root[data-theme="arcade"][data-motion="on"] .kc-strip__a img, :root[data-theme="arcade"][data-motion="on"] .kc-frame__img img { transition: transform 420ms var(--ease-out); }
+:root[data-theme="arcade"][data-motion="on"] .kc-strip__a:is(:hover, :focus-visible) img, :root[data-theme="arcade"][data-motion="on"] .kc-frame__link:is(:hover, :focus-visible) .kc-frame__img img { transform: scale(1.05); }
+:root[data-theme="arcade"][data-motion="on"] .kc-hero__zoom { transform: translateY(4px); transition: opacity var(--dur-2) ease, transform var(--dur-2) var(--ease-out); }
+:root[data-theme="arcade"][data-motion="on"] .kc-hero__open:is(:hover, :focus-visible) .kc-hero__zoom { transform: none; }
+:root[data-theme="arcade"][data-motion="on"] .kc-lightbox[open] { animation: kc-lightbox-in var(--dur-2) var(--ease-out); }
+@keyframes kc-lightbox-in { from { opacity: 0; transform: scale(.96); } }
+:root[data-theme="arcade"][data-motion="on"] .kc-lightbox__img { transition: opacity var(--dur-2) ease; }
+:root[data-theme="arcade"][data-motion="on"] .kc-nav__a[aria-current], :root[data-theme="arcade"][data-motion="on"] .kc-entry { transition: border-color var(--dur-2) ease; }
+
+/* ---------- Sprites: two-frame cycles, swapped with opacity in steps (compositor only) ---------- */
+:root[data-theme="arcade"][data-motion="on"] [data-anim] .spr__f0 { animation: kc-f0 var(--spr-dur, 1s) step-end infinite; }
+:root[data-theme="arcade"][data-motion="on"] [data-anim] .spr__f1 { animation: kc-f1 var(--spr-dur, 1s) step-end infinite; }
+@keyframes kc-f0 { 50% { opacity: 0; } }
+@keyframes kc-f1 { 0% { opacity: 0; } 50% { opacity: 1; } }
+/* Header Chomp chews (0.4 s cycle) only while the page scrolls; it always tracks position. */
+:root[data-theme="arcade"] .kc-chompbar__chomp { --spr-dur: .4s; }
+:root[data-theme="arcade"][data-motion="on"] .kc-chompbar:not(.is-chewing) .kc-chompbar__chomp :is(.spr__f0, .spr__f1) { animation-play-state: paused; }
+/* An eaten power pellet pops once (scale and fade); arcade-skin.js allows one pop per 350 ms. */
+:root[data-theme="arcade"][data-motion="on"] .kc-chompbar__power.is-eaten.is-pop { animation: kc-pellet-pop 300ms var(--ease-out) both; }
+/* Its own name: Bug Squash's win burst further down is also a "pop", and a later @keyframes of the
+   same name would replace this one. */
+@keyframes kc-pellet-pop { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(2.2); } }
+/* Depth: a sprite with real layers turns under the pointer; one tap plays one turn. */
+:root[data-theme="arcade"][data-motion="on"] .vox { transition: transform 560ms var(--spring); }
+:root[data-theme="arcade"][data-motion="on"] .vox.is-tracking { transition: transform 110ms linear; }
+:root[data-theme="arcade"][data-motion="on"] .vox.is-peek { animation: kc-peek 1300ms var(--ease); }
+@keyframes kc-peek { 22% { transform: rotateX(10deg) rotateY(-36deg); } 62% { transform: rotateX(-8deg) rotateY(32deg); } 100% { transform: none; } }
+
+/* ---------- Slab tilt (fine pointers; fx.js writes the custom properties) ---------- */
+:root[data-theme="arcade"][data-motion="on"] [data-tilt] {
+  transform: perspective(1100px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg));
+  transition: transform 520ms var(--spring), box-shadow 520ms var(--spring), background-color 140ms, border-color 140ms;
+}
+:root[data-theme="arcade"][data-motion="on"] [data-tilt].is-tracking { transition: transform 120ms linear, box-shadow 120ms linear, background-color 140ms, border-color 140ms; }
+/* A soft light that follows the pointer across the face. */
+:root[data-theme="arcade"][data-motion="on"] [data-tilt]::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit; pointer-events: none; opacity: 0;
+  transition: opacity 240ms; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), var(--sheen), transparent 70%); }
+:root[data-theme="arcade"][data-motion="on"] [data-tilt].is-tracking::after { opacity: 1; }
+/* Keyboard focus never tilts: a ring on a rotated card is harder to read. */
+:root[data-theme="arcade"][data-motion="on"] [data-tilt]:focus-within:not(.is-tracking) { transform: none; }
+
+/* ---------- Home hero ---------- */
+/* Star field: three layers drifting at 50, 90 and 150 s per 600 px. */
+:root[data-theme="arcade"][data-motion="on"] .kc-stars i:nth-child(1) { animation: kc-drift 150s linear infinite; }
+:root[data-theme="arcade"][data-motion="on"] .kc-stars i:nth-child(2) { animation: kc-drift 90s linear infinite; }
+:root[data-theme="arcade"][data-motion="on"] .kc-stars i:nth-child(3) { animation: kc-drift 50s linear infinite; }
+@keyframes kc-drift { to { transform: translateY(600px); } }
+/* Bot formation: 10 steps across, a 12 px drop, 10 steps back; 26 s a pass. It parks after two
+   passes (fx.js) until the hero is hovered or focused; without JS it plays two passes and stops. */
+:root[data-theme="arcade"][data-motion="on"] .kc-formation { animation: kc-march 26s 2; }
+:root[data-theme="arcade"][data-motion="on"].has-fx .kc-formation { animation-iteration-count: infinite; }
+@keyframes kc-march {
+  0%   { transform: translate(0, 0); animation-timing-function: steps(10, end); }
+  44%  { transform: translate(calc(100cqw - 100% - 32px), 0); animation-timing-function: step-end; }
+  50%  { transform: translate(calc(100cqw - 100% - 32px), 12px); animation-timing-function: steps(10, end); }
+  94%  { transform: translate(0, 12px); animation-timing-function: step-end; }
+  100% { transform: translate(0, 0); }
+}
+/* The formation's frames: two whole layers swapped with opacity (two compositor layers in all). */
+:root[data-theme="arcade"][data-motion="on"] .kc-formation__layer--0 { animation: kc-f0 1.3s step-end infinite; }
+:root[data-theme="arcade"][data-motion="on"] .kc-formation__layer--1 { animation: kc-f1 1.3s step-end infinite; }
+:root[data-theme="arcade"] .kc-formation.is-parked, :root[data-theme="arcade"] .kc-formation.is-parked * { animation-play-state: paused !important; }
+/* The Caret patrols the bottom edge in steps. */
+:root[data-theme="arcade"][data-motion="on"] .kc-arcade__ship { animation: kc-patrol 18s steps(36, end) infinite alternate; }
+@keyframes kc-patrol { to { transform: translateX(calc((100cqw - 100% - 32px) * .88)); } }
+/* Mascot: chews (0.8 s cycle) and rocks slowly in depth; the pointer takes over on the hero. */
+:root[data-theme="arcade"] .kc-arcade__mascot { --spr-dur: .8s; }
+:root[data-theme="arcade"][data-motion="on"] [data-rock] > .vox { animation: kc-rock 6.5s ease-in-out infinite alternate; }
+:root[data-theme="arcade"][data-motion="on"] [data-rock] > .vox.is-tracking { animation: none; }
+@keyframes kc-rock { from { transform: rotateX(9deg) rotateY(-34deg); } to { transform: rotateX(-5deg) rotateY(34deg); } }
+/* Title side follows the pointer. */
+:root[data-theme="arcade"][data-motion="on"] .kc-extrude { transition: text-shadow 260ms var(--ease); }
+/* CRT power-on: once per session on the home hero (the kc-intro gate in banner.html). */
+:root[data-theme="arcade"][data-motion="on"].kc-intro .kc-arcade__pic { animation: kc-crt-on 620ms cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes kc-crt-on {
+  0% { transform: scale(.04, .01); filter: brightness(2.2); }
+  32% { transform: scale(1, .01); filter: brightness(2.2); }
+  75% { transform: scale(1, 1); filter: brightness(1.3); }
+  100% { transform: none; filter: none; }
+}
+
+/* ---------- Footer chase lane: four bugs chase Chomp across; off screen it finds a power pellet and
+   chases them back. An 18 s loop, paused off screen. ---------- */
+:root[data-theme="arcade"] .kc-lane__run { --spr-dur: .5s; }
+:root[data-theme="arcade"] .kc-lane__chomp { --spr-dur: .4s; }
+:root[data-theme="arcade"][data-motion="on"] .kc-lane__run { animation: kc-chase 18s linear infinite; }
+:root[data-theme="arcade"][data-motion="on"] .kc-lane__bug { animation: kc-scared 18s step-end infinite; }
+:root[data-theme="arcade"][data-motion="on"] .kc-lane__chomp .vox { animation: kc-face 18s step-end infinite; }
+@keyframes kc-chase { 0% { transform: translateX(-100%); } 47% { transform: translateX(100cqw); } 50% { transform: translateX(100cqw); } 97% { transform: translateX(-100%); } 100% { transform: translateX(-100%); } }
+@keyframes kc-scared { 48% { color: var(--line); } 99% { color: var(--line); } }
+@keyframes kc-face { 48% { transform: scaleX(-1); } 99% { transform: scaleX(-1); } }
+
+/* ---------- Scroll reveal: decorative blocks only, never body text. The hidden start state exists
+   only while FX is on and fx.js has opted the element in (.is-armed). Uses the separate `translate`
+   property so it cannot fight the tilt transform. ---------- */
+:root[data-theme="arcade"][data-motion="on"] .kc-reveal.is-armed:not(.is-in) { opacity: 0; translate: 0 16px; }
+:root[data-theme="arcade"][data-motion="on"] .kc-reveal.is-armed.is-in { transition: opacity 320ms var(--ease), translate 520ms var(--spring), transform 520ms var(--spring), box-shadow 520ms var(--spring); }
+:root[data-theme="arcade"][data-motion="on"] .kc-reveal.is-armed.is-in.is-tracking { transition: transform 120ms linear, box-shadow 120ms linear; }
+
+/* ---------- Level-start wipe between pages: cross-document View Transitions (progressive
+   enhancement). Six bars sweep in steps over 240 ms. The at-rule cannot be scoped to a selector,
+   and this sheet only exists in the arcade theme. Nothing moves unless motion is on, which
+   theme-init.js sets before first paint; when still (theme-init.js also skips the transition)
+   a navigation is an instant swap. A same-page theme switch (.is-theme-swap) keeps its own
+   circle wipe from site.js. ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+:root[data-theme="arcade"]::view-transition-group(root), :root[data-theme="arcade"]::view-transition-old(root), :root[data-theme="arcade"]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+:root[data-theme="arcade"][data-motion="on"]:not(.is-theme-swap)::view-transition-new(root) { animation: kc-wipe 240ms steps(6, end) both; }
+@keyframes kc-wipe {
+  from { clip-path: polygon(0 0, 0% 0, 0% 16.67%, -8% 16.67%, -8% 33.33%, -16% 33.33%, -16% 50%, -24% 50%, -24% 66.67%, -32% 66.67%, -32% 83.33%, -40% 83.33%, -40% 100%, 0 100%); }
+  to   { clip-path: polygon(0 0, 140% 0, 140% 16.67%, 132% 16.67%, 132% 33.33%, 124% 33.33%, 124% 50%, 116% 50%, 116% 66.67%, 108% 66.67%, 108% 83.33%, 100% 83.33%, 100% 100%, 0 100%); }
+}
+
+/* ---------- Arcade: coin drop, cheat-code storm, Bug Squash crawl and win flourish ---------- */
+:root[data-theme="arcade"][data-motion="on"] .is-dropping .kc-coin__disc { animation: kc-coin 640ms cubic-bezier(.5, 0, .9, .6) both; }
+@keyframes kc-coin { 0% { transform: translateY(-4px) rotate(-14deg); } 82% { transform: translateY(18px) rotate(0); opacity: 1; } 100% { transform: translateY(22px); opacity: 0; } }
+:root[data-theme="arcade"][data-motion="on"] .kc-storm .spr-host { animation: kc-fall 2.6s cubic-bezier(.4, 0, .9, .7) both; }
+@keyframes kc-fall { to { transform: translateY(calc(100vh + 140px)) rotate(200deg); } }
+:root[data-theme="arcade"][data-motion="on"] .kc-squash__field:not(.is-still) .kc-squash__bug { transition: translate 1.5s var(--ease), background-color 140ms; }
+:root[data-theme="arcade"][data-motion="on"] .kc-squash__end.is-won .kc-squash__burst .spr-host { animation: kc-pop 900ms var(--spring) both; }
+:root[data-theme="arcade"][data-motion="on"] .kc-squash__burst .spr-host:nth-child(2) { animation-delay: 80ms; }
+:root[data-theme="arcade"][data-motion="on"] .kc-squash__burst .spr-host:nth-child(3) { animation-delay: 160ms; }
+:root[data-theme="arcade"][data-motion="on"] .kc-squash__burst .spr-host:nth-child(4) { animation-delay: 240ms; }
+:root[data-theme="arcade"][data-motion="on"] .kc-squash__burst .spr-host:nth-child(5) { animation-delay: 320ms; }
+@keyframes kc-pop { 0% { transform: translateY(24px) scale(.2); opacity: 0; } 60% { transform: translateY(-10px) scale(1.2); opacity: 1; } 100% { transform: none; } }
+
+/* ---------- Ambient loops stop off screen and while the tab is hidden ---------- */
+:root[data-theme="arcade"] .is-offscreen, :root[data-theme="arcade"] .is-offscreen * { animation-play-state: paused !important; }
+:root[data-theme="arcade"].is-hidden-tab *, :root[data-theme="arcade"].is-hidden-tab *::before, :root[data-theme="arcade"].is-hidden-tab *::after { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: no-preference) { :root[data-theme="arcade"][data-motion="on"] { scroll-behavior: smooth; } }
+
+/* ============================================================================
+   STILL (reduced motion, more contrast, forced colors, or the pause button). Keeps the look
+   (edges, shading, the extruded title are not motion) and removes everything that moves:
+   loops, transitions, tilt, wipes, scanlines, the pointer light and the dot grid.
+   ============================================================================ */
+:root[data-theme="arcade"][data-motion="still"] *, :root[data-theme="arcade"][data-motion="still"] *::before, :root[data-theme="arcade"][data-motion="still"] *::after {
+  animation: none !important; transition: none !important; scroll-behavior: auto !important;
+}
+:root[data-theme="arcade"][data-motion="still"] .screen::after { display: none; }
+:root[data-theme="arcade"][data-motion="still"] body { background-image: none; }

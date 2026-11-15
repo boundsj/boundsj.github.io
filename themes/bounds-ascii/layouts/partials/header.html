@@ -7,9 +7,9 @@
     <a class="kc-brand" href="{{ .Site.Home.RelPermalink }}" data-nav="home">bounds.dev</a>
     <div class="kc-theme-control" role="group" aria-label="Color theme">
       <span class="kc-theme-indicator" aria-hidden="true"></span>
-      {{- range $index, $mode := slice "light" "dark" "green" "amber" }}
+      {{- range $index, $mode := slice "light" "dark" "arcade" }}
       {{- if $index }}<span class="kc-theme-control__sep" aria-hidden="true"></span>{{ end }}
-      <button class="kc-theme-option" type="button" data-theme-mode="{{ $mode }}" aria-pressed="{{ if eq $mode "light" }}true{{ else }}false{{ end }}" aria-label="{{ $mode | title }} mode" title="{{ $mode | title }} mode">{{ index (dict "light" "lt" "dark" "dk" "green" "grn" "amber" "amb") $mode }}</button>
+      <button class="kc-theme-option" type="button" data-theme-mode="{{ $mode }}" aria-pressed="{{ if eq $mode "light" }}true{{ else }}false{{ end }}" aria-label="{{ $mode | title }} mode" title="{{ $mode | title }} mode">{{ index (dict "light" "lt" "dark" "dk" "arcade" "arc") $mode }}</button>
       {{- end }}
     </div>
   </div>

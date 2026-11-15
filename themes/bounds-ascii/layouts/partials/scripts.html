@@ -6,11 +6,15 @@
 {{- end -}}
 {{- $js := slice -}}
 {{- /* Order matters: theme.js defines window.boundsTrack, analytics.js listens, and site.js may
-       report (e.g. reading progress) as soon as it boots. */ -}}
-{{- range slice "js/theme.js" "js/analytics.js" "js/site.js" -}}
+       report (e.g. reading progress) as soon as it boots. On /arcade/ games.js (the lazy game loader;
+       games themselves, js/games/, are never bundled or given a <script src>) joins the bundle. The
+       arcade theme's own script (partials/arcade-assets.html) also carries games.js, for its 404. */ -}}
+{{- $files := slice "js/theme.js" "js/analytics.js" "js/site.js" -}}
+{{- if eq .Section "arcade" }}{{ $files = $files | append "js/games.js" }}{{ end -}}
+{{- range $files -}}
   {{- with resources.Get . }}{{ $js = $js | append . }}{{ end -}}
 {{- end -}}
 {{- with $js -}}
-  {{- $bundle := . | resources.Concat "js/bundle.js" | minify | fingerprint }}
+  {{- $bundle := . | resources.Concat (cond (eq $.Section "arcade") "js/bundle-arcade.js" "js/bundle.js") | minify | fingerprint }}
 <script src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" defer></script>
 {{- end -}}

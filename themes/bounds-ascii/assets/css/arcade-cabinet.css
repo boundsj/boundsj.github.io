@@ -1,0 +1,130 @@
+/* ============================================================================
+   bounds.dev — the /arcade/ cabinet (Bounds Invaders). Loaded on /arcade/ only, in every theme:
+   the cabinet is always a dark Arcade Night screen. Under light and dark the page around it is the
+   normal site, so every rule is scoped to #cabinet and also overrides the production rules
+   that would otherwise reach into it (button brackets, heading case, link hovers). Rules hang off
+   the #cabinet id so they also outrank arcade.css's scoped base rules (h2, p, .kc-btn) under the
+   arcade theme, where arcade.css adds the motion. Nothing here moves.
+   Palette: the Arcade Night tokens (see arcade.css); every text pair passes 4.5:1.
+   ============================================================================ */
+@font-face { font-family: 'Jersey 25'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/jersey-25-latin-400.woff2') format('woff2'); }
+
+/* Without JavaScript (no data-theme on <html>), game-only controls are hidden. */
+:root:not([data-theme]) .kc-js { display: none !important; }
+
+#cabinet {
+  color-scheme: dark;
+  --bg: #13141F; --surface: #1C1E2E; --well: #272A3F;
+  --text: #ECE7DA; --text-2: #BDBBCD; --text-3: #A09EB8;
+  --line: #7F88C4; --line-soft: #343853;
+  --pellet: #E9C46A; --pellet-fill: #E9C46A;
+  --cyan: #7CC8D4; --orange: #E8A470; --pink: #E391B8; --lime: #8FD3A2; --red: #EA8A86;
+  --on-accent: #1B1A2B; --edge-ink: #05060C; --drop: rgba(0, 0, 0, .5);
+  --spr-ink: #13141F; --spr-light: #F3EEDF; --spr-accent: #E9C46A;
+  --title-edge: #5A4A86; --scan: rgba(255, 255, 255, .028);
+  --font-display: "Jersey 25", "Iosevka", ui-monospace, monospace;
+  --font-mono: "Iosevka", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r-slab: 14px; --r-ui: 10px;
+  /* Production's role names, re-pointed so its base rules (links, focus ring) read on the screen. */
+  --fg-1: var(--text); --fg-2: var(--text-2); --fg-3: var(--text-3);
+  --bg-1: var(--bg); --bg-2: var(--surface); --bg-3: var(--well);
+  --border: var(--line); --accent: var(--pellet);
+  --sig-write: var(--cyan); --sig-photo: var(--orange); --sig-bots: var(--pink); --sig-ok: var(--lime);
+  --sig: var(--lime);
+  --sig-tint: color-mix(in srgb, var(--sig) 16%, var(--bg));
+  --edge: color-mix(in srgb, var(--line) 50%, var(--edge-ink));
+  /* The slab */
+  --bd: var(--line); --r: 18px; --lip: 8px; --ex: 0px; --ey: var(--lip);
+  --slab-edge: color-mix(in srgb, var(--bd) 50%, var(--edge-ink));
+  position: relative; max-width: 520px; margin: 24px auto 0; overflow: hidden; scroll-margin-top: 120px;
+  background: var(--surface); color: var(--text); border: 2px solid var(--bd); border-radius: var(--r);
+  font-family: var(--font-mono);
+  box-shadow:
+    calc(var(--ex) / 6) calc(var(--ey) / 6) 0 var(--slab-edge), calc(var(--ex) / 3) calc(var(--ey) / 3) 0 var(--slab-edge),
+    calc(var(--ex) / 2) calc(var(--ey) / 2) 0 var(--slab-edge), calc(var(--ex) / 1.5) calc(var(--ey) / 1.5) 0 var(--slab-edge),
+    calc(var(--ex) / 1.2) calc(var(--ey) / 1.2) 0 var(--slab-edge), var(--ex) var(--ey) 0 var(--slab-edge),
+    calc(var(--ex) * 2) calc(var(--ey) * 2 + 8px) 22px -8px var(--drop);
+}
+#cabinet ::selection { background: var(--pellet-fill); color: var(--on-accent); }
+#cabinet [data-kind="writing"] { --sig: var(--cyan); }
+#cabinet [data-kind="photo"]   { --sig: var(--orange); }
+#cabinet [data-kind="bots"]    { --sig: var(--pink); }
+#cabinet [data-kind="accent"]  { --sig: var(--pellet); --spr-sig: var(--spr-accent); }
+#cabinet [data-kind="danger"]  { --sig: var(--red); }
+#cabinet [data-kind]:not([data-kind="accent"]) { --spr-sig: initial; }
+
+/* Screen, sprites and the extruded title (the shared primitives, scoped to the cabinet). */
+#cabinet .screen { position: relative; overflow: hidden; isolation: isolate; background: var(--bg); color: var(--text); }
+#cabinet .screen::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit;
+  background: repeating-linear-gradient(0deg, var(--scan) 0 1px, transparent 1px 3px); }
+#cabinet .spr-host { display: inline-block; line-height: 0; color: var(--spr-sig, var(--sig)); perspective: 420px; vertical-align: middle; flex: none; }
+#cabinet .vox { --side: color-mix(in srgb, currentColor 52%, var(--edge-ink)); display: block; position: relative;
+  filter: drop-shadow(calc(var(--s, 1) * .34px) calc(var(--s, 1) * .34px) 0 var(--side)) drop-shadow(calc(var(--s, 1) * .34px) calc(var(--s, 1) * .34px) 0 var(--side)) drop-shadow(calc(var(--s, 1) * .34px) calc(var(--s, 1) * .5px) 0 var(--side)); }
+#cabinet .spr { position: relative; display: block; width: calc(var(--w) * var(--s, 1) * 1px); height: calc(var(--h) * var(--s, 1) * 1px); }
+#cabinet .spr__f { position: absolute; inset: 0; display: block; width: 100%; height: 100%; overflow: visible; }
+#cabinet .spr__f1 { opacity: 0; }
+#cabinet .kc-extrude { text-shadow:
+  calc(var(--hx) * .125) calc(var(--hy) * .125) 0 var(--title-edge), calc(var(--hx) * .25) calc(var(--hy) * .25) 0 var(--title-edge),
+  calc(var(--hx) * .375) calc(var(--hy) * .375) 0 var(--title-edge), calc(var(--hx) * .5) calc(var(--hy) * .5) 0 var(--title-edge),
+  calc(var(--hx) * .625) calc(var(--hy) * .625) 0 var(--title-edge), calc(var(--hx) * .75) calc(var(--hy) * .75) 0 var(--title-edge),
+  calc(var(--hx) * .875) calc(var(--hy) * .875) 0 var(--title-edge), var(--hx) var(--hy) 0 var(--title-edge),
+  calc(var(--hx) * 2) calc(var(--hy) * 2.4) .22em rgba(0, 0, 0, .45); }
+
+/* Keycap buttons. The ::before/::after reset and the transform/transition lines undo production's
+   bracketed buttons under light and dark. */
+#cabinet .kc-btn {
+  --bd: var(--line); --key-edge: color-mix(in srgb, var(--bd) 50%, var(--edge-ink));
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 6px 18px; margin: 0 0 4px;
+  border: 2px solid var(--bd); border-radius: var(--r-ui); background: var(--surface); color: var(--text);
+  font: 400 22px/1.1 var(--font-display); letter-spacing: .04em; text-decoration: none; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; box-shadow: 0 4px 0 var(--key-edge);
+}
+/* Light and dark keep the cabinet still; the arcade theme adds its keycap motion (arcade.css). */
+:root:not([data-theme="arcade"]) #cabinet .kc-btn { transform: none; transition: none; }
+#cabinet .kc-btn::before, #cabinet .kc-btn::after { content: none; }
+#cabinet .kc-btn:hover { background: var(--well); color: var(--text); }
+#cabinet .kc-btn:active { box-shadow: 0 1px 0 var(--key-edge); }
+#cabinet .kc-btn:disabled { color: var(--text-3); border-color: var(--bd); cursor: default; box-shadow: 0 2px 0 var(--key-edge); background: transparent; }
+#cabinet .kc-btn--coin { background: var(--pellet-fill); color: var(--on-accent);
+  --bd: color-mix(in srgb, var(--pellet-fill) 62%, #fff); --key-edge: color-mix(in srgb, var(--pellet-fill) 52%, #000); }
+#cabinet .kc-btn--coin:hover { background: color-mix(in srgb, var(--pellet-fill) 86%, #fff); color: var(--on-accent); }
+#cabinet .kc-btn--small { min-height: 36px; padding: 2px 12px; font-size: 20px; }
+#cabinet a { color: var(--text); text-decoration: underline; text-decoration-color: var(--sig); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+#cabinet a:hover { background: color-mix(in srgb, var(--sig) 18%, transparent); color: var(--text); }
+#cabinet :focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+
+/* The cabinet */
+#cabinet .kc-cabinet__marquee { margin: 0; padding: 10px 8px; text-align: center; font: 400 34px/1.1 var(--font-display); letter-spacing: .08em; text-transform: none;
+  background: var(--pellet-fill); color: var(--on-accent); border-bottom: 2px solid var(--line); }
+#cabinet .kc-cabinet__screen { display: grid; place-items: center; padding: 10px; }
+#cabinet .kc-cabinet__canvas { position: relative; z-index: 2; display: block; width: 100%; max-width: 440px; height: auto; aspect-ratio: 400 / 520;
+  background: var(--bg); border-radius: 6px; touch-action: none; image-rendering: pixelated; }
+#cabinet .kc-cabinet__canvas:focus-visible { outline: 3px solid var(--pellet); outline-offset: 2px; }
+#cabinet .kc-attract { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 16px; text-align: center; background: rgba(11, 12, 20, .88); }
+#cabinet .kc-attract[hidden] { display: none; }
+#cabinet .kc-attract__title { font: 400 clamp(34px, 9vw, 44px)/1 var(--font-display); letter-spacing: .06em; color: var(--pellet); margin: 0; max-width: none;
+  --hx: .04em; --hy: .06em; }
+#cabinet .kc-attract__msg { font: 400 24px/1.3 var(--font-display); letter-spacing: .05em; color: var(--text); margin: 0; max-width: none; }
+#cabinet .kc-attract__points { list-style: none; margin: 0; padding: 0; max-width: none; font-size: 14px; color: var(--text-2); text-align: left; }
+#cabinet .kc-attract__points li { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+#cabinet .kc-attract__points .spr-host { width: 40px; display: flex; justify-content: center; }
+#cabinet .kc-attract__note { font-size: 14px; color: var(--text); margin: 0; max-width: 30ch; }
+#cabinet .kc-cabinet__panel { display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 10px; padding: 14px 14px 12px; border-top: 2px solid var(--line); }
+#cabinet .kc-cabinet__panel .kc-btn { min-height: 56px; margin: 0; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+#cabinet .kc-cabinet__opts { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 0 14px 10px; }
+#cabinet .kc-cabinet__opts .kc-btn--small { min-height: 44px; }
+#cabinet .kc-cabinet__status { margin: 0; padding: 0 16px 12px; font-size: 13px; color: var(--text-2); min-height: 2.2em; }
+#cabinet .kc-cabinet__feed { padding: 12px 16px 16px; border-top: 2px solid var(--line-soft); }
+#cabinet .kc-cabinet__feedtitle { font: 400 22px/1.2 var(--font-display); letter-spacing: .04em; text-transform: none; margin: 0 0 6px; color: var(--text); }
+#cabinet .kc-feed { list-style: none; margin: 0; padding: 0; max-width: none; font-size: 14px; }
+#cabinet .kc-feed li { margin: 6px 0; overflow-wrap: anywhere; }
+#cabinet .kc-feed b { color: var(--sig); font-weight: 700; }
+#cabinet .kc-feed__empty { margin: 0; font-size: 13px; color: var(--text-2); }
+#cabinet .kc-feed__empty[hidden] { display: none; }
+
+@media (forced-colors: active) {
+  #cabinet, #cabinet .kc-btn { outline: 2px solid CanvasText; outline-offset: -2px; }
+  #cabinet :focus-visible { outline: 3px solid Highlight; }
+}
