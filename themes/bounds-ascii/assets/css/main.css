@@ -600,6 +600,9 @@ html.has-lightbox { overflow: hidden; }
    diagram. Viewer: the lightbox's dialog chrome around a scrolling stage. On wide screens the
    detailed image is fitted inside the stage; on phones it fills the width and scrolls down;
    "actual size" shows it at its own size, scrolling both ways. */
+/* Embedded SVGs follow the site's theme via their prefers-color-scheme query. */
+.kc-zoomfig__img, .kc-figview__img { color-scheme: light; }
+.crt .kc-zoomfig__img, .crt .kc-figview__img { color-scheme: dark; }
 .kc-zoomfig { margin: 1.75rem 0; }
 .kc-zoomfig__open { display: block; border: var(--bw-line) solid var(--border); text-decoration: none; color: inherit; cursor: zoom-in; }
 .kc-zoomfig__open:hover { background: none; }

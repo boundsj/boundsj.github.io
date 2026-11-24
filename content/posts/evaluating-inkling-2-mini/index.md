@@ -21,7 +21,8 @@ The obvious takeaway is that inference is “free” (I already bought the lapto
 
 I used 20 synthetic tasks from my own eval set. The comparison uses one graded submission per task and reasoning level, from low to high. I ran Terra, Haiku and Luna on the same tasks to see where local Inkling could take on similar work.
 
-{{< zoom-figure src="chart-1-setups.png" full="chart-1-setups.png"
+{{< zoom-figure src="chart-1-setups.svg" full="chart-1-setups.svg"
+    srcMobile="chart-1-setups-mobile.svg" fullMobile="chart-1-setups-mobile.svg"
     alt="Passes out of 60 and median elapsed time. Inkling 48 and 10m 58s, Terra 58 and 33s, Haiku 55 and 55s, Luna 42 and 41s."
     label="By setup" >}}
 
@@ -38,7 +39,8 @@ The [client setup guide](https://github.com/boundsj/inkling-local/blob/main/docs
 
 ## What Inkling passed
 
-{{< zoom-figure src="chart-2-inkling-breakdown.png" full="chart-2-inkling-breakdown.png"
+{{< zoom-figure src="chart-2-inkling-breakdown.svg" full="chart-2-inkling-breakdown.svg"
+    srcMobile="chart-2-inkling-breakdown-mobile.svg" fullMobile="chart-2-inkling-breakdown-mobile.svg"
     alt="Inkling passes and median time. Low 15 of 20 in 6m 55s, medium 15 of 20 in 14m 29s, high 18 of 20 in 29m 10s."
     label="By task group" >}}
 

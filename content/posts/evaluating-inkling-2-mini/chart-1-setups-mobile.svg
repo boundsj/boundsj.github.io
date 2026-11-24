@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 1426" width="736" height="1426" role="img" aria-labelledby="title desc">
+  <title id="title">Attempts passed and median time per setup</title>
+  <desc id="desc">Passes out of 60 and median elapsed time. Inkling 48 and 10m 58s, Terra 58 and 33s, Haiku 55 and 55s, Luna 42 and 41s.</desc>
+  <style>
+    svg {
+      --surface: #fbf9f2;
+      --text: #14130f;
+      --muted: #65625a;
+      --inkling: #075a65;
+      --hosted: #3a382f;
+      --track: #e7e3d6;
+      --rule: #65625a;
+      font-family: system-ui, sans-serif;
+      font-size: 16px;
+      font-variant-numeric: tabular-nums;
+      fill: var(--text);
+    }
+    @media (prefers-color-scheme: dark) {
+      svg {
+        --surface: #13141f;
+        --text: #ece7da;
+        --muted: #bdbbcd;
+        --inkling: #7cc8d4;
+        --hosted: #bdbbcd;
+        --track: #272a3f;
+        --rule: #7f88c4;
+      }
+    }
+    .background { fill: var(--surface); }
+    .title { font-size: 23px; font-weight: 700; }
+    .heading, .value { font-weight: 700; }
+    .note { font-size: 14px; fill: var(--muted); }
+    .inkling { fill: var(--inkling); }
+    .hosted { fill: var(--hosted); }
+    .track, .missed { fill: var(--track); }
+    .missed, .axis { stroke: var(--rule); }
+    .axis { fill: none; }
+  </style>
+  <g transform="scale(2)">
+    <rect class="background" width="368" height="713"/>
+    <text x="16" y="39" class="title">Attempts passed and median</text>
+    <text x="16" y="67" class="title">time per setup</text>
+    <text x="16" y="97" class="note">20 synthetic coding tasks at 3 reasoning levels.</text>
+    <text x="16" y="117" class="note">One attempt per task and level,</text>
+    <text x="16" y="137" class="note">60 attempts per setup.</text>
+    <rect class="inkling" x="16" y="155" width="11" height="11" rx="2"/>
+    <text x="36" y="165" class="note">Inkling 2 Mini, local on a Mac</text>
+    <rect class="hosted" x="16" y="177" width="11" height="11" rx="2"/>
+    <text x="36" y="187" class="note">Hosted reference setups</text>
+    <text x="16" y="222" class="heading">Attempts passed out of 60</text>
+    <text x="16" y="249">Inkling 2 Mini</text>
+    <text x="352" y="249" class="value" text-anchor="end">48 of 60</text>
+    <rect class="track" x="16" y="257" width="336" height="10" rx="2"/>
+    <rect class="inkling" x="16" y="257" width="268.8" height="10" rx="2"/>
+    <text x="16" y="291">Terra</text>
+    <text x="352" y="291" class="value" text-anchor="end">58 of 60</text>
+    <rect class="track" x="16" y="299" width="336" height="10" rx="2"/>
+    <rect class="hosted" x="16" y="299" width="324.8" height="10" rx="2"/>
+    <text x="16" y="333">Haiku</text>
+    <text x="352" y="333" class="value" text-anchor="end">55 of 60</text>
+    <rect class="track" x="16" y="341" width="336" height="10" rx="2"/>
+    <rect class="hosted" x="16" y="341" width="308" height="10" rx="2"/>
+    <text x="16" y="375">Luna</text>
+    <text x="352" y="375" class="value" text-anchor="end">42 of 60</text>
+    <rect class="track" x="16" y="383" width="336" height="10" rx="2"/>
+    <rect class="hosted" x="16" y="383" width="235.2" height="10" rx="2"/>
+    <text x="16" y="424" class="heading">Median elapsed time per attempt</text>
+    <text x="16" y="451">Inkling 2 Mini</text>
+    <text x="352" y="451" class="value" text-anchor="end">10 min 58 s</text>
+    <rect class="inkling" x="16" y="459" width="307.067" height="10" rx="2"/>
+    <text x="16" y="493">Terra</text>
+    <text x="352" y="493" class="value" text-anchor="end">33 s</text>
+    <rect class="hosted" x="16" y="501" width="15.4" height="10" rx="2"/>
+    <text x="16" y="535">Haiku</text>
+    <text x="352" y="535" class="value" text-anchor="end">55 s</text>
+    <rect class="hosted" x="16" y="543" width="25.6667" height="10" rx="2"/>
+    <text x="16" y="577">Luna</text>
+    <text x="352" y="577" class="value" text-anchor="end">41 s</text>
+    <rect class="hosted" x="16" y="585" width="19.1333" height="10" rx="2"/>
+    <path class="axis" d="M16 600H352 M16 600v5 M100 600v5 M184 600v5 M268 600v5 M352 600v5"/>
+    <text x="16" y="621" class="note" text-anchor="start">0</text>
+    <text x="100" y="621" class="note" text-anchor="middle">3</text>
+    <text x="184" y="621" class="note" text-anchor="middle">6</text>
+    <text x="268" y="621" class="note" text-anchor="middle">9</text>
+    <text x="352" y="621" class="note" text-anchor="end">12 min</text>
+    <text x="16" y="655" class="note">Inkling ran in Pi with four tools. The hosted</text>
+    <text x="16" y="675" class="note">setups ran in their own agents.</text>
+    <text x="16" y="695" class="note">Elapsed time includes tool use and queueing.</text>
+  </g>
+</svg>
