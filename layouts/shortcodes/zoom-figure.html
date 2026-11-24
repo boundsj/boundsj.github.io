@@ -4,6 +4,7 @@
            alt="Summary diagram: …" fullAlt="…" label="Before: me as the router" caption="…" >}}
 
        src         the inline image, sized for the prose column
+       srcMobile   optional inline variant for screens up to 600px wide
        full        the detailed image; also the plain link target without JavaScript
        fullMobile  optional detailed variant for screens up to 600px wide
        alt         describes the inline image; fullAlt describes the detailed one
@@ -16,8 +17,11 @@
 {{- $p := .Page -}}
 {{- $src := $p.Resources.GetMatch (.Get "src") -}}
 {{- $full := $p.Resources.GetMatch (.Get "full") -}}
+{{- $inlineMobile := false -}}
+{{- with .Get "srcMobile" }}{{ $inlineMobile = $p.Resources.GetMatch . }}{{ end -}}
 {{- $mobile := false -}}
 {{- with .Get "fullMobile" }}{{ $mobile = $p.Resources.GetMatch . }}{{ end -}}
+{{- with $inlineMobile }}{{ $inlineMobile = . | fingerprint }}{{ end -}}
 {{- with $src }}{{ $src = . | fingerprint }}{{ end -}}
 {{- with $full }}{{ $full = . | fingerprint }}{{ end -}}
 {{- with $mobile }}{{ $mobile = . | fingerprint }}{{ end -}}
@@ -31,7 +35,12 @@
      data-zoom-src="{{ $full.RelPermalink }}" data-zoom-w="{{ index $f 0 }}" data-zoom-h="{{ index $f 1 }}"
      {{- with $mobile }}{{ $m := partial "zoom-figure-size.html" . }} data-zoom-mobile="{{ .RelPermalink }}" data-zoom-mw="{{ index $m 0 }}" data-zoom-mh="{{ index $m 1 }}"{{ end }}
      data-zoom-alt="{{ .Get "fullAlt" | default (.Get "alt") }}" data-zoom-label="{{ .Get "label" }}">
+    {{- with $inlineMobile }}{{ $m := partial "zoom-figure-size.html" . }}
+    <picture>
+      <source media="(max-width: 600px)" srcset="{{ .RelPermalink }}" width="{{ index $m 0 }}" height="{{ index $m 1 }}">
+    {{- end }}
     <img class="kc-zoomfig__img" src="{{ $src.RelPermalink }}" alt="{{ .Get "alt" }}" width="{{ index $s 0 }}" height="{{ index $s 1 }}" loading="lazy" decoding="async">
+    {{- with $inlineMobile }}</picture>{{ end }}
     <span class="kc-zoomfig__bar"><span class="kc-zoomfig__kind">summary</span><span class="kc-zoomfig__hint">open full diagram</span></span>
   </a>
   {{- with .Get "caption" }}

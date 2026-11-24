@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 1602" width="736" height="1602" role="img" aria-labelledby="title desc">
+  <title id="title">Inkling 2 Mini passes by task group</title>
+  <desc id="desc">Inkling passes and median time. Low 15 of 20 in 6m 55s, medium 15 of 20 in 14m 29s, high 18 of 20 in 29m 10s.</desc>
+  <style>
+    svg {
+      --surface: #fbf9f2;
+      --text: #14130f;
+      --muted: #65625a;
+      --inkling: #075a65;
+      --hosted: #3a382f;
+      --track: #e7e3d6;
+      --rule: #65625a;
+      font-family: system-ui, sans-serif;
+      font-size: 16px;
+      font-variant-numeric: tabular-nums;
+      fill: var(--text);
+    }
+    @media (prefers-color-scheme: dark) {
+      svg {
+        --surface: #13141f;
+        --text: #ece7da;
+        --muted: #bdbbcd;
+        --inkling: #7cc8d4;
+        --hosted: #bdbbcd;
+        --track: #272a3f;
+        --rule: #7f88c4;
+      }
+    }
+    .background { fill: var(--surface); }
+    .title { font-size: 23px; font-weight: 700; }
+    .heading, .value { font-weight: 700; }
+    .note { font-size: 14px; fill: var(--muted); }
+    .inkling { fill: var(--inkling); }
+    .hosted { fill: var(--hosted); }
+    .track, .missed { fill: var(--track); }
+    .missed, .axis { stroke: var(--rule); }
+    .axis { fill: none; }
+  </style>
+  <g transform="scale(2)">
+    <rect class="background" width="368" height="801"/>
+    <text x="16" y="39" class="title">Inkling 2 Mini passes</text>
+    <text x="16" y="67" class="title">by task group</text>
+    <text x="16" y="97" class="note">Each square is one attempt at one reasoning level.</text>
+    <text x="16" y="117" class="note">20 synthetic coding tasks, 60 attempts.</text>
+    <rect class="inkling" x="16" y="135" width="11" height="11" rx="2"/>
+    <text x="36" y="145" class="note">Passed</text>
+    <rect class="missed" x="113" y="135" width="11" height="11" rx="2"/>
+    <text x="133" y="145" class="note">Missed</text>
+    <text x="16" y="181" class="heading">Low</text>
+    <text x="99" y="181" class="heading">Medium</text>
+    <text x="182" y="181" class="heading">High</text>
+    <text x="352" y="181" class="heading" text-anchor="end">All levels</text>
+    <path class="axis" d="M16 196H352"/>
+    <text x="16" y="216">Basic Python</text>
+    <text x="352" y="236" class="value" text-anchor="end">15 of 15</text>
+    <rect class="inkling" x="16" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="28" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="40" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="52" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="64" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="99" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="111" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="123" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="135" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="147" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="182" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="194" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="206" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="218" y="224" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="230" y="224" width="9" height="11" rx="2"/>
+    <path class="axis" d="M16 254H352"/>
+    <text x="16" y="274">Python challenge</text>
+    <text x="352" y="294" class="value" text-anchor="end">18 of 18</text>
+    <rect class="inkling" x="16" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="28" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="40" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="52" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="64" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="76" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="99" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="111" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="123" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="135" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="147" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="159" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="182" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="194" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="206" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="218" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="230" y="282" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="242" y="282" width="9" height="11" rx="2"/>
+    <path class="axis" d="M16 312H352"/>
+    <text x="16" y="332">Mixed tasks</text>
+    <text x="352" y="352" class="value" text-anchor="end">7 of 9</text>
+    <rect class="inkling" x="16" y="340" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="28" y="340" width="9" height="11" rx="2"/>
+    <rect class="missed" x="40" y="340" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="99" y="340" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="111" y="340" width="9" height="11" rx="2"/>
+    <rect class="missed" x="123" y="340" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="182" y="340" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="194" y="340" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="206" y="340" width="9" height="11" rx="2"/>
+    <path class="axis" d="M16 370H352"/>
+    <text x="16" y="390">Swift app tasks</text>
+    <text x="352" y="410" class="value" text-anchor="end">8 of 12</text>
+    <rect class="inkling" x="16" y="398" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="28" y="398" width="9" height="11" rx="2"/>
+    <rect class="missed" x="40" y="398" width="9" height="11" rx="2"/>
+    <rect class="missed" x="52" y="398" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="99" y="398" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="111" y="398" width="9" height="11" rx="2"/>
+    <rect class="missed" x="123" y="398" width="9" height="11" rx="2"/>
+    <rect class="missed" x="135" y="398" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="182" y="398" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="194" y="398" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="206" y="398" width="9" height="11" rx="2"/>
+    <rect class="inkling" x="218" y="398" width="9" height="11" rx="2"/>
+    <path class="axis" d="M16 428H352"/>
+    <text x="16" y="448">Larger repairs</text>
+    <text x="352" y="468" class="value" text-anchor="end">0 of 6</text>
+    <rect class="missed" x="16" y="456" width="9" height="11" rx="2"/>
+    <rect class="missed" x="28" y="456" width="9" height="11" rx="2"/>
+    <rect class="missed" x="99" y="456" width="9" height="11" rx="2"/>
+    <rect class="missed" x="111" y="456" width="9" height="11" rx="2"/>
+    <rect class="missed" x="182" y="456" width="9" height="11" rx="2"/>
+    <rect class="missed" x="194" y="456" width="9" height="11" rx="2"/>
+    <path class="axis" d="M16 486H352"/>
+    <text x="16" y="510" class="heading">All 20 tasks</text>
+    <text x="16" y="533" class="value">15 of 20</text>
+    <text x="99" y="533" class="value">15 of 20</text>
+    <text x="182" y="533" class="value">18 of 20</text>
+    <text x="352" y="533" class="value" text-anchor="end">48 of 60</text>
+    <text x="16" y="574" class="heading">Median elapsed time per attempt</text>
+    <text x="16" y="601">Low</text>
+    <text x="352" y="601" class="value" text-anchor="end">6 min 55 s</text>
+    <rect class="inkling" x="16" y="609" width="77.4667" height="10" rx="2"/>
+    <text x="16" y="643">Medium</text>
+    <text x="352" y="643" class="value" text-anchor="end">14 min 29 s</text>
+    <rect class="inkling" x="16" y="651" width="162.213" height="10" rx="2"/>
+    <text x="16" y="685">High</text>
+    <text x="352" y="685" class="value" text-anchor="end">29 min 10 s</text>
+    <rect class="inkling" x="16" y="693" width="326.667" height="10" rx="2"/>
+    <path class="axis" d="M16 708H352 M16 708v5 M128 708v5 M240 708v5 M352 708v5"/>
+    <text x="16" y="729" class="note" text-anchor="start">0</text>
+    <text x="128" y="729" class="note" text-anchor="middle">10</text>
+    <text x="240" y="729" class="note" text-anchor="middle">20</text>
+    <text x="352" y="729" class="note" text-anchor="end">30 min</text>
+    <text x="16" y="763" class="note">Squares show counts and are not in task order.</text>
+    <text x="16" y="783" class="note">Elapsed time includes tool use and queueing.</text>
+  </g>
+</svg>
