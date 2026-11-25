@@ -3,7 +3,7 @@ title: "Rescue82: Making a Choplifter-style game for Apple Vision Pro"
 date: 2026-09-28T07:30:00-07:00
 draft: false
 aliases: ["/posts/rescue-82-from-green-screen-to-vision-pro/"]
-description: "How a childhood love of Choplifter inspired Rescue82, from its first Apple Vision Pro prototype to a planned iPhone and iPad launch."
+description: "How a childhood love of Choplifter inspired Rescue82, a helicopter rescue game prototyped for Apple Vision Pro with Astra, Claude Opus 5.5, and Blender."
 summary: "I loved Choplifter as a kid. Here’s a look at the original Vision Pro prototype for Rescue82, my helicopter rescue game."
 tags: ["games", "visionOS", "ai", "blender", "Rescue82"]
 categories: ["dev"]
@@ -14,8 +14,6 @@ resources:
 featuredImageStill: poster.jpg
 featuredImageAlt: "A green rescue helicopter approaches a landing pad beneath the moon in the Rescue82 concept trailer."
 ---
-
-**November 25 update.** Rescue82 will launch free on iPhone and iPad in all App Store countries and regions. The iPad version will also run on Macs with Apple silicon. The native Apple Vision Pro game is coming soon. The preview below shows the original headset prototype.
 
 In the 80s my older brother worked at a computer store and would bring demo machines (and games!) home for me to use. [Choplifter](https://en.wikipedia.org/wiki/Choplifter) was one of my favorites from this era. There were these, for me, perfect little toy soldiers, tanks, jets, some kind of UFO?, and of course the chopper I got to fly. It was a combat game, but the real mission was to rescue people and fly them back to base.
 

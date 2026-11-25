@@ -1,9 +1,0 @@
-{{ define "main" }}
-<article class="kc-post">
-  <h1 class="kc-post__title">{{ .Title }}</h1>
-  <nav aria-label="Rescue82 information" class="post-content">
-    <p><a href="{{ "/rescue82/support/" | relURL }}"{{ if eq .RelPermalink ("/rescue82/support/" | relURL) }} aria-current="page"{{ end }}>Support</a> · <a href="{{ "/rescue82/privacy/" | relURL }}"{{ if eq .RelPermalink ("/rescue82/privacy/" | relURL) }} aria-current="page"{{ end }}>Privacy policy</a></p>
-  </nav>
-  <div class="post-content">{{ .Content }}</div>
-</article>
-{{ end }}

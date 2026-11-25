@@ -5,7 +5,7 @@
        Enhanced Measurement reads the raw query itself (e.g. ?q= becomes a site-search term).
        The 404 location is fixed, and same-site referrers are reduced to their path (cross-site to
        their origin). Schema and verification: docs/analytics.md. */ -}}
-{{- if and hugo.IsProduction .Site.Params.analytics.enable (not .Params.disableAnalytics) -}}
+{{- if and hugo.IsProduction .Site.Params.analytics.enable -}}
   {{- with .Site.Params.analytics.google.id }}
 <script>
 (function (id, hosts, group, notFound) {

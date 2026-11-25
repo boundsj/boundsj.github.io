@@ -10,14 +10,11 @@
        games themselves, js/games/, are never bundled or given a <script src>) joins the bundle. The
        arcade theme's own script (partials/arcade-assets.html) also carries games.js, for its 404. */ -}}
 {{- $files := slice "js/theme.js" "js/analytics.js" "js/site.js" -}}
-{{- if .Params.disableAnalytics }}{{ $files = slice "js/theme.js" "js/site.js" }}{{ end -}}
 {{- if eq .Section "arcade" }}{{ $files = $files | append "js/games.js" }}{{ end -}}
 {{- range $files -}}
   {{- with resources.Get . }}{{ $js = $js | append . }}{{ end -}}
 {{- end -}}
 {{- with $js -}}
-  {{- $bundlePath := cond (eq $.Section "arcade") "js/bundle-arcade.js" "js/bundle.js" -}}
-  {{- if $.Params.disableAnalytics }}{{ $bundlePath = "js/bundle-private.js" }}{{ end -}}
-  {{- $bundle := . | resources.Concat $bundlePath | minify | fingerprint }}
+  {{- $bundle := . | resources.Concat (cond (eq $.Section "arcade") "js/bundle-arcade.js" "js/bundle.js") | minify | fingerprint }}
 <script src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" defer></script>
 {{- end -}}
