@@ -1,4 +1,3 @@
 ---
-params:
-  listHeading: "Rescue82"
+title: "Rescue82"
 ---
