@@ -1,21 +1,22 @@
 ---
-title: "Rescue Flight support"
-description: "Get help with Rescue Flight controls, saved progress, iCloud sync and privacy settings."
+title: "Rescue82 support"
+description: "Get help with Rescue82 controls, saved progress, iCloud sync and privacy settings."
 date: 2026-11-18T00:00:00-08:00
 layout: "app-info"
+aliases: ["/rescue-flight/support/"]
 disableAnalytics: true
 outputs: ["html"]
 build:
   list: never
 ---
 
-For help with Rescue Flight, email Jesse Bounds at [bounds@mail.grokbot.com](mailto:bounds@mail.grokbot.com).
+For help with Rescue82, email Jesse Bounds at [bounds@mail.grokbot.com](mailto:bounds@mail.grokbot.com).
 
 Include your device model, operating-system version, game version and what happened. If you can, give the steps that caused the problem. A screenshot can help, but remove personal information first. Never send your Apple Account password.
 
 ## Release plans
 
-Rescue Flight will launch free on iPhone and iPad in all App Store countries and regions. Macs with Apple silicon will run the iPad version. The native Apple Vision Pro game is coming soon.
+Rescue82 will launch free on iPhone and iPad in all App Store countries and regions. Macs with Apple silicon will run the iPad version. The native Apple Vision Pro game is coming soon.
 
 ## Controls
 
@@ -34,7 +35,7 @@ If progress does not appear on another device:
 
 You can play offline. Pending progress waits for a connection. Spending shared tokens and resetting shared progress require a connection. A local profile used without iCloud stays separate from your iCloud profile.
 
-Do not reset progress, remove cloud data or delete the app as a first troubleshooting step. These actions can remove data. Reset progress starts a new progress period; it does not erase all retained sync records. See the [privacy policy](/rescue-flight/privacy/) for data controls.
+Do not reset progress, remove cloud data or delete the app as a first troubleshooting step. These actions can remove data. Reset progress starts a new progress period; it does not erase all retained sync records. See the [privacy policy](/rescue82/privacy/) for data controls.
 
 ## Sound and accessibility
 
@@ -42,4 +43,4 @@ Check the device's volume and the game's master, effects, music and radio contro
 
 ## Usage sharing and privacy
 
-Usage sharing is optional. In Settings → Privacy, use **Share usage data** to enable or disable it on the current device. Turning it off does not disable iCloud saves. Read the [privacy policy](/rescue-flight/privacy/) for what is sent and how to request help with your data.
+Usage sharing is optional. In Settings → Privacy, use **Share usage data** to enable or disable it on the current device. Turning it off does not disable iCloud saves. Read the [privacy policy](/rescue82/privacy/) for what is sent and how to request help with your data.

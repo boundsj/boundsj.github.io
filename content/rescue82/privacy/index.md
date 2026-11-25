@@ -1,8 +1,9 @@
 ---
-title: "Rescue Flight privacy policy"
-description: "How Rescue Flight saves progress, uses optional analytics, and handles privacy requests."
+title: "Rescue82 privacy policy"
+description: "How Rescue82 saves progress, uses optional analytics, and handles privacy requests."
 date: 2026-11-18T00:00:00-08:00
 layout: "app-info"
+aliases: ["/rescue-flight/privacy/"]
 disableAnalytics: true
 outputs: ["html"]
 build:
@@ -11,7 +12,7 @@ build:
 
 Last updated: November 25, 2026.
 
-Rescue Flight is made by Jesse Bounds. This policy covers the iPhone and iPad app, including the iPad version on Macs with Apple silicon. It also covers testing of the upcoming native Apple Vision Pro game. For a privacy question, email [bounds@mail.grokbot.com](mailto:bounds@mail.grokbot.com).
+Rescue82 is made by Jesse Bounds. This policy covers the iPhone and iPad app, including the iPad version on Macs with Apple silicon. It also covers testing of the upcoming native Apple Vision Pro game. For a privacy question, email [bounds@mail.grokbot.com](mailto:bounds@mail.grokbot.com).
 
 ## Saved progress and iCloud
 
@@ -19,7 +20,7 @@ The game saves progress and settings on your device. When iCloud is available, i
 
 Random account, installation and device identifiers keep records separate and prevent duplicate rewards. Apple's iCloud account identifiers are also used to address your private database. These records go to Apple through CloudKit. They are not sent to TelemetryDeck, and the developer has no service that reads your private saved games.
 
-The game uses the iCloud account already on your device. It does not ask you to create a Rescue Flight account. Cloud saves use your iCloud storage. A local copy lets you play offline and send pending progress when a connection returns. Spending shared tokens and resetting shared progress require a connection.
+The game uses the iCloud account already on your device. It does not ask you to create a Rescue82 account. Cloud saves use your iCloud storage. A local copy lets you play offline and send pending progress when a connection returns. Spending shared tokens and resetting shared progress require a connection.
 
 Without an available iCloud account, the game uses a separate local profile. It does not merge that profile into an iCloud profile. Changing iCloud accounts keeps their local files separate. Usage-sharing consent and developer options stay on each device. The Vision Pro test version also keeps seat calibration on the headset.
 

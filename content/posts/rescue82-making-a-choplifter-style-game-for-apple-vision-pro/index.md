@@ -3,8 +3,8 @@ title: "Rescue82: Making a Choplifter-style game for Apple Vision Pro"
 date: 2026-09-28T07:30:00-07:00
 draft: false
 aliases: ["/posts/rescue-82-from-green-screen-to-vision-pro/"]
-description: "Bringing a childhood love of Choplifter into Apple Vision Pro, with Astra, Claude Opus 5.5, Blender, and a lot to learn about VR."
-summary: "I loved Choplifter as a kid. Now I’m building a rescue helicopter game for the Vision Pro. Here’s a sneak peek."
+description: "How a childhood love of Choplifter inspired Rescue82, from its first Apple Vision Pro prototype to a planned iPhone and iPad launch."
+summary: "I loved Choplifter as a kid. Here’s a look at the original Vision Pro prototype for Rescue82, my helicopter rescue game."
 tags: ["games", "visionOS", "ai", "blender", "rescue82"]
 categories: ["dev"]
 images: ["social-card.jpg"]
@@ -12,19 +12,19 @@ resources:
   - name: featured-image
     src: preview.gif
 featuredImageStill: poster.jpg
-featuredImageAlt: "A green rescue helicopter approaches a landing pad beneath the moon in the Rescue ’82 concept trailer."
+featuredImageAlt: "A green rescue helicopter approaches a landing pad beneath the moon in the Rescue82 concept trailer."
 ---
 
-**November 25 update.** Rescue Flight will launch free on iPhone and iPad in all App Store countries and regions. The iPad version will also run on Macs with Apple silicon. The native Apple Vision Pro game is coming soon. The preview below shows the original headset prototype.
+**November 25 update.** Rescue82 will launch free on iPhone and iPad in all App Store countries and regions. The iPad version will also run on Macs with Apple silicon. The native Apple Vision Pro game is coming soon. The preview below shows the original headset prototype.
 
 In the 80s my older brother worked at a computer store and would bring demo machines (and games!) home for me to use. [Choplifter](https://en.wikipedia.org/wiki/Choplifter) was one of my favorites from this era. There were these, for me, perfect little toy soldiers, tanks, jets, some kind of UFO?, and of course the chopper I got to fly. It was a combat game, but the real mission was to rescue people and fly them back to base.
 
-I’ve been building a native Apple Vision Pro game inspired by my memory of playing Choplifter. **Rescue ’82** is the working name for its retro visual direction: dark skies, phosphor green, and simple shapes but in a fully immersive experience. Here is a sneak preview video I created with Claude Opus 5.5:
+I’ve been building a native Apple Vision Pro game inspired by my memory of playing Choplifter. **Rescue82** has a retro look: dark skies, phosphor green, and simple shapes in a fully immersive experience. Here is a sneak preview video I created with Claude Opus 5.5:
 
 <figure>
-  <video controls playsinline preload="none" poster="poster.jpg" width="1920" height="1080" aria-label="Rescue ’82 concept trailer">
+  <video controls playsinline preload="none" poster="poster.jpg" width="1920" height="1080" aria-label="Rescue82 concept trailer">
     <source src="rescue82-promo.mp4" type="video/mp4">
-    <a href="rescue82-promo.mp4">Watch the Rescue ’82 trailer.</a>
+    <a href="rescue82-promo.mp4">Watch the Rescue82 trailer.</a>
   </video>
 </figure>
 
@@ -48,7 +48,7 @@ Agents can speed up development by 100x or more. But, QA and game testing still 
 
 - **Make the game fun.** Better mission pacing, clearer feedback, and a loop that makes you care to keep playing.
 - **Build more levels.** Different terrain, routes, rescue situations, and eventually even more things shooting at you.
-- **Push the visuals.** Richer environments, lighting, and more modern graphics, while keeping the Rescue ’82 theme in the initial levels.
+- **Push the visuals.** Richer environments, lighting, and more modern graphics, while keeping the Rescue82 theme in the initial levels.
 - **Keep testing comfort.** Longer headset sessions, better visibility when in the chopper, and flight tuning that makes the helicopter enjoyable to ride in.
 
 I want to make something that brings back memories for me and is also fun to keep playing after the novelty wears off. If I could talk to my 5-year-old self, he would probably ask if the helicopter can explode yet. It can't. So I'll get back to work.
