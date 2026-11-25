@@ -15,6 +15,8 @@ featuredImageStill: poster.jpg
 featuredImageAlt: "A green rescue helicopter approaches a landing pad beneath the moon in the Rescue ’82 concept trailer."
 ---
 
+**November 25 update.** Rescue Flight will launch free on iPhone and iPad in all App Store countries and regions. The iPad version will also run on Macs with Apple silicon. The native Apple Vision Pro game is coming soon. The preview below shows the original headset prototype.
+
 In the 80s my older brother worked at a computer store and would bring demo machines (and games!) home for me to use. [Choplifter](https://en.wikipedia.org/wiki/Choplifter) was one of my favorites from this era. There were these, for me, perfect little toy soldiers, tanks, jets, some kind of UFO?, and of course the chopper I got to fly. It was a combat game, but the real mission was to rescue people and fly them back to base.
 
 I’ve been building a native Apple Vision Pro game inspired by my memory of playing Choplifter. **Rescue ’82** is the working name for its retro visual direction: dark skies, phosphor green, and simple shapes but in a fully immersive experience. Here is a sneak preview video I created with Claude Opus 5.5:
