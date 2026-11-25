@@ -5,7 +5,7 @@ draft: false
 aliases: ["/posts/rescue-82-from-green-screen-to-vision-pro/"]
 description: "How a childhood love of Choplifter inspired Rescue82, from its first Apple Vision Pro prototype to a planned iPhone and iPad launch."
 summary: "I loved Choplifter as a kid. Here’s a look at the original Vision Pro prototype for Rescue82, my helicopter rescue game."
-tags: ["games", "visionOS", "ai", "blender", "rescue82"]
+tags: ["games", "visionOS", "ai", "blender", "Rescue82"]
 categories: ["dev"]
 images: ["social-card.jpg"]
 resources:

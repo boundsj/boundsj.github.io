@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{- $isArchive := and .IsSection (eq .Section "posts") -}}
 <div class="kc-archive">
-  <h1 class="kc-pagetitle"><span class="kc-prompt" aria-hidden="true">$</span> {{ if $isArchive }}<span aria-hidden="true">~/</span>posts{{ else }}{{ .Title | lower }}{{ end }}</h1>
+  <h1 class="kc-pagetitle"><span class="kc-prompt" aria-hidden="true">$</span> {{ if $isArchive }}<span aria-hidden="true">~/</span>posts{{ else }}{{ .Params.listHeading | default (lower .Title) }}{{ end }}</h1>
   <p class="kc-archive__count">{{ len .Pages }} entries · newest first</p>
   {{- if $isArchive }}{{ partial "channel-chips.html" (dict "page" . "active" "posts") }}{{ end }}
   {{- $p := .Paginate .Pages -}}
